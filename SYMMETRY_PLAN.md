@@ -116467,3 +116467,119 @@ objects, but it must not introduce AcceptedTraceId, selected-prefix IDs,
 sampled-rank membership, exact affine RHS keys, solved start-point keys, or
 stored path tables.
 ```
+
+#### 2026-07-05 graph221 object-margin target
+
+Status: accepted as the preferred next producer surface.
+
+Following the latest semantic-membership guidance, the graph221 socket now has
+an object-level margin target.  The object is not a sampled path or selected
+prefix; it is just the semantic facts needed to enter the `zm,tmpp` graph221
+lane:
+
+```lean
+structure Graph221ZmTmppSplit10MRootMarginObj
+    (sequenceBadFace : Fin numPairWords -> Face -> Prop) : Type where
+  rank : Fin numPairWords
+  rest : List Face
+  strengthened :
+    TopPairingStrengthenedClosedLanguageAtRank
+      sequenceBadFace rank Face.ym
+  branchPrefix :
+    Depth11Layer4PrefixAtRank rank Face.zm Face.tmpp rest
+
+def Graph221ZmTmppSplit10MRootMarginObjectBound
+    (sequenceBadFace : Fin numPairWords -> Face -> Prop)
+    (scaledMargin : Fin numPairWords -> Int) : Prop :=
+  ∀ obj : Graph221ZmTmppSplit10MRootMarginObj sequenceBadFace,
+    Graph221ZmTmppSplit10MRootMarginObj.rootMarginBound scaledMargin obj
+```
+
+New adapters:
+
+```lean
+def graph221ZmTmppSplit10MRootMarginFamily_of_objectBound
+    (hbound :
+      Graph221ZmTmppSplit10MRootMarginObjectBound
+        sequenceBadFace scaledMargin) :
+    Graph221ZmTmppSplit10MRootMarginFamily sequenceBadFace scaledMargin
+
+def graph221ZmTmppSplit10MRootMarginObjectBound_of_sequenceBadFace
+    (scaledMargin : Fin numPairWords -> Int) :
+    Graph221ZmTmppSplit10MRootMarginObjectBound
+      (Graph221ZmTmppSplit10MRootMarginSequenceBadFace scaledMargin)
+      scaledMargin
+
+theorem split10MGraphExactEvalGateAtRank_of_graph221_zm_tmpp_objectBound
+    (hbound :
+      Graph221ZmTmppSplit10MRootMarginObjectBound
+        sequenceBadFace scaledMargin)
+    (hstrengthened :
+      TopPairingStrengthenedClosedLanguageAtRank
+        sequenceBadFace rank Face.ym)
+    (hprefix :
+      Depth11Layer4PrefixAtRank rank Face.zm Face.tmpp rest) :
+    Split10MGraphExactEvalGateAtRank scaledMargin rank
+
+theorem scaledMargin_nonpos_of_graph221_zm_tmpp_objectBound
+    (hbound :
+      Graph221ZmTmppSplit10MRootMarginObjectBound
+        sequenceBadFace scaledMargin)
+    (hstrengthened :
+      TopPairingStrengthenedClosedLanguageAtRank
+        sequenceBadFace rank Face.ym)
+    (hprefix :
+      Depth11Layer4PrefixAtRank rank Face.zm Face.tmpp rest) :
+    scaledMargin rank <= 0
+```
+
+The readiness audit now tracks these symbols and recommends the next slice as:
+
+```text
+prove Graph221ZmTmppSplit10MRootMarginSequenceBadFace from a deterministic
+graph221 object-margin producer over closed holonomy/cancellation state,
+preferably targeting Graph221ZmTmppSplit10MRootMarginObjectBound first; if that
+proof wants exact affine RHS, selected-prefix, accepted-trace, sampled-rank, or
+stored-path membership, stop and run the cocycle/cancellation-summary quotient
+experiment
+```
+
+Commands run:
+
+```bash
+python3 -m py_compile scripts/audit_layer4_terminal_lane_readiness.py
+
+python3 scripts/audit_layer4_terminal_lane_readiness.py
+
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 360 --max-tree-rss-mib 8000 \
+  --min-available-mib 30000 --hard-address-space-mib 16384 \
+  --json scripts/generated/graph221_semantic_terminal_bridge_guard.json \
+  -- lake env lean -M 8000 -j1 -s 16384 \
+    -o .lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraph221SemanticTerminalBridge.olean \
+    Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraph221SemanticTerminalBridge.lean
+
+rg -n "sorry|admit|axiom|native_decide|unsafe" \
+  Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraph221SemanticTerminalBridge.lean
+```
+
+Results:
+
+```text
+py_compile: passed
+layer-4 readiness audit: passed and regenerated scripts/generated/layer4_terminal_lane_readiness.json
+guarded Lean check after object target: passed, elapsed 3.00s,
+  peak RSS 4013.46 MiB, min available 46225.23 MiB
+forbidden-token scan on touched Lean bridge: no hits
+```
+
+Immediate next implementation target:
+
+```text
+Try to prove Graph221ZmTmppSplit10MRootMarginObjectBound using a deterministic
+closed-language margin producer.  First inspect whether graph221 can reuse a
+small segment/cocycle quotient like graph183.  If no graph221 quotient data
+exists, build a bounded exact profiler/emitter for the graph221 object language
+that searches for a cocycle quotient over target-shadow/tri-source state.  Do
+not emit any rank/path table as proof evidence.
+```

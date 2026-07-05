@@ -496,6 +496,118 @@ theorem scaledMargin_nonpos_of_graph221_zm_tmpp_sequenceBadFace
     hstrengthened hprefix
 
 /--
+Semantic object for the graph221 `zm,tmpp` root-margin producer.
+
+The object contains only the rank and the closed-language/prefix proofs that
+define the graph221 lane.  It is not a sampled rank index, selected-prefix id,
+accepted trace id, exact affine RHS key, or stored path.
+-/
+structure Graph221ZmTmppSplit10MRootMarginObj
+    (sequenceBadFace : Fin numPairWords -> Face -> Prop) : Type where
+  rank : Fin numPairWords
+  rest : List Face
+  strengthened :
+    TopPairingStrengthenedClosedLanguageAtRank
+      sequenceBadFace rank Face.ym
+  branchPrefix :
+    Depth11Layer4PrefixAtRank rank Face.zm Face.tmpp rest
+
+namespace Graph221ZmTmppSplit10MRootMarginObj
+
+def labels
+    {sequenceBadFace : Fin numPairWords -> Face -> Prop}
+    (obj : Graph221ZmTmppSplit10MRootMarginObj sequenceBadFace) :
+    List Face :=
+  topPairingRankFaceLabels obj.rank
+
+def scaledMargin
+    {sequenceBadFace : Fin numPairWords -> Face -> Prop}
+    (rankScaledMargin : Fin numPairWords -> Int)
+    (obj : Graph221ZmTmppSplit10MRootMarginObj sequenceBadFace) : Int :=
+  rankScaledMargin obj.rank
+
+def rootMarginBound
+    {sequenceBadFace : Fin numPairWords -> Face -> Prop}
+    (rankScaledMargin : Fin numPairWords -> Int)
+    (obj : Graph221ZmTmppSplit10MRootMarginObj sequenceBadFace) : Prop :=
+  Graph221Layer4Split10MRootMarginBound
+    rankScaledMargin obj.rank obj.rest
+
+end Graph221ZmTmppSplit10MRootMarginObj
+
+/--
+Object-level graph221 margin target.
+
+This is the preferred production shape for the next margin producer: prove the
+deterministic evaluator-gain margin bound for every semantic graph221 object.
+The socket then packages that fact as the root-margin family used by the
+graph-exact eval gate.
+-/
+def Graph221ZmTmppSplit10MRootMarginObjectBound
+    (sequenceBadFace : Fin numPairWords -> Face -> Prop)
+    (scaledMargin : Fin numPairWords -> Int) : Prop :=
+  ∀ obj : Graph221ZmTmppSplit10MRootMarginObj sequenceBadFace,
+    Graph221ZmTmppSplit10MRootMarginObj.rootMarginBound scaledMargin obj
+
+def graph221ZmTmppSplit10MRootMarginFamily_of_objectBound
+    {sequenceBadFace : Fin numPairWords -> Face -> Prop}
+    {scaledMargin : Fin numPairWords -> Int}
+    (hbound :
+      Graph221ZmTmppSplit10MRootMarginObjectBound
+        sequenceBadFace scaledMargin) :
+    Graph221ZmTmppSplit10MRootMarginFamily sequenceBadFace scaledMargin where
+  margin := by
+    intro rank hstrengthened rest hprefix
+    exact hbound
+      { rank := rank
+        rest := rest
+        strengthened := hstrengthened
+        branchPrefix := hprefix }
+
+def graph221ZmTmppSplit10MRootMarginObjectBound_of_sequenceBadFace
+    (scaledMargin : Fin numPairWords -> Int) :
+    Graph221ZmTmppSplit10MRootMarginObjectBound
+      (Graph221ZmTmppSplit10MRootMarginSequenceBadFace scaledMargin)
+      scaledMargin := by
+  intro obj
+  rcases obj.strengthened.sequenceBadFace_ok with ⟨_hbadFace, hmargin⟩
+  exact hmargin obj.rest obj.branchPrefix
+
+theorem split10MGraphExactEvalGateAtRank_of_graph221_zm_tmpp_objectBound
+    {sequenceBadFace : Fin numPairWords -> Face -> Prop}
+    {scaledMargin : Fin numPairWords -> Int}
+    (hbound :
+      Graph221ZmTmppSplit10MRootMarginObjectBound
+        sequenceBadFace scaledMargin)
+    {rank : Fin numPairWords} {rest : List Face}
+    (hstrengthened :
+      TopPairingStrengthenedClosedLanguageAtRank
+        sequenceBadFace rank Face.ym)
+    (hprefix :
+      Depth11Layer4PrefixAtRank rank Face.zm Face.tmpp rest) :
+    Split10MGraphExactEvalGateAtRank scaledMargin rank :=
+  split10MGraphExactEvalGateAtRank_of_graph221_zm_tmpp_generic_rootMarginFamily
+    (graph221ZmTmppSplit10MRootMarginFamily_of_objectBound hbound)
+    hstrengthened hprefix
+
+theorem scaledMargin_nonpos_of_graph221_zm_tmpp_objectBound
+    {sequenceBadFace : Fin numPairWords -> Face -> Prop}
+    {scaledMargin : Fin numPairWords -> Int}
+    (hbound :
+      Graph221ZmTmppSplit10MRootMarginObjectBound
+        sequenceBadFace scaledMargin)
+    {rank : Fin numPairWords} {rest : List Face}
+    (hstrengthened :
+      TopPairingStrengthenedClosedLanguageAtRank
+        sequenceBadFace rank Face.ym)
+    (hprefix :
+      Depth11Layer4PrefixAtRank rank Face.zm Face.tmpp rest) :
+    scaledMargin rank <= 0 :=
+  scaledMargin_nonpos_of_graph221_zm_tmpp_generic_rootMarginFamily
+    (graph221ZmTmppSplit10MRootMarginFamily_of_objectBound hbound)
+    hstrengthened hprefix
+
+/--
 Emitter-facing graph221 root-margin family for the accepted-sequence
 `zm,tmpp` branch.
 

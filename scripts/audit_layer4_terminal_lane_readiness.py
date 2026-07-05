@@ -468,6 +468,12 @@ GRAPH221_ROOT_MARGIN_SOCKET_REQUIRED = [
     "graph221ZmTmppSplit10MRootMarginFamily_of_sequenceBadFace",
     "split10MGraphExactEvalGateAtRank_of_graph221_zm_tmpp_sequenceBadFace",
     "scaledMargin_nonpos_of_graph221_zm_tmpp_sequenceBadFace",
+    "Graph221ZmTmppSplit10MRootMarginObj",
+    "Graph221ZmTmppSplit10MRootMarginObjectBound",
+    "graph221ZmTmppSplit10MRootMarginFamily_of_objectBound",
+    "graph221ZmTmppSplit10MRootMarginObjectBound_of_sequenceBadFace",
+    "split10MGraphExactEvalGateAtRank_of_graph221_zm_tmpp_objectBound",
+    "scaledMargin_nonpos_of_graph221_zm_tmpp_objectBound",
     "AcceptedSequenceGraph221ZmTmppSplit10MRootMarginFamily",
     "split10MGraphExactEvalGateAtRank_of_graph221_zm_tmpp_rootMarginFamily",
     "scaledMargin_nonpos_of_graph221_zm_tmpp_rootMarginFamily",
@@ -739,12 +745,14 @@ def main() -> int:
                     (
                         "graph221 is now a validated semantic gate for the "
                         "zm_tmpp lane and exposes the graph-exact root-margin "
-                        "socket.  The next graph221 work is to prove "
-                        "Graph221ZmTmppSplit10MRootMarginSequenceBadFace from "
-                        "a deterministic margin producer over closed "
-                        "holonomy/cancellation state, without accepted trace "
-                        "ids, selected-prefix tables, sampled ranks, exact "
-                        "affine RHS keys, or stored paths."
+                        "socket plus the semantic object-margin target.  The "
+                        "next graph221 work is to prove "
+                        "Graph221ZmTmppSplit10MRootMarginObjectBound from a "
+                        "deterministic margin producer over closed "
+                        "holonomy/cancellation state, then package it as "
+                        "Graph221ZmTmppSplit10MRootMarginSequenceBadFace, "
+                        "without accepted trace ids, selected-prefix tables, "
+                        "sampled ranks, exact affine RHS keys, or stored paths."
                         if graph221_root_margin_socket_ok
                         else
                         "graph221 is now a validated semantic gate for the "
@@ -1241,11 +1249,13 @@ def main() -> int:
         "next_recommended_slice": (
             (
                 "prove Graph221ZmTmppSplit10MRootMarginSequenceBadFace from a "
-                "deterministic graph221 margin producer over closed "
-                "holonomy/cancellation state; if that proof wants exact "
-                "affine RHS, selected-prefix, accepted-trace, sampled-rank, "
-                "or stored-path membership, stop and run the cocycle/"
-                "cancellation-summary quotient experiment"
+                "deterministic graph221 object-margin producer over closed "
+                "holonomy/cancellation state, preferably targeting "
+                "Graph221ZmTmppSplit10MRootMarginObjectBound first; if that "
+                "proof wants exact affine RHS, selected-prefix, "
+                "accepted-trace, sampled-rank, or stored-path membership, "
+                "stop and run the cocycle/cancellation-summary quotient "
+                "experiment"
                 if graph221_root_margin_socket_ok
                 else
                 "continue the deterministic semantic terminal-lane pattern on "
