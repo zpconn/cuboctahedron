@@ -1307,6 +1307,58 @@ structure Layer4PrefixMachineTargetCompletionContinuationAll
           (completionState third fourth)
 
 /--
+Rank-free suffix evaluator package for a full generated terminal machine.
+
+This is the smallest intended production target for suffix leaves: after the
+reusable layer-4 prefix, the generated leaf proves terminal evaluation for the
+target-completion suffix language itself.  The rank-specific closed-language
+membership facts are supplied by the generic wrapper.
+-/
+structure Layer4PrefixMachineTargetCompletionSuffixContinuationAll
+    {StateId : Type}
+    (machine : TerminalStepStatePartialMachine StateId)
+    (frontierPrefix : Layer4ReachablePrefixMachine machine)
+    (completionState :
+      ThirdBranch -> FourthBranch -> TopPairingTargetCompletionState) :
+    Prop where
+  tail :
+    ∀ rank,
+      TopPairingClosedLanguageAtRank rank Face.ym ->
+      ∀ third fourth,
+        Split10MPrefix4FrontierCons2 third.face fourth.face ->
+          TerminalStepState.Contains
+            (machine.stateOf (frontierPrefix.after4 third fourth)) rank ->
+          ∃ rest : List Face,
+            topPairingRankFaceLabels rank =
+                (machine.stateOf (frontierPrefix.after4 third fourth)).pfx ++
+                  rest ∧
+              TopPairingTargetCompletionTail
+                (completionState third fourth) rest
+  suffix :
+    ∀ third fourth,
+      Split10MPrefix4FrontierCons2 third.face fourth.face ->
+        TerminalTargetCompletionSuffixContinuation
+          machine (frontierPrefix.after4 third fourth)
+          (completionState third fourth)
+
+theorem targetCompletionContinuationAll_of_suffixContinuationAll
+    {StateId : Type}
+    {machine : TerminalStepStatePartialMachine StateId}
+    {frontierPrefix : Layer4ReachablePrefixMachine machine}
+    {completionState :
+      ThirdBranch -> FourthBranch -> TopPairingTargetCompletionState}
+    (hsuffix :
+      Layer4PrefixMachineTargetCompletionSuffixContinuationAll
+        machine frontierPrefix completionState) :
+    Layer4PrefixMachineTargetCompletionContinuationAll
+      machine frontierPrefix completionState where
+  tail := hsuffix.tail
+  terminal := by
+    intro third fourth hfrontier
+    exact terminalTargetCompletionContinuation_of_suffixContinuation
+      (hsuffix.suffix third fourth hfrontier)
+
+/--
 Compose a generic full-machine layer-4 prefix with reachable suffix
 continuations.
 
@@ -1370,6 +1422,27 @@ theorem terminalContainedEvalPrefixGate_of_layer4PrefixMachineTargetCompletionCo
       hcontains hlabels htail
   exact terminalContainedEvalPrefixGate_trans_progress
     machine hprogress hsuffix
+
+/--
+Compose a generic full-machine layer-4 prefix with rank-free
+target-completion suffix continuations.
+-/
+theorem terminalContainedEvalPrefixGate_of_layer4PrefixMachineTargetCompletionSuffixContinuationAll
+    {StateId : Type}
+    {machine : TerminalStepStatePartialMachine StateId}
+    {completionState :
+      ThirdBranch -> FourthBranch -> TopPairingTargetCompletionState}
+    (frontierPrefix : Layer4ReachablePrefixMachine machine)
+    (hsuffix :
+      Layer4PrefixMachineTargetCompletionSuffixContinuationAll
+        machine frontierPrefix completionState)
+    {rank : Fin numPairWords}
+    (hclosed : TopPairingClosedLanguageAtRank rank Face.ym) :
+    TerminalContainedEvalPrefixGate machine frontierPrefix.start rank :=
+  terminalContainedEvalPrefixGate_of_layer4PrefixMachineTargetCompletionContinuationAll
+    frontierPrefix
+    (targetCompletionContinuationAll_of_suffixContinuationAll hsuffix)
+    hclosed
 
 theorem terminalStateFrontierSmoke_builds : True := by
   exact True.intro

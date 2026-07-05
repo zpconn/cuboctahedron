@@ -103342,3 +103342,122 @@ local tables.
   `TerminalTargetCompletionContinuation` for each suffix state.  The final
   composition should call
   `terminalContainedEvalPrefixGate_of_layer4PrefixMachineTargetCompletionContinuationAll`.
+
+### 2026-07-04 rank-free target-completion suffix evaluator accepted
+
+- Refined the target-completion continuation surface one more step.  The
+  preferred generated suffix leaf should now prove a rank-free evaluator
+  theorem:
+
+  ```text
+  TopPairingTargetCompletionTail completionState rest
+    -> evalLabelStepFn (nextEval machine) after4State rest
+         = some (terminalState, gain)
+  ```
+
+  The generic wrapper then combines this suffix evaluator with the rank's
+  semantic containment and target-completion tail.  This prevents suffix
+  emitters from reintroducing rank-specific selected-prefix membership while
+  still allowing them to be checked as deterministic terminal-machine code.
+
+- Added the rank-free suffix continuation surface in:
+
+  ```lean
+  Cuboctahedron.Generated.NonIdentity.Residual.
+    BellmanTopPairingTerminalStatePartialMachineEvalSocket
+  ```
+
+- New generic theorem/interface names:
+
+  ```lean
+  TerminalTargetCompletionSuffixContinuation
+  terminalTargetCompletionContinuation_of_suffixContinuation
+  ```
+
+- Added the layer-4/full-machine all-rank wrapper in:
+
+  ```lean
+  Cuboctahedron.Generated.NonIdentity.Residual.
+    BellmanTopPairingTerminalStateFrontierSmoke
+  ```
+
+- New layer-4 theorem/interface names:
+
+  ```lean
+  Layer4PrefixMachineTargetCompletionSuffixContinuationAll
+  targetCompletionContinuationAll_of_suffixContinuationAll
+  terminalContainedEvalPrefixGate_of_layer4PrefixMachineTargetCompletionSuffixContinuationAll
+  ```
+
+- Production-facing theorem shape:
+
+  ```lean
+  (frontierPrefix : Layer4ReachablePrefixMachine machine) ->
+  Layer4PrefixMachineTargetCompletionSuffixContinuationAll
+    machine frontierPrefix completionState ->
+  TopPairingClosedLanguageAtRank rank Face.ym ->
+  TerminalContainedEvalPrefixGate machine frontierPrefix.start rank
+  ```
+
+  This is now the narrowest accepted terminal-machine boundary.  The suffix
+  leaf is rank-free; the wrapper supplies the closed-rank layer-4 prefix,
+  semantic containment, and target-completion tail.
+
+- Commands:
+
+  ```bash
+  python3 scripts/run_memory_guarded.py \
+    --max-tree-rss-mib 10000 \
+    --min-available-mib 30000 -- \
+    env LEAN_NUM_THREADS=1 LAKE_JOBS=1 \
+      lake build \
+        Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingTerminalStatePartialMachineEvalSocket
+
+  python3 scripts/run_memory_guarded.py \
+    --max-tree-rss-mib 10000 \
+    --min-available-mib 30000 -- \
+    env LEAN_NUM_THREADS=1 LAKE_JOBS=1 \
+      lake build \
+        Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingTerminalStateFrontierSmoke
+
+  python3 -m py_compile scripts/audit_terminal_machine_pivot_surfaces.py
+  python3 scripts/audit_terminal_machine_pivot_surfaces.py
+
+  rg -n "sorry|admit|axiom|native_decide|unsafe" \
+    Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingTerminalStatePartialMachineEvalSocket.lean \
+    Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingTerminalStateFrontierSmoke.lean \
+    scripts/audit_terminal_machine_pivot_surfaces.py
+
+  rg -n "SampledRankIndex|sampledContainsRank|sampledRankOf|SelectedPrefix|acceptedTraceOfId" \
+    Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingTerminalStatePartialMachineEvalSocket.lean \
+    Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingTerminalStateFrontierSmoke.lean
+  ```
+
+- Results:
+  - `BellmanTopPairingTerminalStatePartialMachineEvalSocket` passed under the
+    memory guard in `6.00s`, with peak tree RSS `3820 MiB` and minimum
+    available memory `46216 MiB`.
+  - `BellmanTopPairingTerminalStateFrontierSmoke` passed under the memory
+    guard in `5.00s`, with peak tree RSS `4173 MiB` and minimum available
+    memory `45987 MiB`.
+  - The terminal-machine pivot surface audit passed with
+    `status = machine-pivot-surfaces-present` and `forbidden_hits = 0`.
+  - The forbidden-token scans returned no matches in the touched production
+    sockets.
+
+- Updated audit boundary:
+
+  ```text
+  instantiate a full generated terminal machine with
+  Layer4ReachablePrefixMachine and prove rank-free target-completion suffix
+  continuations from its after4 third fourth states for reachable
+  Split10MPrefix4FrontierCons2 pairs
+  ```
+
+- Current promotion status:
+  the next generated smoke should instantiate a small full partial machine
+  with layer-4 prefix states and at least one target-completion suffix branch,
+  then prove `TerminalTargetCompletionSuffixContinuation` for that branch from
+  `TopPairingTargetCompletionTail`.  If that proof needs selected traces,
+  sampled ranks, or exact affine keys, the machine state is still too weak and
+  should be enriched semantically rather than patched with rank data.

@@ -122,6 +122,43 @@ structure TerminalTargetCompletionContinuation
             TopPairingTargetCompletionTail completionState rest ->
               TerminalContainedEvalPrefixGate machine start rank
 
+/--
+Rank-free target-completion suffix evaluator.
+
+This is the sharper generated target.  A suffix leaf should prove that every
+face list in the target-completion language evaluates from the current machine
+state to a terminal state.  The wrapper below turns that pure suffix theorem
+into the rank-parametric continuation expected by the closed-language route.
+-/
+structure TerminalTargetCompletionSuffixContinuation
+    {StateId : Type}
+    (machine : TerminalStepStatePartialMachine StateId)
+    (start : StateId)
+    (completionState : TopPairingTargetCompletionState) : Prop where
+  terminal :
+    ∀ rest,
+      TopPairingTargetCompletionTail completionState rest ->
+        ∃ finish gain,
+          evalLabelStepFn (nextEval machine) start rest =
+              some (finish, gain) ∧
+            machine.IsTerminal finish
+
+theorem terminalTargetCompletionContinuation_of_suffixContinuation
+    {StateId : Type}
+    {machine : TerminalStepStatePartialMachine StateId}
+    {start : StateId}
+    {completionState : TopPairingTargetCompletionState}
+    (hsuffix :
+      TerminalTargetCompletionSuffixContinuation
+        machine start completionState) :
+    TerminalTargetCompletionContinuation machine start completionState where
+  terminal := by
+    intro rank hcontains rest hlabels htail
+    rcases hsuffix.terminal rest htail with
+      ⟨finish, gain, heval, hterminal⟩
+    refine ⟨rest, finish, gain, [], hcontains, ?_, heval, hterminal⟩
+    simpa using hlabels
+
 theorem terminalContainedEvalPrefixGate_of_targetCompletionContinuation
     {StateId : Type}
     {machine : TerminalStepStatePartialMachine StateId}
