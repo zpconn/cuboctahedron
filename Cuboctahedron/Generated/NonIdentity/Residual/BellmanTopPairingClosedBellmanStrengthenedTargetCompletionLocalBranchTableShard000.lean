@@ -1133,6 +1133,78 @@ theorem labelStepRun_final_nonneg_of_graph147TargetCompletionTail
       (by simpa [Graph147TargetCompletionTail, completionState] using htail))
 
 /--
+Paired evaluator/step-run theorem for graph147 suffixes.
+
+The margin socket is stated over the deterministic evaluator gain, while the
+production nonpositive bridge wants a `ClosedBellmanStep` run.  This theorem
+keeps those gains synchronized, avoiding any later inverse proof from an
+unknown evaluator equality back to graph edges.
+-/
+theorem ShardTargetSuffixOk.eval_labelStepRun_final_nonneg_of_graph147Lane
+    {state : ShardState} {labels : List Face}
+    (hlane : ShardState.inGraph147Lane state)
+    (hsuffix : ShardTargetSuffixOk ShardExternalTailOk state labels) :
+    ∃ finishState finishGraph totalGain,
+      evalLabelStepFn strengthenedClosedEvalNext (evalState state) labels =
+          some (finishState, totalGain) ∧
+        BellmanLabelStepRun ClosedBellmanStep (evalState state).graph
+          finishGraph labels totalGain ∧
+        finishState.graph = finishGraph ∧
+        0 <= graphPotential finishGraph := by
+  induction hsuffix with
+  | shard_step hstep _hrest ih =>
+      rename_i _currentState nextShard face stepGain rest
+      have hlaneNext :
+          ShardState.inGraph147Lane nextShard :=
+        ShardState.inGraph147Lane_of_nextTarget?_shard hlane hstep
+      rcases ih hlaneNext with
+        ⟨finishState, finishGraph, tailGain, htailEval, htailRun,
+          hfinishGraph, hfinal⟩
+      refine ⟨finishState, finishGraph, stepGain + tailGain, ?_, ?_,
+        hfinishGraph, hfinal⟩
+      · exact evalLabelStepFn_cons_some
+          (nextTarget?_shard_sound hstep) htailEval
+      · exact BellmanLabelStepRun.cons
+          (nextTarget?_closedBellmanStep_sound hstep) htailRun
+  | external_step hstep hrest =>
+      rename_i currentState graph face stepGain rest
+      have hterminal :
+          TerminalExternalOk graph rest :=
+        ShardExternalTailOk.terminal_of_graph147Lane
+          hlane hstep hrest
+      rcases nextTarget?_graph_sound hstep with
+        ⟨nextState, hnext, hgraph⟩
+      refine ⟨nextState, graph, stepGain + 0, ?_, ?_, hgraph, ?_⟩
+      · cases hterminal <;>
+          exact evalLabelStepFn_cons_some hnext (by simp [evalLabelStepFn])
+      · cases hterminal
+        · exact BellmanLabelStepRun.cons
+            (nextTarget?_closedBellmanStep_sound hstep)
+            (BellmanLabelStepRun.nil 141)
+        · exact BellmanLabelStepRun.cons
+            (nextTarget?_closedBellmanStep_sound hstep)
+            (BellmanLabelStepRun.nil 138)
+      · exact TerminalExternalOk.final_nonneg hterminal
+
+theorem eval_labelStepRun_final_nonneg_of_graph147TargetCompletionTail
+    {labels : List Face}
+    (htail : Graph147TargetCompletionTail labels) :
+    ∃ finishState finishGraph totalGain,
+      evalLabelStepFn strengthenedClosedEvalNext
+          strengthenedClosedPrefix4YpZmEvalState labels =
+          some (finishState, totalGain) ∧
+        BellmanLabelStepRun ClosedBellmanStep
+          (evalState ShardState.prefix4YpZm).graph finishGraph labels
+          totalGain ∧
+        finishState.graph = finishGraph ∧
+        0 <= graphPotential finishGraph :=
+  ShardTargetSuffixOk.eval_labelStepRun_final_nonneg_of_graph147Lane
+    ShardState.inGraph147Lane_prefix4YpZm
+    (ShardTargetSuffixOk.of_targetCompletionTail_externalTailOk
+      (state := .prefix4YpZm)
+      (by simpa [Graph147TargetCompletionTail, completionState] using htail))
+
+/--
 Semantic margin socket for the graph-147 target-completion lane.
 
 The deterministic target-completion proof above supplies the evaluator result
@@ -1214,6 +1286,54 @@ theorem strengthenedClosed_prefix4_zm_yp_eval_eq :
   rw [strengthenedClosedPrefix4YpZm_eval_eq_zm_yp]
   rfl
 
+theorem graphStepRun_prefix4_yp_zm_expr :
+    BellmanLabelStepRun ClosedBellmanStep graphRoot
+      (evalState ShardState.prefix4YpZm).graph
+      [Face.xm, Face.ym, Face.yp, Face.zm]
+      ((103 : Int) + ((-73 : Int) + ((-73 : Int) + ((-10 : Int) + 0)))) := by
+  change BellmanLabelStepRun ClosedBellmanStep 0 147
+    [Face.xm, Face.ym, Face.yp, Face.zm]
+      ((103 : Int) + ((-73 : Int) + ((-73 : Int) + ((-10 : Int) + 0))))
+  exact BellmanLabelStepRun.cons
+    ClosedBellmanStep.e0000_l08
+    (BellmanLabelStepRun.cons
+      ClosedBellmanStep.e0124_l10
+      (BellmanLabelStepRun.cons
+        ClosedBellmanStep.e0125_l11
+        (BellmanLabelStepRun.cons
+          ClosedBellmanStep.e0128_l12
+          (BellmanLabelStepRun.nil 147))))
+
+theorem graphStepRun_prefix4_yp_zm :
+    BellmanLabelStepRun ClosedBellmanStep graphRoot
+      (evalState ShardState.prefix4YpZm).graph
+      [Face.xm, Face.ym, Face.yp, Face.zm] (-53 : Int) := by
+  simpa using graphStepRun_prefix4_yp_zm_expr
+
+theorem graphStepRun_prefix4_zm_yp_expr :
+    BellmanLabelStepRun ClosedBellmanStep graphRoot
+      (evalState ShardState.prefix4YpZm).graph
+      [Face.xm, Face.ym, Face.zm, Face.yp]
+      ((103 : Int) + ((-73 : Int) + ((-10 : Int) + ((-73 : Int) + 0)))) := by
+  change BellmanLabelStepRun ClosedBellmanStep 0 147
+    [Face.xm, Face.ym, Face.zm, Face.yp]
+      ((103 : Int) + ((-73 : Int) + ((-10 : Int) + ((-73 : Int) + 0))))
+  exact BellmanLabelStepRun.cons
+    ClosedBellmanStep.e0000_l08
+    (BellmanLabelStepRun.cons
+      ClosedBellmanStep.e0124_l10
+      (BellmanLabelStepRun.cons
+        ClosedBellmanStep.e0126_l12
+        (BellmanLabelStepRun.cons
+          ClosedBellmanStep.e0130_l11
+          (BellmanLabelStepRun.nil 147))))
+
+theorem graphStepRun_prefix4_zm_yp :
+    BellmanLabelStepRun ClosedBellmanStep graphRoot
+      (evalState ShardState.prefix4YpZm).graph
+      [Face.xm, Face.ym, Face.zm, Face.yp] (-53 : Int) := by
+  simpa using graphStepRun_prefix4_zm_yp_expr
+
 /-!
 The previous graph-147 socket starts at the shared graph-147 eval state.  The
 production root gate must also pay the root-to-graph-147 prefix gain.  These
@@ -1239,6 +1359,36 @@ def Graph147TargetCompletionTailRootEvalGate
         (pfx ++ labels) = some result ∧
       0 <= graphPotential result.1.graph ∧
         scaledMargin rank <= (176 : Int) + result.2
+
+def Graph147TargetCompletionTailRootStepRunGate
+    (scaledMargin : Fin numPairWords -> Int)
+    (rank : Fin numPairWords) (pfx labels : List Face) : Prop :=
+  ∃ finish totalGain,
+    BellmanLabelStepRun ClosedBellmanStep graphRoot finish (pfx ++ labels)
+      totalGain ∧
+      0 <= graphPotential finish ∧
+        scaledMargin rank <= (176 : Int) + totalGain
+
+theorem graph147RootStepRunGate_of_prefix_tail_margin
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords} {pfx labels : List Face}
+    {prefixGain : Int}
+    (hprefix :
+      BellmanLabelStepRun ClosedBellmanStep graphRoot
+        (evalState ShardState.prefix4YpZm).graph pfx prefixGain)
+    (htail : Graph147TargetCompletionTail labels)
+    (hmargin :
+      Graph147TargetCompletionTailRootMarginBound
+        scaledMargin rank prefixGain labels) :
+    Graph147TargetCompletionTailRootStepRunGate
+      scaledMargin rank pfx labels := by
+  rcases eval_labelStepRun_final_nonneg_of_graph147TargetCompletionTail
+      htail with
+    ⟨finishState, finishGraph, tailGain, heval, hrunTail, _hfinishGraph,
+      hfinal⟩
+  refine ⟨finishGraph, prefixGain + tailGain, ?_, hfinal, ?_⟩
+  · exact BellmanLabelStepRun.append hprefix hrunTail
+  · exact hmargin (finishState, tailGain) heval
 
 theorem graph147RootEvalGate_of_prefix_tail_margin
     {scaledMargin : Fin numPairWords -> Int}
@@ -1283,6 +1433,30 @@ theorem graph147ZmYpRootEvalGate_of_tail_margin
       scaledMargin rank [Face.xm, Face.ym, Face.zm, Face.yp] labels :=
   graph147RootEvalGate_of_prefix_tail_margin
     strengthenedClosed_prefix4_zm_yp_eval_eq htail hmargin
+
+theorem graph147YpZmRootStepRunGate_of_tail_margin
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords} {labels : List Face}
+    (htail : Graph147TargetCompletionTail labels)
+    (hmargin :
+      Graph147TargetCompletionTailRootMarginBound
+        scaledMargin rank (-53 : Int) labels) :
+    Graph147TargetCompletionTailRootStepRunGate
+      scaledMargin rank [Face.xm, Face.ym, Face.yp, Face.zm] labels :=
+  graph147RootStepRunGate_of_prefix_tail_margin
+    graphStepRun_prefix4_yp_zm htail hmargin
+
+theorem graph147ZmYpRootStepRunGate_of_tail_margin
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords} {labels : List Face}
+    (htail : Graph147TargetCompletionTail labels)
+    (hmargin :
+      Graph147TargetCompletionTailRootMarginBound
+        scaledMargin rank (-53 : Int) labels) :
+    Graph147TargetCompletionTailRootStepRunGate
+      scaledMargin rank [Face.xm, Face.ym, Face.zm, Face.yp] labels :=
+  graph147RootStepRunGate_of_prefix_tail_margin
+    graphStepRun_prefix4_zm_yp htail hmargin
 
 theorem bellmanEvalAccepts_of_graph147RootEvalGate
     {scaledMargin : Fin numPairWords -> Int}

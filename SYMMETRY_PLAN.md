@@ -115680,3 +115680,105 @@ StrengthenedClosedEvalNextBound.
 If that assembly needs an eval equality only to feed the existing margin-bound
 surface, keep it local and derive it from `BellmanLabelStepRun` using
 `closedBellmanStep_next`; do not use unknown-state inverse reduction.
+
+### 2026-07-05 graph147 root step-run gates
+
+Status: graph147 branch-local step-run ingress is now implemented and guarded.
+
+The target-completion shard now synchronizes the evaluator gain with the
+`ClosedBellmanStep` run gain, so downstream consumers no longer have to invert
+an unknown evaluator equality:
+
+```lean
+ShardTargetSuffixOk.eval_labelStepRun_final_nonneg_of_graph147Lane
+eval_labelStepRun_final_nonneg_of_graph147TargetCompletionTail
+```
+
+It also proves explicit root-to-graph147 prefix runs for both layer-4 lanes:
+
+```lean
+graphStepRun_prefix4_yp_zm
+graphStepRun_prefix4_zm_yp
+```
+
+Both prefixes have gain `-53`, and the new root gate composes the prefix run,
+the semantic target-completion suffix run, final nonnegativity, and the existing
+root margin bound:
+
+```lean
+Graph147TargetCompletionTailRootStepRunGate
+graph147RootStepRunGate_of_prefix_tail_margin
+graph147YpZmRootStepRunGate_of_tail_margin
+graph147ZmYpRootStepRunGate_of_tail_margin
+```
+
+The graph147 direct socket now packages the two strengthened layer-4 branches
+as a deterministic step-run bundle:
+
+```lean
+StrengthenedGraph147StepRunBranchBundle
+stepRunGateAtRank_of_yp_zm_rootMarginFamily
+stepRunGateAtRank_of_zm_yp_rootMarginFamily
+stepRunBranchBundle_of_rootMarginBundle
+```
+
+This is still branch-local plumbing, not full generated coverage.  It is the
+right kind of plumbing: semantic closed-language branch facts plus root-margin
+families produce `BellmanLabelStepRun ClosedBellmanStep ...` evidence directly.
+No sampled ranks, selected-prefix IDs, accepted trace IDs, exact affine RHS
+keys, solved start points, or full stored Bellman paths are introduced.
+
+Focused guarded checks:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 260 --max-tree-rss-mib 7000 \
+  --min-available-mib 30000 --hard-address-space-mib 16384 \
+  --json scripts/generated/graph147_target_completion_shard000_guard.json \
+  -- lake env lean -M 7000 -j1 -s 16384 \
+    -o .lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedBellmanStrengthenedTargetCompletionLocalBranchTableShard000.olean \
+    Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedBellmanStrengthenedTargetCompletionLocalBranchTableShard000.lean
+```
+
+Passed: elapsed `7.00s`, peak RSS `4116 MiB`, min available `46084 MiB`.
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 300 --max-tree-rss-mib 7500 \
+  --min-available-mib 30000 --hard-address-space-mib 16384 \
+  --json scripts/generated/graph147_direct_eval_socket_guard.json \
+  -- lake env lean -M 7500 -j1 -s 16384 \
+    -o .lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingDepth11Layer4Graph147DirectEvalSocket.olean \
+    Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingDepth11Layer4Graph147DirectEvalSocket.lean
+```
+
+Passed: elapsed `3.00s`, peak RSS `4038 MiB`, min available `46218 MiB`.
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 300 --max-tree-rss-mib 7500 \
+  --min-available-mib 30000 --hard-address-space-mib 16384 \
+  --json scripts/generated/graph183_direct_killed_portfolio_socket_guard.json \
+  -- lake env lean -M 7500 -j1 -s 16384 \
+    -o .lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingDepth11Layer4Graph183DirectKilledPortfolioSocket.olean \
+    Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingDepth11Layer4Graph183DirectKilledPortfolioSocket.lean
+```
+
+Passed: elapsed `3.00s`, peak RSS `4027 MiB`, min available `46243 MiB`.
+
+Forbidden-token scan over the touched Lean sockets found no `sorry`, `admit`,
+`axiom`, `native_decide`, or `unsafe`.
+
+Next implementation target:
+
+```text
+Lift StrengthenedGraph147StepRunBranchBundle into the graph183 portfolio
+consumer, or factor the bundle into the existing
+StrengthenedClosedBellmanStepRunFamily surface if that is smaller.
+```
+
+The next theorem should consume the branch-local step-run gates above and feed
+the existing graph147 nonpositive adapter.  It must stay semantic and local:
+closed-language branch predicates, target-completion tails, and margin families
+are allowed; sampled rank/path tables and selected-prefix memberships remain
+rejected.

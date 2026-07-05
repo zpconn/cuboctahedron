@@ -1454,6 +1454,86 @@ def graphExactBranchBundle_of_rootMarginBundle
     exact graphExactEvalGateAtRank_of_rootMarginBundle_zm_yp
       hbundle hstrengthened hprefix
 
+/--
+Step-run branch producer for the two graph-147 layer-4 lanes.
+
+This is the deterministic-transducer replacement for using graph-exact eval
+as the nonpositive bridge.  It packages the same semantic root-margin evidence
+as a `ClosedBellmanStep` run plus synchronized gain/margin facts.
+-/
+structure StrengthenedGraph147StepRunBranchBundle
+    (scaledMargin : Fin numPairWords -> Int)
+    (sequenceBadFace : Fin numPairWords -> Face -> Prop) : Prop where
+  yp_zm :
+    ∀ {rank : Fin numPairWords} {rest : List Face},
+      TopPairingStrengthenedClosedLanguageAtRank
+        sequenceBadFace rank Face.ym ->
+      Depth11Layer4PrefixAtRank rank Face.yp Face.zm rest ->
+      Graph147TargetCompletionTailRootStepRunGate
+        scaledMargin rank [Face.xm, Face.ym, Face.yp, Face.zm] rest
+  zm_yp :
+    ∀ {rank : Fin numPairWords} {rest : List Face},
+      TopPairingStrengthenedClosedLanguageAtRank
+        sequenceBadFace rank Face.ym ->
+      Depth11Layer4PrefixAtRank rank Face.zm Face.yp rest ->
+      Graph147TargetCompletionTailRootStepRunGate
+        scaledMargin rank [Face.xm, Face.ym, Face.zm, Face.yp] rest
+
+theorem stepRunGateAtRank_of_yp_zm_rootMarginFamily
+    {scaledMargin : Fin numPairWords -> Int}
+    {sequenceBadFace : Fin numPairWords -> Face -> Prop}
+    {rank : Fin numPairWords} {rest : List Face}
+    (hfamily :
+      StrengthenedGraph147YpZmRootMarginFamily
+        scaledMargin sequenceBadFace)
+    (hstrengthened :
+      TopPairingStrengthenedClosedLanguageAtRank
+        sequenceBadFace rank Face.ym)
+    (hprefix : Depth11Layer4PrefixAtRank rank Face.yp Face.zm rest) :
+    Graph147TargetCompletionTailRootStepRunGate
+      scaledMargin rank [Face.xm, Face.ym, Face.yp, Face.zm] rest := by
+  have htail :=
+    graph147YpZm_targetCompletionTail_of_strengthened_prefix
+      hstrengthened hprefix
+  exact graph147YpZmRootStepRunGate_of_tail_margin
+    htail (hfamily.margin rank hstrengthened rest hprefix)
+
+theorem stepRunGateAtRank_of_zm_yp_rootMarginFamily
+    {scaledMargin : Fin numPairWords -> Int}
+    {sequenceBadFace : Fin numPairWords -> Face -> Prop}
+    {rank : Fin numPairWords} {rest : List Face}
+    (hfamily :
+      StrengthenedGraph147ZmYpRootMarginFamily
+        scaledMargin sequenceBadFace)
+    (hstrengthened :
+      TopPairingStrengthenedClosedLanguageAtRank
+        sequenceBadFace rank Face.ym)
+    (hprefix : Depth11Layer4PrefixAtRank rank Face.zm Face.yp rest) :
+    Graph147TargetCompletionTailRootStepRunGate
+      scaledMargin rank [Face.xm, Face.ym, Face.zm, Face.yp] rest := by
+  have htail :=
+    graph147ZmYp_targetCompletionTail_of_strengthened_prefix
+      hstrengthened hprefix
+  exact graph147ZmYpRootStepRunGate_of_tail_margin
+    htail (hfamily.margin rank hstrengthened rest hprefix)
+
+def stepRunBranchBundle_of_rootMarginBundle
+    {scaledMargin : Fin numPairWords -> Int}
+    {sequenceBadFace : Fin numPairWords -> Face -> Prop}
+    (hbundle :
+      StrengthenedGraph147RootMarginBundle
+        scaledMargin sequenceBadFace) :
+    StrengthenedGraph147StepRunBranchBundle
+      scaledMargin sequenceBadFace where
+  yp_zm := by
+    intro rank rest hstrengthened hprefix
+    exact stepRunGateAtRank_of_yp_zm_rootMarginFamily
+      hbundle.yp_zm hstrengthened hprefix
+  zm_yp := by
+    intro rank rest hstrengthened hprefix
+    exact stepRunGateAtRank_of_zm_yp_rootMarginFamily
+      hbundle.zm_yp hstrengthened hprefix
+
 theorem graph147DirectEvalSocket_builds : True := by
   exact True.intro
 

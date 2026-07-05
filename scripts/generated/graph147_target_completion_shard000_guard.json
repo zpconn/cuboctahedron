@@ -13,14 +13,14 @@
     ".lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedBellmanStrengthenedTargetCompletionLocalBranchTableShard000.olean",
     "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedBellmanStrengthenedTargetCompletionLocalBranchTableShard000.lean"
   ],
-  "elapsed_seconds": 6.004461348988116,
+  "elapsed_seconds": 7.004964931984432,
   "exit_code": 0,
   "hard_address_space_mib": 16384.0,
   "killed_reason": null,
-  "max_tree_rss_kib": 4203464,
-  "max_tree_rss_mib": 4104.9453125,
-  "min_available_seen_kib": 47202672,
-  "min_available_seen_mib": 46096.359375,
+  "max_tree_rss_kib": 4214900,
+  "max_tree_rss_mib": 4116.11328125,
+  "min_available_seen_kib": 47190552,
+  "min_available_seen_mib": 46084.5234375,
   "rss_cap_mib": 7000.0,
-  "timeout_seconds": 240.0
+  "timeout_seconds": 260.0
 }
