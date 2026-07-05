@@ -1219,6 +1219,143 @@ theorem bellmanEvalAccepts_of_graph147ZmYpRoot_margin
   bellmanEvalAccepts_of_graph147RootEvalGate
     (graph147ZmYpRootEvalGate_of_tail_margin htail hmargin)
 
+theorem graph147GraphExactEvalGateAtRank_of_rootEvalGate
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords} {pfx labels : List Face}
+    (hclosed : TopPairingClosedLanguageAtRank rank Face.ym)
+    (hlabels : topPairingRankFaceLabels rank = pfx ++ labels)
+    (hgate :
+      Graph147TargetCompletionTailRootEvalGate
+        scaledMargin rank pfx labels) :
+    TopPairingGraphExactEvalGateAtRank
+      (fun state : StrengthenedClosedEvalState => graphPotential state.graph)
+      strengthenedClosedEvalNext
+      (fun face : Face => face)
+      strengthenedClosedEvalStart
+      (176 : Int)
+      scaledMargin
+      rank
+      Face.ym := by
+  rcases hgate with ⟨result, heval, hfinal, hmargin⟩
+  refine graphExactEvalGateAtRank_of_evalLanguageAtRank ?_
+  exact evalLanguageAtRank_of_mappedRankLabelsGraphExact
+    (V := fun state : StrengthenedClosedEvalState => graphPotential state.graph)
+    (next := strengthenedClosedEvalNext)
+    (labelOfFace := fun face : Face => face)
+    (start := strengthenedClosedEvalStart)
+    (const := (176 : Int))
+    (scaledMargin := scaledMargin)
+    (rank := rank)
+    (badFace := Face.ym)
+    hclosed
+    (finish := result.1)
+    (gain := result.2)
+    (by simpa [hlabels] using heval)
+    hfinal
+    hmargin
+
+theorem graph147YpZmGraphExactEvalGateAtRank_of_tail_margin
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords} {labels : List Face}
+    (hclosed : TopPairingClosedLanguageAtRank rank Face.ym)
+    (hlabels :
+      topPairingRankFaceLabels rank =
+        [Face.xm, Face.ym, Face.yp, Face.zm] ++ labels)
+    (htail : Graph147TargetCompletionTail labels)
+    (hmargin :
+      Graph147TargetCompletionTailRootMarginBound
+        scaledMargin rank (-53 : Int) labels) :
+    TopPairingGraphExactEvalGateAtRank
+      (fun state : StrengthenedClosedEvalState => graphPotential state.graph)
+      strengthenedClosedEvalNext
+      (fun face : Face => face)
+      strengthenedClosedEvalStart
+      (176 : Int)
+      scaledMargin
+      rank
+      Face.ym :=
+  graph147GraphExactEvalGateAtRank_of_rootEvalGate
+    hclosed hlabels
+    (graph147YpZmRootEvalGate_of_tail_margin htail hmargin)
+
+theorem graph147ZmYpGraphExactEvalGateAtRank_of_tail_margin
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords} {labels : List Face}
+    (hclosed : TopPairingClosedLanguageAtRank rank Face.ym)
+    (hlabels :
+      topPairingRankFaceLabels rank =
+        [Face.xm, Face.ym, Face.zm, Face.yp] ++ labels)
+    (htail : Graph147TargetCompletionTail labels)
+    (hmargin :
+      Graph147TargetCompletionTailRootMarginBound
+        scaledMargin rank (-53 : Int) labels) :
+    TopPairingGraphExactEvalGateAtRank
+      (fun state : StrengthenedClosedEvalState => graphPotential state.graph)
+      strengthenedClosedEvalNext
+      (fun face : Face => face)
+      strengthenedClosedEvalStart
+      (176 : Int)
+      scaledMargin
+      rank
+      Face.ym :=
+  graph147GraphExactEvalGateAtRank_of_rootEvalGate
+    hclosed hlabels
+    (graph147ZmYpRootEvalGate_of_tail_margin htail hmargin)
+
+theorem graph147YpZmStrengthenedGraphExactEvalGateAtRank_of_tail_margin
+    {sequenceBadFace : Fin numPairWords -> Face -> Prop}
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords} {labels : List Face}
+    (hstrengthened :
+      TopPairingStrengthenedClosedLanguageAtRank
+        sequenceBadFace rank Face.ym)
+    (hlabels :
+      topPairingRankFaceLabels rank =
+        [Face.xm, Face.ym, Face.yp, Face.zm] ++ labels)
+    (htail : Graph147TargetCompletionTail labels)
+    (hmargin :
+      Graph147TargetCompletionTailRootMarginBound
+        scaledMargin rank (-53 : Int) labels) :
+    TopPairingGraphExactEvalGateAtRank
+      (fun state : StrengthenedClosedEvalState => graphPotential state.graph)
+      strengthenedClosedEvalNext
+      (fun face : Face => face)
+      strengthenedClosedEvalStart
+      (176 : Int)
+      scaledMargin
+      rank
+      Face.ym :=
+  graph147YpZmGraphExactEvalGateAtRank_of_tail_margin
+    (TopPairingStrengthenedClosedLanguageAtRank.closed hstrengthened)
+    hlabels htail hmargin
+
+theorem graph147ZmYpStrengthenedGraphExactEvalGateAtRank_of_tail_margin
+    {sequenceBadFace : Fin numPairWords -> Face -> Prop}
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords} {labels : List Face}
+    (hstrengthened :
+      TopPairingStrengthenedClosedLanguageAtRank
+        sequenceBadFace rank Face.ym)
+    (hlabels :
+      topPairingRankFaceLabels rank =
+        [Face.xm, Face.ym, Face.zm, Face.yp] ++ labels)
+    (htail : Graph147TargetCompletionTail labels)
+    (hmargin :
+      Graph147TargetCompletionTailRootMarginBound
+        scaledMargin rank (-53 : Int) labels) :
+    TopPairingGraphExactEvalGateAtRank
+      (fun state : StrengthenedClosedEvalState => graphPotential state.graph)
+      strengthenedClosedEvalNext
+      (fun face : Face => face)
+      strengthenedClosedEvalStart
+      (176 : Int)
+      scaledMargin
+      rank
+      Face.ym :=
+  graph147ZmYpGraphExactEvalGateAtRank_of_tail_margin
+    (TopPairingStrengthenedClosedLanguageAtRank.closed hstrengthened)
+    hlabels htail hmargin
+
 def localBranchTable :
     (state : ShardState) ->
       StrengthenedTargetCompletionLocalBranchTable

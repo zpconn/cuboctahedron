@@ -105332,6 +105332,39 @@ means that, for the deterministic graph147 suffix evaluator result
 from accidentally using the weaker suffix-only inequality
 `scaledMargin rank <= 176 + tailGain`.
 
+Ninth follow-up accepted in the same shard: the graph147 root eval gate now has
+a rank-parametric adapter to the public graph-exact semantic gate shape.  This
+does not prove the margin theorem; it proves that once the closed language
+supplies a semantic prefix split, a graph147 target-completion tail, and the
+root-gain margin bound, the lane is already in the
+`TopPairingGraphExactEvalGateAtRank` form consumed by the existing Bellman
+semantic-gate infrastructure.
+
+New theorem surface:
+
+```lean
+theorem graph147GraphExactEvalGateAtRank_of_rootEvalGate
+theorem graph147YpZmGraphExactEvalGateAtRank_of_tail_margin
+theorem graph147ZmYpGraphExactEvalGateAtRank_of_tail_margin
+theorem graph147YpZmStrengthenedGraphExactEvalGateAtRank_of_tail_margin
+theorem graph147ZmYpStrengthenedGraphExactEvalGateAtRank_of_tail_margin
+```
+
+The accepted theorem shape is intentionally still conditional:
+
+```lean
+TopPairingClosedLanguageAtRank rank Face.ym ->
+topPairingRankFaceLabels rank = [xm, ym, yp, zm] ++ labels ->
+Graph147TargetCompletionTail labels ->
+Graph147TargetCompletionTailRootMarginBound scaledMargin rank (-53) labels ->
+TopPairingGraphExactEvalGateAtRank ... scaledMargin rank Face.ym
+```
+
+and analogously for `[xm, ym, zm, yp]`.  This is the right next abstraction
+boundary: the public graph-exact gate is now connected, while the production
+membership theorem still has to derive the prefix split, target tail, and
+root-gain margin fact from semantic closed-language/product-state data.
+
 Focused guarded build:
 
 ```bash
@@ -105358,6 +105391,12 @@ Previous eval-gate build result:
 
 ```text
 pass; elapsed=5.00s; peak_tree_rss=4191 MiB; min_available=45935 MiB
+```
+
+Graph-exact adapter build result under the same guarded command:
+
+```text
+pass; elapsed=8.01s; peak_tree_rss=4131 MiB; min_available=45975 MiB
 ```
 
 The first graph147 eval-gate attempt failed safely under the same guard in
@@ -105464,17 +105503,22 @@ deterministic_target_shard_symbols.graph147YpZmRootEvalGate_of_tail_margin = tru
 deterministic_target_shard_symbols.graph147ZmYpRootEvalGate_of_tail_margin = true
 deterministic_target_shard_symbols.bellmanEvalAccepts_of_graph147YpZmRoot_margin = true
 deterministic_target_shard_symbols.bellmanEvalAccepts_of_graph147ZmYpRoot_margin = true
+deterministic_target_shard_symbols.graph147GraphExactEvalGateAtRank_of_rootEvalGate = true
+deterministic_target_shard_symbols.graph147YpZmGraphExactEvalGateAtRank_of_tail_margin = true
+deterministic_target_shard_symbols.graph147ZmYpGraphExactEvalGateAtRank_of_tail_margin = true
+deterministic_target_shard_symbols.graph147YpZmStrengthenedGraphExactEvalGateAtRank_of_tail_margin = true
+deterministic_target_shard_symbols.graph147ZmYpStrengthenedGraphExactEvalGateAtRank_of_tail_margin = true
 forbidden_hits = []
 ```
 
 Remaining formal boundary:
 
 ```text
-prove the graph147 semantic margin theorem behind the stronger
-Graph147TargetCompletionTailRootMarginBound and the rank-parametric
-closed-language-to-eval theorem that turns
+prove the semantic membership theorem that turns
 TopPairingStrengthenedClosedLanguageAtRank / TopPairingClosedLanguageAtRank
-into the root evaluator result and `scaledMargin <= 176 + gain` for this lane.
+into one of the graph147 prefix splits, a Graph147TargetCompletionTail, and
+the stronger Graph147TargetCompletionTailRootMarginBound.  The public
+TopPairingGraphExactEvalGateAtRank adapter for those facts now exists.
 Separately, prove graph150/151 continuation-to-margin sockets for the other
 two shard states, where target-completion hands off to graph157/159.  All of
 this must remain free of selected-prefix, sampled-rank, accepted-trace,

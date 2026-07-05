@@ -251,6 +251,11 @@ GRAPH147_DETERMINISTIC_TARGET_SHARD_REQUIRED = [
     "graph147ZmYpRootEvalGate_of_tail_margin",
     "bellmanEvalAccepts_of_graph147YpZmRoot_margin",
     "bellmanEvalAccepts_of_graph147ZmYpRoot_margin",
+    "graph147GraphExactEvalGateAtRank_of_rootEvalGate",
+    "graph147YpZmGraphExactEvalGateAtRank_of_tail_margin",
+    "graph147ZmYpGraphExactEvalGateAtRank_of_tail_margin",
+    "graph147YpZmStrengthenedGraphExactEvalGateAtRank_of_tail_margin",
+    "graph147ZmYpStrengthenedGraphExactEvalGateAtRank_of_tail_margin",
     "nextTarget?_prefix4YpZm_zp",
     "nextTarget?_prefix4YpZm_tmmp",
     "nextTarget?_terminal_graph112",
@@ -739,10 +744,11 @@ def main() -> int:
                     "both the suffix-started margin socket "
                     "Graph147TargetCompletionTailMarginBound and the root-gain "
                     "socket Graph147TargetCompletionTailRootMarginBound, with "
-                    "BellmanEvalAccepts adapters for the yp,zm and zm,yp "
-                    "prefixes.  It still needs a semantic proof of the "
-                    "root-gain margin bound plus the rank-parametric "
-                    "closed-language-to-eval theorem without selected-prefix "
+                    "BellmanEvalAccepts and TopPairingGraphExactEvalGateAtRank "
+                    "adapters for the yp,zm and zm,yp prefixes.  It still "
+                    "needs a semantic proof that the closed language supplies "
+                    "one of those prefix splits, the Graph147TargetCompletionTail, "
+                    "and the root-gain margin bound, without selected-prefix "
                     "or sampled-rank membership.  The "
                     "graph150/151 continuation "
                     "states still need their own continuation-to-margin sockets "
