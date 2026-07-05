@@ -107406,6 +107406,133 @@ Result:
 pass; no matches
 ```
 
+### 2026-07-05 controlling pivot after GPT5.5 transducer review
+
+This is the current rule for the next Bellman work.  Keep the Bellman/state-DAG
+route, but only in the deterministic semantic-transducer form.  Do not scale
+selected-prefix membership, sampled rank/path membership, accepted trace ids,
+or exact affine-key cover proofs.
+
+The theorem shape that matters is:
+
+```lean
+TopPairingClosedLanguageAtRank rank Face.ym ->
+  exists result,
+    evalLabelStepFn next root (topPairingRankFaceLabels rank) =
+      some result /\
+    0 <= V result.1 /\
+    scaledMargin rank <= const + result.2
+```
+
+For strengthened graph147 lanes, the production-facing surface is already
+available as:
+
+```lean
+StrengthenedGraph147RankedTransducerInvariantFamily
+graphExactEvalGate_of_rankedTransducerInvariantFamily
+rootMarginBundle_of_rankedTransducerInvariantFamily
+```
+
+in
+`Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingDepth11Layer4Graph147DirectEvalSocket.lean`.
+The next generated proof should fill that record from semantic state:
+
+1. `start`: the root transducer state is in the invariant;
+2. `suffixStart`: every strengthened closed rank starts with a rank-indexed
+   semantic suffix certificate;
+3. `localStep`: every semantic head step advances
+   `TopPairingTransducerEvalState.next?` and preserves the invariant/suffix;
+4. `finish`: every accepted final state supplies final potential nonnegativity
+   and the root margin bound.
+
+The object may be rank-indexed only in the semantic sense:
+
+```lean
+{ rank : Fin numPairWords //
+    TopPairingStrengthenedClosedLanguageAtRank sequenceBadFace rank Face.ym }
+```
+
+It must not carry a sampled path, selected prefix id, accepted trace id, exact
+affine RHS, solved start point, or one constructor per observed prefix.
+
+The target-shadow cursor is accepted as the front-door state coordinate.  Use
+the existing checked core:
+
+```lean
+topPairingTargetShadow_of_summary
+topPairingTriShadow_eq_target_of_closed
+topPairingTriCursor_of_closed
+TopPairingTransducerTail.ofClosedRank
+TopPairingTransducerTail.cons
+```
+
+from `Cuboctahedron/Search/TopPairingTargetCursor.lean` and
+`Cuboctahedron/Search/TopPairingTransducerTail.lean`.  The local proof should
+case-split on `(semantic state, face)`, not on rank, full prefix, or observed
+path.
+
+Graph147 status after the gauge-corrected potential audit:
+
+```text
+decision = full_graph_margin_candidate_only
+accepted_modes = [full]
+states = 970
+edges = 1054
+finals = 116
+const_scaled = 176
+root bound = 0
+```
+
+All currently tried coarser quotient modes fail local corrected edge bounds.
+Therefore the next graph147 attempt should target semantic membership into the
+deterministic full graph, or introduce a genuinely stronger segment/cocycle
+state.  Do not keep shrinking the quotient unless the profiler proves the new
+quotient has valid local edge inequalities.
+
+Fallback order if the ranked transducer proof asks for exact data:
+
+1. add semantic state fields first: target cursor, tri-source progress,
+   square-gap state, pair-count remainder, local-axis/canonical-bad-face class;
+2. use the certified segment algebra already checked in
+   `Cuboctahedron/Search/BellmanPotential.lean`:
+   `CertifiedBellmanSegment.ofEvalLabelStepFnNextInvariant` and
+   `CertifiedBellmanSegment.append`;
+3. run the cocycle/coboundary quotient experiment so raw margin gains factor
+   through a smaller semantic state plus a telescoping gauge;
+4. only if these fail, reconsider the margin functional or bad-face family.
+
+No-go signs:
+
+- a proof branch per rank, observed path, accepted trace, selected prefix, or
+  exact affine RHS;
+- a suffix predicate whose only useful content is an externally sampled path;
+- a local-step proof that cannot be stated using `TopPairingTransducerTail`
+  and the deterministic `next?`;
+- a margin proof that requires concrete solved `p0` keys rather than integer
+  Bellman/segment/cocycle data.
+
+Translation remains separate.  Its priority order is still:
+
+```text
+GoodDirection
+  -> source-indexed row templates
+  -> support <= 3 Helly/Farkas oriented circuits
+  -> symbolic denominator/signature families
+  -> Walsh only as a sign-certifying subroutine
+```
+
+Do not generate bad-direction masks as proof data.
+
+Immediate next slice:
+
+1. Keep graph147 as the primary nonidentity margin lane.
+2. Generate or hand-prototype the first non-sampled
+   `StrengthenedGraph147RankedTransducerInvariantFamily`.
+3. Run only hard-capped focused checks of the new module.
+4. If the proof wants observed-prefix/rank/path membership, stop immediately
+   and switch to the segment/cocycle quotient experiment before emitting more
+   Lean.
+
 ### 2026-07-05 current strategy after the graph147 quotient pivot
 
 The latest GPT5.5 Pro guidance has been adopted as the active rule for the
