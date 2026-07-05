@@ -24,6 +24,10 @@ OUT_MD = ROOT / "scripts/generated/top_pairing_semantic_evaluator_pivot.md"
 
 FILES = {
     "target_cursor": ROOT / "Cuboctahedron/Search/TopPairingTargetCursor.lean",
+    "transducer_eval_bridge": ROOT
+    / "Cuboctahedron/Search/TopPairingTransducerEvalBridge.lean",
+    "transducer_semantic_gate": ROOT
+    / "Cuboctahedron/Search/TopPairingTransducerSemanticGate.lean",
     "transducer_tail": ROOT / "Cuboctahedron/Search/TopPairingTransducerTail.lean",
     "closed_transducer_socket": ROOT
     / "Cuboctahedron/Generated/NonIdentity/Residual/"
@@ -64,6 +68,9 @@ FILES = {
     "graph183_quotient_margin_socket": ROOT
     / "Cuboctahedron/Generated/NonIdentity/Residual/"
     / "BellmanTopPairingGraph183QuotientMarginSocket.lean",
+    "graph183_cocycle_quotient_smoke": ROOT
+    / "Cuboctahedron/Generated/NonIdentity/Residual/"
+    / "BellmanTopPairingGraph183CocycleQuotientSmoke.lean",
     "target_completion_local_branch_table_shard000": ROOT
     / "Cuboctahedron/Generated/NonIdentity/Residual/"
     / "BellmanTopPairingClosedBellmanStrengthenedTargetCompletionLocalBranchTableShard000.lean",
@@ -103,6 +110,18 @@ REQUIRED_SYMBOLS = {
         "topPairingTriShadow_eq_target_of_closed",
         "topPairingTriCursor_of_closed",
         "TopPairingTriCursorFrom",
+    ],
+    "transducer_eval_bridge": [
+        "TopPairingTransducerEvalState",
+        "evalLabelStepFn_exists_of_tail_and_invariantLocalWithSuffix",
+        "evalLanguageAtRank_of_invariantLocalWithSuffix",
+    ],
+    "transducer_semantic_gate": [
+        "closedToEvalGate_of_transducerInvariantLocalWithSuffix",
+        "strengthenedToEvalGate_of_transducerInvariantLocalWithSuffix",
+        "closedToGraphExactEvalGate_of_rankedTransducerInvariantLocalWithSuffix",
+        "scaledMargin_nonpos_of_transducerClosedGate",
+        "scaledMargin_nonpos_of_transducerStrengthenedGate",
     ],
     "transducer_tail": [
         "theorem ofClosedRank",
@@ -255,6 +274,12 @@ REQUIRED_SYMBOLS = {
         "acceptedSequenceGraph183AcceptedBranchExactEvalFamily_of_quotientMargin",
         "graph183QuotientMarginSocket_builds",
     ],
+    "graph183_cocycle_quotient_smoke": [
+        "private def FullStep",
+        "private def SmallStep",
+        "graph183QuotientStep",
+        "graph183QuotientAcceptedBranchSmoke",
+    ],
     "target_completion_local_branch_table_shard000": [
         "ShardState",
         "completionState",
@@ -273,6 +298,8 @@ REQUIRED_SYMBOLS = {
 
 PRODUCTION_SCAN_FILES = [
     "target_cursor",
+    "transducer_eval_bridge",
+    "transducer_semantic_gate",
     "transducer_tail",
     "closed_transducer_socket",
     "closed_final_margin_socket",
@@ -488,8 +515,11 @@ def render_markdown(report: dict[str, Any]) -> str:
             "",
             "Keep Bellman, but reject selected-prefix membership as a production",
             "route.  For graph183 the semantic evaluator membership problem is",
-            "now closed: target cursor supplies target cancellation, and",
-            "schedule/square/used/length state supplies `Graph150TargetCompletionTail`.",
+            "now a deterministic transducer obligation: target cursor supplies",
+            "target cancellation, schedule/square/used/length state supplies",
+            "`Graph150TargetCompletionTail`, and the suffix-local transducer",
+            "gate supplies the exact eval theorem once a generated family proves",
+            "the local transition and final margin premises.",
             "",
             "This audit therefore treats the graph183 completion-tail slice as a",
             "passed semantic-transducer checkpoint.  The next producer should",
@@ -531,15 +561,24 @@ def render_markdown(report: dict[str, Any]) -> str:
             "segment or cocycle/coboundary quotient for this margin form, followed",
             "by the same Bellman potential bound.",
             "",
+            "The graph183 cocycle quotient smoke is explicitly diagnostic.  It",
+            "checks the local relation",
+            "`rawGain = smallGain + gauge(dst) - gauge(src)` and one accepted",
+            "branch, but its `FullStep`/`SmallStep` tables are private and it",
+            "does not prove closed-language membership.  Production must expose",
+            "or regenerate those quotient/gauge facts through the deterministic",
+            "closed-language evaluator gate, not import the smoke as coverage.",
+            "",
             "## Go/No-Go Gate",
             "",
             "Go only if the next producer proves",
             "`Graph183TailQuotientMarginSequenceBadFace` from semantic",
-            "closed-language state and Lean-checked quotient/gauge integer",
-            "facts.  No-go if the proof introduces sampled ranks, selected-prefix",
-            "coverage, accepted trace ids, exact affine RHS keys, or one branch",
-            "per rank/path.  In that case, add a missing semantic state field or",
-            "pivot to the cancellation-tree segment algebra.",
+            "closed-language state plus Lean-checked quotient/gauge integer",
+            "facts, via the suffix-local transducer gate.  No-go if the proof",
+            "introduces sampled ranks, selected-prefix coverage, accepted trace",
+            "ids, exact affine RHS keys, or one branch per rank/path.  In that",
+            "case, add a missing semantic state field or pivot to the",
+            "cancellation-tree segment algebra.",
             "",
         ]
     )

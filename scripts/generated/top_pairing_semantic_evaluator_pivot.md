@@ -14,6 +14,8 @@ membership and toward deterministic closed-language evaluator proofs.
 | file | lines | missing symbols |
 | --- | ---: | --- |
 | `target_cursor` | `388` | none |
+| `transducer_eval_bridge` | `503` | none |
+| `transducer_semantic_gate` | `692` | none |
 | `transducer_tail` | `97` | none |
 | `closed_transducer_socket` | `274` | none |
 | `closed_final_margin_socket` | `432` | none |
@@ -28,6 +30,7 @@ membership and toward deterministic closed-language evaluator proofs.
 | `graph169_continuation_socket` | `224` | none |
 | `graph183_tail_table_socket` | `1346` | none |
 | `graph183_quotient_margin_socket` | `639` | none |
+| `graph183_cocycle_quotient_smoke` | `1803` | none |
 | `target_completion_local_branch_table_shard000` | `1403` | none |
 | `depth11_closed_providers` | `1536` | none |
 
@@ -57,8 +60,11 @@ membership and toward deterministic closed-language evaluator proofs.
 
 Keep Bellman, but reject selected-prefix membership as a production
 route.  For graph183 the semantic evaluator membership problem is
-now closed: target cursor supplies target cancellation, and
-schedule/square/used/length state supplies `Graph150TargetCompletionTail`.
+now a deterministic transducer obligation: target cursor supplies
+target cancellation, schedule/square/used/length state supplies
+`Graph150TargetCompletionTail`, and the suffix-local transducer
+gate supplies the exact eval theorem once a generated family proves
+the local transition and final margin premises.
 
 This audit therefore treats the graph183 completion-tail slice as a
 passed semantic-transducer checkpoint.  The next producer should
@@ -100,12 +106,21 @@ not production-safe.  The next pivot should then be a cancellation
 segment or cocycle/coboundary quotient for this margin form, followed
 by the same Bellman potential bound.
 
+The graph183 cocycle quotient smoke is explicitly diagnostic.  It
+checks the local relation
+`rawGain = smallGain + gauge(dst) - gauge(src)` and one accepted
+branch, but its `FullStep`/`SmallStep` tables are private and it
+does not prove closed-language membership.  Production must expose
+or regenerate those quotient/gauge facts through the deterministic
+closed-language evaluator gate, not import the smoke as coverage.
+
 ## Go/No-Go Gate
 
 Go only if the next producer proves
 `Graph183TailQuotientMarginSequenceBadFace` from semantic
-closed-language state and Lean-checked quotient/gauge integer
-facts.  No-go if the proof introduces sampled ranks, selected-prefix
-coverage, accepted trace ids, exact affine RHS keys, or one branch
-per rank/path.  In that case, add a missing semantic state field or
-pivot to the cancellation-tree segment algebra.
+closed-language state plus Lean-checked quotient/gauge integer
+facts, via the suffix-local transducer gate.  No-go if the proof
+introduces sampled ranks, selected-prefix coverage, accepted trace
+ids, exact affine RHS keys, or one branch per rank/path.  In that
+case, add a missing semantic state field or pivot to the
+cancellation-tree segment algebra.

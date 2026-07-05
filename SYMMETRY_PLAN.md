@@ -111666,6 +111666,111 @@ graph183 frontier decision =
   diagnostic_supports_graph183_accepted_tail_margin_bellman_route
 ```
 
+### 2026-07-05 deterministic transducer pivot sharpened
+
+GPT5.5 Pro's latest recommendation is now the active graph183 strategy:
+keep Bellman, reject selected-prefix membership, and prove a deterministic
+closed-language-to-evaluator theorem through the top-pairing target-shadow
+cursor plus a suffix-local transducer invariant.
+
+The hand-written semantic side is already present and now guarded:
+
+```lean
+topPairingTargetShadow_of_summary
+topPairingTriShadow_eq_target_of_closed
+topPairingTriCursor_of_closed
+TopPairingTriCursorFrom
+
+TopPairingTransducerEvalState.evalLabelStepFn_exists_of_tail_and_invariantLocalWithSuffix
+closedToEvalGate_of_transducerInvariantLocalWithSuffix
+strengthenedToEvalGate_of_transducerInvariantLocalWithSuffix
+closedToGraphExactEvalGate_of_rankedTransducerInvariantLocalWithSuffix
+scaledMargin_nonpos_of_transducerClosedGate
+scaledMargin_nonpos_of_transducerStrengthenedGate
+```
+
+Updated the semantic-evaluator audit so it checks these transducer bridge
+surfaces explicitly and records that
+`BellmanTopPairingGraph183CocycleQuotientSmoke.lean` is diagnostic only.  The
+smoke checks local quotient/gauge equations and one accepted branch, but its
+`FullStep`/`SmallStep` tables are private and it does not prove
+closed-language membership.  Production must expose or regenerate those
+quotient/gauge facts through the deterministic closed-language evaluator gate.
+
+Commands:
+
+```bash
+python3 -m py_compile scripts/audit_top_pairing_semantic_evaluator_pivot.py
+python3 scripts/audit_top_pairing_semantic_evaluator_pivot.py
+
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 6500 --min-available-mib 30000 \
+  --timeout-seconds 180 --hard-address-space-mib 6500 \
+  --json scripts/generated/top_pairing_target_cursor_latest_guard.json \
+  -- lake env lean -M 6500 -j1 -s 2048 \
+    Cuboctahedron/Search/TopPairingTargetCursor.lean
+
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 6500 --min-available-mib 30000 \
+  --timeout-seconds 180 --hard-address-space-mib 6500 \
+  --json scripts/generated/top_pairing_transducer_semantic_gate_latest_guard.json \
+  -- lake env lean -M 6500 -j1 -s 2048 \
+    Cuboctahedron/Search/TopPairingTransducerSemanticGate.lean
+```
+
+Results:
+
+```text
+semantic evaluator decision =
+  semantic_evaluator_pivot_ready_for_graph183_sequencebadface_carrier
+
+TopPairingTargetCursor.lean:
+  exit = 0
+  elapsed = 9.01s
+  peak RSS = 3879 MiB
+  min available = 46234 MiB
+
+TopPairingTransducerSemanticGate.lean:
+  exit = 0
+  elapsed = 2.00s
+  peak RSS = 3330 MiB
+  min available = 46367 MiB
+```
+
+Current next theorem remains:
+
+```lean
+Graph183TailQuotientMarginSequenceBadFace scaledMargin
+```
+
+but the required proof route is sharper.  A generated graph183 producer must
+prove the suffix-local transducer premises:
+
+```lean
+hlocal :
+  Inv state ->
+  state.Tail (face :: rest) ->
+  SuffixOk state (face :: rest) ->
+    ∃ nextState gain,
+      TopPairingTransducerEvalState.next? next labelOfFace state face =
+        some (nextState, gain) ∧
+      nextState.Tail rest ∧ Inv nextState ∧ SuffixOk nextState rest
+
+hfinish :
+  evalLabelStepFn
+      (TopPairingTransducerEvalState.next? next labelOfFace)
+      (TopPairingTransducerEvalState.start graphStart)
+      (topPairingRankFaceLabels rank) = some (finish, gain) ->
+  finish.Tail [] ->
+  Inv finish ->
+  SuffixOk finish [] ->
+    0 <= V finish.graph ∧ scaledMargin rank <= const + gain
+```
+
+No-go signs are unchanged: sampled ranks, selected-prefix coverage, accepted
+trace ids, exact affine RHS keys, solved start-point keys, stored full Bellman
+paths, or one proof branch per rank/path.
+
 ### 2026-07-05 exact-eval sequenceBadFace carrier
 
 Added an evaluator-shaped sibling of the graph183 quotient-margin carrier:
