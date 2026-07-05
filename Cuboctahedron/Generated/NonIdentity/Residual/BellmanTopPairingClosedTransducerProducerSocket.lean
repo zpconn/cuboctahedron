@@ -199,6 +199,75 @@ theorem scaledMargin_nonpos_of_closedTransducerProducerAll
       (hfamily.family rank hstrengthened).finalMargin)
     hstrengthened
 
+/--
+Machine-shaped all-rank production obligation for the deterministic semantic
+transducer route.
+
+This is the preferred next target for generated family modules.  Instead of
+producing `TerminalOkTraceLabels` directly, the family proves that the closed
+rank drives a checked terminal partial machine from its initial state to a
+contained terminal prefix.  The generic socket then derives terminal trace
+soundness and feeds the same depth-11 graph-path / final-margin producers into
+the closed transducer theorem.
+-/
+structure StrengthenedClosedTransducerMachineProducerAll
+    {StateId : Type}
+    (scaledMargin : Fin numPairWords -> Int)
+    (machine : TerminalStepStatePartialMachine StateId)
+    (start : StateId) : Prop where
+  start_initial :
+    machine.stateOf start = TerminalStepState.initial
+  terminal :
+    ∀ rank,
+      TopPairingStrengthenedClosedLanguageAtRank
+        AcceptedSequenceBadFaceAtRank rank Face.ym ->
+      TerminalContainedEvalPrefixGate machine start rank
+  depth11GraphPath :
+    ∀ rank,
+      TopPairingStrengthenedClosedLanguageAtRank
+        AcceptedSequenceBadFaceAtRank rank Face.ym ->
+      Split10MDepth11GraphPathProducer rank
+  finalMargin :
+    ∀ rank,
+      TopPairingStrengthenedClosedLanguageAtRank
+        AcceptedSequenceBadFaceAtRank rank Face.ym ->
+      Split10MFinalMarginProducer scaledMargin rank
+
+theorem closedTransducerProducerAll_of_machineProducerAll
+    {StateId : Type}
+    {scaledMargin : Fin numPairWords -> Int}
+    {machine : TerminalStepStatePartialMachine StateId}
+    {start : StateId}
+    (hfamily :
+      StrengthenedClosedTransducerMachineProducerAll
+        scaledMargin machine start) :
+    StrengthenedClosedTransducerProducerAll scaledMargin where
+  family := by
+    intro rank hstrengthened
+    exact closedTransducerProducer_of_terminalContainedEvalPrefixGate
+      hstrengthened
+      hfamily.start_initial
+      (hfamily.terminal rank hstrengthened)
+      (hfamily.depth11GraphPath rank hstrengthened)
+      (hfamily.finalMargin rank hstrengthened)
+
+theorem scaledMargin_nonpos_of_machineProducerAll
+    {StateId : Type}
+    {scaledMargin : Fin numPairWords -> Int}
+    {machine : TerminalStepStatePartialMachine StateId}
+    {start : StateId}
+    (hfamily :
+      StrengthenedClosedTransducerMachineProducerAll
+        scaledMargin machine start)
+    {rank : Fin numPairWords}
+    (hstrengthened :
+      TopPairingStrengthenedClosedLanguageAtRank
+        AcceptedSequenceBadFaceAtRank rank Face.ym) :
+    scaledMargin rank <= 0 :=
+  scaledMargin_nonpos_of_closedTransducerProducerAll
+    (closedTransducerProducerAll_of_machineProducerAll hfamily)
+    hstrengthened
+
 theorem closedTransducerProducerSocket_builds : True := by
   exact True.intro
 

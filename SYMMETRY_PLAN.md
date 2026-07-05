@@ -102500,3 +102500,138 @@ local tables.
   case-split on semantic state/frontier facts and graph state, not on rank,
   selected prefix, accepted trace, exact affine RHS, or solved start-point
   data.
+
+### 2026-07-04 deterministic terminal-machine portfolio pivot
+
+- Strategy update:
+  keep the Bellman/state-DAG route, but stop treating terminal
+  classification as a raw `TerminalOkTraceLabels` obligation in the preferred
+  production surface.  The next proof target should be a deterministic
+  semantic terminal-machine evaluator:
+
+  ```lean
+  TerminalContainedEvalPrefixGate machine start rank
+  ```
+
+  proved from closed target-cursor / schedule / square-gap / pair-count /
+  local-axis / tri-source state.  The generic socket then derives
+  `TerminalOkTraceLabels`.  This matches the current GPT-5.5/Gemini diagnosis:
+  the potential graph is not the blocker; semantic membership into the
+  deterministic evaluator is.
+
+- Added the core all-rank machine socket:
+
+  ```lean
+  StrengthenedClosedTransducerMachineProducerAll
+  closedTransducerProducerAll_of_machineProducerAll
+  scaledMargin_nonpos_of_machineProducerAll
+  ```
+
+  in:
+
+  ```lean
+  Cuboctahedron.Generated.NonIdentity.Residual.
+    BellmanTopPairingClosedTransducerProducerSocket
+  ```
+
+- Added the depth-11 graph-path portfolio wrapper:
+
+  ```lean
+  Depth11GraphPathMachinePortfolioAll
+  machineProducerAll_of_depth11GraphPathMachinePortfolioAll
+  closedTransducerProducerAll_of_depth11GraphPathMachinePortfolioAll
+  scaledMargin_nonpos_of_depth11GraphPathMachinePortfolioAll
+  ```
+
+  in:
+
+  ```lean
+  Cuboctahedron.Generated.NonIdentity.Residual.
+    BellmanTopPairingSemanticStateDAGDepth11GraphPathProvidersSmoke
+  ```
+
+- Meaning:
+  `Depth11GraphPathPortfolioAll` remains available, but the preferred
+  production target is now `Depth11GraphPathMachinePortfolioAll`.  The three
+  remaining producer fields are:
+
+  ```lean
+  terminal :
+    ∀ rank,
+      TopPairingStrengthenedClosedLanguageAtRank
+        AcceptedSequenceBadFaceAtRank rank Face.ym ->
+      TerminalContainedEvalPrefixGate machine start rank
+
+  classCase :
+    ∀ rank,
+      TopPairingStrengthenedClosedLanguageAtRank
+        AcceptedSequenceBadFaceAtRank rank Face.ym ->
+      Depth11GraphPathClassCase rank
+
+  finalMargin :
+    ∀ rank,
+      TopPairingStrengthenedClosedLanguageAtRank
+        AcceptedSequenceBadFaceAtRank rank Face.ym ->
+      Split10MFinalMarginProducer scaledMargin rank
+  ```
+
+  This makes the next generator/proof task sharper: produce the terminal
+  machine gate from closed semantic state, not by selected-prefix or
+  accepted-trace membership.
+
+- Commands:
+
+  ```bash
+  python3 scripts/run_memory_guarded.py \
+    --max-tree-rss-mib 10000 \
+    --min-available-mib 30000 -- \
+    env LEAN_NUM_THREADS=1 LAKE_JOBS=1 \
+      lake build \
+        Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingClosedTransducerProducerSocket
+
+  python3 scripts/run_memory_guarded.py \
+    --max-tree-rss-mib 10000 \
+    --min-available-mib 30000 -- \
+    env LEAN_NUM_THREADS=1 LAKE_JOBS=1 \
+      lake build Cuboctahedron.Search.TopPairingTargetCursor
+
+  python3 scripts/run_memory_guarded.py \
+    --max-tree-rss-mib 10000 \
+    --min-available-mib 30000 -- \
+    env LEAN_NUM_THREADS=1 LAKE_JOBS=1 \
+      lake build \
+        Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingSemanticStateDAGDepth11GraphPathProvidersSmoke
+
+  rg -n "sorry|admit|axiom|native_decide|unsafe" \
+    Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedTransducerProducerSocket.lean \
+    Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSemanticStateDAGDepth11GraphPathProvidersSmoke.lean \
+    Cuboctahedron/Search/TopPairingTargetCursor.lean
+
+  rg -n "SampledRankIndex|sampledContainsRank|sampledRankOf|SelectedPrefix|accepted trace|acceptedTrace|TraceId" \
+    Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedTransducerProducerSocket.lean \
+    Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSemanticStateDAGDepth11GraphPathProvidersSmoke.lean \
+    Cuboctahedron/Search/TopPairingTargetCursor.lean
+  ```
+
+- Results:
+  - `BellmanTopPairingClosedTransducerProducerSocket` passed under the memory
+    guard in `3.00s`, with peak tree RSS `4060 MiB` and minimum available
+    memory `46072 MiB`.
+  - `TopPairingTargetCursor` passed under the memory guard in `1.00s`, with
+    negligible new peak tree RSS reported and minimum available memory
+    `46333 MiB`.
+  - `BellmanTopPairingSemanticStateDAGDepth11GraphPathProvidersSmoke` passed
+    under the memory guard in `3.00s`, with peak tree RSS `4120 MiB` and
+    minimum available memory `46000 MiB`.
+  - Forbidden-token scan returned no hits.
+  - Sampled/selected/accepted-trace scan only hit negative explanatory
+    comments; no sampled rank or selected-prefix object was introduced.
+
+- Current promotion status:
+  the closed-language Bellman route now has the right next theorem surface.
+  The target-cursor theorem already exists, and the all-rank producer can be
+  fed by a deterministic terminal partial-machine gate.  The next proof slice
+  should generate or hand-prove a small `TerminalContainedEvalPrefixGate`
+  family from `TopPairingStrengthenedClosedLanguageAtRank`, then reuse this
+  machine portfolio socket with the existing depth-11 graph-path class and
+  final-margin producers.

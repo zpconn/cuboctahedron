@@ -28,6 +28,9 @@ open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphAccepted
 open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingDepth11GraphStateSuffixSocket
 open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingClosedSplitSuffixProducerSocket
 open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingClosedTransducerProducerSocket
+open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingTerminalStateStepSocket
+open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingTerminalStatePartialMachineSocket
+open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingTerminalStatePartialMachineEvalSocket
 open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingSemanticStateDAGDepth11ClosedProvidersSmoke
 open Cuboctahedron.Generated.NonIdentity.Residual.TopPairingTraceClassifier.Accepted
 
@@ -495,6 +498,81 @@ theorem scaledMargin_nonpos_of_depth11GraphPathPortfolioAll
     scaledMargin rank <= 0 :=
   scaledMargin_nonpos_of_closedTransducerProducerAll
     (closedTransducerProducerAll_of_depth11GraphPathPortfolioAll hportfolio)
+    hstrengthened
+
+/--
+Machine-shaped variant of `Depth11GraphPathPortfolioAll`.
+
+This is the closer production target after the closed-language transducer
+pivot: terminal classification should be proved by a deterministic partial
+terminal machine and `TerminalContainedEvalPrefixGate`, while this module still
+keeps the depth-11 graph-path class and final-margin producers split out.
+-/
+structure Depth11GraphPathMachinePortfolioAll
+    {StateId : Type}
+    (scaledMargin : Fin numPairWords -> Int)
+    (machine : TerminalStepStatePartialMachine StateId)
+    (start : StateId) : Prop where
+  start_initial :
+    machine.stateOf start = TerminalStepState.initial
+  terminal :
+    ∀ rank,
+      TopPairingStrengthenedClosedLanguageAtRank
+        AcceptedSequenceBadFaceAtRank rank Face.ym ->
+      TerminalContainedEvalPrefixGate machine start rank
+  classCase :
+    ∀ rank,
+      TopPairingStrengthenedClosedLanguageAtRank
+        AcceptedSequenceBadFaceAtRank rank Face.ym ->
+      Depth11GraphPathClassCase rank
+  finalMargin :
+    ∀ rank,
+      TopPairingStrengthenedClosedLanguageAtRank
+        AcceptedSequenceBadFaceAtRank rank Face.ym ->
+      Split10MFinalMarginProducer scaledMargin rank
+
+theorem machineProducerAll_of_depth11GraphPathMachinePortfolioAll
+    {StateId : Type}
+    {scaledMargin : Fin numPairWords -> Int}
+    {machine : TerminalStepStatePartialMachine StateId}
+    {start : StateId}
+    (hportfolio :
+      Depth11GraphPathMachinePortfolioAll scaledMargin machine start) :
+    StrengthenedClosedTransducerMachineProducerAll
+      scaledMargin machine start where
+  start_initial := hportfolio.start_initial
+  terminal := hportfolio.terminal
+  depth11GraphPath := by
+    intro rank hstrengthened
+    exact split10MDepth11GraphPathProducer_of_depth11GraphPathClassCase
+      (hportfolio.classCase rank hstrengthened)
+  finalMargin := hportfolio.finalMargin
+
+theorem closedTransducerProducerAll_of_depth11GraphPathMachinePortfolioAll
+    {StateId : Type}
+    {scaledMargin : Fin numPairWords -> Int}
+    {machine : TerminalStepStatePartialMachine StateId}
+    {start : StateId}
+    (hportfolio :
+      Depth11GraphPathMachinePortfolioAll scaledMargin machine start) :
+    StrengthenedClosedTransducerProducerAll scaledMargin :=
+  closedTransducerProducerAll_of_machineProducerAll
+    (machineProducerAll_of_depth11GraphPathMachinePortfolioAll hportfolio)
+
+theorem scaledMargin_nonpos_of_depth11GraphPathMachinePortfolioAll
+    {StateId : Type}
+    {scaledMargin : Fin numPairWords -> Int}
+    {machine : TerminalStepStatePartialMachine StateId}
+    {start : StateId}
+    (hportfolio :
+      Depth11GraphPathMachinePortfolioAll scaledMargin machine start)
+    {rank : Fin numPairWords}
+    (hstrengthened :
+      TopPairingStrengthenedClosedLanguageAtRank
+        AcceptedSequenceBadFaceAtRank rank Face.ym) :
+    scaledMargin rank <= 0 :=
+  scaledMargin_nonpos_of_machineProducerAll
+    (machineProducerAll_of_depth11GraphPathMachinePortfolioAll hportfolio)
     hstrengthened
 
 def depth11GraphPathProviderClassCount : Nat := 6
