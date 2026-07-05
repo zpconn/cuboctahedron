@@ -23,6 +23,10 @@ OUT_MD = ROOT / "scripts/generated/top_pairing_semantic_membership_gate.md"
 FILES = {
     "language": ROOT / "Cuboctahedron/Search/BellmanTopPairingLanguage.lean",
     "top_pairing_object": ROOT / "Cuboctahedron/Search/TopPairingBellmanObject.lean",
+    "target_cursor": ROOT / "Cuboctahedron/Search/TopPairingTargetCursor.lean",
+    "transducer_tail": ROOT / "Cuboctahedron/Search/TopPairingTransducerTail.lean",
+    "transducer_semantic_gate": ROOT
+    / "Cuboctahedron/Search/TopPairingTransducerSemanticGate.lean",
     "semantic_eval_socket": ROOT
     / "Cuboctahedron/Generated/NonIdentity/Residual/"
     / "BellmanTopPairingSemanticEvalSocket.lean",
@@ -38,6 +42,15 @@ FILES = {
     "terminal_direct_socket": ROOT
     / "Cuboctahedron/Generated/NonIdentity/Residual/"
     / "BellmanTopPairingTerminalDirectSequenceSocket.lean",
+    "terminal_trace_membership_socket": ROOT
+    / "Cuboctahedron/Generated/NonIdentity/Residual/"
+    / "BellmanTopPairingStrengthenedTerminalTraceMembershipSocket.lean",
+    "closed_transducer_producer_socket": ROOT
+    / "Cuboctahedron/Generated/NonIdentity/Residual/"
+    / "BellmanTopPairingClosedTransducerProducerSocket.lean",
+    "depth11_graph_path_providers": ROOT
+    / "Cuboctahedron/Generated/NonIdentity/Residual/"
+    / "BellmanTopPairingSemanticStateDAGDepth11GraphPathProvidersSmoke.lean",
     "trace_margin_bounds_socket": ROOT
     / "Cuboctahedron/Generated/NonIdentity/Residual/"
     / "BellmanTopPairingTraceMarginBoundsSocket.lean",
@@ -46,6 +59,16 @@ FILES = {
 REQUIRED_SYMBOLS = {
     "TopPairingClosedLanguageAtRank": "closed semantic front door",
     "TopPairingStrengthenedClosedLanguageAtRank": "actual omni + sequence/bad-face carrier",
+    "TopPairingTransducerTail": "target cursor + schedule/square-gap/local-axis suffix carrier",
+    "topPairingTriCursor_of_closed": "closed language to target-shadow cursor bridge",
+    "closedToEvalGate_of_rankedTransducerInvariantLocalWithSuffix": "ranked semantic evaluator gate",
+    "StrengthenedTerminalTraceMembership": "semantic terminal trace membership target",
+    "StrengthenedClosedTransducerProducer": "rank-local semantic transducer production bundle",
+    "StrengthenedClosedTransducerProducerAll": "all-rank semantic transducer production bundle",
+    "StrengthenedClosedTransducerMachineProducerAll": "preferred machine-shaped all-rank producer target",
+    "Split10MDepth11GraphPathProducer": "graph-state-indexed depth-11 suffix target",
+    "Depth11GraphPathClassCase": "bounded depth-11 semantic class+graph-state cases",
+    "Split10MFinalMarginProducer": "remaining final integer margin producer target",
     "SelectedPrefixTraceMarginSequenceBadFace": "selected-prefix production socket predicate",
     "SelectedPrefixTraceMarginFamily": "selected-prefix margin family target",
     "evalLanguage_of_strengthenedSelectedPrefixTraceMargin": "selected-prefix eval-language bridge",
@@ -55,6 +78,12 @@ REQUIRED_SYMBOLS = {
     "TerminalTracePrefixSharedGainClosedMarginFamily": "direct prefix/shared-gain fallback target",
     "TerminalDirectClosedFamily": "terminal direct alternative socket",
     "GraphAcceptedEvalSequenceBadFace": "generic graph-accepted eval socket",
+}
+
+DIAGNOSTIC_ONLY_FILES = {
+    "selected_prefix_socket",
+    "selected_prefix_object_cover",
+    "selected_prefix_killed_socket",
 }
 
 FORBIDDEN_MEMBERSHIP_TOKENS = [
@@ -105,51 +134,67 @@ def render_markdown(report: dict[str, Any]) -> str:
         "# Top-Pairing Semantic Membership Gate",
         "",
         "This audit is diagnostic status evidence, not proof.  It records the",
-        "next Bellman experiment recommended by the GPT5.5 review: keep the",
-        "Bellman route for one more semantic-membership slice, but reject it as",
-        "a final architecture if that slice falls back to sampled rank/path",
-        "membership.",
+        "next Bellman experiment recommended by the latest GPT5.5 reviews: keep",
+        "Bellman, but make the membership theorem semantic and deterministic.",
+        "Selected-prefix artifacts are diagnostic only and must not be scaled as",
+        "production membership.",
         "",
         f"- decision: `{report['decision']}`",
         f"- sampled membership hits in selected surfaces: `{report['sampled_hit_count']}`",
+        f"- selected-prefix hits in production surfaces: `{report['selected_prefix_production_hit_count']}`",
         "",
         "## Concrete Gate",
         "",
-        "The next production theorem should target the selected-prefix",
-        "strengthened-language socket, not a sampled object table:",
+        "The next production theorem should target the semantic terminal",
+        "transducer socket, not selected-prefix or sampled object tables:",
         "",
         "```lean",
-        "forall rank,",
-        "  FullTopPairingResidualLanguageAtRank rank ->",
-        "    TopPairingStrengthenedClosedLanguageAtRank",
-        "      (SelectedPrefixTraceMarginSequenceBadFace scaledMargin)",
-        "      rank Face.ym",
+        "structure StrengthenedClosedTransducerMachineProducerAll",
+        "    {StateId : Type}",
+        "    (scaledMargin : Fin numPairWords -> Int)",
+        "    (machine : TerminalStepStatePartialMachine StateId)",
+        "    (start : StateId) : Prop where",
+        "  terminal :",
+        "    forall rank,",
+        "      TopPairingStrengthenedClosedLanguageAtRank",
+        "        AcceptedSequenceBadFaceAtRank rank Face.ym ->",
+        "      TerminalContainedEvalPrefixGate machine start rank",
+        "  depth11GraphPath :",
+        "    forall rank,",
+        "      TopPairingStrengthenedClosedLanguageAtRank",
+        "        AcceptedSequenceBadFaceAtRank rank Face.ym ->",
+        "      Split10MDepth11GraphPathProducer rank",
+        "  finalMargin :",
+        "    forall rank,",
+        "      TopPairingStrengthenedClosedLanguageAtRank",
+        "        AcceptedSequenceBadFaceAtRank rank Face.ym ->",
+        "      Split10MFinalMarginProducer scaledMargin rank",
         "```",
         "",
-        "Here `FullTopPairingResidualLanguageAtRank` is still schematic: it must",
-        "be replaced by the existing upstream residual classifier predicate once",
-        "that predicate is selected.  If the selected-prefix family is too narrow,",
-        "the fallback target is direct prefix/shared-gain membership:",
+        "A smaller intermediate theorem may target the terminal-membership socket:",
         "",
         "```lean",
-        "forall rank,",
-        "  FullTopPairingResidualLanguageAtRank rank ->",
-        "    exists pfx gain,",
-        "      TerminalTracePrefixSharedGainClosedMarginFamily",
-        "        pfx gain scaledMargin rank",
+        "def StrengthenedTerminalTraceMembership : Prop :=",
+        "  forall rank,",
+        "    TopPairingStrengthenedClosedLanguageAtRank",
+        "      AcceptedSequenceBadFaceAtRank rank Face.ym ->",
+        "    TerminalTraceLabels (topPairingRankFaceLabels rank)",
         "```",
         "",
         "## Why `TopPairingClosedLanguageAtRank` Alone Is Not Enough",
         "",
         "`TopPairingClosedLanguageAtRank rank Face.ym` supplies the closed",
-        "top-pairing semantic language.  The selected-prefix killed path needs",
-        "the strengthened predicate because it additionally carries:",
+        "top-pairing semantic language.  The production route needs the",
+        "strengthened predicate because it additionally carries:",
         "",
         "- `TopPairingActualFaceOmniAtRank rank`",
-        "- `SelectedPrefixTraceMarginSequenceBadFace scaledMargin rank Face.ym`",
+        "- `AcceptedSequenceBadFaceAtRank rank Face.ym` or the eventual semantic",
+        "  branch-margin predicate",
         "",
-        "The latter contains the actual margin-family membership that drives the",
-        "deterministic evaluator and margin bound.",
+        "The selected-prefix margin sockets remain useful for comparison and",
+        "bounded smokes, but the production membership theorem should go through",
+        "the target cursor, semantic tail, terminal machine, depth-11 graph-path",
+        "provider, and final-margin producer.",
         "",
         "## Symbol Locations",
         "",
@@ -165,14 +210,18 @@ def render_markdown(report: dict[str, Any]) -> str:
             "",
             "## Selected Surfaces",
             "",
-            "| file | lines | sampled-token hits | key symbols |",
-            "| --- | ---: | ---: | --- |",
+            "| file | lines | sampled-token hits | diagnostic only | key symbols |",
+            "| --- | ---: | ---: | --- | --- |",
         ]
     )
     for name, scan in report["files"].items():
         sampled = sum(scan["forbidden_membership_hits"].values())
         symbols = ", ".join(f"`{s}`" for s in sorted(scan["symbols"])) or "none"
-        lines.append(f"| `{name}` | `{scan['lines']}` | `{sampled}` | {symbols} |")
+        diagnostic = "yes" if name in DIAGNOSTIC_ONLY_FILES else "no"
+        lines.append(
+            f"| `{name}` | `{scan['lines']}` | `{sampled}` | "
+            f"`{diagnostic}` | {symbols} |"
+        )
 
     lines.extend(
         [
@@ -180,11 +229,13 @@ def render_markdown(report: dict[str, Any]) -> str:
             "## Go/No-Go Rule",
             "",
             "Continue Bellman only if the next theorem is proved semantically from",
-            "the selected upstream residual language into the strengthened",
-            "selected-prefix socket.  Stop and pivot to cancellation-tree summary",
-            "automata if the proof requires any of:",
+            "closed/strengthened top-pairing language into the terminal machine,",
+            "depth-11 graph-path, and final-margin producer sockets.  Stop and",
+            "pivot to cancellation-tree summary automata if the proof requires any",
+            "of:",
             "",
             "- sampled rank/path objects;",
+            "- selected-prefix ids as production membership;",
             "- exact affine-RHS keys;",
             "- one generated branch per rank;",
             "- a giant Boolean checker over accepted paths.",
@@ -199,12 +250,24 @@ def main() -> None:
     sampled_hit_count = sum(
         sum(scan["forbidden_membership_hits"].values()) for scan in scans.values()
     )
+    selected_prefix_production_hit_count = sum(
+        sum(
+            1
+            for symbol in scan["symbols"]
+            if symbol.startswith("SelectedPrefix")
+            or symbol.startswith("selectedPrefix")
+        )
+        for name, scan in scans.items()
+        if name not in DIAGNOSTIC_ONLY_FILES
+    )
     locations = symbol_locations(scans)
 
     required_present = all(symbol in locations for symbol in REQUIRED_SYMBOLS)
     decision = (
-        "continue-bellman-for-one-semantic-membership-slice"
-        if required_present and sampled_hit_count == 0
+        "continue-bellman-for-semantic-terminal-membership-slice"
+        if required_present
+        and sampled_hit_count == 0
+        and selected_prefix_production_hit_count == 0
         else "review-before-continuing-bellman"
     )
 
@@ -212,20 +275,25 @@ def main() -> None:
         "mode": "top-pairing-semantic-membership-gate-audit",
         "decision": decision,
         "sampled_hit_count": sampled_hit_count,
+        "selected_prefix_production_hit_count": (
+            selected_prefix_production_hit_count
+        ),
         "files": scans,
         "symbol_locations": locations,
         "next_theorem": {
             "preferred": (
-                "forall rank, FullTopPairingResidualLanguageAtRank rank -> "
-                "TopPairingStrengthenedClosedLanguageAtRank "
-                "(SelectedPrefixTraceMarginSequenceBadFace scaledMargin) rank Face.ym"
+                "StrengthenedClosedTransducerMachineProducerAll scaledMargin "
+                "machine start"
             ),
             "fallback": (
-                "forall rank, FullTopPairingResidualLanguageAtRank rank -> "
-                "exists pfx gain, TerminalTracePrefixSharedGainClosedMarginFamily "
-                "pfx gain scaledMargin rank"
+                "StrengthenedTerminalTraceMembership plus "
+                "Split10MDepth11GraphPathProducer plus "
+                "Split10MFinalMarginProducer"
             ),
-            "status": "upstream residual classifier predicate still must be selected",
+            "status": (
+                "depth-11 graph-path provider exists for observed classes; "
+                "semantic terminal/margin membership remains open"
+            ),
         },
     }
 

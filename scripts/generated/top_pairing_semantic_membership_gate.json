@@ -1,13 +1,44 @@
 {
-  "decision": "continue-bellman-for-one-semantic-membership-slice",
+  "decision": "continue-bellman-for-semantic-terminal-membership-slice",
   "files": {
+    "closed_transducer_producer_socket": {
+      "exists": true,
+      "forbidden_membership_hits": {},
+      "lines": 274,
+      "path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedTransducerProducerSocket.lean",
+      "symbols": {
+        "Split10MDepth11GraphPathProducer": 5,
+        "Split10MFinalMarginProducer": 5,
+        "StrengthenedClosedTransducerMachineProducerAll": 3,
+        "StrengthenedClosedTransducerProducer": 8,
+        "StrengthenedClosedTransducerProducerAll": 4,
+        "TopPairingClosedLanguageAtRank": 2,
+        "TopPairingStrengthenedClosedLanguageAtRank": 10
+      }
+    },
+    "depth11_graph_path_providers": {
+      "exists": true,
+      "forbidden_membership_hits": {},
+      "lines": 592,
+      "path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSemanticStateDAGDepth11GraphPathProvidersSmoke.lean",
+      "symbols": {
+        "Depth11GraphPathClassCase": 13,
+        "Split10MDepth11GraphPathProducer": 8,
+        "Split10MFinalMarginProducer": 5,
+        "StrengthenedClosedTransducerMachineProducerAll": 1,
+        "StrengthenedClosedTransducerProducer": 1,
+        "StrengthenedClosedTransducerProducerAll": 3,
+        "TopPairingClosedLanguageAtRank": 1,
+        "TopPairingStrengthenedClosedLanguageAtRank": 15
+      }
+    },
     "language": {
       "exists": true,
       "forbidden_membership_hits": {},
-      "lines": 818,
+      "lines": 936,
       "path": "Cuboctahedron/Search/BellmanTopPairingLanguage.lean",
       "symbols": {
-        "TopPairingClosedLanguageAtRank": 10,
+        "TopPairingClosedLanguageAtRank": 11,
         "TopPairingStrengthenedClosedLanguageAtRank": 6
       }
     },
@@ -58,6 +89,16 @@
         "TopPairingStrengthenedClosedLanguageAtRank": 2
       }
     },
+    "target_cursor": {
+      "exists": true,
+      "forbidden_membership_hits": {},
+      "lines": 387,
+      "path": "Cuboctahedron/Search/TopPairingTargetCursor.lean",
+      "symbols": {
+        "TopPairingClosedLanguageAtRank": 6,
+        "topPairingTriCursor_of_closed": 2
+      }
+    },
     "terminal_direct_socket": {
       "exists": true,
       "forbidden_membership_hits": {},
@@ -66,6 +107,17 @@
       "symbols": {
         "TerminalDirectClosedFamily": 3,
         "TopPairingClosedLanguageAtRank": 1,
+        "TopPairingStrengthenedClosedLanguageAtRank": 2
+      }
+    },
+    "terminal_trace_membership_socket": {
+      "exists": true,
+      "forbidden_membership_hits": {},
+      "lines": 61,
+      "path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingStrengthenedTerminalTraceMembershipSocket.lean",
+      "symbols": {
+        "Split10MDepth11GraphPathProducer": 1,
+        "StrengthenedTerminalTraceMembership": 5,
         "TopPairingStrengthenedClosedLanguageAtRank": 2
       }
     },
@@ -82,23 +134,49 @@
     "trace_margin_bounds_socket": {
       "exists": true,
       "forbidden_membership_hits": {},
-      "lines": 936,
+      "lines": 1173,
       "path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingTraceMarginBoundsSocket.lean",
       "symbols": {
-        "TerminalTracePrefixSharedGainClosedMarginFamily": 4,
-        "TopPairingClosedLanguageAtRank": 17,
-        "TopPairingStrengthenedClosedLanguageAtRank": 21
+        "TerminalTracePrefixSharedGainClosedMarginFamily": 5,
+        "TopPairingClosedLanguageAtRank": 24,
+        "TopPairingStrengthenedClosedLanguageAtRank": 25
+      }
+    },
+    "transducer_semantic_gate": {
+      "exists": true,
+      "forbidden_membership_hits": {},
+      "lines": 692,
+      "path": "Cuboctahedron/Search/TopPairingTransducerSemanticGate.lean",
+      "symbols": {
+        "TopPairingClosedLanguageAtRank": 8,
+        "TopPairingStrengthenedClosedLanguageAtRank": 8,
+        "closedToEvalGate_of_rankedTransducerInvariantLocalWithSuffix": 3
+      }
+    },
+    "transducer_tail": {
+      "exists": true,
+      "forbidden_membership_hits": {},
+      "lines": 97,
+      "path": "Cuboctahedron/Search/TopPairingTransducerTail.lean",
+      "symbols": {
+        "TopPairingClosedLanguageAtRank": 1,
+        "TopPairingTransducerTail": 12,
+        "topPairingTriCursor_of_closed": 1
       }
     }
   },
   "mode": "top-pairing-semantic-membership-gate-audit",
   "next_theorem": {
-    "fallback": "forall rank, FullTopPairingResidualLanguageAtRank rank -> exists pfx gain, TerminalTracePrefixSharedGainClosedMarginFamily pfx gain scaledMargin rank",
-    "preferred": "forall rank, FullTopPairingResidualLanguageAtRank rank -> TopPairingStrengthenedClosedLanguageAtRank (SelectedPrefixTraceMarginSequenceBadFace scaledMargin) rank Face.ym",
-    "status": "upstream residual classifier predicate still must be selected"
+    "fallback": "StrengthenedTerminalTraceMembership plus Split10MDepth11GraphPathProducer plus Split10MFinalMarginProducer",
+    "preferred": "StrengthenedClosedTransducerMachineProducerAll scaledMargin machine start",
+    "status": "depth-11 graph-path provider exists for observed classes; semantic terminal/margin membership remains open"
   },
   "sampled_hit_count": 0,
+  "selected_prefix_production_hit_count": 0,
   "symbol_locations": {
+    "Depth11GraphPathClassCase": [
+      "depth11_graph_path_providers"
+    ],
     "GraphAcceptedEvalSequenceBadFace": [
       "semantic_eval_socket"
     ],
@@ -110,6 +188,30 @@
       "selected_prefix_object_cover",
       "selected_prefix_killed_socket"
     ],
+    "Split10MDepth11GraphPathProducer": [
+      "terminal_trace_membership_socket",
+      "closed_transducer_producer_socket",
+      "depth11_graph_path_providers"
+    ],
+    "Split10MFinalMarginProducer": [
+      "closed_transducer_producer_socket",
+      "depth11_graph_path_providers"
+    ],
+    "StrengthenedClosedTransducerMachineProducerAll": [
+      "closed_transducer_producer_socket",
+      "depth11_graph_path_providers"
+    ],
+    "StrengthenedClosedTransducerProducer": [
+      "closed_transducer_producer_socket",
+      "depth11_graph_path_providers"
+    ],
+    "StrengthenedClosedTransducerProducerAll": [
+      "closed_transducer_producer_socket",
+      "depth11_graph_path_providers"
+    ],
+    "StrengthenedTerminalTraceMembership": [
+      "terminal_trace_membership_socket"
+    ],
     "TerminalDirectClosedFamily": [
       "terminal_direct_socket"
     ],
@@ -119,18 +221,33 @@
     "TopPairingClosedLanguageAtRank": [
       "language",
       "top_pairing_object",
+      "target_cursor",
+      "transducer_tail",
+      "transducer_semantic_gate",
       "semantic_eval_socket",
       "terminal_direct_socket",
+      "closed_transducer_producer_socket",
+      "depth11_graph_path_providers",
       "trace_margin_bounds_socket"
     ],
     "TopPairingStrengthenedClosedLanguageAtRank": [
       "language",
       "top_pairing_object",
+      "transducer_semantic_gate",
       "semantic_eval_socket",
       "selected_prefix_socket",
       "selected_prefix_object_cover",
       "terminal_direct_socket",
+      "terminal_trace_membership_socket",
+      "closed_transducer_producer_socket",
+      "depth11_graph_path_providers",
       "trace_margin_bounds_socket"
+    ],
+    "TopPairingTransducerTail": [
+      "transducer_tail"
+    ],
+    "closedToEvalGate_of_rankedTransducerInvariantLocalWithSuffix": [
+      "transducer_semantic_gate"
     ],
     "evalLanguage_of_strengthenedSelectedPrefixTraceMargin": [
       "selected_prefix_socket",
@@ -145,6 +262,10 @@
     ],
     "strengthenedSelectedPrefixTraceMargin_scaledMargin_nonpos": [
       "selected_prefix_socket"
+    ],
+    "topPairingTriCursor_of_closed": [
+      "target_cursor",
+      "transducer_tail"
     ]
   }
 }

@@ -111298,3 +111298,69 @@ accepted-trace ids, exact affine RHS, solved start-point keys, or one branch per
 observed trace/path, stop direct graph147 scaling and switch to the
 segment/cocycle quotient route.
 ```
+
+### 2026-07-05 semantic membership gate corrected
+
+The semantic-membership audit previously still named the selected-prefix
+socket as a possible next target.  That is now corrected: selected-prefix
+artifacts are diagnostic-only, and the production target is the semantic
+terminal/transducer producer surface.
+
+Updated audit:
+
+```bash
+python3 -m py_compile scripts/audit_top_pairing_semantic_membership_gate.py
+python3 scripts/audit_top_pairing_semantic_membership_gate.py
+```
+
+Result:
+
+```text
+decision = continue-bellman-for-semantic-terminal-membership-slice
+sampled membership hits = 0
+selected-prefix hits in production surfaces = 0
+```
+
+Preferred next theorem surface:
+
+```lean
+structure StrengthenedClosedTransducerMachineProducerAll
+    {StateId : Type}
+    (scaledMargin : Fin numPairWords -> Int)
+    (machine : TerminalStepStatePartialMachine StateId)
+    (start : StateId) : Prop where
+  terminal :
+    forall rank,
+      TopPairingStrengthenedClosedLanguageAtRank
+        AcceptedSequenceBadFaceAtRank rank Face.ym ->
+      TerminalContainedEvalPrefixGate machine start rank
+  depth11GraphPath :
+    forall rank,
+      TopPairingStrengthenedClosedLanguageAtRank
+        AcceptedSequenceBadFaceAtRank rank Face.ym ->
+      Split10MDepth11GraphPathProducer rank
+  finalMargin :
+    forall rank,
+      TopPairingStrengthenedClosedLanguageAtRank
+        AcceptedSequenceBadFaceAtRank rank Face.ym ->
+      Split10MFinalMarginProducer scaledMargin rank
+```
+
+Current consumer status:
+
+```text
+TopPairingTransducerTail / target cursor / ranked semantic evaluator gate:
+  present and checked in earlier guards
+all-class depth-11 graph-path provider smoke:
+  present, 6 depth-11 semantic classes, graph-state-indexed
+terminal machine/final-margin producer:
+  still the open semantic membership/margin proof
+```
+
+No-go restated:
+
+```text
+Do not use SelectedPrefixTraceMarginSequenceBadFace, accepted trace ids,
+sampled rank/path objects, or exact-path class membership as production
+coverage.  Those files may remain as comparison smokes only.
+```
