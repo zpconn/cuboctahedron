@@ -31,6 +31,16 @@
       "third": "Face.yp"
     },
     "yp_zm": {
+      "cocycle_branch_smoke_status": "diagnostic_branch_smoke_passed",
+      "cocycle_branch_smoke_symbols": {
+        "graph147QuotientStep": true,
+        "graph147YpZmBranchMargin_contract": true,
+        "graph147YpZmBranchRawGain_contract": true,
+        "graph147YpZmQuotientBranchSmoke": true,
+        "graph147ZmYpBranchMargin_contract": true,
+        "graph147ZmYpBranchRawGain_contract": true,
+        "graph147ZmYpQuotientBranchSmoke": true
+      },
       "deep_suffix_symbols": {
         "Graph163TargetCompletionTail": true,
         "Graph166TargetCompletionTail": true,
@@ -214,7 +224,7 @@
         "strengthenedPrefix10Graph11TargetCompletionLocalBranchTable": true,
         "strengthenedPrefix10Graph6TargetCompletionLocalBranchTable": true
       },
-      "remaining_gap": "graph147 now has a direct semantic eval socket for the yp,zm and zm,yp layer-4 branches, and the branch-local Graph147TargetCompletionTail fields are proved directly from TopPairingStrengthenedClosedLanguageAtRank plus Depth11Layer4PrefixAtRank.  The future generated proof target is now the margin-only StrengthenedGraph147RootMarginBundle, not a mapped class case: it must prove the remaining Graph147TargetCompletionTailRootMarginBound fields.  The Lean socket derives the tail and adapts the margin-only bundle to the compatibility tail-plus-margin family.  Tail plus margin then produce TopPairingGraphExactEvalGateAtRank directly.  The lane is still partial until those margin fields are proved without selected-prefix or sampled-rank membership.",
+      "remaining_gap": "graph147 now has a direct semantic eval socket for the yp,zm and zm,yp layer-4 branches, and the branch-local Graph147TargetCompletionTail fields are proved directly from TopPairingStrengthenedClosedLanguageAtRank plus Depth11Layer4PrefixAtRank.  The future generated proof target is now the margin-only StrengthenedGraph147RootMarginBundle, not a mapped class case: it must prove the remaining Graph147TargetCompletionTailRootMarginBound fields.  The Lean socket derives the tail and adapts the margin-only bundle to the compatibility tail-plus-margin family.  A bounded cocycle quotient branch smoke supports this route diagnostically but is not coverage evidence.  Tail plus margin then produce TopPairingGraphExactEvalGateAtRank directly.  The lane is still partial until those margin fields are proved without selected-prefix or sampled-rank membership.",
       "required_symbols": {
         "Graph147TargetCompletionTail": true,
         "graph147TargetCompletionState": true,
@@ -333,6 +343,16 @@
       "third": "Face.zm"
     },
     "zm_yp": {
+      "cocycle_branch_smoke_status": "diagnostic_branch_smoke_passed",
+      "cocycle_branch_smoke_symbols": {
+        "graph147QuotientStep": true,
+        "graph147YpZmBranchMargin_contract": true,
+        "graph147YpZmBranchRawGain_contract": true,
+        "graph147YpZmQuotientBranchSmoke": true,
+        "graph147ZmYpBranchMargin_contract": true,
+        "graph147ZmYpBranchRawGain_contract": true,
+        "graph147ZmYpQuotientBranchSmoke": true
+      },
       "deep_suffix_symbols": {
         "Graph163TargetCompletionTail": true,
         "Graph166TargetCompletionTail": true,
@@ -516,7 +536,7 @@
         "strengthenedPrefix10Graph11TargetCompletionLocalBranchTable": true,
         "strengthenedPrefix10Graph6TargetCompletionLocalBranchTable": true
       },
-      "remaining_gap": "graph147 now has a direct semantic eval socket for the yp,zm and zm,yp layer-4 branches, and the branch-local Graph147TargetCompletionTail fields are proved directly from TopPairingStrengthenedClosedLanguageAtRank plus Depth11Layer4PrefixAtRank.  The future generated proof target is now the margin-only StrengthenedGraph147RootMarginBundle, not a mapped class case: it must prove the remaining Graph147TargetCompletionTailRootMarginBound fields.  The Lean socket derives the tail and adapts the margin-only bundle to the compatibility tail-plus-margin family.  Tail plus margin then produce TopPairingGraphExactEvalGateAtRank directly.  The lane is still partial until those margin fields are proved without selected-prefix or sampled-rank membership.",
+      "remaining_gap": "graph147 now has a direct semantic eval socket for the yp,zm and zm,yp layer-4 branches, and the branch-local Graph147TargetCompletionTail fields are proved directly from TopPairingStrengthenedClosedLanguageAtRank plus Depth11Layer4PrefixAtRank.  The future generated proof target is now the margin-only StrengthenedGraph147RootMarginBundle, not a mapped class case: it must prove the remaining Graph147TargetCompletionTailRootMarginBound fields.  The Lean socket derives the tail and adapts the margin-only bundle to the compatibility tail-plus-margin family.  A bounded cocycle quotient branch smoke supports this route diagnostically but is not coverage evidence.  Tail plus margin then produce TopPairingGraphExactEvalGateAtRank directly.  The lane is still partial until those margin fields are proved without selected-prefix or sampled-rank membership.",
       "required_symbols": {
         "Graph147TargetCompletionTail": true,
         "graph147TargetCompletionState": true,

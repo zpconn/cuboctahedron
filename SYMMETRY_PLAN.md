@@ -105974,6 +105974,152 @@ zm_yp.status = partial_graph147_direct_eval_socket
 forbidden_hits = []
 ```
 
+### 2026-07-05 graph147 cocycle quotient branch smoke accepted
+
+The remaining graph147 margin producer now has a concrete quotient diagnostic
+and a bounded Lean-checked proof-shape smoke.
+
+Exact diagnostic quotient profile:
+
+```bash
+python3 scripts/profile_graph183_cocycle_quotients.py \
+  --input scripts/generated/nonid_margin_bellman_top_pairing_000000000_010000000_with_step_tri_source_graph.json \
+  --json scripts/generated/graph147_cocycle_quotients_0_10M.json \
+  --markdown scripts/generated/graph147_cocycle_quotients_0_10M.md
+```
+
+Result:
+
+```text
+decision = cocycle_quotient_candidates_found
+best mode = step-stack
+full states = 970
+quotient states = 44
+full edge-label equations = 1054
+quotient edges = 206
+raw gain collision groups = 0
+max rational bit length = 10
+```
+
+The `step-par` quotient is rejected for this graph147 profile because it has
+11 raw-gain collision groups; `step-stack` is accepted as the smallest observed
+consistent quotient candidate.  This remains diagnostic only: it is not
+coverage and does not prove the margin family.
+
+Generated bounded branch smoke:
+
+```bash
+python3 -m py_compile \
+  scripts/profile_graph183_cocycle_quotients.py \
+  scripts/emit_graph147_cocycle_quotient_branch_smoke.py
+
+python3 scripts/emit_graph147_cocycle_quotient_branch_smoke.py
+```
+
+Emitted Lean module:
+
+```text
+Cuboctahedron/Generated/NonIdentity/Residual/
+  BellmanTopPairingGraph147CocycleQuotientBranchSmoke.lean
+```
+
+The smoke checks the `step-stack` cocycle quotient on the two observed graph147
+branch prefixes in the 10M profile:
+
+```text
+[xm, ym, yp, zm, ...]
+[xm, ym, zm, yp, ...]
+```
+
+It exports:
+
+```lean
+theorem graph147QuotientStep
+theorem graph147YpZmBranchRawGain_contract
+theorem graph147YpZmBranchMargin_contract
+theorem graph147YpZmQuotientBranchSmoke
+theorem graph147ZmYpBranchRawGain_contract
+theorem graph147ZmYpBranchMargin_contract
+theorem graph147ZmYpQuotientBranchSmoke
+```
+
+Both representative branch raw gains are `-552`, so the graph-constant margin
+contract is:
+
+```lean
+(176 : Int) + graph147YpZmBranchRawGain = (-376 : Int)
+(176 : Int) + graph147ZmYpBranchRawGain = (-376 : Int)
+```
+
+Focused guarded build:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 10000 \
+  --min-available-mib 30000 -- \
+  env LEAN_NUM_THREADS=1 LAKE_JOBS=1 \
+    lake build \
+      Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraph147CocycleQuotientBranchSmoke
+```
+
+Result:
+
+```text
+pass; elapsed=8.01s; peak_tree_rss=4033 MiB; min_available=46075 MiB
+```
+
+Single-file source check:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 10000 \
+  --min-available-mib 30000 \
+  --json scripts/generated/graph147_cocycle_quotient_branch_smoke_lean_guard.json -- \
+  env LEAN_NUM_THREADS=1 lake env lean \
+    Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraph147CocycleQuotientBranchSmoke.lean
+```
+
+Result:
+
+```text
+pass; elapsed=2.00s; peak_tree_rss=3574 MiB; min_available=46341 MiB
+```
+
+Forbidden-token scan:
+
+```bash
+grep -nE "sorry|admit|axiom|native_decide|unsafe|SampledRankIndex|sampledContainsRank|sampledRankOf|SelectedPrefix|acceptedTraceOfId" \
+  Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraph147CocycleQuotientBranchSmoke.lean
+```
+
+Result:
+
+```text
+pass; no matches
+```
+
+Readiness audit now records:
+
+```text
+cocycle_branch_smoke_status = diagnostic_branch_smoke_passed
+cocycle_branch_smoke_symbols.graph147YpZmQuotientBranchSmoke = true
+cocycle_branch_smoke_symbols.graph147ZmYpQuotientBranchSmoke = true
+forbidden_hits = []
+```
+
+Decision: promote the graph147 margin route from "socket only" to
+"diagnostic quotient candidate with Lean-checked bounded branch smoke."  It is
+not complete enough for coverage.  The next producer slice should either:
+
+1. shard and Lean-check the 206 quotient-edge local equations for the full
+   10M graph147/top-pairing profile, or
+2. prove the semantic `StrengthenedGraph147RootMarginBundle` directly using a
+   target-tail/cocycle quotient theorem.
+
+If full-edge quotient checking needs exact affine RHS, solved start-point keys,
+selected-prefix classes, sampled ranks, or one branch per observed path, reject
+this coordinate and move to the cancellation-summary quotient route.
+
 ### 2026-07-05 graph153/155 through terminal graph141/138 local tables accepted
 
 The shared graph147 lane for `yp_zm` / `zm_yp` has advanced one more

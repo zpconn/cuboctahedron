@@ -47,6 +47,12 @@ GRAPH147_DIRECT_EVAL_SOCKET_FILE = (
     / "BellmanTopPairingDepth11Layer4Graph147DirectEvalSocket.lean"
 )
 
+GRAPH147_COCYCLE_BRANCH_SMOKE_FILE = (
+    ROOT
+    / "Cuboctahedron/Generated/NonIdentity/Residual/"
+    / "BellmanTopPairingGraph147CocycleQuotientBranchSmoke.lean"
+)
+
 GRAPH221_FILE = (
     ROOT
     / "Cuboctahedron/Generated/NonIdentity/Residual/"
@@ -291,6 +297,16 @@ GRAPH147_DIRECT_EVAL_SOCKET_REQUIRED = [
     "graphExactEvalGateAtRank_of_rootMarginBundle_zm_yp",
 ]
 
+GRAPH147_COCYCLE_BRANCH_SMOKE_REQUIRED = [
+    "graph147QuotientStep",
+    "graph147YpZmBranchRawGain_contract",
+    "graph147YpZmBranchMargin_contract",
+    "graph147YpZmQuotientBranchSmoke",
+    "graph147ZmYpBranchRawGain_contract",
+    "graph147ZmYpBranchMargin_contract",
+    "graph147ZmYpQuotientBranchSmoke",
+]
+
 ZMTMPP_CHAIN_REQUIRED = [
     "strengthenedClosedPrefix5ZmTmppTpppEvalState",
     "strengthenedClosed_prefix5_zm_tmpp_tppp_next_from_prefix4ZmTmpp",
@@ -401,6 +417,11 @@ def main() -> int:
         if GRAPH147_DIRECT_EVAL_SOCKET_FILE.exists()
         else ""
     )
+    graph147_cocycle_branch_smoke_text = (
+        GRAPH147_COCYCLE_BRANCH_SMOKE_FILE.read_text()
+        if GRAPH147_COCYCLE_BRANCH_SMOKE_FILE.exists()
+        else ""
+    )
     graph221_text = GRAPH221_FILE.read_text() if GRAPH221_FILE.exists() else ""
     graph183_ok, graph183_missing = contains_all(graph183_text, GRAPH183_REQUIRED)
     graph151_partial_ok, graph151_partial_missing = contains_all(
@@ -446,6 +467,12 @@ def main() -> int:
         contains_all(
             graph147_direct_eval_socket_text,
             GRAPH147_DIRECT_EVAL_SOCKET_REQUIRED,
+        )
+    )
+    graph147_cocycle_branch_smoke_ok, graph147_cocycle_branch_smoke_missing = (
+        contains_all(
+            graph147_cocycle_branch_smoke_text,
+            GRAPH147_COCYCLE_BRANCH_SMOKE_REQUIRED,
         )
     )
     zm_tmpp_chain_ok, zm_tmpp_chain_missing = contains_all(
@@ -782,12 +809,22 @@ def main() -> int:
                     symbol: symbol not in graph147_direct_eval_socket_missing
                     for symbol in GRAPH147_DIRECT_EVAL_SOCKET_REQUIRED
                 },
+                "cocycle_branch_smoke_symbols": {
+                    symbol: symbol not in graph147_cocycle_branch_smoke_missing
+                    for symbol in GRAPH147_COCYCLE_BRANCH_SMOKE_REQUIRED
+                },
+                "cocycle_branch_smoke_status": (
+                    "diagnostic_branch_smoke_passed"
+                    if graph147_cocycle_branch_smoke_ok
+                    else "missing_diagnostic_branch_smoke"
+                ),
                 "forbidden_hits": [
                     token
                     for token in FORBIDDEN
                     if token in next_frontier_text
                     or token in target_completion_shard000_text
                     or token in graph147_direct_eval_socket_text
+                    or token in graph147_cocycle_branch_smoke_text
                 ],
                 "remaining_gap": (
                     "graph147 now has a direct semantic eval socket for the "
@@ -801,6 +838,8 @@ def main() -> int:
                     "Graph147TargetCompletionTailRootMarginBound fields.  The "
                     "Lean socket derives the tail and adapts the margin-only "
                     "bundle to the compatibility tail-plus-margin family.  "
+                    "A bounded cocycle quotient branch smoke supports this "
+                    "route diagnostically but is not coverage evidence.  "
                     "Tail plus margin then produce "
                     "TopPairingGraphExactEvalGateAtRank directly.  The lane "
                     "is still partial until those margin fields are proved "

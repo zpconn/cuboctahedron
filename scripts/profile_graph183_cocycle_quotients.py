@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Profile cocycle/gauge quotients for the graph183 margin frontier.
+"""Profile cocycle/gauge quotients for a Bellman margin graph export.
 
 This is untrusted diagnostic infrastructure.  It reads the exact Bellman graph
 export produced by `nonidentity_margin_bellman_profile.py` and checks whether
@@ -369,7 +369,7 @@ def quotient_report(
 
 def render_markdown(payload: dict[str, Any]) -> str:
     lines = [
-        "# Graph183 Cocycle Quotient Profile",
+        "# Cocycle Quotient Profile",
         "",
         "Untrusted diagnostic output.  This file is not Lean proof evidence.",
         "",
@@ -474,7 +474,7 @@ def main() -> int:
             for row in quotients
         ]
     payload = {
-        "mode": "graph183-cocycle-quotient-profile",
+        "mode": "cocycle-quotient-profile",
         "input": args.input.as_posix(),
         "arithmetic": "exact rational diagnostic; not proof evidence",
         "quotients": quotients,
