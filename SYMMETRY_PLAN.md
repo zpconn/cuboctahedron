@@ -105111,6 +105111,59 @@ Result:
 pass; no matches
 ```
 
+### 2026-07-05 generic quotient-run Bellman bound accepted
+
+The graph147 cocycle quotient route now has a reusable Lean-checked core
+theorem, not only generated edge diagnostics.  `Cuboctahedron/Search/
+BellmanPotential.lean` now exposes:
+
+```lean
+theorem rawGain_le_of_quotient_labelStepRun
+theorem const_add_rawGain_nonpos_of_quotient_labelStepRun
+```
+
+These theorems are the generic bridge needed by the future graph147 root-margin
+producer:
+
+- a full label-step run factors through a smaller quotient step relation plus
+  a gauge/coboundary term;
+- the quotient run is bounded by a small-state Bellman potential;
+- therefore the original raw gain is bounded, and under a root/gauge bound
+  `const + rawGain <= 0`.
+
+This is intentionally independent of graph147 and does not prove coverage.  It
+is the checked proof principle that the next graph147
+`StrengthenedGraph147RootMarginBundle` producer should use after it proves the
+closed-language-to-quotient-evaluator membership theorem.
+
+Focused guarded build:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 10000 \
+  --min-available-mib 30000 \
+  --json scripts/generated/bellman_potential_quotient_bound_guard.json -- \
+  env LEAN_NUM_THREADS=1 LAKE_JOBS=1 \
+    lake build Cuboctahedron.Search.BellmanPotential
+```
+
+Result:
+
+```text
+pass; elapsed=7.01s; peak_tree_rss=4117 MiB; min_available=46009 MiB
+```
+
+Interpretation:
+
+- The quotient route has a small trusted Bellman/cocycle theorem in core Lean.
+- The graph147 edge shards remain diagnostic because they do not yet supply
+  semantic membership from `TopPairingStrengthenedClosedLanguageAtRank`.
+- The next accepted production slice must connect the graph147 closed language
+  to a quotient run using target-cursor/product-state semantics.  If that
+  proof wants selected prefixes, sampled ranks, accepted traces, exact affine
+  keys, or one branch per observed path, reject it and switch to a
+  cancellation-segment algebra or stronger quotient state.
+
 ### 2026-07-05 graph147 cocycle quotient edge shards accepted
 
 The graph147 margin route has been advanced from the two-branch cocycle smoke
