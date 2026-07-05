@@ -46,6 +46,9 @@ GAUGE_AUDIT = ROOT / "scripts/generated/graph147_gauge_corrected_potential_0_10M
 COCYCLE_QUOTIENT_AUDIT = (
     ROOT / "scripts/generated/graph147_cocycle_quotient_potential_0_10M.json"
 )
+OBJECT_MARGIN_PROFILE = (
+    ROOT / "scripts/generated/graph147_object_margin_profile.json"
+)
 
 SELECTED_PREFIX_DIAGNOSTIC_FILES = [
     ROOT
@@ -345,6 +348,7 @@ def main() -> None:
     ranked_eval_symbols = contains_all(ranked_eval_text, RANKED_EVAL_SYMBOLS)
     gauge_data = read_json(GAUGE_AUDIT)
     cocycle_quotient_data = read_json(COCYCLE_QUOTIENT_AUDIT)
+    object_margin_profile = read_json(OBJECT_MARGIN_PROFILE)
     gauge_decision = gauge_data.get("decision")
     gauge_accepted_modes = gauge_data.get("accepted_modes", [])
     cocycle_quotient_decision = cocycle_quotient_data.get("decision")
@@ -463,6 +467,35 @@ def main() -> None:
             "decision": cocycle_quotient_decision,
             "accepted_modes": cocycle_quotient_accepted_modes,
             "quotient_not_margin_complete": quotient_not_margin_complete,
+        },
+        "object_margin_profile": {
+            "file": str(OBJECT_MARGIN_PROFILE.relative_to(ROOT)),
+            "exists": OBJECT_MARGIN_PROFILE.exists(),
+            "proof_relevance": object_margin_profile.get("proof_relevance"),
+            "graph147_class_count": object_margin_profile.get(
+                "graph147_class_count"
+            ),
+            "graph147_total_observed_count": object_margin_profile.get(
+                "graph147_total_observed_count"
+            ),
+            "all_prefix_gains_match_socket": object_margin_profile.get(
+                "all_prefix_gains_match_socket"
+            ),
+            "all_margins_le_expected_bounds": object_margin_profile.get(
+                "all_margins_le_expected_bounds"
+            ),
+            "all_margins_equal_expected_bounds": object_margin_profile.get(
+                "all_margins_equal_expected_bounds"
+            ),
+            "next_producer_target": object_margin_profile.get(
+                "next_producer_target"
+            ),
+            "interpretation": (
+                "Diagnostic only: the existing 10M profile has four graph147 "
+                "object classes, two per branch, whose margins exactly match "
+                "the ranked-eval object bound.  The production theorem must "
+                "prove the same bound semantically for graph147 objects."
+            ),
         },
         "direct_margin_inv_producer": {
             "symbol": PRODUCTION_PRODUCER_SYMBOL,
@@ -586,6 +619,25 @@ def main() -> None:
             f"- accepted modes: `{data['cocycle_quotient_audit']['accepted_modes']}`",
             "- quotient not margin complete: "
             f"`{str(data['cocycle_quotient_audit']['quotient_not_margin_complete']).lower()}`",
+            "",
+            "## Object-Margin Profile",
+            "",
+            f"- file: `{data['object_margin_profile']['file']}`",
+            f"- exists: `{str(data['object_margin_profile']['exists']).lower()}`",
+            "- proof relevance: "
+            f"`{data['object_margin_profile']['proof_relevance']}`",
+            "- graph147 class count: "
+            f"`{data['object_margin_profile']['graph147_class_count']}`",
+            "- graph147 observed count: "
+            f"`{data['object_margin_profile']['graph147_total_observed_count']}`",
+            "- prefix gains match socket: "
+            f"`{str(data['object_margin_profile']['all_prefix_gains_match_socket']).lower()}`",
+            "- margins <= expected bounds: "
+            f"`{str(data['object_margin_profile']['all_margins_le_expected_bounds']).lower()}`",
+            "- margins equal expected bounds: "
+            f"`{str(data['object_margin_profile']['all_margins_equal_expected_bounds']).lower()}`",
+            f"- interpretation: {data['object_margin_profile']['interpretation']}",
+            f"- next producer target: {data['object_margin_profile']['next_producer_target']}",
             "",
             "## Direct MarginInv Producer",
             "",

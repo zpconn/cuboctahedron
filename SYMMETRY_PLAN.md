@@ -117891,3 +117891,86 @@ ranks, selected prefixes, acceptedTraceOfId, exact affine RHS, solved starts,
 or stored trace tables, reject the attempt and strengthen the semantic state or
 quotient instead.
 ```
+
+#### 2026-07-05 graph147 object-margin profile audit added
+
+Status: diagnostic-only, useful for the next producer; not Lean evidence.
+
+A new audit extracts graph147 object-margin classes from the existing 10M
+top-pairing profile and checks them against the newly exposed ranked-eval
+object-bound socket:
+
+```text
+scaledMargin rank ≤ 176 + (-53 + suffixGain)
+```
+
+Observed diagnostic result:
+
+```text
+graph147_class_count = 4
+graph147_total_observed_count = 4
+yp_zm classes = 2
+zm_yp classes = 2
+all_prefix_gains_match_socket = true
+all_margins_le_expected_bounds = true
+all_margins_equal_expected_bounds = true
+suffix_gain = -499 for all four observed classes
+expected bound = -376 for all four observed classes
+```
+
+The profile classes are:
+
+```text
+yp_zm:
+  xm ym yp zm zp tmmm tpmm tppm tpmp tmpm tppp tmpp tmmp xp
+  xm ym yp zm tmmp tpmp tppp tpmm tmpp tppm tmpm tmmm zp xp
+
+zm_yp:
+  xm ym zm yp zp tmmm tpmm tppm tpmp tmpm tppp tmpp tmmp xp
+  xm ym zm yp tmmp tpmp tppp tpmm tmpp tppm tmpm tmmm zp xp
+```
+
+Interpretation:
+
+```text
+The current 10M graph147 evidence is very small at the object-margin level:
+two suffix shapes per branch.  This strongly supports trying a semantic
+object-family producer first.  The audit remains untrusted and must not be
+imported as proof evidence.  The Lean proof still needs to derive the same
+bound from Graph147YpZmRankedEvalMarginObj / Graph147ZmYpRankedEvalMarginObj
+using target cursor, schedule/square-gap/local-axis, pair-count/used-face, and
+deterministic graph147 state facts.
+```
+
+Commands run:
+
+```bash
+python3 -m py_compile scripts/audit_graph147_object_margin_profile.py
+python3 scripts/audit_graph147_object_margin_profile.py
+python3 -m py_compile \
+  scripts/audit_graph147_object_margin_profile.py \
+  scripts/audit_graph147_ranked_transducer_frontier.py
+python3 scripts/audit_graph147_ranked_transducer_frontier.py
+```
+
+Results:
+
+```text
+graph147 object-margin profile audit: passed
+frontier audit: passed; object_margin_profile records 4 diagnostic classes,
+  all exact on the ranked-eval object bound
+```
+
+Next implementation target:
+
+```text
+Generate or hand-prove the first semantic object family:
+
+  StrengthenedGraph147RankedEvalMarginObjectFamily
+
+The first bounded theorem can target exactly the two observed suffix shapes per
+branch, but the membership proof must be semantic over the object fields, not
+over path-class ids.  If that theorem cannot be proved from the current
+object fields, promote the missing suffix-shape/cancellation facts into the
+semantic object state rather than falling back to sampled traces.
+```

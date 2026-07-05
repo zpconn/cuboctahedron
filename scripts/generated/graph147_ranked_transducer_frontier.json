@@ -36,41 +36,53 @@
     "marker": "mandatory_graph147_semantic_transducer_pivot",
     "meaning": "Graph147 production must be a deterministic closed-language to evaluator theorem.  Selected-prefix/root-trace coverage is diagnostic only unless it is replaced by semantic local transition and margin invariant evidence.",
     "plan_markers": {
-      "No selected-prefix/root-trace scaling": true,
-      "Root-trace diagnostics only": true,
-      "Selected-prefix diagnostics only": true,
+      "No selected-prefix/root-trace scaling": false,
+      "Root-trace diagnostics only": false,
+      "Selected-prefix diagnostics only": false,
       "StrengthenedGraph147RankedShardMarginInvariantFamily": true,
-      "closed-language-to-eval theorem": true,
-      "mandatory_graph147_semantic_transducer_pivot": true,
-      "reject_selected_prefix_membership_scaling": true,
-      "semantic_branch_start_margin_or_cocycle_quotient": true,
-      "sequenceBadFace_ok is only a carrier": true,
-      "target-shadow cursor": true
+      "closed-language-to-eval theorem": false,
+      "mandatory_graph147_semantic_transducer_pivot": false,
+      "reject_selected_prefix_membership_scaling": false,
+      "semantic_branch_start_margin_or_cocycle_quotient": false,
+      "sequenceBadFace_ok is only a carrier": false,
+      "target-shadow cursor": false
     }
   },
   "next_step": "Generate or prove the semantic graph147 margin invariant producer.  The immediate target is StrengthenedGraph147RankedEvalMarginObjectFamily, whose objects are rank plus strengthened closed-language proof plus the branch prefix/rest decomposition.  If a local invariant is the better proof shape, instantiate StrengthenedGraph147RankedShardMarginInvariantFamily from target-shadow cursor, schedule/square-gap/local-axis tail, pair-count/used-face facts, graph147 Bellman state semantics, or a checked segment/cocycle quotient.  The existing gauge-corrected full graph is only a diagnostic candidate; the existing quotient audit says no coarser quotient is margin-complete yet.  Do not use sampled ranks, selected prefixes, accepted trace ids, exact affine keys, or per-observed-path membership.",
+  "object_margin_profile": {
+    "all_margins_equal_expected_bounds": true,
+    "all_margins_le_expected_bounds": true,
+    "all_prefix_gains_match_socket": true,
+    "exists": true,
+    "file": "scripts/generated/graph147_object_margin_profile.json",
+    "graph147_class_count": 4,
+    "graph147_total_observed_count": 4,
+    "interpretation": "Diagnostic only: the existing 10M profile has four graph147 object classes, two per branch, whose margins exactly match the ranked-eval object bound.  The production theorem must prove the same bound semantically for graph147 objects.",
+    "next_producer_target": "StrengthenedGraph147RankedEvalMarginObjectFamily; prove the same suffix-gain margin inequalities semantically over Graph147YpZmRankedEvalMarginObj and Graph147ZmYpRankedEvalMarginObj, not by importing this diagnostic path-class table.",
+    "proof_relevance": "diagnostic only; no Lean evidence"
+  },
   "plan_tail": {
     "file": "SYMMETRY_PLAN.md",
     "pivot_markers": {
-      "No selected-prefix/root-trace scaling": true,
-      "Root-trace diagnostics only": true,
-      "Selected-prefix diagnostics only": true,
+      "No selected-prefix/root-trace scaling": false,
+      "Root-trace diagnostics only": false,
+      "Selected-prefix diagnostics only": false,
       "StrengthenedGraph147RankedShardMarginInvariantFamily": true,
-      "closed-language-to-eval theorem": true,
-      "mandatory_graph147_semantic_transducer_pivot": true,
-      "reject_selected_prefix_membership_scaling": true,
-      "semantic_branch_start_margin_or_cocycle_quotient": true,
-      "sequenceBadFace_ok is only a carrier": true,
-      "target-shadow cursor": true
+      "closed-language-to-eval theorem": false,
+      "mandatory_graph147_semantic_transducer_pivot": false,
+      "reject_selected_prefix_membership_scaling": false,
+      "semantic_branch_start_margin_or_cocycle_quotient": false,
+      "sequenceBadFace_ok is only a carrier": false,
+      "target-shadow cursor": false
     },
     "symbols": {
       "StrengthenedGraph147RankedEvalMarginBundle": true,
       "StrengthenedGraph147RankedEvalMarginInvariantFamily": true,
       "StrengthenedGraph147RankedEvalMarginObjectFamily": true,
       "StrengthenedGraph147RankedShardMarginInvariantFamily": true,
-      "rankedEvalMarginBundle_of_rankedEvalMarginInvariantFamily": true,
+      "rankedEvalMarginBundle_of_rankedEvalMarginInvariantFamily": false,
       "rankedEvalMarginBundle_of_rankedEvalMarginObjectFamily": true,
-      "rankedEvalMarginBundle_of_rankedShardMarginInvariantFamily": true,
+      "rankedEvalMarginBundle_of_rankedShardMarginInvariantFamily": false,
       "ready_for_ranked_eval_margin_bundle_producer": true,
       "rootMarginBundle_of_rankedEvalMarginBundle": true
     }
@@ -313,5 +325,5 @@
       "strengthenedGraph147BranchSuffixStartBundle": true
     }
   },
-  "status": "ready_for_ranked_eval_margin_bundle_producer"
+  "status": "ranked_transducer_frontier_incomplete"
 }

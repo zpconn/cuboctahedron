@@ -1,6 +1,6 @@
 # Graph147 Ranked Transducer Frontier
 
-- status: `ready_for_ranked_eval_margin_bundle_producer`
+- status: `ranked_transducer_frontier_incomplete`
 - socket file: `Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingDepth11Layer4Graph147DirectEvalSocket.lean`
 - ranked eval socket: `Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingDepth11Layer4Graph147RankedEvalSocket.lean`
 - forbidden hits: `none`
@@ -77,22 +77,22 @@
 - `StrengthenedGraph147RankedShardMarginInvariantFamily`: `true`
 - `StrengthenedGraph147RankedEvalMarginBundle`: `true`
 - `rankedEvalMarginBundle_of_rankedEvalMarginObjectFamily`: `true`
-- `rankedEvalMarginBundle_of_rankedShardMarginInvariantFamily`: `true`
-- `rankedEvalMarginBundle_of_rankedEvalMarginInvariantFamily`: `true`
+- `rankedEvalMarginBundle_of_rankedShardMarginInvariantFamily`: `false`
+- `rankedEvalMarginBundle_of_rankedEvalMarginInvariantFamily`: `false`
 - `rootMarginBundle_of_rankedEvalMarginBundle`: `true`
 
 ## Mandatory Pivot Markers
 
-- `mandatory_graph147_semantic_transducer_pivot`: `true`
-- `reject_selected_prefix_membership_scaling`: `true`
-- `semantic_branch_start_margin_or_cocycle_quotient`: `true`
-- `sequenceBadFace_ok is only a carrier`: `true`
-- `closed-language-to-eval theorem`: `true`
-- `target-shadow cursor`: `true`
-- `No selected-prefix/root-trace scaling`: `true`
+- `mandatory_graph147_semantic_transducer_pivot`: `false`
+- `reject_selected_prefix_membership_scaling`: `false`
+- `semantic_branch_start_margin_or_cocycle_quotient`: `false`
+- `sequenceBadFace_ok is only a carrier`: `false`
+- `closed-language-to-eval theorem`: `false`
+- `target-shadow cursor`: `false`
+- `No selected-prefix/root-trace scaling`: `false`
 - `StrengthenedGraph147RankedShardMarginInvariantFamily`: `true`
-- `Selected-prefix diagnostics only`: `true`
-- `Root-trace diagnostics only`: `true`
+- `Selected-prefix diagnostics only`: `false`
+- `Root-trace diagnostics only`: `false`
 
 ## Semantic Inputs
 
@@ -150,6 +150,19 @@
 - decision: `no_existing_quotient_margin_candidate`
 - accepted modes: `[]`
 - quotient not margin complete: `true`
+
+## Object-Margin Profile
+
+- file: `scripts/generated/graph147_object_margin_profile.json`
+- exists: `true`
+- proof relevance: `diagnostic only; no Lean evidence`
+- graph147 class count: `4`
+- graph147 observed count: `4`
+- prefix gains match socket: `true`
+- margins <= expected bounds: `true`
+- margins equal expected bounds: `true`
+- interpretation: Diagnostic only: the existing 10M profile has four graph147 object classes, two per branch, whose margins exactly match the ranked-eval object bound.  The production theorem must prove the same bound semantically for graph147 objects.
+- next producer target: StrengthenedGraph147RankedEvalMarginObjectFamily; prove the same suffix-gain margin inequalities semantically over Graph147YpZmRankedEvalMarginObj and Graph147ZmYpRankedEvalMarginObj, not by importing this diagnostic path-class table.
 
 ## Direct MarginInv Producer
 
