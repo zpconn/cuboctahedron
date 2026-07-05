@@ -105142,6 +105142,9 @@ theorem ShardTargetSuffixOk.first_step_graph_sound
 theorem ShardTargetSuffixOk.of_targetCompletionTail
 theorem ShardTargetSuffixOk.eval_exists_of_external
 theorem eval_exists_of_targetCompletionTail
+inductive TerminalExternalOk
+theorem TerminalExternalOk.final_nonneg
+theorem TerminalExternalOk.eval_exists
 theorem nextTarget?_prefix4YpZm_zp
 theorem nextTarget?_prefix4YpZm_tmmp
 theorem nextTarget?_terminal_graph112
@@ -105200,6 +105203,15 @@ closed target-completion language to deterministic evaluator, with no
 sampled-rank, selected-prefix, accepted-trace, exact-affine, or
 per-observed-path membership layer.
 
+Fourth follow-up accepted in the same shard:
+`TerminalExternalOk` packages the two genuinely terminal external exits for
+this graph147 lane, graph states `141` and `138`, with empty remaining label
+lists.  `TerminalExternalOk.eval_exists` proves the empty-tail evaluator socket
+for those exits, and `TerminalExternalOk.final_nonneg` reuses the sharded
+Bellman potential facts `final_nonneg_028` and `final_nonneg_025`.  This does
+not treat graph150/151 as terminal; those remain continuation sockets for other
+lanes.
+
 Focused guarded build:
 
 ```bash
@@ -105214,9 +105226,12 @@ python3 scripts/run_memory_guarded.py \
 Result:
 
 ```text
-pass; elapsed=5.00s; peak_tree_rss=4022 MiB; min_available=46079 MiB
+pass; elapsed=8.01s; peak_tree_rss=4037 MiB; min_available=46034 MiB
 ```
 
+The previous focused build after `eval_exists_of_targetCompletionTail` passed
+under the same guard in `5.00s` with `4022 MiB` peak tree RSS and `46079 MiB`
+minimum available memory.
 The previous focused build after `ShardTargetSuffixOk.of_targetCompletionTail`
 also passed under the same guard in `4.00s` with `4070 MiB` peak tree RSS.
 The checkpoint rerun against existing artifacts also passed under the same
@@ -105260,17 +105275,21 @@ deterministic_target_shard_symbols.nextTarget?_shard_sound = true
 deterministic_target_shard_symbols.ShardTargetSuffixOk.of_targetCompletionTail = true
 deterministic_target_shard_symbols.ShardTargetSuffixOk.eval_exists_of_external = true
 deterministic_target_shard_symbols.eval_exists_of_targetCompletionTail = true
+deterministic_target_shard_symbols.TerminalExternalOk = true
+deterministic_target_shard_symbols.TerminalExternalOk.eval_exists = true
+deterministic_target_shard_symbols.TerminalExternalOk.final_nonneg = true
 forbidden_hits = []
 ```
 
 Remaining formal boundary:
 
 ```text
-prove a terminal semantic eval/margin gate that recurses over nextTarget?
+prove the terminal margin socket, graph150/151 continuation sockets, and the
+rank-parametric closed-language-to-eval theorem that recurses over nextTarget?
 and turns TopPairingStrengthenedClosedLanguageAtRank /
-TopPairingClosedLanguageAtRank into the rank-parametric evaluator result and
-scaledMargin <= 176 + gain, using the new target-completion-to-suffix theorem
-plus external graph sockets, without selected-prefix, sampled-rank,
+TopPairingClosedLanguageAtRank into the evaluator result and
+scaledMargin <= 176 + gain, using the target-completion-to-suffix theorem plus
+the terminal/external graph sockets, without selected-prefix, sampled-rank,
 accepted-trace, exact-affine, or per-observed-path membership.
 ```
 

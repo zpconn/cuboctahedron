@@ -50,6 +50,9 @@
         "ShardTargetSuffixOk": true,
         "ShardTargetSuffixOk.eval_exists_of_external": true,
         "ShardTargetSuffixOk.of_targetCompletionTail": true,
+        "TerminalExternalOk": true,
+        "TerminalExternalOk.eval_exists": true,
+        "TerminalExternalOk.final_nonneg": true,
         "emittedShardExternalTargetCount": true,
         "eval_exists_of_targetCompletionTail": true,
         "nextTarget?": true,
@@ -161,7 +164,7 @@
         "strengthenedPrefix10Graph11TargetCompletionLocalBranchTable": true,
         "strengthenedPrefix10Graph6TargetCompletionLocalBranchTable": true
       },
-      "remaining_gap": "graph147 now reaches terminal graph states 141 and 138 and the bounded shard exposes a deterministic nextTarget? API from semantic shard states to either the next shard state or an external graph target.  It also proves that target-completion tails feed the recursive ShardTargetSuffixOk predicate and compose to evaluator existence under external graph sockets.  The lane still needs the external terminal semantic eval/margin sockets and the rank-parametric closed-language-to-eval theorem without selected-prefix or sampled-rank membership.",
+      "remaining_gap": "graph147 now reaches terminal graph states 141 and 138 and the bounded shard exposes a deterministic nextTarget? API from semantic shard states to either the next shard state or an external graph target.  It also proves that target-completion tails feed the recursive ShardTargetSuffixOk predicate and compose to evaluator existence under external graph sockets.  It now also has terminal empty-tail evaluator/final-potential sockets for graph states 141 and 138.  The lane still needs the terminal margin socket, graph150/151 continuation sockets, and the rank-parametric closed-language-to-eval theorem without selected-prefix or sampled-rank membership.",
       "required_symbols": {
         "Graph147TargetCompletionTail": true,
         "graph147TargetCompletionState": true,
@@ -299,6 +302,9 @@
         "ShardTargetSuffixOk": true,
         "ShardTargetSuffixOk.eval_exists_of_external": true,
         "ShardTargetSuffixOk.of_targetCompletionTail": true,
+        "TerminalExternalOk": true,
+        "TerminalExternalOk.eval_exists": true,
+        "TerminalExternalOk.final_nonneg": true,
         "emittedShardExternalTargetCount": true,
         "eval_exists_of_targetCompletionTail": true,
         "nextTarget?": true,
@@ -410,7 +416,7 @@
         "strengthenedPrefix10Graph11TargetCompletionLocalBranchTable": true,
         "strengthenedPrefix10Graph6TargetCompletionLocalBranchTable": true
       },
-      "remaining_gap": "graph147 now reaches terminal graph states 141 and 138 and the bounded shard exposes a deterministic nextTarget? API from semantic shard states to either the next shard state or an external graph target.  It also proves that target-completion tails feed the recursive ShardTargetSuffixOk predicate and compose to evaluator existence under external graph sockets.  The lane still needs the external terminal semantic eval/margin sockets and the rank-parametric closed-language-to-eval theorem without selected-prefix or sampled-rank membership.",
+      "remaining_gap": "graph147 now reaches terminal graph states 141 and 138 and the bounded shard exposes a deterministic nextTarget? API from semantic shard states to either the next shard state or an external graph target.  It also proves that target-completion tails feed the recursive ShardTargetSuffixOk predicate and compose to evaluator existence under external graph sockets.  It now also has terminal empty-tail evaluator/final-potential sockets for graph states 141 and 138.  The lane still needs the terminal margin socket, graph150/151 continuation sockets, and the rank-parametric closed-language-to-eval theorem without selected-prefix or sampled-rank membership.",
       "required_symbols": {
         "Graph147TargetCompletionTail": true,
         "graph147TargetCompletionState": true,

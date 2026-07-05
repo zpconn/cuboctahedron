@@ -13,6 +13,7 @@ namespace Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingClosedBe
 
 open Cuboctahedron
 open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingClosedBellmanStrengthenedPrefixRunSmoke
+open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingClosedBellmanStrengthenedShardedSmoke.Potential
 
 inductive ShardState where
   | prefix4YpZm
@@ -755,6 +756,32 @@ theorem eval_exists_of_targetCompletionTail
     hexternalEval
     (ShardTargetSuffixOk.of_targetCompletionTail
       (ExternalOk := ExternalOk) hexternalOk htail)
+
+inductive TerminalExternalOk : Nat -> List Face -> Prop where
+  | graph141 : TerminalExternalOk 141 []
+  | graph138 : TerminalExternalOk 138 []
+
+theorem TerminalExternalOk.final_nonneg
+    {graph : Nat} {rest : List Face}
+    (hok : TerminalExternalOk graph rest) :
+    0 <= graphPotential graph := by
+  cases hok
+  · exact final_nonneg_028
+  · exact final_nonneg_025
+
+theorem TerminalExternalOk.eval_exists
+    {state : ShardState} {graph : Nat} {face : Face} {gain : Int}
+    {rest : List Face}
+    (hstep : nextTarget? state face = some (.externalGraph graph, gain))
+    (hok : TerminalExternalOk graph rest) :
+      ∃ nextState finish tailGain,
+        strengthenedClosedEvalNext (evalState state) face =
+            some (nextState, gain) ∧
+          evalLabelStepFn strengthenedClosedEvalNext nextState rest =
+            some (finish, tailGain) := by
+  rcases nextTarget?_graph_sound hstep with ⟨nextState, hnext, _hgraph⟩
+  cases hok <;>
+    exact ⟨nextState, nextState, 0, hnext, by simp [evalLabelStepFn]⟩
 
 def localBranchTable :
     (state : ShardState) ->
