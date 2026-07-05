@@ -522,6 +522,91 @@
       "passed": true
     },
     {
+      "detail": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraph183ClosedRunFinalState.lean",
+      "name": "graph183_closed_run_final_state:exists",
+      "passed": true
+    },
+    {
+      "detail": "graph183StateDepth",
+      "name": "graph183_closed_run_final_state:symbol:graph183StateDepth",
+      "passed": true
+    },
+    {
+      "detail": "Graph183KnownState",
+      "name": "graph183_closed_run_final_state:symbol:Graph183KnownState",
+      "passed": true
+    },
+    {
+      "detail": "graph183KnownState_root",
+      "name": "graph183_closed_run_final_state:symbol:graph183KnownState_root",
+      "passed": true
+    },
+    {
+      "detail": "graph183KnownState_of_closedBellmanStep",
+      "name": "graph183_closed_run_final_state:symbol:graph183KnownState_of_closedBellmanStep",
+      "passed": true
+    },
+    {
+      "detail": "graph183ClosedBellmanStep_depth",
+      "name": "graph183_closed_run_final_state:symbol:graph183ClosedBellmanStep_depth",
+      "passed": true
+    },
+    {
+      "detail": "graph183StateDepth_of_closedBellmanRun",
+      "name": "graph183_closed_run_final_state:symbol:graph183StateDepth_of_closedBellmanRun",
+      "passed": true
+    },
+    {
+      "detail": "graph183KnownState_of_closedBellmanRun",
+      "name": "graph183_closed_run_final_state:symbol:graph183KnownState_of_closedBellmanRun",
+      "passed": true
+    },
+    {
+      "detail": "graph183ProfileFinalState_of_known_depth14",
+      "name": "graph183_closed_run_final_state:symbol:graph183ProfileFinalState_of_known_depth14",
+      "passed": true
+    },
+    {
+      "detail": "graph183ProfileFinalState_of_closedBellmanRun_length14",
+      "name": "graph183_closed_run_final_state:symbol:graph183ProfileFinalState_of_closedBellmanRun_length14",
+      "passed": true
+    },
+    {
+      "detail": "graph183ClosedRunFinalState_checked",
+      "name": "graph183_closed_run_final_state:symbol:graph183ClosedRunFinalState_checked",
+      "passed": true
+    },
+    {
+      "detail": "SampledRankIndex",
+      "name": "graph183_closed_run_final_state:forbidden_absent:SampledRankIndex",
+      "passed": true
+    },
+    {
+      "detail": "sampledContainsRank",
+      "name": "graph183_closed_run_final_state:forbidden_absent:sampledContainsRank",
+      "passed": true
+    },
+    {
+      "detail": "sampledRankOf",
+      "name": "graph183_closed_run_final_state:forbidden_absent:sampledRankOf",
+      "passed": true
+    },
+    {
+      "detail": "SelectedPrefix",
+      "name": "graph183_closed_run_final_state:forbidden_absent:SelectedPrefix",
+      "passed": true
+    },
+    {
+      "detail": "AcceptedTraceId",
+      "name": "graph183_closed_run_final_state:forbidden_absent:AcceptedTraceId",
+      "passed": true
+    },
+    {
+      "detail": "acceptedTraceOfId",
+      "name": "graph183_closed_run_final_state:forbidden_absent:acceptedTraceOfId",
+      "passed": true
+    },
+    {
       "detail": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraph183AcceptedBranchQuotient.lean",
       "name": "graph183_accepted_branch_quotient:exists",
       "passed": true
@@ -694,6 +779,11 @@
     {
       "detail": "graph183TailQuotientMarginEvalFamily_of_graph183GaugeCorrectedEvalLanguageBound",
       "name": "graph183_quotient_socket:symbol:graph183TailQuotientMarginEvalFamily_of_graph183GaugeCorrectedEvalLanguageBound",
+      "passed": true
+    },
+    {
+      "detail": "graph183GaugeCorrectedEvalLanguageBound_of_strengthenedClosedBellmanStepRunFamily",
+      "name": "graph183_quotient_socket:symbol:graph183GaugeCorrectedEvalLanguageBound_of_strengthenedClosedBellmanStepRunFamily",
       "passed": true
     },
     {
@@ -1155,12 +1245,12 @@
       "passed": true
     },
     {
-      "detail": 4002.796875,
+      "detail": 4016.484375,
       "name": "graph183_quotient_margin_socket:rss_under_6000_mib",
       "passed": true
     },
     {
-      "detail": 46204.04296875,
+      "detail": 46192.7890625,
       "name": "graph183_quotient_margin_socket:available_above_30000_mib",
       "passed": true
     },
@@ -1223,6 +1313,36 @@
       "detail": 46184.75390625,
       "name": "graph183_closed_bellman_bridge:available_above_30000_mib",
       "passed": true
+    },
+    {
+      "detail": 0,
+      "name": "graph183_closed_run_final_state_direct:guard_exit_zero",
+      "passed": true
+    },
+    {
+      "detail": 4419.6796875,
+      "name": "graph183_closed_run_final_state_direct:rss_under_6500_mib",
+      "passed": true
+    },
+    {
+      "detail": 45704.3828125,
+      "name": "graph183_closed_run_final_state_direct:available_above_30000_mib",
+      "passed": true
+    },
+    {
+      "detail": 0,
+      "name": "graph183_closed_run_final_state_lake:guard_exit_zero",
+      "passed": true
+    },
+    {
+      "detail": 4696.0703125,
+      "name": "graph183_closed_run_final_state_lake:rss_under_30000_mib",
+      "passed": true
+    },
+    {
+      "detail": 45345.89453125,
+      "name": "graph183_closed_run_final_state_lake:available_above_30000_mib",
+      "passed": true
     }
   ],
   "decision": "diagnostic_supports_graph183_accepted_tail_margin_bellman_route",
@@ -1250,10 +1370,20 @@
       "min_available_mib": 46184.75390625,
       "peak_rss_mib": 3975.34375
     },
+    "graph183_closed_run_final_state_direct_guard": {
+      "elapsed_seconds": 11.006465079990448,
+      "min_available_mib": 45704.3828125,
+      "peak_rss_mib": 4419.6796875
+    },
+    "graph183_closed_run_final_state_lake_guard": {
+      "elapsed_seconds": 9.00826031100587,
+      "min_available_mib": 45345.89453125,
+      "peak_rss_mib": 4696.0703125
+    },
     "graph183_quotient_margin_socket_guard": {
-      "elapsed_seconds": 8.005825212982018,
-      "min_available_mib": 46204.04296875,
-      "peak_rss_mib": 4002.796875
+      "elapsed_seconds": 3.002727565995883,
+      "min_available_mib": 46192.7890625,
+      "peak_rss_mib": 4016.484375
     },
     "graph183_quotient_potential_direct_guard": {
       "elapsed_seconds": 2.00216292400728,

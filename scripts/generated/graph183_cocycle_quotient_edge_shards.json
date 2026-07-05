@@ -5,6 +5,7 @@
   "core_module": "Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraph183CocycleQuotientCore",
   "edge_equations": 229,
   "final_state_count": 29,
+  "final_state_module": "Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraph183ClosedRunFinalState",
   "max_final_gauge": 86,
   "max_shard_size": 32,
   "max_solution_bit_length": 9,

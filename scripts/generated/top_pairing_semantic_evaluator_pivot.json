@@ -79,6 +79,12 @@
       "missing_symbols": [],
       "path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraph183AcceptedBranchQuotient.lean"
     },
+    "graph183_closed_run_final_state": {
+      "exists": true,
+      "lines": 1217,
+      "missing_symbols": [],
+      "path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraph183ClosedRunFinalState.lean"
+    },
     "graph183_cocycle_quotient_closed_bridge": {
       "exists": true,
       "lines": 534,
@@ -105,7 +111,7 @@
     },
     "graph183_quotient_margin_socket": {
       "exists": true,
-      "lines": 1232,
+      "lines": 1276,
       "missing_symbols": [],
       "path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraph183QuotientMarginSocket.lean"
     },
@@ -349,6 +355,48 @@
       "min_available_seen_mib": 45916.78515625,
       "rss_cap_mib": 12000.0,
       "timeout_seconds": 420.0
+    },
+    "graph183_closed_run_final_state_direct": {
+      "available_floor_mib": 30000.0,
+      "command": [
+        "lake",
+        "env",
+        "lean",
+        "-M",
+        "6500",
+        "-j1",
+        "-s",
+        "8192",
+        "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraph183ClosedRunFinalState.lean"
+      ],
+      "elapsed_seconds": 11.006465079990448,
+      "exit_code": 0,
+      "hard_address_space_mib": 8192.0,
+      "killed_reason": null,
+      "max_tree_rss_kib": 4525752,
+      "max_tree_rss_mib": 4419.6796875,
+      "min_available_seen_kib": 46801288,
+      "min_available_seen_mib": 45704.3828125,
+      "rss_cap_mib": 6500.0,
+      "timeout_seconds": 180.0
+    },
+    "graph183_closed_run_final_state_lake": {
+      "available_floor_mib": 10000.0,
+      "command": [
+        "lake",
+        "build",
+        "+Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraph183ClosedRunFinalState:olean"
+      ],
+      "elapsed_seconds": 9.00826031100587,
+      "exit_code": 0,
+      "hard_address_space_mib": null,
+      "killed_reason": null,
+      "max_tree_rss_kib": 4808776,
+      "max_tree_rss_mib": 4696.0703125,
+      "min_available_seen_kib": 46434196,
+      "min_available_seen_mib": 45345.89453125,
+      "rss_cap_mib": 30000.0,
+      "timeout_seconds": 240.0
     },
     "graph183_cocycle_quotient_closed_bridge": {
       "available_floor_mib": 30000.0,

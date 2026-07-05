@@ -21,6 +21,12 @@ start-violation provider leaves or terminal trace-classifier shards.
 The graph183 branch-local start-violation provider is now a separate
 fixed-template leaf that imports only the lightweight trace
 start-violation bridge, not accepted-trace ids or terminal classifiers.
+A graph-local final-state module is also required: it proves that any
+14-label closed-Bellman run from `graphRoot` finishes in one of the
+profile-final states accepted by the quotient gauge bound.
+The quotient socket now packages a semantic
+`StrengthenedClosedBellmanStepRunFamily` as the graph183
+gauge-corrected evaluator target through that final-state theorem.
 The target-shadow cursor and ranked transducer semantic gate are
 present and are now required by this audit.  The production path must
 flow through those semantic surfaces or through an equivalently small
@@ -84,9 +90,13 @@ observed path remains a no-go.
 | `quotient_potential_lake_guard_peak_rss_mib` | `23154.05078125` |
 | `closed_bellman_bridge_guard_elapsed_seconds` | `4.002917137026088` |
 | `closed_bellman_bridge_guard_peak_rss_mib` | `3975.34375` |
-| `guard_elapsed_seconds` | `8.005825212982018` |
-| `guard_peak_rss_mib` | `4002.796875` |
-| `guard_min_available_mib` | `46204.04296875` |
+| `closed_run_final_state_direct_guard_elapsed_seconds` | `11.006465079990448` |
+| `closed_run_final_state_direct_guard_peak_rss_mib` | `4419.6796875` |
+| `closed_run_final_state_lake_guard_elapsed_seconds` | `9.00826031100587` |
+| `closed_run_final_state_lake_guard_peak_rss_mib` | `4696.0703125` |
+| `guard_elapsed_seconds` | `3.002727565995883` |
+| `guard_peak_rss_mib` | `4016.484375` |
+| `guard_min_available_mib` | `46192.7890625` |
 | `closed_semantic_gate_guard_elapsed_seconds` | `3.0027096020057797` |
 | `closed_semantic_gate_guard_peak_rss_mib` | `3719.16015625` |
 | `closed_semantic_gate_guard_min_available_mib` | `46322.6328125` |
@@ -122,6 +132,7 @@ observed path remains a no-go.
 | `socket:symbol:graph183TailQuotientMarginEvalFamily_of_gaugeCorrectedEvalLanguageBound` | `True` | `graph183TailQuotientMarginEvalFamily_of_gaugeCorrectedEvalLanguageBound` |
 | `socket:symbol:Graph183TailQuotientGaugeCorrectedEvalLanguageBound` | `True` | `Graph183TailQuotientGaugeCorrectedEvalLanguageBound` |
 | `socket:symbol:graph183TailQuotientMarginEvalFamily_of_graph183GaugeCorrectedEvalLanguageBound` | `True` | `graph183TailQuotientMarginEvalFamily_of_graph183GaugeCorrectedEvalLanguageBound` |
+| `socket:symbol:graph183GaugeCorrectedEvalLanguageBound_of_strengthenedClosedBellmanStepRunFamily` | `True` | `graph183GaugeCorrectedEvalLanguageBound_of_strengthenedClosedBellmanStepRunFamily` |
 | `socket:symbol:Graph183TailExactEvalSequenceBadFace` | `True` | `Graph183TailExactEvalSequenceBadFace` |
 | `socket:symbol:graph183TailExactEvalSequenceBadFace_of_strengthenedGraphExactEvalGate` | `True` | `graph183TailExactEvalSequenceBadFace_of_strengthenedGraphExactEvalGate` |
 | `socket:symbol:acceptedSequenceGraph183AcceptedBranchQuotientMarginFamily_of_labelMargin` | `True` | `acceptedSequenceGraph183AcceptedBranchQuotientMarginFamily_of_labelMargin` |
@@ -190,6 +201,17 @@ observed path remains a no-go.
 | `graph183_closed_bellman_bridge:symbol:graph183FullRun_of_closedBellmanRun` | `True` | `graph183FullRun_of_closedBellmanRun` |
 | `graph183_closed_bellman_bridge:symbol:graph183QuotientRun_of_closedBellmanRun` | `True` | `graph183QuotientRun_of_closedBellmanRun` |
 | `graph183_closed_bellman_bridge:symbol:graph183ClosedBellmanBridge_checked` | `True` | `graph183ClosedBellmanBridge_checked` |
+| `graph183_closed_run_final_state:exists` | `True` | `Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraph183ClosedRunFinalState.lean` |
+| `graph183_closed_run_final_state:symbol:graph183StateDepth` | `True` | `graph183StateDepth` |
+| `graph183_closed_run_final_state:symbol:Graph183KnownState` | `True` | `Graph183KnownState` |
+| `graph183_closed_run_final_state:symbol:graph183KnownState_root` | `True` | `graph183KnownState_root` |
+| `graph183_closed_run_final_state:symbol:graph183KnownState_of_closedBellmanStep` | `True` | `graph183KnownState_of_closedBellmanStep` |
+| `graph183_closed_run_final_state:symbol:graph183ClosedBellmanStep_depth` | `True` | `graph183ClosedBellmanStep_depth` |
+| `graph183_closed_run_final_state:symbol:graph183StateDepth_of_closedBellmanRun` | `True` | `graph183StateDepth_of_closedBellmanRun` |
+| `graph183_closed_run_final_state:symbol:graph183KnownState_of_closedBellmanRun` | `True` | `graph183KnownState_of_closedBellmanRun` |
+| `graph183_closed_run_final_state:symbol:graph183ProfileFinalState_of_known_depth14` | `True` | `graph183ProfileFinalState_of_known_depth14` |
+| `graph183_closed_run_final_state:symbol:graph183ProfileFinalState_of_closedBellmanRun_length14` | `True` | `graph183ProfileFinalState_of_closedBellmanRun_length14` |
+| `graph183_closed_run_final_state:symbol:graph183ClosedRunFinalState_checked` | `True` | `graph183ClosedRunFinalState_checked` |
 | `target_cursor:exists` | `True` | `Cuboctahedron/Search/TopPairingTargetCursor.lean` |
 | `target_cursor:symbol:topPairingTargetShadow_of_summary` | `True` | `topPairingTargetShadow_of_summary` |
 | `target_cursor:symbol:topPairingTriShadow_eq_target_of_closed` | `True` | `topPairingTriShadow_eq_target_of_closed` |
@@ -252,6 +274,12 @@ observed path remains a no-go.
 | `graph183_closed_bellman_bridge:forbidden_absent:SelectedPrefix` | `True` | `SelectedPrefix` |
 | `graph183_closed_bellman_bridge:forbidden_absent:AcceptedTraceId` | `True` | `AcceptedTraceId` |
 | `graph183_closed_bellman_bridge:forbidden_absent:acceptedTraceOfId` | `True` | `acceptedTraceOfId` |
+| `graph183_closed_run_final_state:forbidden_absent:SampledRankIndex` | `True` | `SampledRankIndex` |
+| `graph183_closed_run_final_state:forbidden_absent:sampledContainsRank` | `True` | `sampledContainsRank` |
+| `graph183_closed_run_final_state:forbidden_absent:sampledRankOf` | `True` | `sampledRankOf` |
+| `graph183_closed_run_final_state:forbidden_absent:SelectedPrefix` | `True` | `SelectedPrefix` |
+| `graph183_closed_run_final_state:forbidden_absent:AcceptedTraceId` | `True` | `AcceptedTraceId` |
+| `graph183_closed_run_final_state:forbidden_absent:acceptedTraceOfId` | `True` | `acceptedTraceOfId` |
 | `target_cursor:forbidden_absent:SampledRankIndex` | `True` | `SampledRankIndex` |
 | `target_cursor:forbidden_absent:sampledContainsRank` | `True` | `sampledContainsRank` |
 | `target_cursor:forbidden_absent:sampledRankOf` | `True` | `sampledRankOf` |
@@ -274,6 +302,7 @@ observed path remains a no-go.
 | `graph183_start_provider:forbidden_import_absent:TopPairingTraceClassifier` | `True` | `[]` |
 | `socket:imports_accepted_branch_quotient` | `True` | `BellmanTopPairingGraph183AcceptedBranchQuotient` |
 | `socket:does_not_import_full_smoke` | `True` | `BellmanTopPairingGraph183CocycleQuotientSmoke` |
+| `socket:imports_closed_run_final_state` | `True` | `BellmanTopPairingGraph183ClosedRunFinalState` |
 | `accepted_branch:documents_not_coverage` | `True` | `not coverage evidence by itself` |
 | `profile_1m:single_margin_family` | `True` | `1` |
 | `profile_1m:states_under_2000` | `True` | `223` |
@@ -308,9 +337,15 @@ observed path remains a no-go.
 | `graph183_closed_bellman_bridge_guard:guard_exit_zero` | `True` | `0` |
 | `graph183_closed_bellman_bridge_guard:rss_under_6500_mib` | `True` | `3975.34375` |
 | `graph183_closed_bellman_bridge_guard:available_above_30000_mib` | `True` | `46184.75390625` |
+| `graph183_closed_run_final_state_direct_guard:guard_exit_zero` | `True` | `0` |
+| `graph183_closed_run_final_state_direct_guard:rss_under_6500_mib` | `True` | `4419.6796875` |
+| `graph183_closed_run_final_state_direct_guard:available_above_30000_mib` | `True` | `45704.3828125` |
+| `graph183_closed_run_final_state_lake_guard:guard_exit_zero` | `True` | `0` |
+| `graph183_closed_run_final_state_lake_guard:rss_under_30000_mib` | `True` | `4696.0703125` |
+| `graph183_closed_run_final_state_lake_guard:available_above_30000_mib` | `True` | `45345.89453125` |
 | `socket_guard:guard_exit_zero` | `True` | `0` |
-| `socket_guard:rss_under_6500_mib` | `True` | `4002.796875` |
-| `socket_guard:available_above_30000_mib` | `True` | `46204.04296875` |
+| `socket_guard:rss_under_6500_mib` | `True` | `4016.484375` |
+| `socket_guard:available_above_30000_mib` | `True` | `46192.7890625` |
 | `graph183_start_provider_guard:guard_exit_zero` | `True` | `0` |
 | `graph183_start_provider_guard:rss_under_7000_mib` | `True` | `6882.125` |
 | `graph183_start_provider_guard:available_above_30000_mib` | `True` | `43095.3046875` |

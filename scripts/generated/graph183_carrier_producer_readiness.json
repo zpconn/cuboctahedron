@@ -66,6 +66,11 @@
       "passed": true
     },
     {
+      "detail": "graph183GaugeCorrectedEvalLanguageBound_of_strengthenedClosedBellmanStepRunFamily",
+      "name": "socket:symbol:graph183GaugeCorrectedEvalLanguageBound_of_strengthenedClosedBellmanStepRunFamily",
+      "passed": true
+    },
+    {
       "detail": "Graph183TailExactEvalSequenceBadFace",
       "name": "socket:symbol:Graph183TailExactEvalSequenceBadFace",
       "passed": true
@@ -406,6 +411,61 @@
       "passed": true
     },
     {
+      "detail": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraph183ClosedRunFinalState.lean",
+      "name": "graph183_closed_run_final_state:exists",
+      "passed": true
+    },
+    {
+      "detail": "graph183StateDepth",
+      "name": "graph183_closed_run_final_state:symbol:graph183StateDepth",
+      "passed": true
+    },
+    {
+      "detail": "Graph183KnownState",
+      "name": "graph183_closed_run_final_state:symbol:Graph183KnownState",
+      "passed": true
+    },
+    {
+      "detail": "graph183KnownState_root",
+      "name": "graph183_closed_run_final_state:symbol:graph183KnownState_root",
+      "passed": true
+    },
+    {
+      "detail": "graph183KnownState_of_closedBellmanStep",
+      "name": "graph183_closed_run_final_state:symbol:graph183KnownState_of_closedBellmanStep",
+      "passed": true
+    },
+    {
+      "detail": "graph183ClosedBellmanStep_depth",
+      "name": "graph183_closed_run_final_state:symbol:graph183ClosedBellmanStep_depth",
+      "passed": true
+    },
+    {
+      "detail": "graph183StateDepth_of_closedBellmanRun",
+      "name": "graph183_closed_run_final_state:symbol:graph183StateDepth_of_closedBellmanRun",
+      "passed": true
+    },
+    {
+      "detail": "graph183KnownState_of_closedBellmanRun",
+      "name": "graph183_closed_run_final_state:symbol:graph183KnownState_of_closedBellmanRun",
+      "passed": true
+    },
+    {
+      "detail": "graph183ProfileFinalState_of_known_depth14",
+      "name": "graph183_closed_run_final_state:symbol:graph183ProfileFinalState_of_known_depth14",
+      "passed": true
+    },
+    {
+      "detail": "graph183ProfileFinalState_of_closedBellmanRun_length14",
+      "name": "graph183_closed_run_final_state:symbol:graph183ProfileFinalState_of_closedBellmanRun_length14",
+      "passed": true
+    },
+    {
+      "detail": "graph183ClosedRunFinalState_checked",
+      "name": "graph183_closed_run_final_state:symbol:graph183ClosedRunFinalState_checked",
+      "passed": true
+    },
+    {
       "detail": "Cuboctahedron/Search/TopPairingTargetCursor.lean",
       "name": "target_cursor:exists",
       "passed": true
@@ -717,6 +777,36 @@
     },
     {
       "detail": "SampledRankIndex",
+      "name": "graph183_closed_run_final_state:forbidden_absent:SampledRankIndex",
+      "passed": true
+    },
+    {
+      "detail": "sampledContainsRank",
+      "name": "graph183_closed_run_final_state:forbidden_absent:sampledContainsRank",
+      "passed": true
+    },
+    {
+      "detail": "sampledRankOf",
+      "name": "graph183_closed_run_final_state:forbidden_absent:sampledRankOf",
+      "passed": true
+    },
+    {
+      "detail": "SelectedPrefix",
+      "name": "graph183_closed_run_final_state:forbidden_absent:SelectedPrefix",
+      "passed": true
+    },
+    {
+      "detail": "AcceptedTraceId",
+      "name": "graph183_closed_run_final_state:forbidden_absent:AcceptedTraceId",
+      "passed": true
+    },
+    {
+      "detail": "acceptedTraceOfId",
+      "name": "graph183_closed_run_final_state:forbidden_absent:acceptedTraceOfId",
+      "passed": true
+    },
+    {
+      "detail": "SampledRankIndex",
       "name": "target_cursor:forbidden_absent:SampledRankIndex",
       "passed": true
     },
@@ -823,6 +913,11 @@
     {
       "detail": "BellmanTopPairingGraph183CocycleQuotientSmoke",
       "name": "socket:does_not_import_full_smoke",
+      "passed": true
+    },
+    {
+      "detail": "BellmanTopPairingGraph183ClosedRunFinalState",
+      "name": "socket:imports_closed_run_final_state",
       "passed": true
     },
     {
@@ -1004,16 +1099,46 @@
     },
     {
       "detail": 0,
+      "name": "graph183_closed_run_final_state_direct_guard:guard_exit_zero",
+      "passed": true
+    },
+    {
+      "detail": 4419.6796875,
+      "name": "graph183_closed_run_final_state_direct_guard:rss_under_6500_mib",
+      "passed": true
+    },
+    {
+      "detail": 45704.3828125,
+      "name": "graph183_closed_run_final_state_direct_guard:available_above_30000_mib",
+      "passed": true
+    },
+    {
+      "detail": 0,
+      "name": "graph183_closed_run_final_state_lake_guard:guard_exit_zero",
+      "passed": true
+    },
+    {
+      "detail": 4696.0703125,
+      "name": "graph183_closed_run_final_state_lake_guard:rss_under_30000_mib",
+      "passed": true
+    },
+    {
+      "detail": 45345.89453125,
+      "name": "graph183_closed_run_final_state_lake_guard:available_above_30000_mib",
+      "passed": true
+    },
+    {
+      "detail": 0,
       "name": "socket_guard:guard_exit_zero",
       "passed": true
     },
     {
-      "detail": 4002.796875,
+      "detail": 4016.484375,
       "name": "socket_guard:rss_under_6500_mib",
       "passed": true
     },
     {
-      "detail": 46204.04296875,
+      "detail": 46192.7890625,
       "name": "socket_guard:available_above_30000_mib",
       "passed": true
     },
@@ -1126,6 +1251,10 @@
     "accepted_branch_guard_peak_rss_mib": 3410.734375,
     "closed_bellman_bridge_guard_elapsed_seconds": 4.002917137026088,
     "closed_bellman_bridge_guard_peak_rss_mib": 3975.34375,
+    "closed_run_final_state_direct_guard_elapsed_seconds": 11.006465079990448,
+    "closed_run_final_state_direct_guard_peak_rss_mib": 4419.6796875,
+    "closed_run_final_state_lake_guard_elapsed_seconds": 9.00826031100587,
+    "closed_run_final_state_lake_guard_peak_rss_mib": 4696.0703125,
     "closed_semantic_gate_guard_elapsed_seconds": 3.0027096020057797,
     "closed_semantic_gate_guard_min_available_mib": 46322.6328125,
     "closed_semantic_gate_guard_peak_rss_mib": 3719.16015625,
@@ -1144,9 +1273,9 @@
     "graph183_start_provider_guard_peak_rss_mib": 6882.125,
     "graph183_start_provider_source_guard_elapsed_seconds": 98.05047912499867,
     "graph183_start_provider_source_guard_peak_rss_mib": 6309.796875,
-    "guard_elapsed_seconds": 8.005825212982018,
-    "guard_min_available_mib": 46204.04296875,
-    "guard_peak_rss_mib": 4002.796875,
+    "guard_elapsed_seconds": 3.002727565995883,
+    "guard_min_available_mib": 46192.7890625,
+    "guard_peak_rss_mib": 4016.484375,
     "profile_edges": 229,
     "profile_margin_families": 1,
     "profile_matched": 37,

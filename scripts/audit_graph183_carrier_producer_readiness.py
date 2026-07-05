@@ -58,6 +58,10 @@ GRAPH183_CLOSED_BELLMAN_BRIDGE = ROOT / (
     "Cuboctahedron/Generated/NonIdentity/Residual/"
     "BellmanTopPairingGraph183CocycleQuotientClosedBellmanBridge.lean"
 )
+GRAPH183_CLOSED_RUN_FINAL_STATE = ROOT / (
+    "Cuboctahedron/Generated/NonIdentity/Residual/"
+    "BellmanTopPairingGraph183ClosedRunFinalState.lean"
+)
 TARGET_CURSOR = ROOT / "Cuboctahedron/Search/TopPairingTargetCursor.lean"
 TRANSDUCER_SEMANTIC_GATE = (
     ROOT / "Cuboctahedron/Search/TopPairingTransducerSemanticGate.lean"
@@ -88,6 +92,12 @@ QUOTIENT_POTENTIAL_LAKE_GUARD = (
 )
 GRAPH183_CLOSED_BELLMAN_BRIDGE_GUARD = (
     ROOT / "scripts/generated/graph183_cocycle_quotient_closed_bridge_direct_guard.json"
+)
+GRAPH183_CLOSED_RUN_FINAL_STATE_DIRECT_GUARD = (
+    ROOT / "scripts/generated/graph183_closed_run_final_state_direct_guard.json"
+)
+GRAPH183_CLOSED_RUN_FINAL_STATE_LAKE_GUARD = (
+    ROOT / "scripts/generated/graph183_closed_run_final_state_lake_guard.json"
 )
 GRAPH183_START_PROVIDER_GUARD = (
     ROOT / "scripts/generated/graph183_start_violation_provider_guard.json"
@@ -126,6 +136,7 @@ REQUIRED_SOCKET_SYMBOLS = [
     "graph183TailQuotientMarginEvalFamily_of_gaugeCorrectedEvalLanguageBound",
     "Graph183TailQuotientGaugeCorrectedEvalLanguageBound",
     "graph183TailQuotientMarginEvalFamily_of_graph183GaugeCorrectedEvalLanguageBound",
+    "graph183GaugeCorrectedEvalLanguageBound_of_strengthenedClosedBellmanStepRunFamily",
     "Graph183TailExactEvalSequenceBadFace",
     "graph183TailExactEvalSequenceBadFace_of_strengthenedGraphExactEvalGate",
     "acceptedSequenceGraph183AcceptedBranchQuotientMarginFamily_of_labelMargin",
@@ -208,6 +219,19 @@ REQUIRED_GRAPH183_CLOSED_BELLMAN_BRIDGE_SYMBOLS = [
     "graph183FullRun_of_closedBellmanRun",
     "graph183QuotientRun_of_closedBellmanRun",
     "graph183ClosedBellmanBridge_checked",
+]
+
+REQUIRED_GRAPH183_CLOSED_RUN_FINAL_STATE_SYMBOLS = [
+    "graph183StateDepth",
+    "Graph183KnownState",
+    "graph183KnownState_root",
+    "graph183KnownState_of_closedBellmanStep",
+    "graph183ClosedBellmanStep_depth",
+    "graph183StateDepth_of_closedBellmanRun",
+    "graph183KnownState_of_closedBellmanRun",
+    "graph183ProfileFinalState_of_known_depth14",
+    "graph183ProfileFinalState_of_closedBellmanRun_length14",
+    "graph183ClosedRunFinalState_checked",
 ]
 
 REQUIRED_TARGET_CURSOR_SYMBOLS = [
@@ -533,6 +557,12 @@ def render_markdown(report: dict[str, Any]) -> str:
         "The graph183 branch-local start-violation provider is now a separate",
         "fixed-template leaf that imports only the lightweight trace",
         "start-violation bridge, not accepted-trace ids or terminal classifiers.",
+        "A graph-local final-state module is also required: it proves that any",
+        "14-label closed-Bellman run from `graphRoot` finishes in one of the",
+        "profile-final states accepted by the quotient gauge bound.",
+        "The quotient socket now packages a semantic",
+        "`StrengthenedClosedBellmanStepRunFamily` as the graph183",
+        "gauge-corrected evaluator target through that final-state theorem.",
         "The target-shadow cursor and ranked transducer semantic gate are",
         "present and are now required by this audit.  The production path must",
         "flow through those semantic surfaces or through an equivalently small",
@@ -590,6 +620,7 @@ def main() -> int:
     graph183_edge_shards_core_text = read_text(GRAPH183_EDGE_SHARDS_CORE)
     graph183_quotient_potential_text = read_text(GRAPH183_QUOTIENT_POTENTIAL)
     graph183_closed_bellman_bridge_text = read_text(GRAPH183_CLOSED_BELLMAN_BRIDGE)
+    graph183_closed_run_final_state_text = read_text(GRAPH183_CLOSED_RUN_FINAL_STATE)
     target_cursor_text = read_text(TARGET_CURSOR)
     transducer_semantic_gate_text = read_text(TRANSDUCER_SEMANTIC_GATE)
     profile = read_json(PROFILE)
@@ -604,6 +635,12 @@ def main() -> int:
     quotient_potential_lake_guard = read_json(QUOTIENT_POTENTIAL_LAKE_GUARD)
     graph183_closed_bellman_bridge_guard = read_json(
         GRAPH183_CLOSED_BELLMAN_BRIDGE_GUARD
+    )
+    graph183_closed_run_final_state_direct_guard = read_json(
+        GRAPH183_CLOSED_RUN_FINAL_STATE_DIRECT_GUARD
+    )
+    graph183_closed_run_final_state_lake_guard = read_json(
+        GRAPH183_CLOSED_RUN_FINAL_STATE_LAKE_GUARD
     )
     graph183_start_provider_guard = read_json(GRAPH183_START_PROVIDER_GUARD)
     graph183_start_provider_source_guard = read_json(GRAPH183_START_PROVIDER_SOURCE_GUARD)
@@ -666,6 +703,13 @@ def main() -> int:
     )
     checks.extend(
         symbol_checks(
+            "graph183_closed_run_final_state",
+            GRAPH183_CLOSED_RUN_FINAL_STATE,
+            REQUIRED_GRAPH183_CLOSED_RUN_FINAL_STATE_SYMBOLS,
+        )
+    )
+    checks.extend(
+        symbol_checks(
             "target_cursor",
             TARGET_CURSOR,
             REQUIRED_TARGET_CURSOR_SYMBOLS,
@@ -691,6 +735,12 @@ def main() -> int:
     )
     checks.extend(
         forbidden_checks("graph183_closed_bellman_bridge", GRAPH183_CLOSED_BELLMAN_BRIDGE)
+    )
+    checks.extend(
+        forbidden_checks(
+            "graph183_closed_run_final_state",
+            GRAPH183_CLOSED_RUN_FINAL_STATE,
+        )
     )
     checks.extend(forbidden_checks("target_cursor", TARGET_CURSOR))
     checks.extend(forbidden_checks("transducer_semantic_gate", TRANSDUCER_SEMANTIC_GATE))
@@ -720,6 +770,13 @@ def main() -> int:
             "name": "socket:does_not_import_full_smoke",
             "passed": "BellmanTopPairingGraph183CocycleQuotientSmoke" not in socket_text,
             "detail": "BellmanTopPairingGraph183CocycleQuotientSmoke",
+        }
+    )
+    checks.append(
+        {
+            "name": "socket:imports_closed_run_final_state",
+            "passed": "BellmanTopPairingGraph183ClosedRunFinalState" in socket_text,
+            "detail": "BellmanTopPairingGraph183ClosedRunFinalState",
         }
     )
     checks.append(
@@ -775,6 +832,19 @@ def main() -> int:
             graph183_closed_bellman_bridge_guard,
         )
     )
+    checks.extend(
+        guard_checks(
+            "graph183_closed_run_final_state_direct_guard",
+            graph183_closed_run_final_state_direct_guard,
+        )
+    )
+    checks.extend(
+        guard_checks(
+            "graph183_closed_run_final_state_lake_guard",
+            graph183_closed_run_final_state_lake_guard,
+            rss_limit_mib=30000.0,
+        )
+    )
     checks.extend(guard_checks("socket_guard", guard))
     checks.extend(
         guard_checks(
@@ -814,6 +884,7 @@ def main() -> int:
         graph183_edge_shards_core_text,
         graph183_quotient_potential_text,
         graph183_closed_bellman_bridge_text,
+        graph183_closed_run_final_state_text,
         target_cursor_text,
         transducer_semantic_gate_text,
     )
@@ -892,6 +963,18 @@ def main() -> int:
             "closed_bellman_bridge_guard_peak_rss_mib": None
             if graph183_closed_bellman_bridge_guard is None
             else graph183_closed_bellman_bridge_guard.get("max_tree_rss_mib"),
+            "closed_run_final_state_direct_guard_elapsed_seconds": None
+            if graph183_closed_run_final_state_direct_guard is None
+            else graph183_closed_run_final_state_direct_guard.get("elapsed_seconds"),
+            "closed_run_final_state_direct_guard_peak_rss_mib": None
+            if graph183_closed_run_final_state_direct_guard is None
+            else graph183_closed_run_final_state_direct_guard.get("max_tree_rss_mib"),
+            "closed_run_final_state_lake_guard_elapsed_seconds": None
+            if graph183_closed_run_final_state_lake_guard is None
+            else graph183_closed_run_final_state_lake_guard.get("elapsed_seconds"),
+            "closed_run_final_state_lake_guard_peak_rss_mib": None
+            if graph183_closed_run_final_state_lake_guard is None
+            else graph183_closed_run_final_state_lake_guard.get("max_tree_rss_mib"),
             "guard_elapsed_seconds": guard_metrics.get("elapsed_seconds"),
             "guard_peak_rss_mib": guard_metrics.get("max_tree_rss_mib"),
             "guard_min_available_mib": guard_metrics.get("min_available_seen_mib"),

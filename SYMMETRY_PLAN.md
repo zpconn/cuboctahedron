@@ -112322,6 +112322,172 @@ graph183 frontier decision =
   diagnostic_supports_graph183_accepted_tail_margin_bellman_route
 ```
 
+### 2026-07-05 graph183 closed-run final-state support
+
+GPT5.5 Pro's latest advice is now part of the active graph183 route:
+keep Bellman, reject selected-prefix membership, and make the next producer a
+semantic deterministic closed-language theorem.  The new support added here
+does not prove coverage, but it removes another graph-local obstacle from that
+route.
+
+Generated module:
+
+```lean
+Cuboctahedron/Generated/NonIdentity/Residual/
+  BellmanTopPairingGraph183ClosedRunFinalState.lean
+```
+
+New checked theorem surface:
+
+```lean
+graph183StateDepth : Nat -> Nat
+Graph183KnownState : Nat -> Prop
+graph183KnownState_root
+graph183KnownState_of_closedBellmanStep
+graph183ClosedBellmanStep_depth
+graph183StateDepth_of_closedBellmanRun
+graph183KnownState_of_closedBellmanRun
+graph183ProfileFinalState_of_known_depth14
+graph183ProfileFinalState_of_closedBellmanRun_length14
+graph183ClosedRunFinalState_checked : True
+```
+
+The content is graph-local: every 14-label `ClosedBellmanStep` run from
+`graphRoot` finishes in the profile-final state set used by
+`graph183ProfileFinalGaugeBound`.  The proof is a finite depth/frontier
+certificate over the closed Bellman graph, not a rank/path membership table.
+
+The graph183 quotient-margin socket now imports that module and exposes the
+producer-facing adapter:
+
+```lean
+graph183GaugeCorrectedEvalLanguageBound_of_strengthenedClosedBellmanStepRunFamily
+```
+
+This packages any semantic
+`StrengthenedClosedBellmanStepRunFamily sequenceBadFace scaledMargin` as the
+graph183-specialized
+`Graph183TailQuotientGaugeCorrectedEvalLanguageBound sequenceBadFace scaledMargin`.
+That is the first complete ingress from a semantic closed-Bellman step-run
+family into the quotient/gauge evaluator target.  It still does not construct
+the step-run family from `TopPairingClosedLanguageAtRank`; that construction is
+the remaining production theorem.
+
+Emitter updates:
+
+```bash
+python3 -m py_compile scripts/emit_graph183_cocycle_quotient_edge_shards.py
+python3 scripts/emit_graph183_cocycle_quotient_edge_shards.py
+```
+
+Guarded checks:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 180 --max-tree-rss-mib 6500 \
+  --min-available-mib 30000 --hard-address-space-mib 8192 \
+  --json scripts/generated/graph183_closed_run_final_state_direct_guard.json \
+  -- lake env lean -M 6500 -j1 -s 8192 \
+    Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingGraph183ClosedRunFinalState.lean
+```
+
+Result:
+
+```text
+exit = 0
+elapsed = 11.01s
+peak RSS = 4419 MiB
+min available = 45704 MiB
+```
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 240 --max-tree-rss-mib 30000 \
+  --min-available-mib 10000 \
+  --json scripts/generated/graph183_closed_run_final_state_lake_guard.json \
+  -- lake build \
+    +Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingGraph183ClosedRunFinalState:olean
+```
+
+Result:
+
+```text
+exit = 0
+elapsed = 9.01s
+peak RSS = 4696 MiB
+min available = 45346 MiB
+```
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 240 --max-tree-rss-mib 7000 \
+  --min-available-mib 30000 --hard-address-space-mib 8192 \
+  --json scripts/generated/graph183_quotient_margin_socket_latest_guard.json \
+  -- lake env lean -M 7000 -j1 -s 8192 \
+    Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingGraph183QuotientMarginSocket.lean
+```
+
+Result:
+
+```text
+exit = 0
+elapsed = 3.00s
+peak RSS = 4016 MiB
+min available = 46193 MiB
+```
+
+Audits updated and run:
+
+```bash
+python3 -m py_compile \
+  scripts/emit_graph183_cocycle_quotient_edge_shards.py \
+  scripts/audit_graph183_carrier_producer_readiness.py \
+  scripts/audit_graph183_accepted_tail_margin_frontier.py \
+  scripts/audit_top_pairing_semantic_evaluator_pivot.py
+python3 scripts/audit_graph183_carrier_producer_readiness.py
+python3 scripts/audit_graph183_accepted_tail_margin_frontier.py
+python3 scripts/audit_top_pairing_semantic_evaluator_pivot.py
+```
+
+Results:
+
+```text
+graph183 carrier decision =
+  graph183_carrier_sockets_ready_but_producer_missing
+graph183 frontier decision =
+  diagnostic_supports_graph183_accepted_tail_margin_bellman_route
+semantic evaluator decision =
+  semantic_evaluator_pivot_ready_for_graph183_sequencebadface_carrier
+```
+
+The audits now require the closed-run final-state module, its guarded check
+records, and the quotient-socket adapter above.  They also continue to reject
+`SampledRankIndex`, sampled contains/rank functions, selected prefixes,
+accepted trace ids, exact affine RHS keys, solved start-point keys, and any
+one-branch-per-rank/path production route.
+
+Next theorem target:
+
+```lean
+StrengthenedClosedBellmanStepRunFamily sequenceBadFace scaledMargin
+```
+
+for the graph183 closed top-pairing language, or a direct semantic theorem that
+implies:
+
+```lean
+Graph183TailQuotientMarginSequenceBadFace scaledMargin rank Face.ym
+```
+
+The proof must be a deterministic closed-language evaluator/cursor theorem.  If
+it needs sampled paths or selected prefixes, the state is still missing a
+semantic field and the next move is to strengthen the target-shadow,
+tri-source, square-gap, or cancellation-segment state rather than scaling the
+producer.
+
 ### 2026-07-05 graph183 start-violation import no-go
 
 The latest GPT5.5 guidance sharpened the Bellman pivot one more time:

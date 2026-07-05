@@ -46,6 +46,10 @@ CLOSED_BRIDGE_MODULE = (
     "Cuboctahedron.Generated.NonIdentity.Residual."
     "BellmanTopPairingGraph183CocycleQuotientClosedBellmanBridge"
 )
+FINAL_STATE_MODULE = (
+    "Cuboctahedron.Generated.NonIdentity.Residual."
+    "BellmanTopPairingGraph183ClosedRunFinalState"
+)
 CORE_NAMESPACE = (
     "Cuboctahedron.Generated.NonIdentity.Residual."
     "BellmanTopPairingGraph183CocycleQuotientCore"
@@ -69,6 +73,10 @@ GRAPH_POTENTIAL_NAMESPACE = (
 CLOSED_BRIDGE_NAMESPACE = (
     "Cuboctahedron.Generated.NonIdentity.Residual."
     "BellmanTopPairingGraph183CocycleQuotientClosedBellmanBridge"
+)
+FINAL_STATE_NAMESPACE = (
+    "Cuboctahedron.Generated.NonIdentity.Residual."
+    "BellmanTopPairingGraph183ClosedRunFinalState"
 )
 CLOSED_BELLMAN_MODULE = (
     "Cuboctahedron.Generated.NonIdentity.Residual."
@@ -620,6 +628,195 @@ def render_closed_bellman_bridge(
     )
 
 
+def graph_depth_by_state(profile: dict) -> dict[int, int]:
+    graph = profile["graph"]
+    label_by_index = {int(row["index"]): row["key"] for row in graph["labels"]}
+    adj: dict[int, list[int]] = {}
+    for edge in graph["edges"]:
+        src = int(edge["src"])
+        dst = int(edge["dst"])
+        for label in edge.get("label_indices", []):
+            # Keep one transition per edge-label equation; the label key lookup
+            # validates that the label index is present in the profile.
+            _ = label_by_index[int(label)]
+            adj.setdefault(src, []).append(dst)
+    roots = [int(root) for root in graph["root_indices"]]
+    if roots != [0]:
+        raise ValueError(f"expected graph183 root [0], got {roots}")
+    by_state = {0: 0}
+    frontier = {0}
+    for depth in range(1, 15):
+        next_frontier: set[int] = set()
+        for state in frontier:
+            next_frontier.update(adj.get(state, []))
+        if not next_frontier:
+            raise ValueError(f"empty graph183 frontier at depth {depth}")
+        for state in next_frontier:
+            old = by_state.setdefault(state, depth)
+            if old != depth:
+                raise ValueError(
+                    f"state {state} appears at depths {old} and {depth}"
+                )
+        frontier = next_frontier
+    finals = sorted(int(state) for state in graph["final_indices"])
+    if sorted(frontier) != finals:
+        raise ValueError("depth-14 frontier does not match profile finals")
+    return by_state
+
+
+def final_state_intro_expr(state: int, finals: list[int]) -> str:
+    idx = finals.index(state)
+    if idx == 0:
+        return "Or.inl rfl"
+    return "Or.inr (" * idx + "Or.inl rfl" + ")" * idx
+
+
+def or_intro_for_value(value: int, values: list[int], term: str = "rfl") -> str:
+    idx = values.index(value)
+    if idx == 0:
+        return f"Or.inl {term}"
+    return "Or.inr (" * idx + f"Or.inl {term}" + ")" * idx
+
+
+def or_prop_for_values(var: str, values: list[int]) -> str:
+    out = "False"
+    for value in reversed(values):
+        out = f"{var} = {value} \\/ ({out})"
+    return out
+
+
+def render_final_state_module(profile: dict) -> str:
+    depth_by_state = graph_depth_by_state(profile)
+    known_states = sorted(depth_by_state)
+    finals = sorted(int(state) for state in profile["graph"]["final_indices"])
+    lines: list[str] = [
+        f"import {CLOSED_BELLMAN_MODULE}",
+        f"import {POTENTIAL_MODULE}",
+        "",
+        "set_option maxHeartbeats 2000000",
+        "set_option maxRecDepth 2048",
+        "",
+        "/-!",
+        "Graph-local final-state facts for graph183 closed Bellman runs.",
+        "",
+        "This module is proof-shape support, not rank coverage.  It proves that",
+        "any 14-label deterministic closed-Bellman run from `graphRoot` finishes",
+        "in one of the profile final states used by the quotient gauge bound.",
+        "-/",
+        "",
+        f"namespace {FINAL_STATE_NAMESPACE}",
+        "",
+        "open Cuboctahedron",
+        f"open {CLOSED_BELLMAN_NAMESPACE}",
+        f"open {GRAPH_POTENTIAL_NAMESPACE}",
+        f"open {POTENTIAL_NAMESPACE}",
+        "",
+        "def graph183StateDepth : Nat -> Nat",
+    ]
+    for state in sorted(depth_by_state):
+        lines.append(f"  | {state} => {depth_by_state[state]}")
+    lines.extend(
+        [
+            "  | _ => 0",
+            "",
+            "def Graph183KnownState (state : Nat) : Prop :=",
+            f"  {or_prop_for_values('state', known_states)}",
+            "",
+            "theorem graph183KnownState_root :",
+            "    Graph183KnownState graphRoot := by",
+            "  dsimp [Graph183KnownState, graphRoot]",
+            f"  exact {or_intro_for_value(0, known_states)}",
+            "",
+            "theorem graph183KnownState_of_closedBellmanStep",
+            "    {state nextState : Nat} {face : Face} {gain : Int}",
+            "    (hstep : ClosedBellmanStep state face nextState gain) :",
+            "    Graph183KnownState nextState := by",
+            "  cases hstep <;> dsimp [Graph183KnownState]",
+        ]
+    )
+    for edge in profile["graph"]["edges"]:
+        dst = int(edge["dst"])
+        for _label in edge.get("label_indices", []):
+            lines.append(f"  · exact {or_intro_for_value(dst, known_states)}")
+    lines.extend(
+        [
+            "",
+            "theorem graph183ClosedBellmanStep_depth",
+            "    {state nextState : Nat} {face : Face} {gain : Int}",
+            "    (hstep : ClosedBellmanStep state face nextState gain) :",
+            "    graph183StateDepth nextState = graph183StateDepth state + 1 := by",
+            "  cases hstep <;> decide",
+            "",
+            "theorem graph183StateDepth_of_closedBellmanRun",
+            "    {state finish : Nat} {labels : List Face} {gain : Int}",
+            "    (hrun : BellmanLabelStepRun ClosedBellmanStep state finish",
+            "        labels gain) :",
+            "    graph183StateDepth finish =",
+            "      graph183StateDepth state + labels.length := by",
+            "  induction hrun with",
+            "  | nil state =>",
+            "      simp",
+            "  | cons hstep _htail ih =>",
+            "      have hdepth := graph183ClosedBellmanStep_depth hstep",
+            "      rw [ih, hdepth]",
+            "      simp [Nat.add_assoc, Nat.add_comm]",
+            "",
+            "theorem graph183KnownState_of_closedBellmanRun",
+            "    {state finish : Nat} {labels : List Face} {gain : Int}",
+            "    (hrun : BellmanLabelStepRun ClosedBellmanStep state finish",
+            "        labels gain)",
+            "    (hstate : Graph183KnownState state) :",
+            "    Graph183KnownState finish := by",
+            "  induction hrun with",
+            "  | nil state =>",
+            "      exact hstate",
+            "  | cons hstep _htail ih =>",
+            "      exact ih (graph183KnownState_of_closedBellmanStep hstep)",
+            "",
+            "theorem graph183ProfileFinalState_of_known_depth14",
+            "    {finish : Nat}",
+            "    (hknown : Graph183KnownState finish)",
+            "    (hdepth : graph183StateDepth finish = 14) :",
+            "    Graph183ProfileFinalState finish := by",
+            "  dsimp [Graph183KnownState] at hknown",
+        ]
+    )
+    for state in known_states:
+        lines.append("  rcases hknown with rfl | hknown")
+        if state in finals:
+            lines.append("  · dsimp [Graph183ProfileFinalState]")
+            lines.append(f"    exact {final_state_intro_expr(state, finals)}")
+        else:
+            lines.append(f"  · change {depth_by_state[state]} = 14 at hdepth")
+            lines.append("    omega")
+    lines.extend(
+        [
+            "  cases hknown",
+            "",
+            "theorem graph183ProfileFinalState_of_closedBellmanRun_length14",
+            "    {finish : Nat} {labels : List Face} {gain : Int}",
+            "    (hrun : BellmanLabelStepRun ClosedBellmanStep graphRoot finish",
+            "        labels gain)",
+            "    (hlen : labels.length = 14) :",
+            "    Graph183ProfileFinalState finish := by",
+            "  have hdepth := graph183StateDepth_of_closedBellmanRun hrun",
+            "  have hroot : graph183StateDepth graphRoot = 0 := by decide",
+            "  have hfinishDepth : graph183StateDepth finish = 14 := by",
+            "    omega",
+            "  have hknown := graph183KnownState_of_closedBellmanRun",
+            "    hrun graph183KnownState_root",
+            "  exact graph183ProfileFinalState_of_known_depth14 hknown hfinishDepth",
+            "",
+            "theorem graph183ClosedRunFinalState_checked : True := by",
+            "  exact True.intro",
+            "",
+            f"end {FINAL_STATE_NAMESPACE}",
+            "",
+        ]
+    )
+    return "\n".join(lines)
+
+
 def render_markdown(payload: dict) -> str:
     return "\n".join(
         [
@@ -661,6 +858,13 @@ def render_markdown(payload: dict) -> str:
             "```text",
             "Cuboctahedron.Generated.NonIdentity.Residual.",
             "  BellmanTopPairingGraph183CocycleQuotientClosedBellmanBridge",
+            "```",
+            "",
+            "The closed-run final-state support module is:",
+            "",
+            "```text",
+            "Cuboctahedron.Generated.NonIdentity.Residual.",
+            "  BellmanTopPairingGraph183ClosedRunFinalState",
             "```",
             "",
         ]
@@ -723,6 +927,9 @@ def main() -> int:
         render_closed_bellman_bridge(rows, profile, args.shard_size, len(chunks))
     )
 
+    final_state_path = RESIDUAL / "BellmanTopPairingGraph183ClosedRunFinalState.lean"
+    final_state_path.write_text(render_final_state_module(profile))
+
     payload = {
         "mode": "graph183-cocycle-quotient-edge-shards",
         "profile": args.profile.as_posix(),
@@ -743,6 +950,7 @@ def main() -> int:
         ),
         "potential_module": POTENTIAL_MODULE,
         "closed_bridge_module": CLOSED_BRIDGE_MODULE,
+        "final_state_module": FINAL_STATE_MODULE,
         "quotient_potential": potential_metrics["quotient_potential"],
         "root_gauge": potential_metrics["root_gauge"],
         "root_bound_lhs": potential_metrics["root_lhs"],

@@ -77,9 +77,9 @@ cocycle/coboundary quotient.
 
 | metric | value |
 | --- | ---: |
-| `elapsed_seconds` | `8.005825212982018` |
-| `peak_rss_mib` | `4002.796875` |
-| `min_available_mib` | `46204.04296875` |
+| `elapsed_seconds` | `3.002727565995883` |
+| `peak_rss_mib` | `4016.484375` |
+| `min_available_mib` | `46192.7890625` |
 
 ### graph183_accepted_branch_quotient_guard
 
@@ -112,6 +112,22 @@ cocycle/coboundary quotient.
 | `elapsed_seconds` | `4.002917137026088` |
 | `peak_rss_mib` | `3975.34375` |
 | `min_available_mib` | `46184.75390625` |
+
+### graph183_closed_run_final_state_direct_guard
+
+| metric | value |
+| --- | ---: |
+| `elapsed_seconds` | `11.006465079990448` |
+| `peak_rss_mib` | `4419.6796875` |
+| `min_available_mib` | `45704.3828125` |
+
+### graph183_closed_run_final_state_lake_guard
+
+| metric | value |
+| --- | ---: |
+| `elapsed_seconds` | `9.00826031100587` |
+| `peak_rss_mib` | `4696.0703125` |
+| `min_available_mib` | `45345.89453125` |
 
 ### graph183_scaling_contract
 
@@ -243,6 +259,23 @@ must still be Lean-checked through the graph183 family theorem.
 | `graph183_closed_bellman_bridge:forbidden_absent:SelectedPrefix` | `True` | `SelectedPrefix` |
 | `graph183_closed_bellman_bridge:forbidden_absent:AcceptedTraceId` | `True` | `AcceptedTraceId` |
 | `graph183_closed_bellman_bridge:forbidden_absent:acceptedTraceOfId` | `True` | `acceptedTraceOfId` |
+| `graph183_closed_run_final_state:exists` | `True` | `Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraph183ClosedRunFinalState.lean` |
+| `graph183_closed_run_final_state:symbol:graph183StateDepth` | `True` | `graph183StateDepth` |
+| `graph183_closed_run_final_state:symbol:Graph183KnownState` | `True` | `Graph183KnownState` |
+| `graph183_closed_run_final_state:symbol:graph183KnownState_root` | `True` | `graph183KnownState_root` |
+| `graph183_closed_run_final_state:symbol:graph183KnownState_of_closedBellmanStep` | `True` | `graph183KnownState_of_closedBellmanStep` |
+| `graph183_closed_run_final_state:symbol:graph183ClosedBellmanStep_depth` | `True` | `graph183ClosedBellmanStep_depth` |
+| `graph183_closed_run_final_state:symbol:graph183StateDepth_of_closedBellmanRun` | `True` | `graph183StateDepth_of_closedBellmanRun` |
+| `graph183_closed_run_final_state:symbol:graph183KnownState_of_closedBellmanRun` | `True` | `graph183KnownState_of_closedBellmanRun` |
+| `graph183_closed_run_final_state:symbol:graph183ProfileFinalState_of_known_depth14` | `True` | `graph183ProfileFinalState_of_known_depth14` |
+| `graph183_closed_run_final_state:symbol:graph183ProfileFinalState_of_closedBellmanRun_length14` | `True` | `graph183ProfileFinalState_of_closedBellmanRun_length14` |
+| `graph183_closed_run_final_state:symbol:graph183ClosedRunFinalState_checked` | `True` | `graph183ClosedRunFinalState_checked` |
+| `graph183_closed_run_final_state:forbidden_absent:SampledRankIndex` | `True` | `SampledRankIndex` |
+| `graph183_closed_run_final_state:forbidden_absent:sampledContainsRank` | `True` | `sampledContainsRank` |
+| `graph183_closed_run_final_state:forbidden_absent:sampledRankOf` | `True` | `sampledRankOf` |
+| `graph183_closed_run_final_state:forbidden_absent:SelectedPrefix` | `True` | `SelectedPrefix` |
+| `graph183_closed_run_final_state:forbidden_absent:AcceptedTraceId` | `True` | `AcceptedTraceId` |
+| `graph183_closed_run_final_state:forbidden_absent:acceptedTraceOfId` | `True` | `acceptedTraceOfId` |
 | `graph183_accepted_branch_quotient:exists` | `True` | `Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraph183AcceptedBranchQuotient.lean` |
 | `graph183_accepted_branch_quotient:symbol:acceptedLocalEquation` | `True` | `acceptedLocalEquation` |
 | `graph183_accepted_branch_quotient:symbol:graph183AcceptedBranchRawGain` | `True` | `graph183AcceptedBranchRawGain` |
@@ -278,6 +311,7 @@ must still be Lean-checked through the graph183 family theorem.
 | `graph183_quotient_socket:symbol:graph183TailQuotientMarginEvalFamily_of_gaugeCorrectedEvalLanguageBound` | `True` | `graph183TailQuotientMarginEvalFamily_of_gaugeCorrectedEvalLanguageBound` |
 | `graph183_quotient_socket:symbol:Graph183TailQuotientGaugeCorrectedEvalLanguageBound` | `True` | `Graph183TailQuotientGaugeCorrectedEvalLanguageBound` |
 | `graph183_quotient_socket:symbol:graph183TailQuotientMarginEvalFamily_of_graph183GaugeCorrectedEvalLanguageBound` | `True` | `graph183TailQuotientMarginEvalFamily_of_graph183GaugeCorrectedEvalLanguageBound` |
+| `graph183_quotient_socket:symbol:graph183GaugeCorrectedEvalLanguageBound_of_strengthenedClosedBellmanStepRunFamily` | `True` | `graph183GaugeCorrectedEvalLanguageBound_of_strengthenedClosedBellmanStepRunFamily` |
 | `graph183_quotient_socket:symbol:graph183TailQuotientMarginFamily_of_sequenceBadFace` | `True` | `graph183TailQuotientMarginFamily_of_sequenceBadFace` |
 | `graph183_quotient_socket:symbol:graph183TailQuotientMarginFamily_of_evalMarginFamily` | `True` | `graph183TailQuotientMarginFamily_of_evalMarginFamily` |
 | `graph183_quotient_socket:symbol:graph183TailQuotientMarginFamily_of_strengthenedGraphExactEvalGate` | `True` | `graph183TailQuotientMarginFamily_of_strengthenedGraphExactEvalGate` |
@@ -367,8 +401,8 @@ must still be Lean-checked through the graph183 family theorem.
 | `cocycle_quotient_1m:solution_bit_length_under_16` | `True` | `9` |
 | `cocycle_quotient_1m:solution_small_gains_match_edges` | `True` | `{'small_gain_count': 93, 'quotient_edges': 93}` |
 | `graph183_quotient_margin_socket:guard_exit_zero` | `True` | `0` |
-| `graph183_quotient_margin_socket:rss_under_6000_mib` | `True` | `4002.796875` |
-| `graph183_quotient_margin_socket:available_above_30000_mib` | `True` | `46204.04296875` |
+| `graph183_quotient_margin_socket:rss_under_6000_mib` | `True` | `4016.484375` |
+| `graph183_quotient_margin_socket:available_above_30000_mib` | `True` | `46192.7890625` |
 | `graph183_accepted_branch_quotient:guard_exit_zero` | `True` | `0` |
 | `graph183_accepted_branch_quotient:rss_under_6000_mib` | `True` | `3410.734375` |
 | `graph183_accepted_branch_quotient:available_above_30000_mib` | `True` | `46363.515625` |
@@ -381,6 +415,12 @@ must still be Lean-checked through the graph183 family theorem.
 | `graph183_closed_bellman_bridge:guard_exit_zero` | `True` | `0` |
 | `graph183_closed_bellman_bridge:rss_under_6000_mib` | `True` | `3975.34375` |
 | `graph183_closed_bellman_bridge:available_above_30000_mib` | `True` | `46184.75390625` |
+| `graph183_closed_run_final_state_direct:guard_exit_zero` | `True` | `0` |
+| `graph183_closed_run_final_state_direct:rss_under_6500_mib` | `True` | `4419.6796875` |
+| `graph183_closed_run_final_state_direct:available_above_30000_mib` | `True` | `45704.3828125` |
+| `graph183_closed_run_final_state_lake:guard_exit_zero` | `True` | `0` |
+| `graph183_closed_run_final_state_lake:rss_under_30000_mib` | `True` | `4696.0703125` |
+| `graph183_closed_run_final_state_lake:available_above_30000_mib` | `True` | `45345.89453125` |
 
 ## Next Lean Target
 
@@ -417,6 +457,11 @@ the semantic closed-language / deterministic-evaluator producer for
 The closed-Bellman-to-quotient bridge is now checked as part of this
 frontier: it maps every `ClosedBellmanStep` through the fixed
 Face-to-label encoding into the sharded quotient relation and lifts
-closed Bellman runs to quotient runs.  The remaining gap is therefore
-the closed-language evaluator theorem itself, not sampled membership
-or raw quotient edge replay.
+closed Bellman runs to quotient runs.  A companion final-state module
+now proves that every 14-label closed-Bellman run from `graphRoot`
+finishes in the profile-final set used by the gauge bound, and the
+quotient socket packages any semantic
+`StrengthenedClosedBellmanStepRunFamily` into the graph183
+gauge-corrected evaluator target.  The remaining gap is therefore the
+closed-language evaluator theorem itself, not sampled membership or
+raw quotient edge replay.

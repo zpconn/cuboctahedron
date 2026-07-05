@@ -38,3 +38,10 @@ Cuboctahedron.Generated.NonIdentity.Residual.
   BellmanTopPairingGraph183CocycleQuotientClosedBellmanBridge
 ```
 
+The closed-run final-state support module is:
+
+```text
+Cuboctahedron.Generated.NonIdentity.Residual.
+  BellmanTopPairingGraph183ClosedRunFinalState
+```
+

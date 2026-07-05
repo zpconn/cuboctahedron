@@ -86,6 +86,9 @@ FILES = {
     "graph183_cocycle_quotient_closed_bridge": ROOT
     / "Cuboctahedron/Generated/NonIdentity/Residual/"
     / "BellmanTopPairingGraph183CocycleQuotientClosedBellmanBridge.lean",
+    "graph183_closed_run_final_state": ROOT
+    / "Cuboctahedron/Generated/NonIdentity/Residual/"
+    / "BellmanTopPairingGraph183ClosedRunFinalState.lean",
     "target_completion_local_branch_table_shard000": ROOT
     / "Cuboctahedron/Generated/NonIdentity/Residual/"
     / "BellmanTopPairingClosedBellmanStrengthenedTargetCompletionLocalBranchTableShard000.lean",
@@ -125,6 +128,10 @@ GUARDS = {
     / "scripts/generated/graph183_cocycle_quotient_potential_lake_guard.json",
     "graph183_cocycle_quotient_closed_bridge": ROOT
     / "scripts/generated/graph183_cocycle_quotient_closed_bridge_direct_guard.json",
+    "graph183_closed_run_final_state_direct": ROOT
+    / "scripts/generated/graph183_closed_run_final_state_direct_guard.json",
+    "graph183_closed_run_final_state_lake": ROOT
+    / "scripts/generated/graph183_closed_run_final_state_lake_guard.json",
 }
 
 REQUIRED_SYMBOLS = {
@@ -289,6 +296,7 @@ REQUIRED_SYMBOLS = {
         "graph183TailQuotientMarginEvalFamily_of_gaugeCorrectedEvalLanguageBound",
         "Graph183TailQuotientGaugeCorrectedEvalLanguageBound",
         "graph183TailQuotientMarginEvalFamily_of_graph183GaugeCorrectedEvalLanguageBound",
+        "graph183GaugeCorrectedEvalLanguageBound_of_strengthenedClosedBellmanStepRunFamily",
         "graph183TailQuotientMarginFamily_of_sequenceBadFace",
         "graph183TailQuotientMarginFamily_of_evalMarginFamily",
         "graph183TailQuotientMarginFamily_of_strengthenedGraphExactEvalGate",
@@ -374,6 +382,18 @@ REQUIRED_SYMBOLS = {
         "graph183QuotientRun_of_closedBellmanRun",
         "graph183ClosedBellmanBridge_checked",
     ],
+    "graph183_closed_run_final_state": [
+        "graph183StateDepth",
+        "Graph183KnownState",
+        "graph183KnownState_root",
+        "graph183KnownState_of_closedBellmanStep",
+        "graph183ClosedBellmanStep_depth",
+        "graph183StateDepth_of_closedBellmanRun",
+        "graph183KnownState_of_closedBellmanRun",
+        "graph183ProfileFinalState_of_known_depth14",
+        "graph183ProfileFinalState_of_closedBellmanRun_length14",
+        "graph183ClosedRunFinalState_checked",
+    ],
     "target_completion_local_branch_table_shard000": [
         "ShardState",
         "completionState",
@@ -414,6 +434,7 @@ PRODUCTION_SCAN_FILES = [
     "graph183_cocycle_quotient_edge_shards",
     "graph183_cocycle_quotient_potential",
     "graph183_cocycle_quotient_closed_bridge",
+    "graph183_closed_run_final_state",
     "target_completion_local_branch_table_shard000",
     "depth11_closed_providers",
 ]
@@ -487,8 +508,26 @@ GRAPH_ALIGNMENT_GUARDS = {
             "nonIdentityRankKilled_of_acceptedSequenceGraph183TailBranchQuotientStartViolation",
             "graph183TailQuotientMarginSequenceBadFace_of_graph183TailQuotientMarginFamily",
             "strengthenedGraph183TailQuotientMargin_of_graph183TailQuotientMarginFamily",
+            "graph183GaugeCorrectedEvalLanguageBound_of_strengthenedClosedBellmanStepRunFamily",
+            "BellmanTopPairingGraph183ClosedRunFinalState",
             "graph183AcceptedBranchRawGain",
             "graph183AcceptedBranchRawGain_contract",
+        ],
+        "must_not_contain": [
+            "SampledRankIndex",
+            "sampledContainsRank",
+            "sampledRankOf",
+            "SelectedPrefix",
+            "AcceptedTraceId",
+            "acceptedTraceOfId",
+        ],
+    },
+    "graph183_closed_run_final_state": {
+        "must_contain": [
+            "Graph183KnownState",
+            "graph183StateDepth_of_closedBellmanRun",
+            "graph183ProfileFinalState_of_closedBellmanRun_length14",
+            "graph183ClosedRunFinalState_checked",
         ],
         "must_not_contain": [
             "SampledRankIndex",

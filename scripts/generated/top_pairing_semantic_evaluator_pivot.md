@@ -29,13 +29,14 @@ membership and toward deterministic closed-language evaluator proofs.
 | `graph157_continuation_socket` | `224` | none |
 | `graph169_continuation_socket` | `224` | none |
 | `graph183_tail_table_socket` | `1392` | none |
-| `graph183_quotient_margin_socket` | `1232` | none |
+| `graph183_quotient_margin_socket` | `1276` | none |
 | `closed_bellman_strengthened_semantic_gate_socket` | `223` | none |
 | `graph183_accepted_branch_quotient` | `97` | none |
 | `graph183_cocycle_quotient_edge_core` | `470` | none |
 | `graph183_cocycle_quotient_edge_shards` | `111` | none |
 | `graph183_cocycle_quotient_potential` | `108` | none |
 | `graph183_cocycle_quotient_closed_bridge` | `534` | none |
+| `graph183_closed_run_final_state` | `1217` | none |
 | `target_completion_local_branch_table_shard000` | `1403` | none |
 | `depth11_closed_providers` | `1536` | none |
 
@@ -56,6 +57,8 @@ membership and toward deterministic closed-language evaluator proofs.
 - `graph183_cocycle_quotient_potential_direct`: exit `0`, elapsed `2.00216292400728`, peak RSS MiB `3627.2265625`
 - `graph183_cocycle_quotient_potential_lake`: exit `0`, elapsed `7.008340544998646`, peak RSS MiB `23154.05078125`
 - `graph183_cocycle_quotient_closed_bridge`: exit `0`, elapsed `4.002917137026088`, peak RSS MiB `3975.34375`
+- `graph183_closed_run_final_state_direct`: exit `0`, elapsed `11.006465079990448`, peak RSS MiB `4419.6796875`
+- `graph183_closed_run_final_state_lake`: exit `0`, elapsed `9.00826031100587`, peak RSS MiB `4696.0703125`
 
 ## Forbidden Production Hits
 

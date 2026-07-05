@@ -1,6 +1,7 @@
 import Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingDepth11Layer4Graph183TailTableSocket
 import Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraph183AcceptedBranchQuotient
 import Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraph183CocycleQuotientPotential
+import Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraph183ClosedRunFinalState
 import Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraph183StartViolationProvider
 import Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingClosedBellmanStrengthenedSemanticGateSocket
 import Cuboctahedron.Generated.NonIdentity.BellmanKilledBridge
@@ -28,6 +29,7 @@ open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingDepth11Layer4
 open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraph183AcceptedBranchQuotient
 open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraph183CocycleQuotientCore
 open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraph183CocycleQuotientPotential
+open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraph183ClosedRunFinalState
 open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingClosedBellmanStrengthenedSemanticGateSocket
 open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingClosedBellmanStrengthenedShardedSmoke
 open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingClosedBellmanStrengthenedShardedSmoke.Potential
@@ -463,6 +465,48 @@ def graph183TailQuotientMarginEvalFamily_of_graph183GaugeCorrectedEvalLanguageBo
     (gauge := graph183QuotientGauge)
     (V := graph183QuotientPotential)
     hbound
+
+/--
+Package a semantic strengthened closed-Bellman step-run family as the
+graph183-specialized gauge-corrected evaluator target.
+
+The only new graph-local fact needed here is that every 14-label
+`ClosedBellmanStep` run from `graphRoot` finishes in the profile-final set
+used by `graph183ProfileFinalGaugeBound`.  That fact is checked in
+`BellmanTopPairingGraph183ClosedRunFinalState`.
+-/
+def graph183GaugeCorrectedEvalLanguageBound_of_strengthenedClosedBellmanStepRunFamily
+    {sequenceBadFace : Fin numPairWords -> Face -> Prop}
+    {scaledMargin : Fin numPairWords -> Int}
+    (hfamily :
+      StrengthenedClosedBellmanStepRunFamily
+        sequenceBadFace scaledMargin) :
+    Graph183TailQuotientGaugeCorrectedEvalLanguageBound
+      sequenceBadFace scaledMargin := by
+  intro obj _hobj
+  rcases hfamily.run obj.rank obj.strengthened with
+    ⟨finish, gain, hrun, _hfinal, hmargin⟩
+  have heval :
+      evalLabelStepFn closedBellmanNext graphRoot
+          (Graph183TailQuotientMarginEvalObj.labels obj) =
+        some (finish, gain) := by
+    simpa [Graph183TailQuotientMarginEvalObj.labels] using
+      (evalLabelStepFn_of_bellmanLabelStepRun
+        (next := closedBellmanNext)
+        (hnext := by
+          intro state face nextState gain hstep
+          exact closedBellmanStep_next hstep)
+        hrun)
+  have hlen :
+      (Graph183TailQuotientMarginEvalObj.labels obj).length = 14 := by
+    simpa [Graph183TailQuotientMarginEvalObj.labels, topPairingRankFaceLabels]
+      using obj.strengthened.closed.schedule.1
+  have hprofileFinal :
+      Graph183ProfileFinalState finish :=
+    graph183ProfileFinalState_of_closedBellmanRun_length14 hrun hlen
+  refine ⟨(finish, gain), heval, ?_, ?_⟩
+  · simpa [Graph183TailQuotientMarginEvalObj.scaledMargin] using hmargin
+  · exact graph183ProfileFinalGaugeBound hprofileFinal
 
 /--
 Turn the deterministic-evaluator margin target into the graph183 quotient
