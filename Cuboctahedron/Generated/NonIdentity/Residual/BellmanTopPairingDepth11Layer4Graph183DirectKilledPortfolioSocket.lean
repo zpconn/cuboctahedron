@@ -508,6 +508,31 @@ structure AcceptedSequenceDepth11Layer4Graph183DirectStepRunPortfolioFamily
     StrengthenedDepth11Layer4MappedBranchPortfolioFamily
       scaledMargin AcceptedSequenceBadFaceAtRank Face.zm Face.zp
 
+def acceptedSequenceGraph183DirectStepRunPortfolioFamily_of_rootMarginBundle
+    {scaledMargin : Fin numPairWords -> Int}
+    (tmpm_tppm :
+      StrengthenedDepth11Layer4MappedBranchPortfolioFamily
+        scaledMargin AcceptedSequenceBadFaceAtRank Face.tmpm Face.tppm)
+    (yp_tmmm :
+      StrengthenedDepth11Layer4MappedBranchPortfolioFamily
+        scaledMargin AcceptedSequenceBadFaceAtRank Face.yp Face.tmmm)
+    (graph147 :
+      StrengthenedGraph147RootMarginBundle
+        scaledMargin AcceptedSequenceBadFaceAtRank)
+    (zm_tmpp :
+      StrengthenedDepth11Layer4MappedBranchPortfolioFamily
+        scaledMargin AcceptedSequenceBadFaceAtRank Face.zm Face.tmpp)
+    (zm_zp :
+      StrengthenedDepth11Layer4MappedBranchPortfolioFamily
+        scaledMargin AcceptedSequenceBadFaceAtRank Face.zm Face.zp) :
+    AcceptedSequenceDepth11Layer4Graph183DirectStepRunPortfolioFamily
+      scaledMargin where
+  tmpm_tppm := tmpm_tppm
+  yp_tmmm := yp_tmmm
+  graph147 := stepRunBranchBundle_of_rootMarginBundle graph147
+  zm_tmpp := zm_tmpp
+  zm_zp := zm_zp
+
 /--
 Rank-local result for the step-run graph147 portfolio.
 

@@ -115880,3 +115880,70 @@ If the upstream producer only has the old
 `stepRunBranchBundle_of_rootMarginBundle`.  The next proof should still be a
 semantic deterministic transducer proof over closed-language branch predicates,
 not a selected-prefix or sampled-path family.
+
+### 2026-07-05 root-margin handoff for graph183 step-run portfolio
+
+Status: small upstream constructor added.
+
+The graph183-direct step-run portfolio can now be built from the existing
+graph147 root-margin bundle surface:
+
+```lean
+acceptedSequenceGraph183DirectStepRunPortfolioFamily_of_rootMarginBundle
+```
+
+Inputs:
+
+```text
+tmpm,tppm mapped-branch portfolio
+yp,tmmm mapped-branch portfolio
+StrengthenedGraph147RootMarginBundle
+zm,tmpp mapped-branch portfolio
+zm,zp mapped-branch portfolio
+```
+
+Output:
+
+```lean
+AcceptedSequenceDepth11Layer4Graph183DirectStepRunPortfolioFamily
+```
+
+Internally this uses:
+
+```lean
+stepRunBranchBundle_of_rootMarginBundle
+```
+
+so a future producer that already knows how to prove
+`StrengthenedGraph147RootMarginBundle` can immediately enter the graph183
+step-run route and avoid graph-exact graph147 nonpositive obligations.
+
+Focused guarded check:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 360 --max-tree-rss-mib 8000 \
+  --min-available-mib 30000 --hard-address-space-mib 16384 \
+  --json scripts/generated/graph183_direct_killed_portfolio_socket_guard.json \
+  -- lake env lean -M 8000 -j1 -s 16384 \
+    -o .lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingDepth11Layer4Graph183DirectKilledPortfolioSocket.olean \
+    Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingDepth11Layer4Graph183DirectKilledPortfolioSocket.lean
+```
+
+Passed: elapsed `4.00s`, peak RSS `3840 MiB`, min available `46342 MiB`.
+
+Forbidden-token scan over the touched Lean socket found no `sorry`, `admit`,
+`axiom`, `native_decide`, or `unsafe`.
+
+Next implementation target:
+
+```text
+Prove or connect the actual semantic producer for the five mapped branches plus
+graph147 root-margin bundle, then call
+acceptedSequenceMixedKilledAllFamily_of_graph183DirectStepRunPortfolio.
+```
+
+This should remain a semantic branch-family proof.  If the producer tries to
+materialize observed ranks, accepted trace IDs, selected-prefix tables, exact
+affine RHS keys, or full stored paths, stop and replace the state predicate
+with the deterministic transducer/cocycle fields instead.
