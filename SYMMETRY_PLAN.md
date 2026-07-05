@@ -105155,6 +105155,86 @@ target cursor Lake build = pass; elapsed=3.00s; peak_tree_rss=769 MiB;
 min_available=46545 MiB
 ```
 
+### 2026-07-05 graph147 ranked suffix evaluator accepted
+
+Added a small semantic evaluator socket:
+
+```text
+Cuboctahedron/Generated/NonIdentity/Residual/
+  BellmanTopPairingDepth11Layer4Graph147RankedEvalSocket.lean
+```
+
+New theorem surface:
+
+```lean
+abbrev graph147RankedEvalNext
+
+theorem graph147RankedShardSuffixOk_eval_exists_finalPotential
+
+theorem graph147YpZm_eval_exists_finalPotential_of_strengthened_prefix
+
+theorem graph147ZmYp_eval_exists_finalPotential_of_strengthened_prefix
+```
+
+What this proves:
+
+- `Graph147RankedShardSuffixOk` is now enough to drive the deterministic
+  `TopPairingTransducerEvalState.next?` evaluator all the way to a final state.
+- The final graph state has nonnegative potential.
+- The proof is an induction over the semantic suffix list using
+  `graph147RankedShardSuffixOk_localStep` and
+  `graph147RankedShardSuffixOk_finalPotential`.
+- It does not inspect ranks, sampled paths, selected prefixes, accepted trace
+  ids, exact affine RHS keys, or solved start points.
+
+What remains:
+
+- This still does not prove the root-margin inequality
+  `scaledMargin rank <= 176 + gain`.
+- The remaining graph147 production gap is therefore narrower: fill the
+  margin conjunct of the `finish` field, or provide the segment/cocycle
+  quotient theorem that supplies it.
+
+Focused checks:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 240 \
+  --max-tree-rss-mib 8000 \
+  --min-available-mib 30000 \
+  --hard-address-space-mib 8192 \
+  --json scripts/generated/graph147_ranked_eval_socket_guard.json \
+  --verbose -- lake env lean -M 6500 -j1 -s 2048 \
+    Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingDepth11Layer4Graph147RankedEvalSocket.lean
+
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 240 \
+  --max-tree-rss-mib 8000 \
+  --min-available-mib 30000 \
+  --json scripts/generated/graph147_ranked_eval_socket_lake_guard.json \
+  --verbose -- env LEAN_NUM_THREADS=1 LAKE_JOBS=1 \
+    lake build \
+      Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingDepth11Layer4Graph147RankedEvalSocket
+
+rg -n "sorry|admit|axiom|native_decide|unsafe|SampledRankIndex|\
+sampledContainsRank|sampledRankOf|selectedPrefix|AcceptedTrace|\
+acceptedTrace|exactAffine|affineRhs" \
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingDepth11Layer4Graph147RankedEvalSocket.lean
+```
+
+Results:
+
+```text
+direct Lean check = pass; elapsed=2.01s; peak_tree_rss=3622 MiB;
+hard_as=8192 MiB; min_available=46353 MiB
+Lake build = pass; elapsed=3.00s; peak_tree_rss=3660 MiB;
+min_available=46272 MiB
+forbidden scan = pass; no matches
+```
+
 ### 2026-07-05 graph147 selected-prefix route rejected for production
 
 The newest GPT5.5 Pro review has been adopted as a hard production rule:
