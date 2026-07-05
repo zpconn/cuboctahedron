@@ -111794,6 +111794,92 @@ selected prefixes, accepted trace ids, exact affine RHS keys, solved
 start-point keys, or one branch per rank/path, reject the route and strengthen
 the semantic state or switch to the cancellation-segment quotient.
 
+### 2026-07-05 graph183 carrier-strengthening adapters
+
+Added small semantic adapters to
+`BellmanTopPairingGraph183QuotientMarginSocket.lean` so future producers can
+move from a quotient-margin family to the strengthened `sequenceBadFace`
+carrier without rebuilding graph183 membership by hand.
+
+New theorem/API surface:
+
+```lean
+graph183TailQuotientMarginSequenceBadFace_of_graph183TailQuotientMarginFamily
+strengthenedGraph183TailQuotientMargin_of_graph183TailQuotientMarginFamily
+strengthenedGraph183TailQuotientMargin_of_acceptedTailQuotientMarginFamily
+```
+
+The important theorem shape is:
+
+```lean
+Graph183TailQuotientMarginFamily sequenceBadFace scaledMargin ->
+TopPairingStrengthenedClosedLanguageAtRank sequenceBadFace rank Face.ym ->
+TopPairingStrengthenedClosedLanguageAtRank
+  (Graph183TailQuotientMarginSequenceBadFace scaledMargin) rank Face.ym
+```
+
+This is not proof of the margin family.  It is a production-safe adapter: once
+a generated semantic producer proves the branch-local quotient-margin theorem,
+the strengthened carrier follows by `TopPairingStrengthenedClosedLanguageAtRank`
+components, with no sampled ranks, selected prefixes, accepted trace ids, exact
+affine RHS keys, or stored paths.
+
+Focused guarded Lean check:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 6500 --min-available-mib 30000 \
+  --timeout-seconds 180 --hard-address-space-mib 6500 \
+  --json scripts/generated/graph183_quotient_margin_socket_latest_guard.json \
+  -- lake env lean -M 6500 -j1 -s 2048 \
+    Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingGraph183QuotientMarginSocket.lean
+```
+
+Result:
+
+```text
+exit = 0
+elapsed = 8.01s
+peak RSS = 3809 MiB
+min available = 46322 MiB
+```
+
+Updated audits:
+
+```bash
+python3 -m py_compile scripts/audit_top_pairing_semantic_evaluator_pivot.py
+python3 -m py_compile scripts/audit_graph183_accepted_tail_margin_frontier.py
+python3 -m py_compile scripts/audit_latest_bellman_semantic_pivot.py
+python3 -m py_compile scripts/audit_graph183_carrier_producer_readiness.py
+python3 scripts/audit_top_pairing_semantic_evaluator_pivot.py
+python3 scripts/audit_graph183_accepted_tail_margin_frontier.py
+python3 scripts/audit_latest_bellman_semantic_pivot.py
+python3 scripts/audit_graph183_carrier_producer_readiness.py
+```
+
+Results:
+
+```text
+semantic evaluator decision =
+  semantic_evaluator_pivot_ready_for_graph183_sequencebadface_carrier
+graph183 frontier decision =
+  diagnostic_supports_graph183_accepted_tail_margin_bellman_route
+latest Bellman status =
+  latest-bellman-semantic-pivot-has-graph183-sequencebadface-carrier
+carrier readiness decision =
+  graph183_carrier_sockets_ready_but_producer_missing
+```
+
+Remaining target:
+
+```lean
+Graph183TailQuotientMarginSequenceBadFace scaledMargin
+```
+
+must still be proved by an upstream semantic closed-language/evaluator or
+cocycle-gauge margin producer.
+
 ### 2026-07-05 deterministic transducer pivot sharpened
 
 GPT5.5 Pro's latest recommendation is now the active graph183 strategy:

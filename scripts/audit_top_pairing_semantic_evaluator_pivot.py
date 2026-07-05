@@ -275,6 +275,9 @@ REQUIRED_SYMBOLS = {
         "AcceptedSequenceGraph183TailBranchQuotientStartViolationFamily",
         "nonIdentityRankKilled_of_acceptedSequenceGraph183TailBranchQuotientStartViolation",
         "acceptedSequenceGraph183AcceptedBranchExactEvalFamily_of_quotientMargin",
+        "graph183TailQuotientMarginSequenceBadFace_of_graph183TailQuotientMarginFamily",
+        "strengthenedGraph183TailQuotientMargin_of_graph183TailQuotientMarginFamily",
+        "strengthenedGraph183TailQuotientMargin_of_acceptedTailQuotientMarginFamily",
         "graph183QuotientMarginSocket_builds",
     ],
     "graph183_accepted_branch_quotient": [
@@ -377,6 +380,8 @@ GRAPH_ALIGNMENT_GUARDS = {
             "Graph183TailBranchQuotientStartViolationFamily",
             "nonIdentityRankKilled_of_graph183TailBranchQuotientStartViolation",
             "nonIdentityRankKilled_of_acceptedSequenceGraph183TailBranchQuotientStartViolation",
+            "graph183TailQuotientMarginSequenceBadFace_of_graph183TailQuotientMarginFamily",
+            "strengthenedGraph183TailQuotientMargin_of_graph183TailQuotientMarginFamily",
             "graph183AcceptedBranchRawGain",
             "graph183AcceptedBranchRawGain_contract",
         ],

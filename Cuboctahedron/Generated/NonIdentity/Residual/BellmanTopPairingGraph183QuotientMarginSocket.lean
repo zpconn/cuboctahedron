@@ -163,6 +163,55 @@ def graph183TailQuotientMarginFamily_of_sequenceBadFace
     rcases hstrengthened.sequenceBadFace_ok with ⟨_hbadFace, hmargin⟩
     exact hmargin hprefix
 
+theorem graph183TailQuotientMarginSequenceBadFace_of_graph183TailQuotientMarginFamily
+    {sequenceBadFace : Fin numPairWords -> Face -> Prop}
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords}
+    (hfamily : Graph183TailQuotientMarginFamily sequenceBadFace scaledMargin)
+    (hstrengthened :
+      TopPairingStrengthenedClosedLanguageAtRank
+        sequenceBadFace rank Face.ym) :
+    Graph183TailQuotientMarginSequenceBadFace scaledMargin rank Face.ym := by
+  refine ⟨rfl, ?_⟩
+  intro hprefix
+  exact hfamily.final_margin_yp_branch_quotient
+    rank hstrengthened hprefix
+
+theorem strengthenedGraph183TailQuotientMargin_of_graph183TailQuotientMarginFamily
+    {sequenceBadFace : Fin numPairWords -> Face -> Prop}
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords}
+    (hfamily : Graph183TailQuotientMarginFamily sequenceBadFace scaledMargin)
+    (hstrengthened :
+      TopPairingStrengthenedClosedLanguageAtRank
+        sequenceBadFace rank Face.ym) :
+    TopPairingStrengthenedClosedLanguageAtRank
+      (Graph183TailQuotientMarginSequenceBadFace scaledMargin)
+      rank Face.ym :=
+  TopPairingStrengthenedClosedLanguageAtRank.ofComponents
+    hstrengthened.closed hstrengthened.actualFaceOmni
+    (graph183TailQuotientMarginSequenceBadFace_of_graph183TailQuotientMarginFamily
+      hfamily hstrengthened)
+
+theorem strengthenedGraph183TailQuotientMargin_of_acceptedTailQuotientMarginFamily
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords}
+    (hfamily :
+      AcceptedSequenceGraph183AcceptedTailQuotientMarginFamily scaledMargin)
+    (hstrengthened :
+      TopPairingStrengthenedClosedLanguageAtRank
+        AcceptedSequenceBadFaceAtRank rank Face.ym) :
+    TopPairingStrengthenedClosedLanguageAtRank
+      (Graph183TailQuotientMarginSequenceBadFace scaledMargin)
+      rank Face.ym :=
+  TopPairingStrengthenedClosedLanguageAtRank.ofComponents
+    hstrengthened.closed hstrengthened.actualFaceOmni
+    (by
+      refine ⟨rfl, ?_⟩
+      intro hprefix
+      exact hfamily.final_margin_yp_branch_quotient
+        rank hstrengthened hprefix)
+
 theorem scaledMargin_nonpos_of_graph183TailQuotientMarginSequenceBadFace
     {scaledMargin : Fin numPairWords -> Int}
     {rank : Fin numPairWords}
