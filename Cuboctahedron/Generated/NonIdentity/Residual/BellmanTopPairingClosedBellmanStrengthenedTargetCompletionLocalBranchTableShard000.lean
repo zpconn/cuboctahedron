@@ -783,6 +783,154 @@ theorem TerminalExternalOk.eval_exists
   cases hok <;>
     exact ⟨nextState, nextState, 0, hnext, by simp [evalLabelStepFn]⟩
 
+def graph157ExternalTargetCompletionState :
+    TopPairingTargetCompletionState :=
+  graph150TargetCompletionState.next Face.zp
+
+abbrev Graph157ExternalTargetCompletionTail (labels : List Face) : Prop :=
+  TopPairingTargetCompletionTail graph157ExternalTargetCompletionState labels
+
+inductive ShardExternalTailOk : Nat -> List Face -> Prop where
+  | terminal {graph : Nat} {rest : List Face}
+      (hok : TerminalExternalOk graph rest) :
+      ShardExternalTailOk graph rest
+  | graph157 {rest : List Face}
+      (htail : Graph157ExternalTargetCompletionTail rest) :
+      ShardExternalTailOk 157 rest
+  | graph159 {rest : List Face}
+      (htail : Graph159TargetCompletionTail rest) :
+      ShardExternalTailOk 159 rest
+
+theorem ShardExternalTailOk.of_external_targetCompletionTail
+    {state : ShardState} {graph : Nat} {face : Face} {gain : Int}
+    {rest : List Face}
+    (hstep : nextTarget? state face = some (.externalGraph graph, gain))
+    (htail :
+      TopPairingTargetCompletionTail
+        ((completionState state).next face) rest) :
+    ShardExternalTailOk graph rest := by
+  cases state <;> cases face <;>
+    simp [nextTarget?] at hstep
+  all_goals rcases hstep with ⟨rfl, rfl⟩
+  case prefix13YpZmZpTmmmTpmmTppmTpmpTmpmTpppTmppTmmp.xp =>
+    cases htail with
+    | nil _hremaining _hsummary =>
+        exact .terminal .graph141
+    | cons hremaining _hschedule _hsquare _hrest =>
+        simp [completionState, graph112TargetCompletionState,
+          graph69TargetCompletionState, graph36TargetCompletionState,
+          graph6TargetCompletionState, graph208TargetCompletionState,
+          graph191TargetCompletionState, graph176TargetCompletionState,
+          graph163TargetCompletionState, graph153TargetCompletionState,
+          graph147TargetCompletionState, TopPairingTargetCompletionState.next]
+          at hremaining
+  case prefix13YpZmTmmpTpmpTpppTpmmTmppTppmTmpmTmmmZp.xp =>
+    cases htail with
+    | nil _hremaining _hsummary =>
+        exact .terminal .graph138
+    | cons hremaining _hschedule _hsquare _hrest =>
+        simp [completionState, graph109TargetCompletionState,
+          graph75TargetCompletionState, graph41TargetCompletionState,
+          graph11TargetCompletionState, graph211TargetCompletionState,
+          graph194TargetCompletionState, graph178TargetCompletionState,
+          graph166TargetCompletionState, graph155TargetCompletionState,
+          graph147TargetCompletionState, TopPairingTargetCompletionState.next]
+          at hremaining
+  case prefix4TmpmZm.zp =>
+    exact .graph157
+      (by
+        simpa [Graph157ExternalTargetCompletionTail,
+          graph157ExternalTargetCompletionState, completionState] using htail)
+  case prefix4ZmTmpp.tppp =>
+    exact .graph159
+      (by
+        simpa [Graph159TargetCompletionTail, graph159TargetCompletionState,
+          completionState] using htail)
+
+theorem ShardTargetSuffixOk.of_targetCompletionTail_externalTailOk
+    {state : ShardState} {labels : List Face}
+    (htail :
+      TopPairingTargetCompletionTail (completionState state) labels) :
+    ShardTargetSuffixOk ShardExternalTailOk state labels :=
+  ShardTargetSuffixOk.of_targetCompletionTail
+    (ExternalOk := ShardExternalTailOk)
+    (by
+      intro state graph face gain rest hstep htail
+      exact ShardExternalTailOk.of_external_targetCompletionTail
+        hstep htail)
+    htail
+
+theorem ShardExternalTailOk.eval_exists
+    (hgraph157 :
+      ∀ {state : ShardState} {face : Face} {gain : Int}
+          {rest : List Face},
+        nextTarget? state face = some (.externalGraph 157, gain) ->
+        Graph157ExternalTargetCompletionTail rest ->
+          ∃ nextState finish tailGain,
+            strengthenedClosedEvalNext (evalState state) face =
+                some (nextState, gain) ∧
+              evalLabelStepFn strengthenedClosedEvalNext nextState rest =
+                some (finish, tailGain))
+    (hgraph159 :
+      ∀ {state : ShardState} {face : Face} {gain : Int}
+          {rest : List Face},
+        nextTarget? state face = some (.externalGraph 159, gain) ->
+        Graph159TargetCompletionTail rest ->
+          ∃ nextState finish tailGain,
+            strengthenedClosedEvalNext (evalState state) face =
+                some (nextState, gain) ∧
+              evalLabelStepFn strengthenedClosedEvalNext nextState rest =
+                some (finish, tailGain))
+    {state : ShardState} {graph : Nat} {face : Face} {gain : Int}
+    {rest : List Face}
+    (hstep : nextTarget? state face = some (.externalGraph graph, gain))
+    (hok : ShardExternalTailOk graph rest) :
+      ∃ nextState finish tailGain,
+        strengthenedClosedEvalNext (evalState state) face =
+            some (nextState, gain) ∧
+          evalLabelStepFn strengthenedClosedEvalNext nextState rest =
+            some (finish, tailGain) := by
+  cases hok with
+  | terminal hterminal =>
+      exact TerminalExternalOk.eval_exists hstep hterminal
+  | graph157 htail =>
+      exact hgraph157 hstep htail
+  | graph159 htail =>
+      exact hgraph159 hstep htail
+
+theorem eval_exists_of_targetCompletionTail_externalTailOk
+    (hgraph157 :
+      ∀ {state : ShardState} {face : Face} {gain : Int}
+          {rest : List Face},
+        nextTarget? state face = some (.externalGraph 157, gain) ->
+        Graph157ExternalTargetCompletionTail rest ->
+          ∃ nextState finish tailGain,
+            strengthenedClosedEvalNext (evalState state) face =
+                some (nextState, gain) ∧
+              evalLabelStepFn strengthenedClosedEvalNext nextState rest =
+                some (finish, tailGain))
+    (hgraph159 :
+      ∀ {state : ShardState} {face : Face} {gain : Int}
+          {rest : List Face},
+        nextTarget? state face = some (.externalGraph 159, gain) ->
+        Graph159TargetCompletionTail rest ->
+          ∃ nextState finish tailGain,
+            strengthenedClosedEvalNext (evalState state) face =
+                some (nextState, gain) ∧
+              evalLabelStepFn strengthenedClosedEvalNext nextState rest =
+                some (finish, tailGain))
+    {state : ShardState} {labels : List Face}
+    (htail :
+      TopPairingTargetCompletionTail (completionState state) labels) :
+    ∃ finish totalGain,
+      evalLabelStepFn strengthenedClosedEvalNext (evalState state) labels =
+        some (finish, totalGain) :=
+  eval_exists_of_targetCompletionTail
+    (ExternalOk := ShardExternalTailOk)
+    ShardExternalTailOk.of_external_targetCompletionTail
+    (ShardExternalTailOk.eval_exists hgraph157 hgraph159)
+    htail
+
 def localBranchTable :
     (state : ShardState) ->
       StrengthenedTargetCompletionLocalBranchTable

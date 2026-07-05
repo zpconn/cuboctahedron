@@ -105145,6 +105145,13 @@ theorem eval_exists_of_targetCompletionTail
 inductive TerminalExternalOk
 theorem TerminalExternalOk.final_nonneg
 theorem TerminalExternalOk.eval_exists
+def graph157ExternalTargetCompletionState
+abbrev Graph157ExternalTargetCompletionTail
+inductive ShardExternalTailOk
+theorem ShardExternalTailOk.of_external_targetCompletionTail
+theorem ShardTargetSuffixOk.of_targetCompletionTail_externalTailOk
+theorem ShardExternalTailOk.eval_exists
+theorem eval_exists_of_targetCompletionTail_externalTailOk
 theorem nextTarget?_prefix4YpZm_zp
 theorem nextTarget?_prefix4YpZm_tmmp
 theorem nextTarget?_terminal_graph112
@@ -105212,6 +105219,19 @@ Bellman potential facts `final_nonneg_028` and `final_nonneg_025`.  This does
 not treat graph150/151 as terminal; those remain continuation sockets for other
 lanes.
 
+Fifth follow-up accepted in the same shard: `ShardExternalTailOk` separates
+the four external handoff exits according to their actual semantic shape.
+Graph states `141` and `138` remain terminal empty-tail sockets through
+`TerminalExternalOk`; graph state `157` now carries
+`Graph157ExternalTargetCompletionTail`; and graph state `159` carries the
+existing `Graph159TargetCompletionTail`.  The theorem
+`ShardExternalTailOk.of_external_targetCompletionTail` proves that every
+external target-completion handoff lands in the right socket, and
+`eval_exists_of_targetCompletionTail_externalTailOk` composes the bounded
+graph147 target-completion proof with caller-provided evaluator obligations
+for graph157/159.  This keeps graph150/151 honest: they are continuation
+obligations, not fake terminal states.
+
 Focused guarded build:
 
 ```bash
@@ -105226,9 +105246,21 @@ python3 scripts/run_memory_guarded.py \
 Result:
 
 ```text
-pass; elapsed=8.01s; peak_tree_rss=4037 MiB; min_available=46034 MiB
+pass; elapsed=4.00s; peak_tree_rss=4011 MiB; min_available=46046 MiB
 ```
 
+The first continuation-aware external-tail attempt failed safely under the
+same guard in `9.01s` with `3982 MiB` peak tree RSS.  It failed because the
+terminal-cons contradiction needed explicit completion-state unfold lists for
+the graph112/109 chains, and the graph159 handoff needed its alias unfolded.
+The accepted version fixes those proof-shape details without broad reduction.
+
+The previous focused build after the terminal external socket passed under the
+same guard in `8.01s` with `4037 MiB` peak tree RSS and `46034 MiB` minimum
+available memory.
+The cached checkpoint rerun after the documentation/audit update passed under
+the same guard in `3.00s` with `795 MiB` peak tree RSS and `46488 MiB` minimum
+available memory.
 The previous focused build after `eval_exists_of_targetCompletionTail` passed
 under the same guard in `5.00s` with `4022 MiB` peak tree RSS and `46079 MiB`
 minimum available memory.
@@ -105278,13 +105310,21 @@ deterministic_target_shard_symbols.eval_exists_of_targetCompletionTail = true
 deterministic_target_shard_symbols.TerminalExternalOk = true
 deterministic_target_shard_symbols.TerminalExternalOk.eval_exists = true
 deterministic_target_shard_symbols.TerminalExternalOk.final_nonneg = true
+deterministic_target_shard_symbols.graph157ExternalTargetCompletionState = true
+deterministic_target_shard_symbols.Graph157ExternalTargetCompletionTail = true
+deterministic_target_shard_symbols.ShardExternalTailOk = true
+deterministic_target_shard_symbols.ShardExternalTailOk.of_external_targetCompletionTail = true
+deterministic_target_shard_symbols.ShardTargetSuffixOk.of_targetCompletionTail_externalTailOk = true
+deterministic_target_shard_symbols.ShardExternalTailOk.eval_exists = true
+deterministic_target_shard_symbols.eval_exists_of_targetCompletionTail_externalTailOk = true
 forbidden_hits = []
 ```
 
 Remaining formal boundary:
 
 ```text
-prove the terminal margin socket, graph150/151 continuation sockets, and the
+prove graph157/159 evaluator continuation obligations, graph150/151
+continuation-to-margin sockets, the terminal margin socket, and the
 rank-parametric closed-language-to-eval theorem that recurses over nextTarget?
 and turns TopPairingStrengthenedClosedLanguageAtRank /
 TopPairingClosedLanguageAtRank into the evaluator result and

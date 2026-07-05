@@ -227,6 +227,13 @@ GRAPH147_DETERMINISTIC_TARGET_SHARD_REQUIRED = [
     "TerminalExternalOk",
     "TerminalExternalOk.final_nonneg",
     "TerminalExternalOk.eval_exists",
+    "graph157ExternalTargetCompletionState",
+    "Graph157ExternalTargetCompletionTail",
+    "ShardExternalTailOk",
+    "ShardExternalTailOk.of_external_targetCompletionTail",
+    "ShardTargetSuffixOk.of_targetCompletionTail_externalTailOk",
+    "ShardExternalTailOk.eval_exists",
+    "eval_exists_of_targetCompletionTail_externalTailOk",
     "nextTarget?_prefix4YpZm_zp",
     "nextTarget?_prefix4YpZm_tmmp",
     "nextTarget?_terminal_graph112",
@@ -708,12 +715,15 @@ def main() -> int:
                     "next shard state or an external graph target.  It also "
                     "proves that target-completion tails feed the recursive "
                     "ShardTargetSuffixOk predicate and compose to evaluator "
-                    "existence under external graph sockets.  It now also "
-                    "has terminal empty-tail evaluator/final-potential sockets "
-                    "for graph states 141 and 138.  The lane still needs the "
-                    "terminal margin socket, graph150/151 continuation sockets, "
-                    "and the rank-parametric closed-language-to-eval theorem "
-                    "without selected-prefix or sampled-rank membership."
+                    "existence under external graph sockets.  It now separates "
+                    "terminal graph states 141/138 from continuation graph "
+                    "states 157/159, with empty-tail evaluator/final-potential "
+                    "sockets only for the terminal exits.  The lane still needs "
+                    "graph157/159 evaluator continuation obligations, "
+                    "graph150/151 continuation-to-margin sockets, the terminal "
+                    "margin socket, and the rank-parametric "
+                    "closed-language-to-eval theorem without selected-prefix "
+                    "or sampled-rank membership."
                     if graph147_deterministic_target_shard_ok
                     else (
                     "graph147 now reaches terminal graph states 141 and 138 "
