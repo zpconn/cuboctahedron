@@ -391,6 +391,26 @@
       "passed": true
     },
     {
+      "detail": [],
+      "name": "socket:forbidden_import_absent:BellmanTopPairingTrace017StartViolationProvider",
+      "passed": true
+    },
+    {
+      "detail": [],
+      "name": "socket:forbidden_import_absent:BellmanTopPairingTraceStartViolationProviders",
+      "passed": true
+    },
+    {
+      "detail": [],
+      "name": "socket:forbidden_import_absent:BellmanTopPairingTraceStartViolationDirectKilledBridge",
+      "passed": true
+    },
+    {
+      "detail": [],
+      "name": "socket:forbidden_import_absent:TopPairingTraceClassifier.Terminal",
+      "passed": true
+    },
+    {
       "detail": "BellmanTopPairingGraph183AcceptedBranchQuotient",
       "name": "socket:imports_accepted_branch_quotient",
       "passed": true
@@ -526,6 +546,31 @@
       "detail": 46363.515625,
       "name": "accepted_branch_guard:available_above_30000_mib",
       "passed": true
+    },
+    {
+      "detail": "process-tree RSS 12731 MiB exceeded 7000 MiB cap",
+      "name": "trace017_provider_no_go:build_guard_recorded",
+      "passed": true
+    },
+    {
+      "detail": 12731.64453125,
+      "name": "trace017_provider_no_go:build_exceeded_socket_rss_cap",
+      "passed": true
+    },
+    {
+      "detail": "process-tree RSS 12731 MiB exceeded 7000 MiB cap",
+      "name": "trace017_provider_no_go:build_was_guard_killed",
+      "passed": true
+    },
+    {
+      "detail": 1,
+      "name": "trace017_provider_no_go:source_guard_recorded",
+      "passed": true
+    },
+    {
+      "detail": 1,
+      "name": "trace017_provider_no_go:source_check_not_available_as_light_import",
+      "passed": true
     }
   ],
   "decision": "graph183_carrier_sockets_ready_but_producer_missing",
@@ -547,7 +592,11 @@
     "quotient_edges": 93,
     "quotient_max_bit_length": 9,
     "quotient_mode": "step-par",
-    "quotient_states": 43
+    "quotient_states": 43,
+    "trace017_provider_guard_exit_code": -15,
+    "trace017_provider_guard_killed_reason": "process-tree RSS 12731 MiB exceeded 7000 MiB cap",
+    "trace017_provider_guard_peak_rss_mib": 12731.64453125,
+    "trace017_provider_source_guard_exit_code": 1
   },
   "mode": "graph183_carrier_producer_readiness",
   "next_required_theorem": "Graph183TailQuotientMarginSequenceBadFace scaledMargin, proved from semantic closed-language / deterministic evaluator / cocycle-gauge state",

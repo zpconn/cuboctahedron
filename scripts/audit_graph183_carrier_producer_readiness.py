@@ -53,6 +53,12 @@ CLOSED_SEMANTIC_GATE_GUARD = (
     ROOT
     / "scripts/generated/closed_bellman_strengthened_semantic_gate_socket_latest_guard.json"
 )
+TRACE017_PROVIDER_GUARD = (
+    ROOT / "scripts/generated/trace017_start_violation_provider_guard.json"
+)
+TRACE017_PROVIDER_SOURCE_GUARD = (
+    ROOT / "scripts/generated/trace017_start_violation_provider_source_guard.json"
+)
 
 REQUIRED_SOCKET_SYMBOLS = [
     "Graph183TailQuotientMarginSequenceBadFace",
@@ -125,6 +131,13 @@ FORBIDDEN_PRODUCER_TOKENS = [
     "acceptedTraceOfId",
 ]
 
+FORBIDDEN_SOCKET_IMPORT_FRAGMENTS = [
+    "BellmanTopPairingTrace017StartViolationProvider",
+    "BellmanTopPairingTraceStartViolationProviders",
+    "BellmanTopPairingTraceStartViolationDirectKilledBridge",
+    "TopPairingTraceClassifier.Terminal",
+]
+
 PRODUCTION_CARRIER_CANDIDATES = [
     "graph183TailQuotientMarginSequenceBadFace_of_closedLanguage",
     "graph183TailQuotientMarginSequenceBadFace_of_quotientEval",
@@ -173,6 +186,27 @@ def forbidden_checks(label: str, path: Path) -> list[dict[str, Any]]:
                 "name": f"{label}:forbidden_absent:{token}",
                 "passed": token not in text,
                 "detail": token,
+            }
+        )
+    return checks
+
+
+def forbidden_import_checks(
+    label: str, path: Path, forbidden_fragments: list[str]
+) -> list[dict[str, Any]]:
+    imports = [
+        line.strip()
+        for line in read_text(path).splitlines()
+        if line.strip().startswith("import ")
+    ]
+    checks = []
+    for fragment in forbidden_fragments:
+        hits = [line for line in imports if fragment in line]
+        checks.append(
+            {
+                "name": f"{label}:forbidden_import_absent:{fragment}",
+                "passed": not hits,
+                "detail": hits,
             }
         )
     return checks
@@ -298,6 +332,51 @@ def guard_checks(label: str, guard: dict[str, Any] | None) -> list[dict[str, Any
     ]
 
 
+def trace_provider_no_go_checks(
+    build_guard: dict[str, Any] | None,
+    source_guard: dict[str, Any] | None,
+) -> list[dict[str, Any]]:
+    checks: list[dict[str, Any]] = []
+    checks.append(
+        {
+            "name": "trace017_provider_no_go:build_guard_recorded",
+            "passed": build_guard is not None,
+            "detail": None if build_guard is None else build_guard.get("killed_reason"),
+        }
+    )
+    if build_guard is not None:
+        checks.append(
+            {
+                "name": "trace017_provider_no_go:build_exceeded_socket_rss_cap",
+                "passed": float(build_guard.get("max_tree_rss_mib", 0)) > 7000.0,
+                "detail": build_guard.get("max_tree_rss_mib"),
+            }
+        )
+        checks.append(
+            {
+                "name": "trace017_provider_no_go:build_was_guard_killed",
+                "passed": bool(build_guard.get("killed_reason")),
+                "detail": build_guard.get("killed_reason"),
+            }
+        )
+    checks.append(
+        {
+            "name": "trace017_provider_no_go:source_guard_recorded",
+            "passed": source_guard is not None,
+            "detail": None if source_guard is None else source_guard.get("exit_code"),
+        }
+    )
+    if source_guard is not None:
+        checks.append(
+            {
+                "name": "trace017_provider_no_go:source_check_not_available_as_light_import",
+                "passed": source_guard.get("exit_code") != 0,
+                "detail": source_guard.get("exit_code"),
+            }
+        )
+    return checks
+
+
 def production_status(*texts: str) -> dict[str, Any]:
     haystack = "\n".join(texts)
     found = [name for name in PRODUCTION_CARRIER_CANDIDATES if name in haystack]
@@ -328,6 +407,10 @@ def render_markdown(report: dict[str, Any]) -> str:
         "The production socket now imports a tiny accepted-branch quotient",
         "module that checks the 14 local equations and accepted raw-gain",
         "contract it needs.",
+        "The audit now also enforces that this socket does not import trace",
+        "start-violation provider leaves or terminal trace-classifier shards.",
+        "Those remain heavy/diagnostic evidence until replaced by a semantic",
+        "branch-local start-violation producer.",
         "The 1M graph183 profile and quotient profile support the route as a",
         "diagnostic.  The full 229-edge quotient smoke remains diagnostic only.",
         "However, no production theorem currently proves",
@@ -362,6 +445,8 @@ def main() -> int:
     guard = read_json(GUARD)
     accepted_branch_guard = read_json(ACCEPTED_BRANCH_GUARD)
     closed_semantic_gate_guard = read_json(CLOSED_SEMANTIC_GATE_GUARD)
+    trace017_provider_guard = read_json(TRACE017_PROVIDER_GUARD)
+    trace017_provider_source_guard = read_json(TRACE017_PROVIDER_SOURCE_GUARD)
 
     checks: list[dict[str, Any]] = []
     checks.extend(symbol_checks("socket", SOCKET, REQUIRED_SOCKET_SYMBOLS))
@@ -384,6 +469,13 @@ def main() -> int:
     checks.extend(forbidden_checks("closed_semantic_gate", CLOSED_SEMANTIC_GATE))
     checks.extend(forbidden_checks("accepted_branch_quotient", ACCEPTED_BRANCH))
     checks.extend(forbidden_checks("smoke", SMOKE))
+    checks.extend(
+        forbidden_import_checks(
+            "socket",
+            SOCKET,
+            FORBIDDEN_SOCKET_IMPORT_FRAGMENTS,
+        )
+    )
     checks.append(
         {
             "name": "socket:imports_accepted_branch_quotient",
@@ -426,6 +518,12 @@ def main() -> int:
         guard_checks("closed_semantic_gate_guard", closed_semantic_gate_guard)
     )
     checks.extend(guard_checks("accepted_branch_guard", accepted_branch_guard))
+    checks.extend(
+        trace_provider_no_go_checks(
+            trace017_provider_guard,
+            trace017_provider_source_guard,
+        )
+    )
 
     status = production_status(socket_text, closed_semantic_gate_text)
     failed = [row for row in checks if not row["passed"]]
@@ -476,6 +574,18 @@ def main() -> int:
             "accepted_branch_guard_min_available_mib": None
             if accepted_branch_guard is None
             else accepted_branch_guard.get("min_available_seen_mib"),
+            "trace017_provider_guard_exit_code": None
+            if trace017_provider_guard is None
+            else trace017_provider_guard.get("exit_code"),
+            "trace017_provider_guard_peak_rss_mib": None
+            if trace017_provider_guard is None
+            else trace017_provider_guard.get("max_tree_rss_mib"),
+            "trace017_provider_guard_killed_reason": None
+            if trace017_provider_guard is None
+            else trace017_provider_guard.get("killed_reason"),
+            "trace017_provider_source_guard_exit_code": None
+            if trace017_provider_source_guard is None
+            else trace017_provider_source_guard.get("exit_code"),
         },
         "next_required_theorem": (
             "Graph183TailQuotientMarginSequenceBadFace scaledMargin, proved "

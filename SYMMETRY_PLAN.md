@@ -111711,6 +111711,20 @@ Do not pack trace-provider leaves into the public graph183 route.
 Prove graph183 by a deterministic semantic transducer theorem plus a semantic
 branch-local start-violation producer.
 
+Audit hardening:
+
+`scripts/audit_graph183_carrier_producer_readiness.py` now checks that the
+graph183 quotient socket does not import:
+
+- `BellmanTopPairingTrace017StartViolationProvider`;
+- `BellmanTopPairingTraceStartViolationProviders`;
+- `BellmanTopPairingTraceStartViolationDirectKilledBridge`;
+- terminal trace-classifier shards.
+
+It also records the trace017 guard no-go telemetry.  This makes the import
+boundary part of the automated status audit rather than only a note in this
+plan.
+
 Interpretation: the Lean bridge from a semantic/gauge-corrected eval-margin
 language theorem to the graph183 carrier is now checked and cheap.  The
 remaining missing piece is no longer a socket: it is the actual semantic

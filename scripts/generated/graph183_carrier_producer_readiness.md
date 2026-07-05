@@ -16,6 +16,10 @@ adapts semantic step runs to deterministic exact-evaluator gates.
 The production socket now imports a tiny accepted-branch quotient
 module that checks the 14 local equations and accepted raw-gain
 contract it needs.
+The audit now also enforces that this socket does not import trace
+start-violation provider leaves or terminal trace-classifier shards.
+Those remain heavy/diagnostic evidence until replaced by a semantic
+branch-local start-violation producer.
 The 1M graph183 profile and quotient profile support the route as a
 diagnostic.  The full 229-edge quotient smoke remains diagnostic only.
 However, no production theorem currently proves
@@ -48,6 +52,10 @@ observed path remains a no-go.
 | `accepted_branch_guard_elapsed_seconds` | `5.0034252110053785` |
 | `accepted_branch_guard_peak_rss_mib` | `3410.734375` |
 | `accepted_branch_guard_min_available_mib` | `46363.515625` |
+| `trace017_provider_guard_exit_code` | `-15` |
+| `trace017_provider_guard_peak_rss_mib` | `12731.64453125` |
+| `trace017_provider_guard_killed_reason` | `process-tree RSS 12731 MiB exceeded 7000 MiB cap` |
+| `trace017_provider_source_guard_exit_code` | `1` |
 
 ## Checks
 
@@ -131,6 +139,10 @@ observed path remains a no-go.
 | `smoke:forbidden_absent:SelectedPrefix` | `True` | `SelectedPrefix` |
 | `smoke:forbidden_absent:AcceptedTraceId` | `True` | `AcceptedTraceId` |
 | `smoke:forbidden_absent:acceptedTraceOfId` | `True` | `acceptedTraceOfId` |
+| `socket:forbidden_import_absent:BellmanTopPairingTrace017StartViolationProvider` | `True` | `[]` |
+| `socket:forbidden_import_absent:BellmanTopPairingTraceStartViolationProviders` | `True` | `[]` |
+| `socket:forbidden_import_absent:BellmanTopPairingTraceStartViolationDirectKilledBridge` | `True` | `[]` |
+| `socket:forbidden_import_absent:TopPairingTraceClassifier.Terminal` | `True` | `[]` |
 | `socket:imports_accepted_branch_quotient` | `True` | `BellmanTopPairingGraph183AcceptedBranchQuotient` |
 | `socket:does_not_import_full_smoke` | `True` | `BellmanTopPairingGraph183CocycleQuotientSmoke` |
 | `accepted_branch:documents_not_coverage` | `True` | `not coverage evidence by itself` |
@@ -157,3 +169,8 @@ observed path remains a no-go.
 | `accepted_branch_guard:guard_exit_zero` | `True` | `0` |
 | `accepted_branch_guard:rss_under_6500_mib` | `True` | `3410.734375` |
 | `accepted_branch_guard:available_above_30000_mib` | `True` | `46363.515625` |
+| `trace017_provider_no_go:build_guard_recorded` | `True` | `process-tree RSS 12731 MiB exceeded 7000 MiB cap` |
+| `trace017_provider_no_go:build_exceeded_socket_rss_cap` | `True` | `12731.64453125` |
+| `trace017_provider_no_go:build_was_guard_killed` | `True` | `process-tree RSS 12731 MiB exceeded 7000 MiB cap` |
+| `trace017_provider_no_go:source_guard_recorded` | `True` | `1` |
+| `trace017_provider_no_go:source_check_not_available_as_light_import` | `True` | `1` |
