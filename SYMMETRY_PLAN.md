@@ -117660,3 +117660,59 @@ target-cursor, ranked suffix, and graph147 margin/cocycle facts.  Do not reuse
 the branch smoke as production unless the theorem is generalized from fixed
 branches to the semantic ranked suffix language.
 ```
+
+#### 2026-07-05 graph147 deterministic semantic-transducer pivot restated
+
+Status: ready_for_ranked_eval_margin_bundle_producer, meaning the graph147
+socket/adapters are ready for a semantic producer, not that the margin producer
+has been proved.
+
+The latest GPT5.5 guidance is now the controlling rule for graph147.  Keep the
+Bellman route, but reject selected-prefix membership scaling.  The production
+object must be a deterministic closed-language-to-eval theorem driven by the
+target-shadow cursor and the ranked transducer state:
+
+```text
+mandatory_graph147_semantic_transducer_pivot
+reject_selected_prefix_membership_scaling
+closed-language-to-eval theorem
+target-shadow cursor
+No selected-prefix/root-trace scaling
+Selected-prefix diagnostics only
+Root-trace diagnostics only
+```
+
+The already-built ranked socket exposes the correct carrier surfaces:
+
+```lean
+structure StrengthenedGraph147RankedEvalMarginInvariantFamily
+structure StrengthenedGraph147RankedShardMarginInvariantFamily
+structure StrengthenedGraph147RankedEvalMarginBundle
+def Graph147RankedEvalMarginSequenceBadFace
+def rankedEvalMarginBundle_of_rankedShardMarginInvariantFamily
+def rankedEvalMarginBundle_of_rankedEvalMarginInvariantFamily
+def rootMarginBundle_of_rankedEvalMarginBundle
+```
+
+The next acceptable proof-producing step is:
+
+```text
+semantic_branch_start_margin_or_cocycle_quotient
+```
+
+Concretely, prove either `Graph147RankedEvalMarginSequenceBadFace` or
+instantiate `StrengthenedGraph147RankedShardMarginInvariantFamily` from the
+semantic closed language.  The proof may use target-cursor progress,
+schedule/square-gap/local-axis tail facts, pair-count/used-face facts, the
+deterministic graph147 Bellman state, or a checked segment/cocycle quotient.
+
+Important carrier note:
+
+```text
+sequenceBadFace_ok is only a carrier
+```
+
+So a `Graph147RankedEvalMarginSequenceBadFace` theorem is production-safe only
+when its margin evidence is derived from the semantic deterministic language,
+not from `SampledRankIndex`, selected prefixes, accepted trace ids, exact
+affine RHS keys, solved start points, or stored path membership.
