@@ -105118,8 +105118,8 @@ Current rule after the latest GPT5.5 Pro review:
 - Keep Bellman/state-DAG for graph147.
 - Reject selected-prefix covers as production evidence.
 - The next accepted producer target is
-  `StrengthenedGraph147RankedTransducerInvariantFamily`, followed by
-  `rootMarginBundle_of_rankedTransducerInvariantFamily`.
+  `StrengthenedGraph147RankedEvalMarginBundle`, followed by
+  `rootMarginBundle_of_rankedEvalMarginBundle`.
 - The proof must be driven by deterministic semantic transducer state:
   target cursor, schedule/square-gap/local-axis tail, pair-count/used-face
   facts, and full graph147 Bellman state semantics.
@@ -105145,14 +105145,159 @@ python3 scripts/run_memory_guarded.py \
 Results:
 
 ```text
-frontier audit status = ready_for_ranked_transducer_invariant_producer
+frontier audit status = ready_for_ranked_eval_margin_bundle_producer
 production_route.keep = Bellman/state-DAG via deterministic semantic transducer
 production_route.target =
-  StrengthenedGraph147RankedTransducerInvariantFamily,
-  then rootMarginBundle_of_rankedTransducerInvariantFamily
+  StrengthenedGraph147RankedEvalMarginBundle,
+  then rootMarginBundle_of_rankedEvalMarginBundle
 socket.forbidden_hits = []
 target cursor Lake build = pass; elapsed=3.00s; peak_tree_rss=769 MiB;
 min_available=46545 MiB
+```
+
+Follow-up accepted for the same graph147 lane:
+
+```text
+theorem graph147YpZm_rankedPrefix4Tail_of_strengthened_prefix
+theorem graph147ZmYp_rankedPrefix4Tail_of_strengthened_prefix
+structure StrengthenedGraph147YpZmRankedEvalMarginFamily
+structure StrengthenedGraph147ZmYpRankedEvalMarginFamily
+structure StrengthenedGraph147RankedEvalMarginBundle
+def rootMarginBundle_of_rankedEvalMarginBundle
+```
+
+This socket now derives the deterministic ranked prefix-4 tail semantically
+from the strengthened closed language and packages a ranked-evaluator margin
+producer as the existing graph147 root margin bundle.  The remaining graph147
+producer is precisely:
+
+```lean
+∀ finish gain,
+  evalLabelStepFn graph147RankedEvalNext graph147RankedPrefix4EvalState rest =
+    some (finish, gain) ->
+  scaledMargin rank <= (176 : Int) + ((-53 : Int) + gain)
+```
+
+Validation:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 240 \
+  --max-tree-rss-mib 8000 \
+  --min-available-mib 30000 \
+  --hard-address-space-mib 8192 \
+  --json scripts/generated/graph147_ranked_eval_margin_bundle_guard.json \
+  --verbose -- lake env lean -M 6500 -j1 -s 2048 \
+    Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingDepth11Layer4Graph147RankedEvalSocket.lean
+
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 240 \
+  --max-tree-rss-mib 8000 \
+  --min-available-mib 30000 \
+  --json scripts/generated/graph147_ranked_eval_margin_bundle_lake_guard.json \
+  --verbose -- env LEAN_NUM_THREADS=1 LAKE_JOBS=1 \
+    lake build \
+      Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingDepth11Layer4Graph147RankedEvalSocket
+```
+
+Results:
+
+```text
+direct Lean = pass; elapsed=3.00s; peak_tree_rss=3847 MiB;
+  hard_as=8192 MiB; min_available=46279 MiB
+Lake module build = pass; elapsed=6.00s; peak_tree_rss=3258 MiB;
+  min_available=46308 MiB
+frontier audit status = ready_for_ranked_eval_margin_bundle_producer
+ranked_eval_socket.forbidden_hits = []
+```
+
+### 2026-07-05 graph147 ranked-eval margin bundle socket accepted
+
+The latest GPT5.5 Pro pivot has now been reflected in the graph147 socket:
+Bellman remains the route, but production evidence must be a deterministic
+closed-language evaluator theorem, not a selected-prefix or sampled-path cover.
+
+Accepted Lean surface in
+`Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingDepth11Layer4Graph147RankedEvalSocket.lean`:
+
+```text
+theorem graph147YpZm_rankedPrefix4Tail_of_strengthened_prefix
+theorem graph147ZmYp_rankedPrefix4Tail_of_strengthened_prefix
+structure StrengthenedGraph147YpZmRankedEvalMarginFamily
+structure StrengthenedGraph147ZmYpRankedEvalMarginFamily
+structure StrengthenedGraph147RankedEvalMarginBundle
+def rootMarginFamily_of_yp_zm_rankedEvalMargin
+def rootMarginFamily_of_zm_yp_rankedEvalMargin
+def rootMarginBundle_of_rankedEvalMarginBundle
+```
+
+Meaning:
+
+- A strengthened closed graph147 rank in either `yp,zm` or `zm,yp` branch now
+  semantically supplies the deterministic ranked prefix-4 tail
+  `graph147RankedPrefix4EvalState.Tail rest`.
+- A producer only has to prove the margin inequality for the deterministic
+  ranked suffix evaluator result:
+
+```lean
+∀ finish gain,
+  evalLabelStepFn graph147RankedEvalNext graph147RankedPrefix4EvalState rest =
+    some (finish, gain) ->
+  scaledMargin rank <= (176 : Int) + ((-53 : Int) + gain)
+```
+
+- The socket packages that producer as the existing
+  `StrengthenedGraph147RootMarginBundle`.
+- The next graph147 producer target is therefore exactly
+  `StrengthenedGraph147RankedEvalMarginBundle`, followed by
+  `rootMarginBundle_of_rankedEvalMarginBundle`.
+
+This is the current anti-regression rule:
+
+- **Allowed:** target-shadow cursor, schedule/square-gap/local-axis tail,
+  pair-count/used-face facts, full graph147 Bellman state semantics, or a
+  checked segment/cocycle quotient.
+- **Rejected:** sampled ranks, selected-prefix ids, accepted trace ids, exact
+  affine RHS keys, solved start-point keys, one branch per observed path, or a
+  giant Boolean checker.
+
+Validation:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 240 \
+  --max-tree-rss-mib 8000 \
+  --min-available-mib 30000 \
+  --hard-address-space-mib 8192 \
+  --json scripts/generated/graph147_ranked_eval_margin_bundle_guard.json \
+  --verbose -- lake env lean -M 6500 -j1 -s 2048 \
+    Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingDepth11Layer4Graph147RankedEvalSocket.lean
+
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 240 \
+  --max-tree-rss-mib 8000 \
+  --min-available-mib 30000 \
+  --json scripts/generated/graph147_ranked_eval_margin_bundle_lake_guard.json \
+  --verbose -- env LEAN_NUM_THREADS=1 LAKE_JOBS=1 \
+    lake build \
+      Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingDepth11Layer4Graph147RankedEvalSocket
+
+python3 -m py_compile scripts/audit_graph147_ranked_transducer_frontier.py
+python3 scripts/audit_graph147_ranked_transducer_frontier.py
+```
+
+Results:
+
+```text
+direct Lean = pass; elapsed=3.00s; peak_tree_rss=3847 MiB;
+  hard_as=8192 MiB; min_available=46279 MiB
+Lake module build = pass; elapsed=6.00s; peak_tree_rss=3258 MiB;
+  min_available=46308 MiB
+frontier audit status = ready_for_ranked_eval_margin_bundle_producer
+production_route.target =
+  StrengthenedGraph147RankedEvalMarginBundle,
+  then rootMarginBundle_of_rankedEvalMarginBundle
+ranked_eval_socket.forbidden_hits = []
 ```
 
 ### 2026-07-05 graph147 ranked evaluator graph projection accepted

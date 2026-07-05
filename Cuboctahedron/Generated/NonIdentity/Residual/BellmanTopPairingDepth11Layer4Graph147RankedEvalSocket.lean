@@ -99,6 +99,106 @@ theorem graph147RankedShardSuffixOk_graph_eval_exists_finalPotential
       heval
 
 /--
+The `yp, zm` layer-4 prefix leaves the semantic transducer at the shared
+graph147 prefix-4 state, so the remaining labels are a tail of that state.
+-/
+theorem graph147YpZm_rankedPrefix4Tail_of_strengthened_prefix
+    {sequenceBadFace : Fin numPairWords -> Face -> Prop}
+    {rank : Fin numPairWords} {rest : List Face}
+    (hstrengthened :
+      TopPairingStrengthenedClosedLanguageAtRank
+        sequenceBadFace rank Face.ym)
+    (hprefix : Depth11Layer4PrefixAtRank rank Face.yp Face.zm rest) :
+    graph147RankedPrefix4EvalState.Tail rest := by
+  have hlabels :
+      topPairingRankFaceLabels rank =
+        [Face.xm, Face.ym, Face.yp, Face.zm] ++ rest := by
+    simpa [Depth11Layer4PrefixAtRank] using hprefix
+  have htail0 :=
+    TopPairingTransducerTail.ofClosedRank
+      hstrengthened.toTopPairingClosedLanguageAtRank
+  rw [hlabels] at htail0
+  have htail1 :=
+    TopPairingTransducerTail.cons_square_tail
+      htail0 (by rfl : triLetterOfFace? Face.xm = none)
+  have htail2 :=
+    TopPairingTransducerTail.cons_square_tail
+      htail1 (by rfl : triLetterOfFace? Face.ym = none)
+  have htail3 :=
+    TopPairingTransducerTail.cons_square_tail
+      htail2 (by rfl : triLetterOfFace? Face.yp = none)
+  have htail4 :=
+    TopPairingTransducerTail.cons_square_tail
+      htail3 (by rfl : triLetterOfFace? Face.zm = none)
+  simpa [graph147RankedPrefix4EvalState,
+    TopPairingTransducerEvalState.Tail, TopPairingTransducerState.Tail,
+    strengthenedClosedPrefix4YpZmEvalState,
+    strengthenedClosedPrefix4YpZmTransducerState,
+    strengthenedClosedPrefix3YpTransducerState,
+    strengthenedClosedPrefix2TransducerState,
+    topPairingNextGap, SqParity.id, SqParity.applyPair,
+    SqParity.toggleForPair, SqParity.toggleX, SqParity.toggleY,
+    SqParity.toggleZ, SqParity.xor, pairOfFace,
+    topPairingNextLinear] using htail4
+
+/--
+The `zm, yp` layer-4 prefix reaches the same graph147 prefix-4 transducer state
+as `yp, zm`; the remaining labels are again a tail of that state.
+-/
+theorem graph147ZmYp_rankedPrefix4Tail_of_strengthened_prefix
+    {sequenceBadFace : Fin numPairWords -> Face -> Prop}
+    {rank : Fin numPairWords} {rest : List Face}
+    (hstrengthened :
+      TopPairingStrengthenedClosedLanguageAtRank
+        sequenceBadFace rank Face.ym)
+    (hprefix : Depth11Layer4PrefixAtRank rank Face.zm Face.yp rest) :
+    graph147RankedPrefix4EvalState.Tail rest := by
+  have hlabels :
+      topPairingRankFaceLabels rank =
+        [Face.xm, Face.ym, Face.zm, Face.yp] ++ rest := by
+    simpa [Depth11Layer4PrefixAtRank] using hprefix
+  have htail0 :=
+    TopPairingTransducerTail.ofClosedRank
+      hstrengthened.toTopPairingClosedLanguageAtRank
+  rw [hlabels] at htail0
+  have htail1 :=
+    TopPairingTransducerTail.cons_square_tail
+      htail0 (by rfl : triLetterOfFace? Face.xm = none)
+  have htail2 :=
+    TopPairingTransducerTail.cons_square_tail
+      htail1 (by rfl : triLetterOfFace? Face.ym = none)
+  have htail3 :=
+    TopPairingTransducerTail.cons_square_tail
+      htail2 (by rfl : triLetterOfFace? Face.zm = none)
+  have htail4 :=
+    TopPairingTransducerTail.cons_square_tail
+      htail3 (by rfl : triLetterOfFace? Face.yp = none)
+  have htailZmYp :
+      TopPairingTransducerTail
+        strengthenedClosedPrefix4ZmYpTransducerState.step
+        strengthenedClosedPrefix4ZmYpTransducerState.gap
+        strengthenedClosedPrefix4ZmYpTransducerState.k
+        strengthenedClosedPrefix4ZmYpTransducerState.parity
+        strengthenedClosedPrefix4ZmYpTransducerState.linear rest := by
+    simpa [strengthenedClosedPrefix4ZmYpTransducerState,
+      strengthenedClosedPrefix3ZmTransducerState,
+      strengthenedClosedPrefix2TransducerState,
+      topPairingNextGap, SqParity.id, SqParity.applyPair,
+      SqParity.toggleForPair, SqParity.toggleX, SqParity.toggleY,
+      SqParity.toggleZ, SqParity.xor, pairOfFace,
+      topPairingNextLinear] using htail4
+  have htrans := strengthenedClosedPrefix4YpZm_transducer_eq_zm_yp
+  change
+    TopPairingTransducerTail
+      strengthenedClosedPrefix4YpZmTransducerState.step
+      strengthenedClosedPrefix4YpZmTransducerState.gap
+      strengthenedClosedPrefix4YpZmTransducerState.k
+      strengthenedClosedPrefix4YpZmTransducerState.parity
+      strengthenedClosedPrefix4YpZmTransducerState.linear rest
+  rw [htrans]
+  exact htailZmYp
+
+/--
 Turn a margin theorem for the deterministic combined ranked evaluator into the
 older graph-only target-completion root-margin API.
 
@@ -297,6 +397,98 @@ theorem graph147ZmYpRootMarginBound_of_ranked_eval_margin
     (graph147ZmYp_rankedShardSuffixOk_of_strengthened_prefix
       hstrengthened hprefix)
     hmargin
+
+/--
+Ranked-evaluator margin producer surface for the `yp, zm` graph-147 branch.
+
+This is the production target after the semantic-membership pivot: the producer
+proves the margin bound for the deterministic suffix evaluator result.  It does
+not need sampled ranks, selected prefixes, or graph-only root replay.
+-/
+structure StrengthenedGraph147YpZmRankedEvalMarginFamily
+    (scaledMargin : Fin numPairWords -> Int)
+    (sequenceBadFace : Fin numPairWords -> Face -> Prop) : Prop where
+  margin :
+    ∀ rank,
+      TopPairingStrengthenedClosedLanguageAtRank
+        sequenceBadFace rank Face.ym ->
+        ∀ rest,
+          Depth11Layer4PrefixAtRank rank Face.yp Face.zm rest ->
+          ∀ finish gain,
+            evalLabelStepFn graph147RankedEvalNext
+                graph147RankedPrefix4EvalState rest =
+                some (finish, gain) ->
+              scaledMargin rank <= (176 : Int) + ((-53 : Int) + gain)
+
+/-- Ranked-evaluator margin producer surface for the `zm, yp` graph-147 branch. -/
+structure StrengthenedGraph147ZmYpRankedEvalMarginFamily
+    (scaledMargin : Fin numPairWords -> Int)
+    (sequenceBadFace : Fin numPairWords -> Face -> Prop) : Prop where
+  margin :
+    ∀ rank,
+      TopPairingStrengthenedClosedLanguageAtRank
+        sequenceBadFace rank Face.ym ->
+        ∀ rest,
+          Depth11Layer4PrefixAtRank rank Face.zm Face.yp rest ->
+          ∀ finish gain,
+            evalLabelStepFn graph147RankedEvalNext
+                graph147RankedPrefix4EvalState rest =
+                some (finish, gain) ->
+              scaledMargin rank <= (176 : Int) + ((-53 : Int) + gain)
+
+/-- The two graph-147 ranked-evaluator margin branches packaged together. -/
+structure StrengthenedGraph147RankedEvalMarginBundle
+    (scaledMargin : Fin numPairWords -> Int)
+    (sequenceBadFace : Fin numPairWords -> Face -> Prop) : Prop where
+  yp_zm :
+    StrengthenedGraph147YpZmRankedEvalMarginFamily
+      scaledMargin sequenceBadFace
+  zm_yp :
+    StrengthenedGraph147ZmYpRankedEvalMarginFamily
+      scaledMargin sequenceBadFace
+
+def rootMarginFamily_of_yp_zm_rankedEvalMargin
+    {scaledMargin : Fin numPairWords -> Int}
+    {sequenceBadFace : Fin numPairWords -> Face -> Prop}
+    (hfamily :
+      StrengthenedGraph147YpZmRankedEvalMarginFamily
+        scaledMargin sequenceBadFace) :
+    StrengthenedGraph147YpZmRootMarginFamily
+      scaledMargin sequenceBadFace where
+  margin := by
+    intro rank hstrengthened rest hprefix
+    exact graph147YpZmRootMarginBound_of_ranked_eval_margin
+      hstrengthened hprefix
+      (graph147YpZm_rankedPrefix4Tail_of_strengthened_prefix
+        hstrengthened hprefix)
+      (hfamily.margin rank hstrengthened rest hprefix)
+
+def rootMarginFamily_of_zm_yp_rankedEvalMargin
+    {scaledMargin : Fin numPairWords -> Int}
+    {sequenceBadFace : Fin numPairWords -> Face -> Prop}
+    (hfamily :
+      StrengthenedGraph147ZmYpRankedEvalMarginFamily
+        scaledMargin sequenceBadFace) :
+    StrengthenedGraph147ZmYpRootMarginFamily
+      scaledMargin sequenceBadFace where
+  margin := by
+    intro rank hstrengthened rest hprefix
+    exact graph147ZmYpRootMarginBound_of_ranked_eval_margin
+      hstrengthened hprefix
+      (graph147ZmYp_rankedPrefix4Tail_of_strengthened_prefix
+        hstrengthened hprefix)
+      (hfamily.margin rank hstrengthened rest hprefix)
+
+def rootMarginBundle_of_rankedEvalMarginBundle
+    {scaledMargin : Fin numPairWords -> Int}
+    {sequenceBadFace : Fin numPairWords -> Face -> Prop}
+    (hbundle :
+      StrengthenedGraph147RankedEvalMarginBundle
+        scaledMargin sequenceBadFace) :
+    StrengthenedGraph147RootMarginBundle
+      scaledMargin sequenceBadFace where
+  yp_zm := rootMarginFamily_of_yp_zm_rankedEvalMargin hbundle.yp_zm
+  zm_yp := rootMarginFamily_of_zm_yp_rankedEvalMargin hbundle.zm_yp
 
 theorem graph147RankedEvalSocket_builds : True := by
   exact True.intro

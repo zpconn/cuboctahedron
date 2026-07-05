@@ -1,6 +1,6 @@
 # Graph147 Ranked Transducer Frontier
 
-- status: `ready_for_ranked_transducer_invariant_producer`
+- status: `ready_for_ranked_eval_margin_bundle_producer`
 - socket file: `Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingDepth11Layer4Graph147DirectEvalSocket.lean`
 - ranked eval socket: `Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingDepth11Layer4Graph147RankedEvalSocket.lean`
 - forbidden hits: `none`
@@ -26,11 +26,15 @@
 - `graph147RankedEvalNext`: `true`
 - `graph147RankedShardSuffixOk_eval_exists_finalPotential`: `true`
 - `graph147RankedShardSuffixOk_graph_eval_exists_finalPotential`: `true`
+- `graph147YpZm_rankedPrefix4Tail_of_strengthened_prefix`: `true`
+- `graph147ZmYp_rankedPrefix4Tail_of_strengthened_prefix`: `true`
 - `graph147YpZm_graph_eval_exists_finalPotential_of_strengthened_prefix`: `true`
 - `graph147ZmYp_graph_eval_exists_finalPotential_of_strengthened_prefix`: `true`
 - `graph147TargetCompletionTailRootMarginBound_of_ranked_eval_margin`: `true`
 - `graph147YpZmRootMarginBound_of_ranked_eval_margin`: `true`
 - `graph147ZmYpRootMarginBound_of_ranked_eval_margin`: `true`
+- `StrengthenedGraph147RankedEvalMarginBundle`: `true`
+- `rootMarginBundle_of_rankedEvalMarginBundle`: `true`
 
 ## Semantic Inputs
 
@@ -82,7 +86,7 @@
 ## Production Route
 
 - keep: `Bellman/state-DAG via deterministic semantic transducer`
-- target: `StrengthenedGraph147RankedTransducerInvariantFamily, then rootMarginBundle_of_rankedTransducerInvariantFamily`
+- target: `StrengthenedGraph147RankedEvalMarginBundle, then rootMarginBundle_of_rankedEvalMarginBundle`
 - fallback: If the invariant cannot be proved from target cursor, schedule, square-gap/local-axis tail, pair-count/used-face facts, and deterministic full-graph147 state semantics, stop graph147 scaling and switch to the certified segment/cocycle quotient experiment.
 
 Rejected production coordinates:
@@ -95,4 +99,4 @@ Rejected production coordinates:
 
 ## Next Step
 
-Generate or prove the semantic graph147 margin theorem over the deterministic ranked evaluator result, then package it as StrengthenedGraph147RankedTransducerInvariantFamily.  The theorem must use target-shadow cursor, schedule/square-gap/local-axis tail, pair-count/used-face facts, graph147 Bellman state semantics, or a checked segment/cocycle quotient.  Do not use sampled ranks, selected prefixes, accepted trace ids, exact affine keys, or per-observed-path membership.
+Generate or prove the semantic graph147 margin theorem over the deterministic ranked evaluator result, then package it as StrengthenedGraph147RankedEvalMarginBundle.  The theorem must use target-shadow cursor, schedule/square-gap/local-axis tail, pair-count/used-face facts, graph147 Bellman state semantics, or a checked segment/cocycle quotient.  Do not use sampled ranks, selected prefixes, accepted trace ids, exact affine keys, or per-observed-path membership.

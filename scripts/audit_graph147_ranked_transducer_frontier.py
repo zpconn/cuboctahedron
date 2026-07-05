@@ -62,11 +62,15 @@ RANKED_EVAL_SYMBOLS = [
     "graph147RankedEvalNext",
     "graph147RankedShardSuffixOk_eval_exists_finalPotential",
     "graph147RankedShardSuffixOk_graph_eval_exists_finalPotential",
+    "graph147YpZm_rankedPrefix4Tail_of_strengthened_prefix",
+    "graph147ZmYp_rankedPrefix4Tail_of_strengthened_prefix",
     "graph147YpZm_graph_eval_exists_finalPotential_of_strengthened_prefix",
     "graph147ZmYp_graph_eval_exists_finalPotential_of_strengthened_prefix",
     "graph147TargetCompletionTailRootMarginBound_of_ranked_eval_margin",
     "graph147YpZmRootMarginBound_of_ranked_eval_margin",
     "graph147ZmYpRootMarginBound_of_ranked_eval_margin",
+    "StrengthenedGraph147RankedEvalMarginBundle",
+    "rootMarginBundle_of_rankedEvalMarginBundle",
 ]
 
 SEMANTIC_INPUT_SYMBOLS = {
@@ -136,8 +140,8 @@ PRODUCTION_ROUTE = {
         "one generated branch per observed path",
     ],
     "target": (
-        "StrengthenedGraph147RankedTransducerInvariantFamily, then "
-        "rootMarginBundle_of_rankedTransducerInvariantFamily"
+        "StrengthenedGraph147RankedEvalMarginBundle, then "
+        "rootMarginBundle_of_rankedEvalMarginBundle"
     ),
     "fallback": (
         "If the invariant cannot be proved from target cursor, schedule, "
@@ -205,7 +209,7 @@ def main() -> None:
         all(symbols.values()) for symbols in semantic_symbols.values()
     )
     status = (
-        "ready_for_ranked_transducer_invariant_producer"
+        "ready_for_ranked_eval_margin_bundle_producer"
         if all_socket and all_ranked_eval and all_semantic and full_graph_only
         and not forbidden_hits
         else "ranked_transducer_frontier_incomplete"
@@ -254,7 +258,7 @@ def main() -> None:
         "next_step": (
             "Generate or prove the semantic graph147 margin theorem over the "
             "deterministic ranked evaluator result, then package it as "
-            "StrengthenedGraph147RankedTransducerInvariantFamily.  The theorem "
+            "StrengthenedGraph147RankedEvalMarginBundle.  The theorem "
             "must use target-shadow cursor, schedule/square-gap/local-axis "
             "tail, pair-count/used-face facts, graph147 Bellman state "
             "semantics, or a checked segment/cocycle quotient.  Do not use "
