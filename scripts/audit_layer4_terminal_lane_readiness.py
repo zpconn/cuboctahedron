@@ -273,12 +273,22 @@ GRAPH147_DIRECT_EVAL_SOCKET_REQUIRED = [
     "StrengthenedGraph147YpZmTargetCompletionFamily",
     "StrengthenedGraph147ZmYpTargetCompletionFamily",
     "StrengthenedGraph147TargetCompletionBundle",
+    "StrengthenedGraph147YpZmRootMarginFamily",
+    "StrengthenedGraph147ZmYpRootMarginFamily",
+    "StrengthenedGraph147RootMarginBundle",
     "graph147YpZm_targetCompletionTail_of_strengthened_prefix",
     "graph147ZmYp_targetCompletionTail_of_strengthened_prefix",
+    "targetCompletionFamily_of_yp_zm_rootMargin",
+    "targetCompletionFamily_of_zm_yp_rootMargin",
+    "targetCompletionBundle_of_rootMarginBundle",
     "graphExactEvalGateAtRank_of_yp_zm_targetCompletionFamily",
     "graphExactEvalGateAtRank_of_zm_yp_targetCompletionFamily",
     "graphExactEvalGateAtRank_of_bundle_yp_zm",
     "graphExactEvalGateAtRank_of_bundle_zm_yp",
+    "graphExactEvalGateAtRank_of_yp_zm_rootMarginFamily",
+    "graphExactEvalGateAtRank_of_zm_yp_rootMarginFamily",
+    "graphExactEvalGateAtRank_of_rootMarginBundle_yp_zm",
+    "graphExactEvalGateAtRank_of_rootMarginBundle_zm_yp",
 ]
 
 ZMTMPP_CHAIN_REQUIRED = [
@@ -785,9 +795,13 @@ def main() -> int:
                     "Graph147TargetCompletionTail fields are proved directly "
                     "from TopPairingStrengthenedClosedLanguageAtRank plus "
                     "Depth11Layer4PrefixAtRank.  The future generated proof "
-                    "target is no longer a mapped class case: it must prove "
-                    "the remaining Graph147TargetCompletionTailRootMarginBound "
-                    "fields.  Tail plus margin then produce "
+                    "target is now the margin-only "
+                    "StrengthenedGraph147RootMarginBundle, not a mapped class "
+                    "case: it must prove the remaining "
+                    "Graph147TargetCompletionTailRootMarginBound fields.  The "
+                    "Lean socket derives the tail and adapts the margin-only "
+                    "bundle to the compatibility tail-plus-margin family.  "
+                    "Tail plus margin then produce "
                     "TopPairingGraphExactEvalGateAtRank directly.  The lane "
                     "is still partial until those margin fields are proved "
                     "without selected-prefix or sampled-rank membership."

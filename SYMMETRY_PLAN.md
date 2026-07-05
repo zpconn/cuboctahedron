@@ -105909,6 +105909,71 @@ Graph147TargetCompletionTailRootMarginBound
 for both branch orders.  Tail plus this margin bound already feed the direct
 `TopPairingGraphExactEvalGateAtRank` socket.
 
+### 2026-07-05 graph147 margin-only producer socket accepted
+
+The graph147 direct socket has been narrowed one more step.  The compatibility
+family structures that package both target tail and margin remain available,
+but new producers should target the margin-only surface:
+
+```lean
+structure StrengthenedGraph147YpZmRootMarginFamily
+structure StrengthenedGraph147ZmYpRootMarginFamily
+structure StrengthenedGraph147RootMarginBundle
+```
+
+The socket now adapts those margin-only families back into the older
+tail-plus-margin compatibility surface by using the semantic tail theorems:
+
+```lean
+def targetCompletionFamily_of_yp_zm_rootMargin
+def targetCompletionFamily_of_zm_yp_rootMargin
+def targetCompletionBundle_of_rootMarginBundle
+
+theorem graphExactEvalGateAtRank_of_yp_zm_rootMarginFamily
+theorem graphExactEvalGateAtRank_of_zm_yp_rootMarginFamily
+theorem graphExactEvalGateAtRank_of_rootMarginBundle_yp_zm
+theorem graphExactEvalGateAtRank_of_rootMarginBundle_zm_yp
+```
+
+This means the remaining graph147 production theorem is exactly:
+
+```lean
+Graph147TargetCompletionTailRootMarginBound
+  scaledMargin rank (-53) rest
+```
+
+from the strengthened closed language and layer-4 prefix.  It should not
+produce or assume a sampled path object, selected-prefix id, accepted-trace id,
+exact affine RHS key, solved start point, or raw path table.
+
+Focused guarded build:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 10000 \
+  --min-available-mib 30000 -- \
+  env LEAN_NUM_THREADS=1 LAKE_JOBS=1 \
+    lake build \
+      Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingDepth11Layer4Graph147DirectEvalSocket
+```
+
+Result:
+
+```text
+pass; elapsed=7.01s; peak_tree_rss=3900 MiB; min_available=46217 MiB
+```
+
+Readiness audit now checks the margin-only structures and adapters:
+
+```text
+direct_eval_socket_symbols.StrengthenedGraph147RootMarginBundle = true
+direct_eval_socket_symbols.graphExactEvalGateAtRank_of_rootMarginBundle_yp_zm = true
+direct_eval_socket_symbols.graphExactEvalGateAtRank_of_rootMarginBundle_zm_yp = true
+yp_zm.status = partial_graph147_direct_eval_socket
+zm_yp.status = partial_graph147_direct_eval_socket
+forbidden_hits = []
+```
+
 ### 2026-07-05 graph153/155 through terminal graph141/138 local tables accepted
 
 The shared graph147 lane for `yp_zm` / `zm_yp` has advanced one more

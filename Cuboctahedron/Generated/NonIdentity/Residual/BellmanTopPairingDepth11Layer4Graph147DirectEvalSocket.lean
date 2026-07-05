@@ -5,16 +5,15 @@ import Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingClosedBellm
 Graph-147 direct semantic eval socket for the layer-4 Bellman route.
 
 This file is the production-shaped replacement for routing the graph-147
-branches through mapped class cases.  A future generator/proof should provide
-only two semantic facts for the branch suffix:
+branches through mapped class cases.  The suffix is now proved to be a
+`Graph147TargetCompletionTail` directly from the strengthened closed language
+and the layer-4 prefix equation.  A future generator/proof should therefore
+provide only the remaining root-gain margin bound for the deterministic
+evaluator result.
 
-* the suffix is a `Graph147TargetCompletionTail`;
-* the root-gain margin bound holds for the deterministic evaluator result.
-
-The adapter below turns those facts, together with the strengthened closed
-language and the layer-4 prefix equation, into the public graph-exact eval
-gate.  It mentions no sampled ranks, selected prefixes, accepted trace ids,
-exact affine keys, or raw path tables.
+The adapter below turns the semantic tail proof and the margin bound into the
+public graph-exact eval gate.  It mentions no sampled ranks, selected prefixes,
+accepted trace ids, exact affine keys, or raw path tables.
 -/
 
 namespace Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingDepth11Layer4Graph147DirectEvalSocket
@@ -28,9 +27,10 @@ open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingClosedBellman
 /--
 Semantic graph-147 target-completion family for the `yp, zm` layer-4 branch.
 
-The hard future theorem is the `tail` field plus the `margin` field.  Both are
-rank-semantic and parameterized by the strengthened closed-language proof; the
-structure does not carry any per-rank object table.
+Compatibility surface for callers that still package both the target tail and
+the margin field.  New graph-147 producers should prefer
+`StrengthenedGraph147YpZmRootMarginFamily` below; the tail is now derived by
+`graph147YpZm_targetCompletionTail_of_strengthened_prefix`.
 -/
 structure StrengthenedGraph147YpZmTargetCompletionFamily
     (scaledMargin : Fin numPairWords -> Int)
@@ -54,6 +54,11 @@ structure StrengthenedGraph147YpZmTargetCompletionFamily
 
 /--
 Semantic graph-147 target-completion family for the `zm, yp` layer-4 branch.
+
+Compatibility surface for callers that still package both the target tail and
+the margin field.  New graph-147 producers should prefer
+`StrengthenedGraph147ZmYpRootMarginFamily` below; the tail is now derived by
+`graph147ZmYp_targetCompletionTail_of_strengthened_prefix`.
 -/
 structure StrengthenedGraph147ZmYpTargetCompletionFamily
     (scaledMargin : Fin numPairWords -> Int)
@@ -84,6 +89,52 @@ structure StrengthenedGraph147TargetCompletionBundle
       scaledMargin sequenceBadFace
   zm_yp :
     StrengthenedGraph147ZmYpTargetCompletionFamily
+      scaledMargin sequenceBadFace
+
+/--
+Narrow graph-147 producer surface for the `yp, zm` branch.
+
+This is the intended next generated theorem shape: after the strengthened
+closed-language proof and layer-4 prefix are known, the only remaining evidence
+is the root-gain margin bound.  The target-completion tail is no longer a
+producer obligation.
+-/
+structure StrengthenedGraph147YpZmRootMarginFamily
+    (scaledMargin : Fin numPairWords -> Int)
+    (sequenceBadFace : Fin numPairWords -> Face -> Prop) : Prop where
+  margin :
+    ∀ rank,
+      TopPairingStrengthenedClosedLanguageAtRank
+        sequenceBadFace rank Face.ym ->
+        ∀ rest,
+          Depth11Layer4PrefixAtRank rank Face.yp Face.zm rest ->
+          Graph147TargetCompletionTailRootMarginBound
+            scaledMargin rank (-53 : Int) rest
+
+/--
+Narrow graph-147 producer surface for the `zm, yp` branch.
+-/
+structure StrengthenedGraph147ZmYpRootMarginFamily
+    (scaledMargin : Fin numPairWords -> Int)
+    (sequenceBadFace : Fin numPairWords -> Face -> Prop) : Prop where
+  margin :
+    ∀ rank,
+      TopPairingStrengthenedClosedLanguageAtRank
+        sequenceBadFace rank Face.ym ->
+        ∀ rest,
+          Depth11Layer4PrefixAtRank rank Face.zm Face.yp rest ->
+          Graph147TargetCompletionTailRootMarginBound
+            scaledMargin rank (-53 : Int) rest
+
+/-- The two graph-147 margin-only branches packaged together. -/
+structure StrengthenedGraph147RootMarginBundle
+    (scaledMargin : Fin numPairWords -> Int)
+    (sequenceBadFace : Fin numPairWords -> Face -> Prop) : Prop where
+  yp_zm :
+    StrengthenedGraph147YpZmRootMarginFamily
+      scaledMargin sequenceBadFace
+  zm_yp :
+    StrengthenedGraph147ZmYpRootMarginFamily
       scaledMargin sequenceBadFace
 
 private theorem graph147YpZm_usedFaceTail_of_strengthened_prefix
@@ -535,6 +586,59 @@ theorem graph147ZmYp_targetCompletionTail_of_strengthened_prefix
     (graph147_targetCancellationTail_of_triCursor
       (graph147ZmYp_triCursorTail_of_prefix hcursor hprefix))
 
+/--
+Turn the intended margin-only `yp, zm` producer into the compatibility
+tail-plus-margin family.  The target-completion tail is supplied by the
+semantic closed-language theorem in this file.
+-/
+def targetCompletionFamily_of_yp_zm_rootMargin
+    {scaledMargin : Fin numPairWords -> Int}
+    {sequenceBadFace : Fin numPairWords -> Face -> Prop}
+    (hfamily :
+      StrengthenedGraph147YpZmRootMarginFamily
+        scaledMargin sequenceBadFace) :
+    StrengthenedGraph147YpZmTargetCompletionFamily
+      scaledMargin sequenceBadFace where
+  tail := by
+    intro rank hstrengthened rest hprefix
+    exact graph147YpZm_targetCompletionTail_of_strengthened_prefix
+      hstrengthened hprefix
+  margin := by
+    intro rank hstrengthened rest hprefix _htail
+    exact hfamily.margin rank hstrengthened rest hprefix
+
+/--
+Turn the intended margin-only `zm, yp` producer into the compatibility
+tail-plus-margin family.
+-/
+def targetCompletionFamily_of_zm_yp_rootMargin
+    {scaledMargin : Fin numPairWords -> Int}
+    {sequenceBadFace : Fin numPairWords -> Face -> Prop}
+    (hfamily :
+      StrengthenedGraph147ZmYpRootMarginFamily
+        scaledMargin sequenceBadFace) :
+    StrengthenedGraph147ZmYpTargetCompletionFamily
+      scaledMargin sequenceBadFace where
+  tail := by
+    intro rank hstrengthened rest hprefix
+    exact graph147ZmYp_targetCompletionTail_of_strengthened_prefix
+      hstrengthened hprefix
+  margin := by
+    intro rank hstrengthened rest hprefix _htail
+    exact hfamily.margin rank hstrengthened rest hprefix
+
+/-- Bundle adapter from the margin-only graph147 producer surface. -/
+def targetCompletionBundle_of_rootMarginBundle
+    {scaledMargin : Fin numPairWords -> Int}
+    {sequenceBadFace : Fin numPairWords -> Face -> Prop}
+    (hbundle :
+      StrengthenedGraph147RootMarginBundle
+        scaledMargin sequenceBadFace) :
+    StrengthenedGraph147TargetCompletionBundle
+      scaledMargin sequenceBadFace where
+  yp_zm := targetCompletionFamily_of_yp_zm_rootMargin hbundle.yp_zm
+  zm_yp := targetCompletionFamily_of_zm_yp_rootMargin hbundle.zm_yp
+
 theorem graphExactEvalGateAtRank_of_yp_zm_targetCompletionFamily
     {scaledMargin : Fin numPairWords -> Int}
     {sequenceBadFace : Fin numPairWords -> Face -> Prop}
@@ -639,6 +743,100 @@ theorem graphExactEvalGateAtRank_of_bundle_zm_yp
       rank
       Face.ym :=
   graphExactEvalGateAtRank_of_zm_yp_targetCompletionFamily
+    hbundle.zm_yp hstrengthened hprefix
+
+theorem graphExactEvalGateAtRank_of_yp_zm_rootMarginFamily
+    {scaledMargin : Fin numPairWords -> Int}
+    {sequenceBadFace : Fin numPairWords -> Face -> Prop}
+    {rank : Fin numPairWords} {rest : List Face}
+    (hfamily :
+      StrengthenedGraph147YpZmRootMarginFamily
+        scaledMargin sequenceBadFace)
+    (hstrengthened :
+      TopPairingStrengthenedClosedLanguageAtRank
+        sequenceBadFace rank Face.ym)
+    (hprefix : Depth11Layer4PrefixAtRank rank Face.yp Face.zm rest) :
+    TopPairingGraphExactEvalGateAtRank
+      (fun state : StrengthenedClosedEvalState => graphPotential state.graph)
+      strengthenedClosedEvalNext
+      (fun face : Face => face)
+      strengthenedClosedEvalStart
+      (176 : Int)
+      scaledMargin
+      rank
+      Face.ym :=
+  graphExactEvalGateAtRank_of_yp_zm_targetCompletionFamily
+    (targetCompletionFamily_of_yp_zm_rootMargin hfamily)
+    hstrengthened hprefix
+
+theorem graphExactEvalGateAtRank_of_zm_yp_rootMarginFamily
+    {scaledMargin : Fin numPairWords -> Int}
+    {sequenceBadFace : Fin numPairWords -> Face -> Prop}
+    {rank : Fin numPairWords} {rest : List Face}
+    (hfamily :
+      StrengthenedGraph147ZmYpRootMarginFamily
+        scaledMargin sequenceBadFace)
+    (hstrengthened :
+      TopPairingStrengthenedClosedLanguageAtRank
+        sequenceBadFace rank Face.ym)
+    (hprefix : Depth11Layer4PrefixAtRank rank Face.zm Face.yp rest) :
+    TopPairingGraphExactEvalGateAtRank
+      (fun state : StrengthenedClosedEvalState => graphPotential state.graph)
+      strengthenedClosedEvalNext
+      (fun face : Face => face)
+      strengthenedClosedEvalStart
+      (176 : Int)
+      scaledMargin
+      rank
+      Face.ym :=
+  graphExactEvalGateAtRank_of_zm_yp_targetCompletionFamily
+    (targetCompletionFamily_of_zm_yp_rootMargin hfamily)
+    hstrengthened hprefix
+
+theorem graphExactEvalGateAtRank_of_rootMarginBundle_yp_zm
+    {scaledMargin : Fin numPairWords -> Int}
+    {sequenceBadFace : Fin numPairWords -> Face -> Prop}
+    {rank : Fin numPairWords} {rest : List Face}
+    (hbundle :
+      StrengthenedGraph147RootMarginBundle
+        scaledMargin sequenceBadFace)
+    (hstrengthened :
+      TopPairingStrengthenedClosedLanguageAtRank
+        sequenceBadFace rank Face.ym)
+    (hprefix : Depth11Layer4PrefixAtRank rank Face.yp Face.zm rest) :
+    TopPairingGraphExactEvalGateAtRank
+      (fun state : StrengthenedClosedEvalState => graphPotential state.graph)
+      strengthenedClosedEvalNext
+      (fun face : Face => face)
+      strengthenedClosedEvalStart
+      (176 : Int)
+      scaledMargin
+      rank
+      Face.ym :=
+  graphExactEvalGateAtRank_of_yp_zm_rootMarginFamily
+    hbundle.yp_zm hstrengthened hprefix
+
+theorem graphExactEvalGateAtRank_of_rootMarginBundle_zm_yp
+    {scaledMargin : Fin numPairWords -> Int}
+    {sequenceBadFace : Fin numPairWords -> Face -> Prop}
+    {rank : Fin numPairWords} {rest : List Face}
+    (hbundle :
+      StrengthenedGraph147RootMarginBundle
+        scaledMargin sequenceBadFace)
+    (hstrengthened :
+      TopPairingStrengthenedClosedLanguageAtRank
+        sequenceBadFace rank Face.ym)
+    (hprefix : Depth11Layer4PrefixAtRank rank Face.zm Face.yp rest) :
+    TopPairingGraphExactEvalGateAtRank
+      (fun state : StrengthenedClosedEvalState => graphPotential state.graph)
+      strengthenedClosedEvalNext
+      (fun face : Face => face)
+      strengthenedClosedEvalStart
+      (176 : Int)
+      scaledMargin
+      rank
+      Face.ym :=
+  graphExactEvalGateAtRank_of_zm_yp_rootMarginFamily
     hbundle.zm_yp hstrengthened hprefix
 
 theorem graph147DirectEvalSocket_builds : True := by
