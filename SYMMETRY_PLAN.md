@@ -105135,6 +105135,7 @@ New theorem/data surface:
 inductive ShardStepTarget
 def ShardStepTarget.graph
 def nextTarget?
+theorem nextTarget?_graph_sound
 theorem nextTarget?_prefix4YpZm_zp
 theorem nextTarget?_prefix4YpZm_tmmp
 theorem nextTarget?_terminal_graph112
@@ -105147,6 +105148,13 @@ transitions point to another shard state; the depth-13 transitions point to
 external graph targets `141` and `138`, which are terminal Bellman potential
 states for this lane.  Graph150/151 transitions are also marked as external
 graph targets rather than terminal states, keeping the API honest.
+
+Follow-up accepted in the same shard: `nextTarget?_graph_sound` proves every
+`nextTarget?` table row agrees with the actual `strengthenedClosedEvalNext`
+step on both gain and target graph.  The proof is explicit over the 22 compact
+table entries and uses the existing generated `rfl` transition lemmas plus
+three new external-target evaluator-state witnesses.  This is the first local
+socket needed by the rank-parametric semantic eval/margin gate.
 
 Focused guarded build:
 
@@ -105162,13 +105170,19 @@ python3 scripts/run_memory_guarded.py \
 Result:
 
 ```text
-pass; elapsed=3.00s; peak_tree_rss=4036 MiB; min_available=46110 MiB
+pass; elapsed=5.00s; peak_tree_rss=4077 MiB; min_available=46068 MiB
 ```
 
 The first build attempt failed safely under the same guard because the target
 constructor was named `state`, which collided with Lean pattern elaboration.
 It peaked at `3954 MiB` RSS and was fixed by renaming the constructor to
 `shard`.
+
+A later attempt to prove `nextTarget?_graph_sound` by broad simplification
+also failed safely under the guard with unsolved goals, not memory pressure.
+It peaked at `4066 MiB` RSS.  The accepted version avoids broad reduction by
+case-splitting on the compact table and applying named local transition
+lemmas.
 
 Readiness audit:
 

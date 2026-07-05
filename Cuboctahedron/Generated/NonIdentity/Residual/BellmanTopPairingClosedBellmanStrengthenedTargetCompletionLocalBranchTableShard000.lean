@@ -196,6 +196,158 @@ theorem nextTarget?_prefix4YpZm_tmmp :
       some (.shard .prefix5YpZmTmmp, (-124 : Int)) := by
   rfl
 
+def strengthenedClosedPrefix14YpZmZpTmmmTpmmTppmTpmpTmpmTpppTmppTmmpXpEvalState :
+    StrengthenedClosedEvalState :=
+  match strengthenedClosedEvalNext
+      strengthenedClosedPrefix13YpZmZpTmmmTpmmTppmTpmpTmpmTpppTmppTmmpEvalState
+        Face.xp with
+  | some (state, _gain) => state
+  | none =>
+      strengthenedClosedPrefix13YpZmZpTmmmTpmmTppmTpmpTmpmTpppTmppTmmpEvalState
+
+def strengthenedClosedPrefix14YpZmTmmpTpmpTpppTpmmTmppTppmTmpmTmmmZpXpEvalState :
+    StrengthenedClosedEvalState :=
+  match strengthenedClosedEvalNext
+      strengthenedClosedPrefix13YpZmTmmpTpmpTpppTpmmTmppTppmTmpmTmmmZpEvalState
+        Face.xp with
+  | some (state, _gain) => state
+  | none =>
+      strengthenedClosedPrefix13YpZmTmmpTpmpTpppTpmmTmppTppmTmpmTmmmZpEvalState
+
+def strengthenedClosedPrefix5TmpmZmZpEvalState : StrengthenedClosedEvalState :=
+  match strengthenedClosedEvalNext strengthenedClosedPrefix4TmpmZmEvalState
+      Face.zp with
+  | some (state, _gain) => state
+  | none => strengthenedClosedPrefix4TmpmZmEvalState
+
+theorem strengthenedClosed_prefix14_yp_zm_zp_tmmm_tpmm_tppm_tpmp_tmpm_tppp_tmpp_tmmp_xp_next_from_graph112 :
+    strengthenedClosedEvalNext
+        strengthenedClosedPrefix13YpZmZpTmmmTpmmTppmTpmpTmpmTpppTmppTmmpEvalState
+        Face.xp =
+      some
+        (strengthenedClosedPrefix14YpZmZpTmmmTpmmTppmTpmpTmpmTpppTmppTmmpXpEvalState,
+          (-73 : Int)) := by
+  rfl
+
+theorem strengthenedClosed_prefix14_yp_zm_tmmp_tpmp_tppp_tpmm_tmpp_tppm_tmpm_tmmm_zp_xp_next_from_graph109 :
+    strengthenedClosedEvalNext
+        strengthenedClosedPrefix13YpZmTmmpTpmpTpppTpmmTmppTppmTmpmTmmmZpEvalState
+        Face.xp =
+      some
+        (strengthenedClosedPrefix14YpZmTmmpTpmpTpppTpmmTmppTppmTmpmTmmmZpXpEvalState,
+          (-73 : Int)) := by
+  rfl
+
+theorem strengthenedClosed_prefix5_tmpm_zm_zp_next_from_graph150 :
+    strengthenedClosedEvalNext strengthenedClosedPrefix4TmpmZmEvalState
+        Face.zp =
+      some (strengthenedClosedPrefix5TmpmZmZpEvalState, (114 : Int)) := by
+  rfl
+
+/--
+The compact target table agrees with the actual strengthened evaluator step.
+
+This is the local soundness hook for the next semantic
+closed-language-to-evaluator gate: generated membership can reason in terms of
+`nextTarget?`, while this theorem connects each table entry back to
+`strengthenedClosedEvalNext`.
+-/
+theorem nextTarget?_graph_sound
+    {state : ShardState} {face : Face}
+    {target : ShardStepTarget} {gain : Int}
+    (hnext : nextTarget? state face = some (target, gain)) :
+    ∃ nextState : StrengthenedClosedEvalState,
+      strengthenedClosedEvalNext (evalState state) face =
+          some (nextState, gain) ∧
+        nextState.graph = target.graph := by
+  cases state <;> cases face <;>
+    simp [nextTarget?] at hnext
+  all_goals rcases hnext with ⟨rfl, rfl⟩
+  case prefix4YpZm.zp =>
+    exact ⟨strengthenedClosedPrefix5YpZmZpEvalState,
+      strengthenedClosed_prefix5_yp_zm_zp_next_from_graph147, rfl⟩
+  case prefix4YpZm.tmmp =>
+    exact ⟨strengthenedClosedPrefix5YpZmTmmpEvalState,
+      strengthenedClosed_prefix5_yp_zm_tmmp_next_from_graph147, rfl⟩
+  case prefix5YpZmZp.tmmm =>
+    exact ⟨strengthenedClosedPrefix6YpZmZpTmmmEvalState,
+      strengthenedClosed_prefix6_yp_zm_zp_tmmm_next_from_graph153, rfl⟩
+  case prefix12YpZmZpTmmmTpmmTppmTpmpTmpmTpppTmpp.tmmp =>
+    exact ⟨strengthenedClosedPrefix13YpZmZpTmmmTpmmTppmTpmpTmpmTpppTmppTmmpEvalState,
+      strengthenedClosed_prefix13_yp_zm_zp_tmmm_tpmm_tppm_tpmp_tmpm_tppp_tmpp_tmmp_next_from_graph69,
+      rfl⟩
+  case prefix12YpZmTmmpTpmpTpppTpmmTmppTppmTmpmTmmm.zp =>
+    exact ⟨strengthenedClosedPrefix13YpZmTmmpTpmpTpppTpmmTmppTppmTmpmTmmmZpEvalState,
+      strengthenedClosed_prefix13_yp_zm_tmmp_tpmp_tppp_tpmm_tmpp_tppm_tmpm_tmmm_zp_next_from_graph75,
+      rfl⟩
+  case prefix13YpZmZpTmmmTpmmTppmTpmpTmpmTpppTmppTmmp.xp =>
+    exact ⟨strengthenedClosedPrefix14YpZmZpTmmmTpmmTppmTpmpTmpmTpppTmppTmmpXpEvalState,
+      strengthenedClosed_prefix14_yp_zm_zp_tmmm_tpmm_tppm_tpmp_tmpm_tppp_tmpp_tmmp_xp_next_from_graph112,
+      rfl⟩
+  case prefix13YpZmTmmpTpmpTpppTpmmTmppTppmTmpmTmmmZp.xp =>
+    exact ⟨strengthenedClosedPrefix14YpZmTmmpTpmpTpppTpmmTmppTppmTmpmTmmmZpXpEvalState,
+      strengthenedClosed_prefix14_yp_zm_tmmp_tpmp_tppp_tpmm_tmpp_tppm_tmpm_tmmm_zp_xp_next_from_graph109,
+      rfl⟩
+  case prefix9YpZmZpTmmmTpmmTppmTpmp.tmpm =>
+    exact ⟨strengthenedClosedPrefix10YpZmZpTmmmTpmmTppmTpmpTmpmEvalState,
+      strengthenedClosed_prefix10_yp_zm_zp_tmmm_tpmm_tppm_tpmp_tmpm_next_from_graph208,
+      rfl⟩
+  case prefix11YpZmZpTmmmTpmmTppmTpmpTmpmTppp.tmpp =>
+    exact ⟨strengthenedClosedPrefix12YpZmZpTmmmTpmmTppmTpmpTmpmTpppTmppEvalState,
+      strengthenedClosed_prefix12_yp_zm_zp_tmmm_tpmm_tppm_tpmp_tmpm_tppp_tmpp_next_from_graph36,
+      rfl⟩
+  case prefix11YpZmTmmpTpmpTpppTpmmTmppTppmTmpm.tmmm =>
+    exact ⟨strengthenedClosedPrefix12YpZmTmmpTpmpTpppTpmmTmppTppmTmpmTmmmEvalState,
+      strengthenedClosed_prefix12_yp_zm_tmmp_tpmp_tppp_tpmm_tmpp_tppm_tmpm_tmmm_next_from_graph41,
+      rfl⟩
+  case prefix9YpZmTmmpTpmpTpppTpmmTmpp.tppm =>
+    exact ⟨strengthenedClosedPrefix10YpZmTmmpTpmpTpppTpmmTmppTppmEvalState,
+      strengthenedClosed_prefix10_yp_zm_tmmp_tpmp_tppp_tpmm_tmpp_tppm_next_from_graph211,
+      rfl⟩
+  case prefix10YpZmZpTmmmTpmmTppmTpmpTmpm.tppp =>
+    exact ⟨strengthenedClosedPrefix11YpZmZpTmmmTpmmTppmTpmpTmpmTpppEvalState,
+      strengthenedClosed_prefix11_yp_zm_zp_tmmm_tpmm_tppm_tpmp_tmpm_tppp_next_from_graph6,
+      rfl⟩
+  case prefix10YpZmTmmpTpmpTpppTpmmTmppTppm.tmpm =>
+    exact ⟨strengthenedClosedPrefix11YpZmTmmpTpmpTpppTpmmTmppTppmTmpmEvalState,
+      strengthenedClosed_prefix11_yp_zm_tmmp_tpmp_tppp_tpmm_tmpp_tppm_tmpm_next_from_graph11,
+      rfl⟩
+  case prefix8YpZmZpTmmmTpmmTppm.tpmp =>
+    exact ⟨strengthenedClosedPrefix9YpZmZpTmmmTpmmTppmTpmpEvalState,
+      strengthenedClosed_prefix9_yp_zm_zp_tmmm_tpmm_tppm_tpmp_next_from_graph191,
+      rfl⟩
+  case prefix8YpZmTmmpTpmpTpppTpmm.tmpp =>
+    exact ⟨strengthenedClosedPrefix9YpZmTmmpTpmpTpppTpmmTmppEvalState,
+      strengthenedClosed_prefix9_yp_zm_tmmp_tpmp_tppp_tpmm_tmpp_next_from_graph194,
+      rfl⟩
+  case prefix7YpZmZpTmmmTpmm.tppm =>
+    exact ⟨strengthenedClosedPrefix8YpZmZpTmmmTpmmTppmEvalState,
+      strengthenedClosed_prefix8_yp_zm_zp_tmmm_tpmm_tppm_next_from_graph176,
+      rfl⟩
+  case prefix7YpZmTmmpTpmpTppp.tpmm =>
+    exact ⟨strengthenedClosedPrefix8YpZmTmmpTpmpTpppTpmmEvalState,
+      strengthenedClosed_prefix8_yp_zm_tmmp_tpmp_tppp_tpmm_next_from_graph178,
+      rfl⟩
+  case prefix6YpZmZpTmmm.tpmm =>
+    exact ⟨strengthenedClosedPrefix7YpZmZpTmmmTpmmEvalState,
+      strengthenedClosed_prefix7_yp_zm_zp_tmmm_tpmm_next_from_graph163,
+      rfl⟩
+  case prefix6YpZmTmmpTpmp.tppp =>
+    exact ⟨strengthenedClosedPrefix7YpZmTmmpTpmpTpppEvalState,
+      strengthenedClosed_prefix7_yp_zm_tmmp_tpmp_tppp_next_from_graph166,
+      rfl⟩
+  case prefix5YpZmTmmp.tpmp =>
+    exact ⟨strengthenedClosedPrefix6YpZmTmmpTpmpEvalState,
+      strengthenedClosed_prefix6_yp_zm_tmmp_tpmp_next_from_graph155,
+      rfl⟩
+  case prefix4TmpmZm.zp =>
+    exact ⟨strengthenedClosedPrefix5TmpmZmZpEvalState,
+      strengthenedClosed_prefix5_tmpm_zm_zp_next_from_graph150, rfl⟩
+  case prefix4ZmTmpp.tppp =>
+    exact ⟨strengthenedClosedPrefix5ZmTmppTpppEvalState,
+      strengthenedClosed_prefix5_zm_tmpp_tppp_next_from_prefix4ZmTmpp,
+      rfl⟩
+
 def localBranchTable :
     (state : ShardState) ->
       StrengthenedTargetCompletionLocalBranchTable
