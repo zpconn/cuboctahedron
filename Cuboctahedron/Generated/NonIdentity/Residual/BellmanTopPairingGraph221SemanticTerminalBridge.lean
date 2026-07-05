@@ -289,6 +289,54 @@ theorem split10MGraphExactEvalGateAtRank_of_graph221_zm_tmpp_semantic_margin
       hfinal
       (hmargin (finish, gain) heval))
 
+/--
+Emitter-facing graph221 root-margin family for the accepted-sequence
+`zm,tmpp` branch.
+
+This packages the remaining generated obligation without exposing terminal
+trace ids or sampled membership.  A future deterministic margin producer should
+prove this structure from the graph221 closed-language/cancellation state.
+-/
+structure AcceptedSequenceGraph221ZmTmppSplit10MRootMarginFamily
+    (scaledMargin : Fin numPairWords -> Int) : Prop where
+  margin :
+    ∀ rank,
+      TopPairingStrengthenedClosedLanguageAtRank
+        AcceptedSequenceBadFaceAtRank rank Face.ym ->
+      ∀ rest,
+        Depth11Layer4PrefixAtRank rank Face.zm Face.tmpp rest ->
+        Graph221Layer4Split10MRootMarginBound scaledMargin rank rest
+
+theorem split10MGraphExactEvalGateAtRank_of_graph221_zm_tmpp_rootMarginFamily
+    {scaledMargin : Fin numPairWords -> Int}
+    (hfamily :
+      AcceptedSequenceGraph221ZmTmppSplit10MRootMarginFamily scaledMargin)
+    {rank : Fin numPairWords} {rest : List Face}
+    (hstrengthened :
+      TopPairingStrengthenedClosedLanguageAtRank
+        AcceptedSequenceBadFaceAtRank rank Face.ym)
+    (hprefix :
+      Depth11Layer4PrefixAtRank rank Face.zm Face.tmpp rest) :
+    Split10MGraphExactEvalGateAtRank scaledMargin rank :=
+  split10MGraphExactEvalGateAtRank_of_graph221_zm_tmpp_semantic_margin
+    hstrengthened hprefix
+    (hfamily.margin rank hstrengthened rest hprefix)
+
+theorem scaledMargin_nonpos_of_graph221_zm_tmpp_rootMarginFamily
+    {scaledMargin : Fin numPairWords -> Int}
+    (hfamily :
+      AcceptedSequenceGraph221ZmTmppSplit10MRootMarginFamily scaledMargin)
+    {rank : Fin numPairWords} {rest : List Face}
+    (hstrengthened :
+      TopPairingStrengthenedClosedLanguageAtRank
+        AcceptedSequenceBadFaceAtRank rank Face.ym)
+    (hprefix :
+      Depth11Layer4PrefixAtRank rank Face.zm Face.tmpp rest) :
+    scaledMargin rank <= 0 :=
+  scaledMargin_nonpos_of_split10MGraphExactEvalGate
+    (split10MGraphExactEvalGateAtRank_of_graph221_zm_tmpp_rootMarginFamily
+      hfamily hstrengthened hprefix)
+
 theorem graph221_semantic_terminal_bridge_builds : True := by
   exact True.intro
 

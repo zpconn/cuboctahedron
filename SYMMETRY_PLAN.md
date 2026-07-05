@@ -116206,6 +116206,29 @@ theorem split10MGraphExactEvalGateAtRank_of_graph221_zm_tmpp_semantic_margin
     (hmargin :
       Graph221Layer4Split10MRootMarginBound scaledMargin rank rest) :
     Split10MGraphExactEvalGateAtRank scaledMargin rank
+
+structure AcceptedSequenceGraph221ZmTmppSplit10MRootMarginFamily
+    (scaledMargin : Fin numPairWords -> Int) : Prop
+
+theorem split10MGraphExactEvalGateAtRank_of_graph221_zm_tmpp_rootMarginFamily
+    (hfamily :
+      AcceptedSequenceGraph221ZmTmppSplit10MRootMarginFamily scaledMargin)
+    (hstrengthened :
+      TopPairingStrengthenedClosedLanguageAtRank
+        AcceptedSequenceBadFaceAtRank rank Face.ym)
+    (hprefix :
+      Depth11Layer4PrefixAtRank rank Face.zm Face.tmpp rest) :
+    Split10MGraphExactEvalGateAtRank scaledMargin rank
+
+theorem scaledMargin_nonpos_of_graph221_zm_tmpp_rootMarginFamily
+    (hfamily :
+      AcceptedSequenceGraph221ZmTmppSplit10MRootMarginFamily scaledMargin)
+    (hstrengthened :
+      TopPairingStrengthenedClosedLanguageAtRank
+        AcceptedSequenceBadFaceAtRank rank Face.ym)
+    (hprefix :
+      Depth11Layer4PrefixAtRank rank Face.zm Face.tmpp rest) :
+    scaledMargin rank <= 0
 ```
 
 Interpretation:
@@ -116243,8 +116266,11 @@ python3 scripts/run_memory_guarded.py \
     Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraph221SemanticTerminalBridge.lean
 ```
 
-Result: passed, elapsed `3.00s`, peak RSS `4023.12 MiB`, min available
-`46247.66 MiB`.
+Result after the graph-exact socket: passed, elapsed `3.00s`, peak RSS
+`4023.12 MiB`, min available `46247.66 MiB`.
+
+Result after adding the emitter-facing root-margin family wrapper: passed,
+elapsed `5.00s`, peak RSS `4010.26 MiB`, min available `46220.54 MiB`.
 
 Forbidden-token scan over the touched bridge found no `sorry`, `admit`,
 `axiom`, `native_decide`, or `unsafe`.
