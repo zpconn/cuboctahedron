@@ -117585,3 +117585,78 @@ requires selected-prefix, sampled-rank/path, AcceptedTraceId,
 acceptedTraceOfId, exact affine RHS, solved start point, or stored-path
 membership.
 ```
+
+#### 2026-07-05 graph147 diagnostic/production boundary tightened
+
+Status: strategy pivot incorporated into the audit and plan.
+
+The latest GPT5.5 guidance sharpened the graph147 rule: keep Bellman, but only
+through a deterministic semantic transducer theorem.  Do not scale selected
+prefixes, sampled paths, accepted traces, or fixed observed branches.  A
+follow-up inspection confirmed that the semantic front door already exists:
+
+```lean
+theorem topPairingTargetShadow_of_summary
+theorem topPairingTriShadow_eq_target_of_closed
+theorem topPairingTriCursor_of_closed
+abbrev TopPairingTargetCursorAtRank
+```
+
+and graph147 already consumes it in the direct/ranked-eval sockets.  The audit
+now makes the remaining boundary explicit:
+
+```text
+graph147_ranked_eval_socket.status =
+  accepted_graph147_ranked_eval_socket
+
+graph147_cocycle_diagnostics.status =
+  diagnostic_cocycle_and_potential_surfaces_present
+```
+
+Interpretation:
+
+```text
+The graph147 cocycle branch smoke, cocycle edge shards, and full-potential
+shards are useful diagnostics/proof principles.  They are not coverage.
+Production evidence must lift through the ranked-eval socket by proving
+branch start-margin facts from `TopPairingClosedLanguageAtRank` via the target
+cursor and ranked transducer:
+
+  Graph147RankedEvalMarginSequenceBadFace
+
+or:
+
+  StrengthenedGraph147RankedShardMarginInvariantFamily
+
+If proving either theorem needs selected-prefix, sampled-rank/path,
+accepted-trace, exact-affine, solved-start-point, or stored-path membership,
+reject that route and switch to a checked segment/cocycle quotient whose
+statement is still semantic.
+```
+
+Commands run:
+
+```bash
+python3 -m py_compile scripts/audit_layer4_terminal_lane_readiness.py
+python3 scripts/audit_layer4_terminal_lane_readiness.py
+```
+
+Results:
+
+```text
+py_compile: passed
+audit: passed
+graph147_cocycle_diagnostics.forbidden_hits = []
+graph147_cocycle_diagnostics.production_boundary =
+  diagnostics only; lift through target-cursor/ranked-transducer socket
+```
+
+Next implementation target:
+
+```text
+Try to prove or emit the smallest semantic branch start-margin theorem feeding
+`Graph147RankedEvalMarginSequenceBadFace`.  Start from closed-language,
+target-cursor, ranked suffix, and graph147 margin/cocycle facts.  Do not reuse
+the branch smoke as production unless the theorem is generalized from fixed
+branches to the semantic ranked suffix language.
+```

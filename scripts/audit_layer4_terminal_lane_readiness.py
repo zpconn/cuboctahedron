@@ -1703,9 +1703,12 @@ def main() -> int:
                 "Graph147 ranked suffix evaluation is already packaged as a "
                 "semantic induction.  It proves evaluator existence/final "
                 "potential from Graph147RankedShardSuffixOk and reduces the "
-                "remaining production work to branch start-margin facts, "
-                "preferably Graph147RankedEvalMarginSequenceBadFace or "
-                "StrengthenedGraph147RankedShardMarginInvariantFamily."
+                "remaining production work to branch start-margin facts over "
+                "the target-cursor/transducer language, preferably "
+                "Graph147RankedEvalMarginSequenceBadFace or "
+                "StrengthenedGraph147RankedShardMarginInvariantFamily.  "
+                "Diagnostic branch/cocycle smokes must not be treated as "
+                "coverage unless they are lifted through this semantic socket."
                 if graph147_ranked_eval_socket_ok
                 else (
                     "Graph147 has a ranked-transducer boundary, but the "
@@ -1717,6 +1720,58 @@ def main() -> int:
                 token
                 for token in FORBIDDEN
                 if token in graph147_ranked_eval_socket_text
+            ],
+        },
+        "graph147_cocycle_diagnostics": {
+            "status": (
+                "diagnostic_cocycle_and_potential_surfaces_present"
+                if (
+                    graph147_cocycle_branch_smoke_ok
+                    and graph147_cocycle_edge_shards_ok
+                    and graph147_full_potential_shards_ok
+                )
+                else "missing_or_partial_cocycle_diagnostics"
+            ),
+            "branch_smoke_file": (
+                str(GRAPH147_COCYCLE_BRANCH_SMOKE_FILE.relative_to(ROOT))
+                if GRAPH147_COCYCLE_BRANCH_SMOKE_FILE.exists()
+                else None
+            ),
+            "edge_shards_file": (
+                str(GRAPH147_COCYCLE_EDGE_SHARDS_FILE.relative_to(ROOT))
+                if GRAPH147_COCYCLE_EDGE_SHARDS_FILE.exists()
+                else None
+            ),
+            "full_potential_shards_file": (
+                str(GRAPH147_FULL_POTENTIAL_SHARDS_FILE.relative_to(ROOT))
+                if GRAPH147_FULL_POTENTIAL_SHARDS_FILE.exists()
+                else None
+            ),
+            "branch_smoke_symbols": {
+                symbol: symbol not in graph147_cocycle_branch_smoke_missing
+                for symbol in GRAPH147_COCYCLE_BRANCH_SMOKE_REQUIRED
+            },
+            "edge_shard_symbols": {
+                symbol: symbol not in graph147_cocycle_edge_shards_missing
+                for symbol in GRAPH147_COCYCLE_EDGE_SHARDS_REQUIRED
+            },
+            "full_potential_symbols": {
+                symbol: symbol not in graph147_full_potential_shards_missing
+                for symbol in GRAPH147_FULL_POTENTIAL_SHARDS_REQUIRED
+            },
+            "production_boundary": (
+                "These files are diagnostics/proof-principles only.  The next "
+                "production theorem must prove branch start-margin facts from "
+                "TopPairingClosedLanguageAtRank via the target cursor and "
+                "ranked transducer socket, not from selected-prefix, sampled, "
+                "accepted-trace, exact-affine, or stored-path membership."
+            ),
+            "forbidden_hits": [
+                token
+                for token in FORBIDDEN
+                if token in graph147_cocycle_branch_smoke_text
+                or token in graph147_cocycle_edge_shards_text
+                or token in graph147_full_potential_shards_text
             ],
         },
         "direct_killed_layer4_portfolio": {

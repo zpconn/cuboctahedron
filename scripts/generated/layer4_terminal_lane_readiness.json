@@ -52,10 +52,55 @@
     },
     "status": "accepted_graph183_graph221_direct_portfolio_socket"
   },
+  "graph147_cocycle_diagnostics": {
+    "branch_smoke_file": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraph147CocycleQuotientBranchSmoke.lean",
+    "branch_smoke_symbols": {
+      "graph147QuotientStep": true,
+      "graph147YpZmBranchMargin_contract": true,
+      "graph147YpZmBranchRawGain_contract": true,
+      "graph147YpZmGaugeCorrectedBranchSmoke": true,
+      "graph147YpZmQuotientBranchSmoke": true,
+      "graph147ZmYpBranchMargin_contract": true,
+      "graph147ZmYpBranchRawGain_contract": true,
+      "graph147ZmYpGaugeCorrectedBranchSmoke": true,
+      "graph147ZmYpQuotientBranchSmoke": true
+    },
+    "edge_shard_symbols": {
+      "graph147QuotientEdgeShard000_checked": true,
+      "graph147QuotientEdgeShard001_checked": true,
+      "graph147QuotientEdgeShard002_checked": true,
+      "graph147QuotientEdgeShard003_checked": true,
+      "graph147QuotientEdgeShard004_checked": true,
+      "graph147QuotientEdgeShard005_checked": true,
+      "graph147QuotientEdgeShard006_checked": true,
+      "graph147QuotientEdgeShard007_checked": true,
+      "graph147QuotientEdgeShard008_checked": true,
+      "graph147QuotientEdgeShards_checked": true
+    },
+    "edge_shards_file": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraph147CocycleQuotientEdgeShards.lean",
+    "forbidden_hits": [],
+    "full_potential_shards_file": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraph147FullPotentialShards.lean",
+    "full_potential_symbols": {
+      "graph147FullPotentialFinalNonneg": true,
+      "graph147FullPotentialRootBound": true,
+      "graph147FullPotentialShard000_checked": true,
+      "graph147FullPotentialShard001_checked": true,
+      "graph147FullPotentialShard002_checked": true,
+      "graph147FullPotentialShard003_checked": true,
+      "graph147FullPotentialShard004_checked": true,
+      "graph147FullPotentialShard005_checked": true,
+      "graph147FullPotentialShard006_checked": true,
+      "graph147FullPotentialShard007_checked": true,
+      "graph147FullPotentialShard008_checked": true,
+      "graph147FullPotentialShards_checked": true
+    },
+    "production_boundary": "These files are diagnostics/proof-principles only.  The next production theorem must prove branch start-margin facts from TopPairingClosedLanguageAtRank via the target cursor and ranked transducer socket, not from selected-prefix, sampled, accepted-trace, exact-affine, or stored-path membership.",
+    "status": "diagnostic_cocycle_and_potential_surfaces_present"
+  },
   "graph147_ranked_eval_socket": {
     "file": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingDepth11Layer4Graph147RankedEvalSocket.lean",
     "forbidden_hits": [],
-    "interpretation": "Graph147 ranked suffix evaluation is already packaged as a semantic induction.  It proves evaluator existence/final potential from Graph147RankedShardSuffixOk and reduces the remaining production work to branch start-margin facts, preferably Graph147RankedEvalMarginSequenceBadFace or StrengthenedGraph147RankedShardMarginInvariantFamily.",
+    "interpretation": "Graph147 ranked suffix evaluation is already packaged as a semantic induction.  It proves evaluator existence/final potential from Graph147RankedShardSuffixOk and reduces the remaining production work to branch start-margin facts over the target-cursor/transducer language, preferably Graph147RankedEvalMarginSequenceBadFace or StrengthenedGraph147RankedShardMarginInvariantFamily.  Diagnostic branch/cocycle smokes must not be treated as coverage unless they are lifted through this semantic socket.",
     "required_symbols": {
       "Graph147RankedEvalMarginSequenceBadFace": true,
       "Graph147RankedSuffixEvalMarginInv": true,
