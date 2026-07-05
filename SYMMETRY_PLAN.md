@@ -104536,6 +104536,7 @@ BellmanTopPairingGraph183TerminalTailPrefixSmoke.lean
   graph221Layer4ForcedTailPrefixLabels
   graph221Layer4ForcedTailPrefixEval
   graph151TargetCompletionTail_decompose_to_graph221
+  graph221AcceptedTailSuffixOk_of_graph151TargetCompletionTail_and_strengthenedEval
   graph221_head_of_targetCompletionTail
   graph221_yp_tmpm_head_of_targetCompletionTail
   graph221AcceptedTailSuffixOk_or_blockedPrefix_of_targetCompletionTail
@@ -104585,11 +104586,22 @@ BellmanTopPairingGraph183TerminalTailPrefixSmoke.lean
       exists tail,
         rest = graph221Layer4ForcedTailPrefixLabels ++ tail /\
           Graph221TargetCompletionTail tail
+
+  theorem graph221AcceptedTailSuffixOk_of_graph151TargetCompletionTail_and_strengthenedEval
+      (htail : Graph151TargetCompletionTail rest)
+      (heval :
+        evalLabelStepFn strengthenedClosedEvalNext
+            strengthenedClosedPrefix4ZmTmppEvalState rest =
+          some (finish, gain)) :
+      exists tail,
+        rest = graph221Layer4ForcedTailPrefixLabels ++ tail /\
+          graph221AcceptedTailSuffixOk tail
   ```
 
   This is the non-sampled bridge needed before the final `zm,tmpp` lane theorem:
   `Graph151TargetCompletionTail` supplies the semantic path to graph221, and
-  the local graph221 filter handles the remaining branch.
+  a successful strengthened evaluator run supplies the graph221 product-state
+  filter for the remaining branch.
 
 - Important negative result:
   an attempted stronger target-completion-only classifier was too strong.
@@ -104667,15 +104679,17 @@ BellmanTopPairingGraph183TerminalTailPrefixSmoke.lean
   graph221_filtered_symbols include:
     graph221Layer4ForcedTailPrefixEval
     graph151TargetCompletionTail_decompose_to_graph221
+    graph221AcceptedTailSuffixOk_of_graph151TargetCompletionTail_and_strengthenedEval
     graph221YpTmpmStrengthenedEvalState_zp_none
     graph221YpTmpmZp_strengthenedEval_none
     graph221AcceptedTailSuffixOk_or_blockedPrefix_of_targetCompletionTail
     graph221AcceptedTailSuffixOk_of_targetCompletionTail_and_strengthenedEval
   next_recommended_slice =
-    lift the zm_tmpp lane through graph221 by deriving the strengthened
-    evaluator premise from the strengthened closed-language prefix, then feed
-    the resulting accepted suffix into the same four-piece terminal-machine
-    pattern validated by graph183
+    lift the zm_tmpp lane through graph221 by deriving the Graph151
+    target-completion tail and strengthened evaluator success from the
+    strengthened closed-language prefix, then feed the resulting accepted
+    suffix into the same four-piece terminal-machine pattern validated by
+    graph183
   ```
 
 - Commands:
@@ -104702,7 +104716,7 @@ BellmanTopPairingGraph183TerminalTailPrefixSmoke.lean
 
   | Check | Result | Elapsed | Peak Tree RSS | Min Available |
   | --- | --- | ---: | ---: | ---: |
-  | focused graph221 filtered continuation build | pass | `5.01s` | `4200 MiB` | `45886 MiB` |
+  | focused graph221 filtered continuation build | pass | `5.01s` | `4195 MiB` | `45872 MiB` |
   | layer-4 readiness audit | pass | n/a | n/a | n/a |
   | forbidden-token scan on touched proof surfaces | pass | n/a | n/a | n/a |
 
@@ -104710,9 +104724,9 @@ BellmanTopPairingGraph183TerminalTailPrefixSmoke.lean
   implement the lane-level graph221 bridge: from
   `TopPairingStrengthenedClosedLanguageAtRank
   AcceptedSequenceBadFaceAtRank rank Face.ym` plus the already proved
-  `zm,tmpp` forced-prefix chain, produce the strengthened evaluator success
-  premise required by
-  `graph221AcceptedTailSuffixOk_of_targetCompletionTail_and_strengthenedEval`,
+  `zm,tmpp` forced-prefix chain, produce both `Graph151TargetCompletionTail rest`
+  and the strengthened evaluator success premise required by
+  `graph221AcceptedTailSuffixOk_of_graph151TargetCompletionTail_and_strengthenedEval`,
   then feed the resulting accepted suffix to
   `graph221FilteredTailPrefixContinuation`.  If that theorem starts requiring
   exact affine RHS, solved start-point data, selected traces, sampled ranks, or

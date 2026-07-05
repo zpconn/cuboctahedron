@@ -73,6 +73,7 @@
         "Graph221TargetCompletionTail": true,
         "graph151TargetCompletionTail_decompose_to_graph221": true,
         "graph221AcceptedTailSuffixOk": true,
+        "graph221AcceptedTailSuffixOk_of_graph151TargetCompletionTail_and_strengthenedEval": true,
         "graph221AcceptedTailSuffixOk_of_targetCompletionTail_and_strengthenedEval": true,
         "graph221AcceptedTailSuffixOk_or_blockedPrefix_of_targetCompletionTail": true,
         "graph221FilteredTailPrefixContinuation": true,
@@ -90,7 +91,7 @@
         "graph221_head_of_targetCompletionTail": true,
         "graph221_yp_tmpm_head_of_targetCompletionTail": true
       },
-      "remaining_gap": "graph221 now has a rank-free filtered tail-prefix continuation for the three graph-accepted suffixes, a graph151-to-graph221 target-completion tail decomposition, plus a local theorem deriving that suffix filter from target-completion and the strengthened product-state evaluator. This is not a full lane gate yet: the next proof must connect the strengthened closed-language rank/prefix hypotheses to this graph221 evaluator premise and terminal continuation.",
+      "remaining_gap": "graph221 now has a rank-free filtered tail-prefix continuation for the three graph-accepted suffixes, a graph151-to-graph221 target-completion tail decomposition, plus a local theorem deriving that suffix filter from target-completion and the strengthened product-state evaluator, and a graph151-level theorem deriving the accepted graph221 suffix from graph151 target-completion plus strengthened eval success. This is not a full lane gate yet: the next proof must connect the strengthened closed-language rank/prefix hypotheses to this graph151 tail/evaluator premise and terminal continuation.",
       "required_symbols": {
         "Graph151TargetCompletionTail": true,
         "graph151TargetCompletionState": true,
@@ -126,7 +127,7 @@
     "zm_yp",
     "zm_zp"
   ],
-  "next_recommended_slice": "lift the zm_tmpp lane through graph221 by deriving the strengthened evaluator premise from the strengthened closed-language prefix, then feed the resulting accepted suffix into the same four-piece terminal-machine pattern validated by graph183",
+  "next_recommended_slice": "lift the zm_tmpp lane through graph221 by deriving the Graph151 target-completion tail and strengthened evaluator success from the strengthened closed-language prefix, then feed the resulting accepted suffix into the same four-piece terminal-machine pattern validated by graph183",
   "partial_lane_count": 1,
   "partial_lanes": [
     "zm_tmpp"

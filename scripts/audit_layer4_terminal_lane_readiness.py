@@ -108,6 +108,7 @@ GRAPH221_FILTERED_REQUIRED = [
     "graph221_yp_tmpm_head_of_targetCompletionTail",
     "graph221AcceptedTailSuffixOk_or_blockedPrefix_of_targetCompletionTail",
     "graph221AcceptedTailSuffixOk_of_targetCompletionTail_and_strengthenedEval",
+    "graph221AcceptedTailSuffixOk_of_graph151TargetCompletionTail_and_strengthenedEval",
     "graph221AcceptedTailSuffixOk",
     "graph221TailPrefix029Eval",
     "graph221TailPrefix030Eval",
@@ -208,10 +209,12 @@ def main() -> int:
                     "decomposition, "
                     "plus a local theorem deriving that suffix filter from "
                     "target-completion and the strengthened product-state "
-                    "evaluator. This is not a full lane gate yet: the next "
-                    "proof must connect the strengthened closed-language "
-                    "rank/prefix hypotheses to this graph221 evaluator "
-                    "premise and terminal continuation."
+                    "evaluator, and a graph151-level theorem deriving the "
+                    "accepted graph221 suffix from graph151 target-completion "
+                    "plus strengthened eval success. This is not a full lane "
+                    "gate yet: the next proof must connect the strengthened "
+                    "closed-language rank/prefix hypotheses to this graph151 "
+                    "tail/evaluator premise and terminal continuation."
                     if graph221_filtered_ok
                     else (
                     "graph151 now advances semantically through tppp to "
@@ -269,10 +272,10 @@ def main() -> int:
         "lanes": lane_report,
         "next_recommended_slice": (
             "lift the zm_tmpp lane through graph221 by deriving the "
-            "strengthened evaluator premise from the strengthened "
-            "closed-language prefix, then feed the resulting accepted suffix "
-            "into the same four-piece terminal-machine pattern validated by "
-            "graph183"
+            "Graph151 target-completion tail and strengthened evaluator "
+            "success from the strengthened closed-language prefix, then feed "
+            "the resulting accepted suffix into the same four-piece "
+            "terminal-machine pattern validated by graph183"
             if graph221_filtered_ok
             else (
                 "continue the zm_tmpp semantic continuation at the graph221 "

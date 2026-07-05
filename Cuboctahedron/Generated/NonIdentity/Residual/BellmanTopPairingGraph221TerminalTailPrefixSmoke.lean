@@ -733,6 +733,44 @@ theorem graph221AcceptedTailSuffixOk_of_targetCompletionTail_and_strengthenedEva
     rw [graph221YpTmpmZp_strengthenedEval_none tail] at heval
     contradiction
 
+theorem graph221AcceptedTailSuffixOk_of_graph151TargetCompletionTail_and_strengthenedEval
+    {rest : List Face} {finish : StrengthenedClosedEvalState} {gain : Int}
+    (htail : Graph151TargetCompletionTail rest)
+    (heval :
+      evalLabelStepFn strengthenedClosedEvalNext
+          strengthenedClosedPrefix4ZmTmppEvalState rest =
+        some (finish, gain)) :
+    ∃ tail,
+      rest = graph221Layer4ForcedTailPrefixLabels ++ tail ∧
+        graph221AcceptedTailSuffixOk tail := by
+  rcases graph151TargetCompletionTail_decompose_to_graph221 htail with
+    ⟨tail, hrest, htail221⟩
+  subst rest
+  have htailEval :
+      ∃ tailFinish tailGain,
+        evalLabelStepFn strengthenedClosedEvalNext graph221StrengthenedEvalState
+            tail =
+          some (tailFinish, tailGain) := by
+    cases htailEval :
+        evalLabelStepFn strengthenedClosedEvalNext graph221StrengthenedEvalState
+          tail with
+    | none =>
+        simp [graph221Layer4ForcedTailPrefixLabels, evalLabelStepFn,
+          strengthenedClosed_prefix5_zm_tmpp_tppp_next_from_prefix4ZmTmpp,
+          strengthenedClosed_prefix6_zm_tmpp_tppp_tpmp_next_from_prefix5,
+          strengthenedClosed_prefix7_zm_tmpp_tppp_tpmp_tppm_next_from_prefix6,
+          strengthenedClosed_prefix8_zm_tmpp_tppp_tpmp_tppm_tmmp_next_from_prefix7,
+          graph221StrengthenedEvalState_next,
+          htailEval] at heval
+    | some result =>
+        cases result with
+        | mk tailFinish tailGain =>
+            exact ⟨tailFinish, tailGain, rfl⟩
+  rcases htailEval with ⟨tailFinish, tailGain, htailEval⟩
+  exact ⟨tail, rfl,
+    graph221AcceptedTailSuffixOk_of_targetCompletionTail_and_strengthenedEval
+      htail221 htailEval⟩
+
 theorem graph221Tail029_split :
     graph221Tail029 = graph221TailPrefix029 ++ graph221TailPrefixRemaining := by
   rfl
