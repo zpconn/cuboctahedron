@@ -73,8 +73,10 @@ REQUIRED_SYMBOLS = {
         "Layer4PrefixMachineTargetCompletionContinuationAll",
         "terminalContainedEvalPrefixGate_of_layer4PrefixMachineTargetCompletionContinuationAll",
         "Layer4PrefixMachineTargetCompletionSuffixContinuationAll",
+        "Layer4PrefixMachineTargetCompletionFilteredSuffixContinuationAll",
         "targetCompletionContinuationAll_of_suffixContinuationAll",
         "terminalContainedEvalPrefixGate_of_layer4PrefixMachineTargetCompletionSuffixContinuationAll",
+        "terminalContainedEvalPrefixGate_of_layer4PrefixMachineTargetCompletionFilteredSuffixContinuationAll",
         "TerminalContainedEvalProgressGate",
     ],
     "closed_transducer_socket": [
@@ -146,21 +148,23 @@ def main() -> int:
                 "generic full-machine layer-4 prefix socket",
                 "target-completion continuation socket for layer-4 suffix leaves",
                 "rank-free target-completion suffix evaluator socket",
+                "filtered target-completion suffix evaluator socket",
             ],
             "remaining_gap": (
                 "instantiate a full generated terminal machine with "
-                "Layer4ReachablePrefixMachine and prove rank-free "
-                "target-completion suffix continuations from its after4 "
-                "third fourth states for reachable Split10MPrefix4Frontier"
-                "Cons2 pairs"
+                "Layer4ReachablePrefixMachine and prove rank-free or "
+                "filtered target-completion suffix continuations from its "
+                "after4 third fourth states for reachable "
+                "Split10MPrefix4FrontierCons2 pairs"
             ),
         },
         "next_recommended_slice": (
-            "generate or prove rank-free target-completion suffix evaluator "
-            "gates from layer-4 frontier states inside a full generated "
-            "terminal machine satisfying Layer4ReachablePrefixMachine, then "
-            "compose them with terminalContainedEvalPrefixGate_of_layer4"
-            "PrefixMachineTargetCompletionSuffixContinuationAll"
+            "generate or prove target-completion suffix evaluator gates from "
+            "layer-4 frontier states inside a full generated terminal machine "
+            "satisfying Layer4ReachablePrefixMachine; use the rank-free "
+            "socket where target-completion alone is complete and the "
+            "filtered socket where closed-language fields rule out blocked "
+            "tails"
         ),
     }
 

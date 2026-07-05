@@ -1341,6 +1341,58 @@ structure Layer4PrefixMachineTargetCompletionSuffixContinuationAll
           machine (frontierPrefix.after4 third fourth)
           (completionState third fourth)
 
+/--
+Filtered suffix evaluator package for a full generated terminal machine.
+
+Use this when `TopPairingTargetCompletionTail` is not by itself strong enough
+to rule out non-evaluable tails.  The `suffix_ok` field is still semantic: it
+must be derived from the closed rank, layer-4 containment, and target-completion
+tail, not from sampled paths or selected-prefix tables.  The evaluator theorem
+in `suffix` remains rank-free once the filter is known.
+-/
+structure Layer4PrefixMachineTargetCompletionFilteredSuffixContinuationAll
+    {StateId : Type}
+    (machine : TerminalStepStatePartialMachine StateId)
+    (frontierPrefix : Layer4ReachablePrefixMachine machine)
+    (completionState :
+      ThirdBranch -> FourthBranch -> TopPairingTargetCompletionState)
+    (suffixOk : ThirdBranch -> FourthBranch -> List Face -> Prop) :
+    Prop where
+  tail :
+    ∀ rank,
+      TopPairingClosedLanguageAtRank rank Face.ym ->
+      ∀ third fourth,
+        Split10MPrefix4FrontierCons2 third.face fourth.face ->
+          TerminalStepState.Contains
+            (machine.stateOf (frontierPrefix.after4 third fourth)) rank ->
+          ∃ rest : List Face,
+            topPairingRankFaceLabels rank =
+                (machine.stateOf (frontierPrefix.after4 third fourth)).pfx ++
+                  rest ∧
+              TopPairingTargetCompletionTail
+                (completionState third fourth) rest
+  suffix_ok :
+    ∀ rank,
+      TopPairingClosedLanguageAtRank rank Face.ym ->
+      ∀ third fourth,
+        Split10MPrefix4FrontierCons2 third.face fourth.face ->
+          TerminalStepState.Contains
+            (machine.stateOf (frontierPrefix.after4 third fourth)) rank ->
+          ∀ rest,
+            topPairingRankFaceLabels rank =
+                (machine.stateOf (frontierPrefix.after4 third fourth)).pfx ++
+                  rest ->
+              TopPairingTargetCompletionTail
+                (completionState third fourth) rest ->
+                suffixOk third fourth rest
+  suffix :
+    ∀ third fourth,
+      Split10MPrefix4FrontierCons2 third.face fourth.face ->
+        TerminalTargetCompletionFilteredSuffixContinuation
+          machine (frontierPrefix.after4 third fourth)
+          (completionState third fourth)
+          (suffixOk third fourth)
+
 theorem targetCompletionContinuationAll_of_suffixContinuationAll
     {StateId : Type}
     {machine : TerminalStepStatePartialMachine StateId}
@@ -1443,6 +1495,49 @@ theorem terminalContainedEvalPrefixGate_of_layer4PrefixMachineTargetCompletionSu
     frontierPrefix
     (targetCompletionContinuationAll_of_suffixContinuationAll hsuffix)
     hclosed
+
+/--
+Compose a generic full-machine layer-4 prefix with filtered rank-free
+target-completion suffix continuations.
+
+The filter is proved at the composition point, where the closed-language proof
+is available.  The suffix evaluator itself remains rank-free.
+-/
+theorem terminalContainedEvalPrefixGate_of_layer4PrefixMachineTargetCompletionFilteredSuffixContinuationAll
+    {StateId : Type}
+    {machine : TerminalStepStatePartialMachine StateId}
+    {completionState :
+      ThirdBranch -> FourthBranch -> TopPairingTargetCompletionState}
+    {suffixOk : ThirdBranch -> FourthBranch -> List Face -> Prop}
+    (frontierPrefix : Layer4ReachablePrefixMachine machine)
+    (hfiltered :
+      Layer4PrefixMachineTargetCompletionFilteredSuffixContinuationAll
+        machine frontierPrefix completionState suffixOk)
+    {rank : Fin numPairWords}
+    (hclosed : TopPairingClosedLanguageAtRank rank Face.ym) :
+    TerminalContainedEvalPrefixGate machine frontierPrefix.start rank := by
+  rcases frontierPrefix.progress rank hclosed with
+    ⟨third, fourth, hprogress, hfrontier⟩
+  have hcontains :
+      TerminalStepState.Contains
+        (machine.stateOf (frontierPrefix.after4 third fourth)) rank :=
+    contains_of_containedEvalProgressGate machine hprogress
+  rcases hfiltered.tail rank hclosed third fourth hfrontier
+      hcontains with
+    ⟨rest, hlabels, htail⟩
+  have hok : suffixOk third fourth rest :=
+    hfiltered.suffix_ok rank hclosed third fourth hfrontier hcontains
+      rest hlabels htail
+  rcases (hfiltered.suffix third fourth hfrontier).terminal rest htail
+      hok with
+    ⟨finish, gain, heval, hterminal⟩
+  have hsuffix :
+      TerminalContainedEvalPrefixGate
+        machine (frontierPrefix.after4 third fourth) rank := by
+    refine ⟨rest, finish, gain, [], hcontains, ?_, heval, hterminal⟩
+    simpa using hlabels
+  exact terminalContainedEvalPrefixGate_trans_progress
+    machine hprogress hsuffix
 
 theorem terminalStateFrontierSmoke_builds : True := by
   exact True.intro

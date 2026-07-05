@@ -143,6 +143,43 @@ structure TerminalTargetCompletionSuffixContinuation
               some (finish, gain) ∧
             machine.IsTerminal finish
 
+/--
+Filtered rank-free target-completion suffix evaluator.
+
+Some semantic target-completion states still admit syntactic tails that are
+ruled out only by stronger closed-language fields such as the generated
+sequence/bad-face predicate.  `suffixOk` is the additional semantic filter.
+The evaluator theorem itself remains rank-free.
+-/
+structure TerminalTargetCompletionFilteredSuffixContinuation
+    {StateId : Type}
+    (machine : TerminalStepStatePartialMachine StateId)
+    (start : StateId)
+    (completionState : TopPairingTargetCompletionState)
+    (suffixOk : List Face -> Prop) : Prop where
+  terminal :
+    ∀ rest,
+      TopPairingTargetCompletionTail completionState rest ->
+        suffixOk rest ->
+          ∃ finish gain,
+            evalLabelStepFn (nextEval machine) start rest =
+                some (finish, gain) ∧
+              machine.IsTerminal finish
+
+theorem terminalTargetCompletionFilteredSuffixContinuation_of_suffixContinuation
+    {StateId : Type}
+    {machine : TerminalStepStatePartialMachine StateId}
+    {start : StateId}
+    {completionState : TopPairingTargetCompletionState}
+    (hsuffix :
+      TerminalTargetCompletionSuffixContinuation
+        machine start completionState) :
+    TerminalTargetCompletionFilteredSuffixContinuation
+      machine start completionState (fun _rest => True) where
+  terminal := by
+    intro rest htail _hok
+    exact hsuffix.terminal rest htail
+
 theorem terminalTargetCompletionContinuation_of_suffixContinuation
     {StateId : Type}
     {machine : TerminalStepStatePartialMachine StateId}
@@ -155,6 +192,32 @@ theorem terminalTargetCompletionContinuation_of_suffixContinuation
   terminal := by
     intro rank hcontains rest hlabels htail
     rcases hsuffix.terminal rest htail with
+      ⟨finish, gain, heval, hterminal⟩
+    refine ⟨rest, finish, gain, [], hcontains, ?_, heval, hterminal⟩
+    simpa using hlabels
+
+theorem terminalTargetCompletionContinuation_of_filteredSuffixContinuation
+    {StateId : Type}
+    {machine : TerminalStepStatePartialMachine StateId}
+    {start : StateId}
+    {completionState : TopPairingTargetCompletionState}
+    {suffixOk : List Face -> Prop}
+    (hsuffix :
+      TerminalTargetCompletionFilteredSuffixContinuation
+        machine start completionState suffixOk)
+    (hok :
+      ∀ rank,
+        TerminalStepState.Contains (machine.stateOf start) rank ->
+          ∀ rest,
+            topPairingRankFaceLabels rank =
+                (machine.stateOf start).pfx ++ rest ->
+              TopPairingTargetCompletionTail completionState rest ->
+                suffixOk rest) :
+    TerminalTargetCompletionContinuation machine start completionState where
+  terminal := by
+    intro rank hcontains rest hlabels htail
+    rcases hsuffix.terminal rest htail
+        (hok rank hcontains rest hlabels htail) with
       ⟨finish, gain, heval, hterminal⟩
     refine ⟨rest, finish, gain, [], hcontains, ?_, heval, hterminal⟩
     simpa using hlabels
