@@ -105111,6 +105111,184 @@ Result:
 pass; no matches
 ```
 
+### 2026-07-05 graph147 deterministic-transducer pivot and full-potential checkpoint
+
+The latest GPT5.5 Pro guidance has been folded into the active graph147 route.
+The important correction is not "generate more Bellman data"; it is:
+
+```text
+Keep Bellman.
+Reject selected-prefix membership.
+Prove a deterministic semantic closed-language-to-evaluator/root-margin theorem.
+```
+
+The graph147 lane already has the right front-end socket:
+
+- `Graph147TargetCompletionTail` is derived semantically for the `yp,zm` and
+  `zm,yp` strengthened branches.
+- The target-completion shard exposes root/tail eval-gate adapters.
+- The remaining production hole is exactly the margin component of
+  `StrengthenedGraph147RootMarginBundle`.
+
+The next theorem target should therefore be a semantic transducer statement of
+this shape, with names adapted to the existing file:
+
+```lean
+theorem graph147YpZm_rootMarginBundle_of_strengthened_closed
+    (rank : Fin numPairWords)
+    (hclosed :
+      TopPairingStrengthenedClosedLanguageAtRank
+        AcceptedSequenceBadFaceAtRank rank Face.ym)
+    (hprefix :
+      Depth11Layer4PrefixAtRank rank Face.yp Face.zm rest) :
+    StrengthenedGraph147YpZmRootMarginFamily rank
+```
+
+and symmetrically for `zm,yp`.  The proof must be driven by deterministic
+semantic state:
+
+- target-shadow / cancellation cursor;
+- tri-source progress;
+- square-gap and remaining-face state;
+- local-axis / bad-face compatibility;
+- the graph147 Bellman state and local transition relation.
+
+It must not consume selected-prefix ids, sampled ranks, accepted-trace ids,
+exact affine RHS keys, solved start points, or one branch per observed path.  If
+the current closed-language fields are too weak, add one compact semantic field
+or a generated deterministic product-state certificate; do not add rank/path
+tables.
+
+As a checkpoint for the algebraic side of this route, a new diagnostic emitter
+now checks the full observed graph147 Bellman potential from the 10M
+`with-step-tri-source` profile:
+
+```text
+gain(edge) + V(dst(edge)) <= V(src(edge))
+```
+
+for every observed graph edge, plus root and final-state potential facts.  This
+is intentionally diagnostic/proof-shape evidence only.  It is not production
+coverage, because it does not prove that every closed-language rank follows the
+graph.
+
+Added files:
+
+```text
+scripts/emit_graph147_full_potential_shards.py
+Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraph147FullPotentialShard000.lean
+...
+Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraph147FullPotentialShard008.lean
+Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraph147FullPotentialShards.lean
+scripts/generated/graph147_full_potential_shards.json
+scripts/generated/graph147_full_potential_shards.md
+```
+
+Shard profile:
+
+```text
+states = 970
+edges = 1054
+shards = 9
+shard_size = 128
+const_scaled = 176
+root_potential = -176
+final_count = 116
+final_potential_range = 0 .. 0
+total_Lean_source_bytes = 114055
+```
+
+Focused commands:
+
+```bash
+python3 -m py_compile \
+  scripts/audit_layer4_terminal_lane_readiness.py \
+  scripts/emit_graph147_full_potential_shards.py
+
+python3 scripts/emit_graph147_full_potential_shards.py --shard-size 128
+
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 180 \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 30000 \
+  --json scripts/generated/graph147_full_potential_shard000_guard.json \
+  --verbose -- \
+  env LEAN_NUM_THREADS=1 LAKE_JOBS=1 \
+    lake build \
+      Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraph147FullPotentialShard000
+
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 240 \
+  --max-tree-rss-mib 9000 \
+  --min-available-mib 30000 \
+  --json scripts/generated/graph147_full_potential_shards_guard.json \
+  --verbose -- \
+  env LEAN_NUM_THREADS=1 LAKE_JOBS=1 \
+    lake build \
+      Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraph147FullPotentialShards
+
+python3 scripts/audit_layer4_terminal_lane_readiness.py
+
+rg -n "sorry|admit|axiom|native_decide|unsafe" \
+  Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraph147FullPotentialShard000.lean \
+  Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraph147FullPotentialShard001.lean \
+  Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraph147FullPotentialShard002.lean \
+  Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraph147FullPotentialShard003.lean \
+  Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraph147FullPotentialShard004.lean \
+  Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraph147FullPotentialShard005.lean \
+  Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraph147FullPotentialShard006.lean \
+  Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraph147FullPotentialShard007.lean \
+  Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraph147FullPotentialShard008.lean \
+  Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraph147FullPotentialShards.lean \
+  scripts/emit_graph147_full_potential_shards.py \
+  scripts/audit_layer4_terminal_lane_readiness.py
+```
+
+Observed results:
+
+```text
+py_compile: pass
+generation: pass
+Shard000 focused build: pass; elapsed=6.00s; peak_tree_rss=3998 MiB; min_available=46079 MiB
+Aggregate focused build: pass; elapsed=23.02s; peak_tree_rss=4140 MiB; min_available=45933 MiB
+Aggregate cached rebuild: pass; elapsed=2.00s; peak_tree_rss=1 MiB; min_available=46610 MiB
+forbidden-token scan: pass; no matches
+```
+
+The readiness audit now records, for both graph147 directions:
+
+```text
+full_potential_shards_status = diagnostic_full_potential_shards_passed
+```
+
+Decision:
+
+- Accepted as a memory-safe, Lean-checkable algebraic checkpoint for the full
+  observed graph147 potential.
+- Not accepted as coverage.
+- The next production slice remains the semantic root-margin bundle theorem:
+  closed language -> deterministic graph147 evaluator/root margin -> existing
+  graph exact eval gate.
+
+Go/no-go rule for the next slice:
+
+- **Go** if the proof case-splits only on semantic state/face transitions and
+  uses the target-shadow/cancellation cursor plus graph147 state.
+- **No-go** if it needs selected-prefix membership, sampled ranks,
+  accepted-trace ids, exact affine RHS keys, solved start points, or one branch
+  per observed path.  In that case, stop graph147 scaling and switch to the
+  cancellation/segment or cocycle-quotient product-state experiment before
+  adding finer membership keys.
+
+Translation remains on the separate semantic path:
+
+```text
+GoodDirection
+  -> source-indexed row templates
+  -> support-2/support-3 Helly/Farkas circuits
+  -> Walsh only as a denominator/sign subroutine, not as outer mask coverage
+```
+
 ### 2026-07-05 graph147 gauge-corrected potential audit
 
 After the latest GPT5.5 Pro pivot, the graph147 Bellman route was re-audited

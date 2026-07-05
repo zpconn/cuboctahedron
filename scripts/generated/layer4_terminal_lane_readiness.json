@@ -165,6 +165,21 @@
       "file": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedBellmanStrengthenedNextFrontierSmoke.lean",
       "forbidden_hits": [],
       "fourth": "Face.zm",
+      "full_potential_shards_status": "diagnostic_full_potential_shards_passed",
+      "full_potential_shards_symbols": {
+        "graph147FullPotentialFinalNonneg": true,
+        "graph147FullPotentialRootBound": true,
+        "graph147FullPotentialShard000_checked": true,
+        "graph147FullPotentialShard001_checked": true,
+        "graph147FullPotentialShard002_checked": true,
+        "graph147FullPotentialShard003_checked": true,
+        "graph147FullPotentialShard004_checked": true,
+        "graph147FullPotentialShard005_checked": true,
+        "graph147FullPotentialShard006_checked": true,
+        "graph147FullPotentialShard007_checked": true,
+        "graph147FullPotentialShard008_checked": true,
+        "graph147FullPotentialShards_checked": true
+      },
       "graph112_109_symbols": {
         "Graph109TargetCompletionTail": true,
         "Graph112TargetCompletionTail": true,
@@ -492,6 +507,21 @@
       "file": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedBellmanStrengthenedNextFrontierSmoke.lean",
       "forbidden_hits": [],
       "fourth": "Face.yp",
+      "full_potential_shards_status": "diagnostic_full_potential_shards_passed",
+      "full_potential_shards_symbols": {
+        "graph147FullPotentialFinalNonneg": true,
+        "graph147FullPotentialRootBound": true,
+        "graph147FullPotentialShard000_checked": true,
+        "graph147FullPotentialShard001_checked": true,
+        "graph147FullPotentialShard002_checked": true,
+        "graph147FullPotentialShard003_checked": true,
+        "graph147FullPotentialShard004_checked": true,
+        "graph147FullPotentialShard005_checked": true,
+        "graph147FullPotentialShard006_checked": true,
+        "graph147FullPotentialShard007_checked": true,
+        "graph147FullPotentialShard008_checked": true,
+        "graph147FullPotentialShards_checked": true
+      },
       "graph112_109_symbols": {
         "Graph109TargetCompletionTail": true,
         "Graph112TargetCompletionTail": true,

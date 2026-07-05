@@ -1,0 +1,21 @@
+{
+  "available_floor_mib": 30000.0,
+  "command": [
+    "env",
+    "LEAN_NUM_THREADS=1",
+    "LAKE_JOBS=1",
+    "lake",
+    "build",
+    "Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraph147FullPotentialShards"
+  ],
+  "elapsed_seconds": 2.0022159139916766,
+  "exit_code": 0,
+  "hard_address_space_mib": null,
+  "killed_reason": null,
+  "max_tree_rss_kib": 1344,
+  "max_tree_rss_mib": 1.3125,
+  "min_available_seen_kib": 47729264,
+  "min_available_seen_mib": 46610.609375,
+  "rss_cap_mib": 9000.0,
+  "timeout_seconds": 240.0
+}

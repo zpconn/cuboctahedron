@@ -1,0 +1,27 @@
+{
+  "const_scaled": 176,
+  "edges": 1054,
+  "final_count": 116,
+  "final_potential_max": 0,
+  "final_potential_min": 0,
+  "interpretation": "Diagnostic full-graph potential edge-validity smoke; not production coverage.",
+  "lean_files": [
+    "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraph147FullPotentialShard000.lean",
+    "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraph147FullPotentialShard001.lean",
+    "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraph147FullPotentialShard002.lean",
+    "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraph147FullPotentialShard003.lean",
+    "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraph147FullPotentialShard004.lean",
+    "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraph147FullPotentialShard005.lean",
+    "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraph147FullPotentialShard006.lean",
+    "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraph147FullPotentialShard007.lean",
+    "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraph147FullPotentialShard008.lean",
+    "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraph147FullPotentialShards.lean"
+  ],
+  "mode": "graph147-full-potential-shards",
+  "profile": "/home/zpconn/code/cuboctahedron/scripts/generated/nonid_margin_bellman_top_pairing_000000000_010000000_with_step_tri_source_graph.json",
+  "root_potential": -176,
+  "shard_count": 9,
+  "shard_size": 128,
+  "states": 970,
+  "total_source_bytes": 114055
+}
