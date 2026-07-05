@@ -163,6 +163,44 @@ def graph183TailQuotientMarginFamily_of_sequenceBadFace
     rcases hstrengthened.sequenceBadFace_ok with ⟨_hbadFace, hmargin⟩
     exact hmargin hprefix
 
+theorem scaledMargin_nonpos_of_graph183TailQuotientMarginSequenceBadFace
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords}
+    (hstrengthened :
+      TopPairingStrengthenedClosedLanguageAtRank
+        (Graph183TailQuotientMarginSequenceBadFace scaledMargin)
+        rank Face.ym)
+    (hprefix :
+      Depth11Layer4PrefixAtRank rank Face.tmpm Face.zm
+        (Face.zp :: Face.tppm :: Face.tpmm :: graph183ForcedTail)) :
+    scaledMargin rank <= 0 := by
+  rcases hstrengthened.sequenceBadFace_ok with ⟨_hbadFace, hmargin⟩
+  have htail := hmargin hprefix
+  have hbound :
+      graphConst + graph183AcceptedBranchRawGain <= 0 := by
+    rw [graph183AcceptedBranchRawGain_contract]
+    change (176 : Int) + ((194 : Int) + (-542 : Int)) <= 0
+    decide
+  exact le_trans htail hbound
+
+theorem nonIdentityRankKilled_of_graph183TailQuotientMarginSequenceBadFace
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords}
+    (hstrengthened :
+      TopPairingStrengthenedClosedLanguageAtRank
+        (Graph183TailQuotientMarginSequenceBadFace scaledMargin)
+        rank Face.ym)
+    (hprefix :
+      Depth11Layer4PrefixAtRank rank Face.tmpm Face.zm
+        (Face.zp :: Face.tppm :: Face.tpmm :: graph183ForcedTail))
+    (hstartViolation :
+      ObjectStartViolationMarginCert rank (scaledMargin rank)) :
+    Cuboctahedron.Generated.Coverage.NonIdentityRankKilled rank :=
+  nonIdentityRankKilled_of_nonpos_startViolationMarginCert
+    (scaledMargin_nonpos_of_graph183TailQuotientMarginSequenceBadFace
+      hstrengthened hprefix)
+    hstartViolation
+
 /--
 Branch-local exact-evaluator target for the graph183 accepted tail.
 

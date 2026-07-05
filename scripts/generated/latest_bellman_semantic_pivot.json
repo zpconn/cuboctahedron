@@ -62,8 +62,10 @@
         "graph183TailQuotientMarginSequenceBadFace_of_exactEvalGateResult": true,
         "nonIdentityRankKilled_of_acceptedSequenceGraph183TailBranchQuotientStartViolation": true,
         "nonIdentityRankKilled_of_graph183TailBranchQuotientStartViolation": true,
+        "nonIdentityRankKilled_of_graph183TailQuotientMarginSequenceBadFace": true,
         "scaledMargin_nonpos_of_acceptedSequenceGraph183TailQuotientMargin": true,
-        "scaledMargin_nonpos_of_graph183TailQuotientMargin": true
+        "scaledMargin_nonpos_of_graph183TailQuotientMargin": true,
+        "scaledMargin_nonpos_of_graph183TailQuotientMarginSequenceBadFace": true
       }
     },
     "graph183_tail_socket": {

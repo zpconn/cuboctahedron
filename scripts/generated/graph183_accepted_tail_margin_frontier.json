@@ -367,6 +367,16 @@
       "passed": true
     },
     {
+      "detail": "scaledMargin_nonpos_of_graph183TailQuotientMarginSequenceBadFace",
+      "name": "graph183_quotient_socket:symbol:scaledMargin_nonpos_of_graph183TailQuotientMarginSequenceBadFace",
+      "passed": true
+    },
+    {
+      "detail": "nonIdentityRankKilled_of_graph183TailQuotientMarginSequenceBadFace",
+      "name": "graph183_quotient_socket:symbol:nonIdentityRankKilled_of_graph183TailQuotientMarginSequenceBadFace",
+      "passed": true
+    },
+    {
       "detail": "Graph183TailExactEvalFamily",
       "name": "graph183_quotient_socket:symbol:Graph183TailExactEvalFamily",
       "passed": true
@@ -720,12 +730,12 @@
       "passed": true
     },
     {
-      "detail": 3779.08984375,
+      "detail": 3629.58203125,
       "name": "graph183_quotient_margin_socket:rss_under_6000_mib",
       "passed": true
     },
     {
-      "detail": 46330.27734375,
+      "detail": 46332.94140625,
       "name": "graph183_quotient_margin_socket:available_above_30000_mib",
       "passed": true
     }
@@ -746,9 +756,9 @@
       "solution_small_gain_count": 93
     },
     "graph183_quotient_margin_socket_guard": {
-      "elapsed_seconds": 6.004720269993413,
-      "min_available_mib": 46330.27734375,
-      "peak_rss_mib": 3779.08984375
+      "elapsed_seconds": 5.003833865979686,
+      "min_available_mib": 46332.94140625,
+      "peak_rss_mib": 3629.58203125
     },
     "graph183_scaling_contract": {
       "graph183_accepted_bound_scaled": -172,

@@ -134,6 +134,8 @@ REQUIRED_QUOTIENT_SOCKET_SYMBOLS = [
     "Graph183TailQuotientMarginFamily",
     "Graph183TailQuotientMarginSequenceBadFace",
     "graph183TailQuotientMarginFamily_of_sequenceBadFace",
+    "scaledMargin_nonpos_of_graph183TailQuotientMarginSequenceBadFace",
+    "nonIdentityRankKilled_of_graph183TailQuotientMarginSequenceBadFace",
     "Graph183TailExactEvalFamily",
     "graph183TailQuotientMarginSequenceBadFace_of_exactEvalGateResult",
     "graph183TailQuotientMarginFamily_of_tailExactEval",
