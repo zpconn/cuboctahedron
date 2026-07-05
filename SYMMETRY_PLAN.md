@@ -104212,3 +104212,110 @@ BellmanTopPairingGraph183TerminalTailPrefixSmoke.lean
   the graph183 lane alone does not prove enough coverage, does not justify a
   full build-time projection, and does not replace the existing mapped
   portfolio coverage sockets.
+
+### 2026-07-05 latest Bellman semantic-transducer pivot
+
+- Incorporated the newest GPT5.5 guidance as the current strategy boundary:
+  keep Bellman/potential certificates, but reject scaling the selected-prefix
+  producer or any observed-prefix cover.  The next proof object must be a
+  deterministic semantic state-machine theorem from the closed
+  holonomy/cancellation language to `evalLabelStepFn`.
+
+- This is mostly already reflected in the Lean surface:
+
+  ```lean
+  TopPairingBellmanObj
+  topPairingClosedMembership
+  topPairingTargetShadow_of_summary
+  topPairingTriCursor_of_closed
+  TopPairingTransducerTail.ofClosedRank
+  TopPairingTransducerTail.cons
+  closedToEvalGate_of_rankedTransducerInvariantLocalWithSuffix
+  scaledMargin_nonpos_of_rankedTransducerClosedGate
+  graph183InitialContainedEvalPrefixGate_of_strengthened_prefix_via_progress
+  ```
+
+- Added a focused planning audit:
+
+  ```text
+  scripts/audit_latest_bellman_semantic_pivot.py
+  scripts/generated/latest_bellman_semantic_pivot.json
+  scripts/generated/latest_bellman_semantic_pivot.md
+  ```
+
+- The audit checks that the semantic object/cursor/transducer/terminal-machine
+  surfaces exist and that the production-facing files scanned for this pivot do
+  not contain sampled-rank, selected-prefix, accepted-trace, exact affine RHS,
+  or solved-start-point membership tokens.
+
+- Audit result:
+
+  ```text
+  status = latest-bellman-semantic-pivot-one-lane-validated
+  forbidden_hits = 0
+  missing = {}
+  ```
+
+- Commands:
+
+  ```bash
+  python3 -m py_compile scripts/audit_latest_bellman_semantic_pivot.py
+  python3 scripts/audit_latest_bellman_semantic_pivot.py
+  python3 scripts/audit_layer4_terminal_lane_readiness.py
+  python3 scripts/audit_terminal_machine_pivot_surfaces.py
+
+  python3 scripts/run_memory_guarded.py \
+    --max-tree-rss-mib 10000 \
+    --min-available-mib 30000 -- \
+    env LEAN_NUM_THREADS=1 LAKE_JOBS=1 \
+      lake build Cuboctahedron.Search.TopPairingBellmanObject
+
+  python3 scripts/run_memory_guarded.py \
+    --max-tree-rss-mib 10000 \
+    --min-available-mib 30000 -- \
+    env LEAN_NUM_THREADS=1 LAKE_JOBS=1 \
+      lake build Cuboctahedron.Search.TopPairingTransducerSemanticGate
+
+  python3 scripts/run_memory_guarded.py \
+    --max-tree-rss-mib 10000 \
+    --min-available-mib 30000 -- \
+    env LEAN_NUM_THREADS=1 LAKE_JOBS=1 \
+      lake build \
+        Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraph183TerminalTailPrefixSmoke
+  ```
+
+- Focused build results:
+
+  | Target | Result | Elapsed | Peak Tree RSS | Min Available |
+  | --- | --- | ---: | ---: | ---: |
+  | `Cuboctahedron.Search.TopPairingBellmanObject` | pass | `3.00s` | `777 MiB` | `46510 MiB` |
+  | `Cuboctahedron.Search.TopPairingTransducerSemanticGate` | pass | `1.00s` | `0 MiB` cached/no measured Lean child | `46609 MiB` |
+  | `Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraph183TerminalTailPrefixSmoke` | pass | `2.02s` | `816 MiB` | `46465 MiB` |
+
+- Accepted implication:
+  graph183 remains useful because it validates one complete
+  `tmpm,zm` semantic terminal-machine lane:
+
+  ```lean
+  closed strengthened language
+    -> layer-4 prefix progress
+    -> semantic target-completion tail
+    -> terminal contained eval-prefix gate
+  ```
+
+  This is exactly the shape the generator should emit for the other layer-4
+  lanes.
+
+- Rejected implication:
+  graph183 is not itself a production backend, and the selected-prefix/root
+  trace machinery must not become the all-rank membership proof.  If another
+  lane demands exact affine RHS, exact solved start-point data, or one branch
+  per observed path, stop and run the cocycle/cancellation-summary quotient
+  experiment before emitting more Lean.
+
+- Next acceptance gate:
+  instantiate the graph183 four-piece terminal-machine pattern for one
+  additional layer-4 lane, or make the emitter produce that same
+  progress/completion/suffix/eval surface for all seven lanes.  Only after a
+  second lane checks cheaply should the terminal-machine route be promoted to
+  an all-lane emitter.

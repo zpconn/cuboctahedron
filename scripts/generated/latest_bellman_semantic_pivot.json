@@ -1,0 +1,85 @@
+{
+  "accepted": [
+    "Bellman/potential remains the margin certificate route",
+    "rank objects are semantic closed-language subtypes",
+    "target-shadow cursor and transducer tail are the membership front door",
+    "graph183 tmpm_zm is one validated semantic terminal-machine lane"
+  ],
+  "files": {
+    "bellman_object": {
+      "forbidden_hits": [],
+      "missing": [],
+      "path": "Cuboctahedron/Search/TopPairingBellmanObject.lean",
+      "required_symbols": {
+        "TopPairingBellmanEvalLanguageAtRank": true,
+        "objectCoverOfEvalAccepts": true,
+        "structure TopPairingBellmanObj": true,
+        "topPairingClosedMembership": true
+      }
+    },
+    "graph183_lane": {
+      "forbidden_hits": [],
+      "missing": [],
+      "path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraph183TerminalTailPrefixSmoke.lean",
+      "required_symbols": {
+        "graph183InitialContainedEvalPrefixGate_of_strengthened_prefix_via_progress": true,
+        "graph183Layer4CompletionTail_of_strengthened_prefix": true,
+        "graph183Layer4ContainedEvalPrefixGate_of_strengthened_prefix_semantic": true,
+        "graph183Layer4ProgressGate_of_strengthened_prefix": true
+      }
+    },
+    "target_cursor": {
+      "forbidden_hits": [],
+      "missing": [],
+      "path": "Cuboctahedron/Search/TopPairingTargetCursor.lean",
+      "required_symbols": {
+        "TopPairingTriCursorFrom": true,
+        "topPairingTargetShadow_of_summary": true,
+        "topPairingTriCursor_of_closed": true,
+        "topPairingTriShadow_eq_target_of_closed": true
+      }
+    },
+    "terminal_eval_socket": {
+      "forbidden_hits": [],
+      "missing": [],
+      "path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingTerminalStatePartialMachineEvalSocket.lean",
+      "required_symbols": {
+        "TerminalContainedEvalPrefixGate": true,
+        "TerminalContainedEvalProgressGate": true,
+        "terminalContainedEvalPrefixGate_trans_progress": true
+      }
+    },
+    "transducer_semantic_gate": {
+      "forbidden_hits": [],
+      "missing": [],
+      "path": "Cuboctahedron/Search/TopPairingTransducerSemanticGate.lean",
+      "required_symbols": {
+        "closedToEvalGate_of_rankedTransducerInvariantLocalWithSuffix": true,
+        "scaledMargin_nonpos_of_rankedTransducerClosedGate": true,
+        "strengthenedToEvalGate_of_rankedTransducerInvariantLocalWithSuffix": true
+      }
+    },
+    "transducer_tail": {
+      "forbidden_hits": [],
+      "missing": [],
+      "path": "Cuboctahedron/Search/TopPairingTransducerTail.lean",
+      "required_symbols": {
+        "theorem cons": true,
+        "theorem cons_square_tail": true,
+        "theorem cons_tri_tail": true,
+        "theorem ofClosedRank": true
+      }
+    }
+  },
+  "forbidden_hits": [],
+  "missing": {},
+  "next_gate": "Instantiate the graph183 four-piece terminal-machine pattern for one additional layer-4 lane, or make the generator emit the same semantic progress/completion/suffix/eval surface for all seven lanes. If that demands exact affine data, stop and run the cocycle/cancellation-summary quotient experiment first.",
+  "rejected": [
+    "selected-prefix membership as production coverage",
+    "sampled-rank/path object membership",
+    "one branch per rank/path",
+    "exact affine RHS or solved start-point keys as membership state",
+    "claiming graph183 alone proves all layer-4 coverage"
+  ],
+  "status": "latest-bellman-semantic-pivot-one-lane-validated"
+}
