@@ -8,17 +8,19 @@
     "6500",
     "-j1",
     "-s",
-    "2048",
+    "8192",
+    "-o",
+    ".lake/build/lib/lean/Cuboctahedron/Search/TopPairingTransducerSemanticGate.olean",
     "Cuboctahedron/Search/TopPairingTransducerSemanticGate.lean"
   ],
-  "elapsed_seconds": 7.004402308986755,
+  "elapsed_seconds": 2.0021081390150357,
   "exit_code": 0,
   "hard_address_space_mib": 8192.0,
   "killed_reason": null,
-  "max_tree_rss_kib": 3786956,
-  "max_tree_rss_mib": 3698.19921875,
-  "min_available_seen_kib": 47435900,
-  "min_available_seen_mib": 46324.12109375,
-  "rss_cap_mib": 8000.0,
-  "timeout_seconds": 180.0
+  "max_tree_rss_kib": 3673268,
+  "max_tree_rss_mib": 3587.17578125,
+  "min_available_seen_kib": 47456496,
+  "min_available_seen_mib": 46344.234375,
+  "rss_cap_mib": 6500.0,
+  "timeout_seconds": 240.0
 }

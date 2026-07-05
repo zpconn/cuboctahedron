@@ -8,17 +8,19 @@
     "6500",
     "-j1",
     "-s",
-    "2048",
+    "8192",
+    "-o",
+    ".lake/build/lib/lean/Cuboctahedron/Search/TopPairingTargetCursor.olean",
     "Cuboctahedron/Search/TopPairingTargetCursor.lean"
   ],
-  "elapsed_seconds": 9.005280566998408,
+  "elapsed_seconds": 6.005124082992552,
   "exit_code": 0,
-  "hard_address_space_mib": null,
+  "hard_address_space_mib": 8192.0,
   "killed_reason": null,
-  "max_tree_rss_kib": 3979520,
-  "max_tree_rss_mib": 3886.25,
-  "min_available_seen_kib": 46874612,
-  "min_available_seen_mib": 45775.98828125,
+  "max_tree_rss_kib": 4052556,
+  "max_tree_rss_mib": 3957.57421875,
+  "min_available_seen_kib": 47329872,
+  "min_available_seen_mib": 46220.578125,
   "rss_cap_mib": 6500.0,
-  "timeout_seconds": 360.0
+  "timeout_seconds": 240.0
 }

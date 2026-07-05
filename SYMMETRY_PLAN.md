@@ -115374,3 +115374,161 @@ edge relation rather than `closedBellmanNext state face = ...`.
 The key constraint is that the graph147 nonpositive bridge must remain
 graph-local.  A workaround requiring rank/path membership, selected prefixes,
 sampled traces, or affine data is rejected.
+
+### 2026-07-05 latest GPT5.5 deterministic-transducer pivot
+
+Status: strategy pivot accepted; existing front-door Lean surfaces should be
+consumed, not reimplemented.
+
+The latest GPT5.5 review sharpened the Bellman rule:
+
+```text
+Keep Bellman.
+Reject selected-prefix membership as production evidence.
+Prove deterministic semantic closed-language-to-evaluator theorems.
+```
+
+Repository audit after the review:
+
+* The target-shadow inverse/cursor requested by GPT5.5 already exists in:
+
+  ```text
+  Cuboctahedron/Search/TopPairingTargetCursor.lean
+  ```
+
+  Important accepted theorem surfaces:
+
+  ```lean
+  topPairingTargetShadow_of_summary
+  topPairingTriShadow_eq_target_of_closed
+  TopPairingTriCursorFrom
+  topPairingTriCursor_of_closed
+  topPairingStartMissSemanticLanguage_of_closed
+  ```
+
+  These are the semantic replacement for selected-prefix or sampled-path
+  membership.  Future generated/non-generated family modules should consume
+  these theorems directly.
+
+* The generic deterministic transducer/evaluator bridge already exists in:
+
+  ```text
+  Cuboctahedron/Search/TopPairingTransducerEvalBridge.lean
+  Cuboctahedron/Search/TopPairingTransducerSemanticGate.lean
+  ```
+
+  Important accepted theorem surfaces:
+
+  ```lean
+  TopPairingTransducerEvalState.evalLanguageAtRank_of_invariantLocalWithSuffix
+  closedToEvalGate_of_transducerInvariantLocalWithSuffix
+  strengthenedToEvalGate_of_transducerInvariantLocalWithSuffix
+  closedToGraphExactEvalGate_of_rankedTransducerInvariantLocalWithSuffix
+  strengthenedToGraphExactEvalGate_of_rankedTransducerInvariantLocalWithSuffix
+  scaledMargin_nonpos_of_transducerClosedGate
+  scaledMargin_nonpos_of_transducerStrengthenedGate
+  ```
+
+  These package exactly the theorem shape now required:
+
+  ```lean
+  TopPairingClosedLanguageAtRank rank Face.ym ->
+    exists result,
+      evalLabelStepFn next root (topPairingRankFaceLabels rank) =
+        some result /\
+      0 <= V result.1 /\
+      scaledMargin rank <= const + result.2
+  ```
+
+  The generic bridge is therefore not the blocker.
+
+Decision:
+
+```text
+Do not spend the next step on another graph smoke, accepted-trace table,
+selected-prefix cover, sampled rank object, or generic Bellman adapter.
+```
+
+The missing production proof is now narrower and more concrete:
+
+```text
+For graph147/graph183 layer-4 branches, instantiate the existing
+ranked transducer gate with family-specific:
+
+  Inv
+  SuffixOk
+  hsuffixStart
+  hlocal
+  hfinish
+
+where hlocal is proved from target-shadow cursor / tri-source progress /
+schedule / square-gap / local-axis / graph-state facts, not from observed
+prefixes or path IDs.
+```
+
+Implementation target:
+
+```text
+Build one nontrivial branch-local deterministic evaluator producer that
+derives a TopPairing...EvalGate or NonIdentityRankKilled surface from
+TopPairingStrengthenedClosedLanguageAtRank plus semantic branch-prefix facts.
+```
+
+Preferred proof coordinate:
+
+```text
+TopPairingClosedLanguageAtRank
+  -> topPairingTriCursor_of_closed
+  -> TopPairingTransducerEvalState tail invariant
+  -> graph-state-indexed local transition proof
+  -> eval gate / nonpositive margin / killed rank
+```
+
+Current graph147 bridge status:
+
+* `AcceptedSequenceGraph147EvalNonposGate` is still the clean consumer
+  obligation for graph147 branches in the graph183-direct mixed portfolio.
+* `StrengthenedClosedEvalNextBound` is the right graph-local mathematical
+  statement, but the last ordinary module packaging attempt failed by
+  heartbeat because it reduced unknown-state `closedBellmanNext`/shard
+  matchers.
+* The next packaging attempt should avoid unknown-state matcher reduction.
+  Prefer one of:
+
+  ```text
+  1. a compact edge relation/step-run theorem:
+       ClosedBellmanStep ... -> gain + V next <= V state
+
+     plus an evaluator/run producer over that relation; or
+
+  2. per-shard low-heartbeat next-bound theorems whose statements are already
+     range-specialized enough that Lean does not reduce the entire shard matcher.
+  ```
+
+No-go conditions remain strict:
+
+```text
+Stop the branch and strengthen the semantic state or use a certified
+segment/cocycle quotient if the proof needs any of:
+
+  SampledRankIndex
+  sampledContainsRank
+  sampledRankOf
+  selected-prefix IDs / selected-prefix OR tables
+  AcceptedTraceId / acceptedTraceOfId
+  exact affine RHS keys
+  solved start-point keys
+  one theorem branch per observed path/rank
+```
+
+Translation strategy is unchanged by this Bellman pivot:
+
+```text
+GoodDirection
+  -> source-indexed row templates
+  -> support <= 3 oriented-circuit / Helly-Farkas rows
+  -> symbolic denominator/signature helpers only for signs
+```
+
+Walsh/subcube machinery may certify denominator signs, but it must not become
+the outer coverage coordinate.
