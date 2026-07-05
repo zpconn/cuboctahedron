@@ -1089,6 +1089,28 @@ theorem terminalContainedEvalPrefixGate_of_layer4MachineFrontierGate
     layer4Machine hprogress (hterminal third fourth)
 
 /--
+Reachable-frontier variant of
+`terminalContainedEvalPrefixGate_of_layer4MachineFrontierGate`.
+
+The layer-4 frontier carries the graph-prefix frontier predicate, so generated
+terminal continuations only need to cover the reachable third/fourth pairs,
+not the full cartesian product of branch enums.
+-/
+theorem terminalContainedEvalPrefixGate_of_layer4MachineReachableFrontierGate
+    {rank : Fin numPairWords}
+    (hfrontier : Layer4MachineFrontierGate rank)
+    (hterminal :
+      ∀ third fourth,
+        Split10MPrefix4FrontierCons2 third.face fourth.face ->
+          TerminalContainedEvalPrefixGate
+            layer4Machine (Layer4State.s04 third fourth) rank) :
+    TerminalContainedEvalPrefixGate
+      layer4Machine Layer4State.s00 rank := by
+  rcases hfrontier with ⟨third, fourth, hprogress, hgraphFrontier⟩
+  exact terminalContainedEvalPrefixGate_trans_progress
+    layer4Machine hprogress (hterminal third fourth hgraphFrontier)
+
+/--
 All-rank version of the layer-4 frontier-to-terminal handoff.  This theorem is
 still conditional on a generated continuation theorem from each layer-4
 frontier state, but it removes the need for that continuation theorem to
@@ -1107,6 +1129,35 @@ theorem terminalContainedEvalPrefixGate_of_layer4MachineFrontierAll
   terminalContainedEvalPrefixGate_of_layer4MachineFrontierGate
     (hfrontierAll.family rank hclosed)
     hterminal
+
+/--
+All-rank reachable-frontier continuation package.
+
+This is the production-facing continuation interface for the layer-4 terminal
+machine: future generated modules may prove continuations only for reachable
+split-10M frontier pairs, while the start prefix remains supplied by
+`Layer4MachineFrontierGateAll`.
+-/
+structure Layer4ReachableTerminalContinuationAll : Prop where
+  terminal :
+    ∀ rank,
+      TopPairingClosedLanguageAtRank rank Face.ym ->
+      ∀ third fourth,
+        Split10MPrefix4FrontierCons2 third.face fourth.face ->
+          TerminalContainedEvalPrefixGate
+            layer4Machine (Layer4State.s04 third fourth) rank
+
+theorem terminalContainedEvalPrefixGate_of_layer4ReachableTerminalContinuationAll
+    {rank : Fin numPairWords}
+    (hfrontierAll : Layer4MachineFrontierGateAll)
+    (hcontinuation : Layer4ReachableTerminalContinuationAll)
+    (hclosed : TopPairingClosedLanguageAtRank rank Face.ym) :
+    TerminalContainedEvalPrefixGate
+      layer4Machine Layer4State.s00 rank :=
+  terminalContainedEvalPrefixGate_of_layer4MachineReachableFrontierGate
+    (hfrontierAll.family rank hclosed)
+    (fun third fourth hfrontier =>
+      hcontinuation.terminal rank hclosed third fourth hfrontier)
 
 theorem terminalStateFrontierSmoke_builds : True := by
   exact True.intro

@@ -18,5 +18,5 @@
 
 ## Boundary
 
-- remaining gap: prove TerminalContainedEvalPrefixGate machine (Layer4State.s04 third fourth) rank for compact layer-4 frontier states; the start prefix is now supplied by the semantic layer-4 frontier theorem
-- next slice: generate or prove terminal continuation gates from layer-4 frontier states, then compose them with terminalContainedEvalPrefixGate_of_layer4MachineFrontierAll
+- remaining gap: prove TerminalContainedEvalPrefixGate machine (Layer4State.s04 third fourth) rank for compact reachable layer-4 frontier states satisfying Split10MPrefix4FrontierCons2; the start prefix is now supplied by the semantic layer-4 frontier theorem
+- next slice: generate or prove terminal continuation gates from layer-4 frontier states satisfying Split10MPrefix4FrontierCons2, then compose them with terminalContainedEvalPrefixGate_of_layer4ReachableTerminalContinuationAll

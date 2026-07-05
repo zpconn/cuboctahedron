@@ -102912,3 +102912,92 @@ local tables.
   The next implementation step is no longer another selected-prefix or
   sampled-path proof.  It is to emit or prove compact terminal continuation
   gates for the reachable layer-4 frontier states.
+
+### 2026-07-04 reachable layer-4 continuation interface accepted
+
+- Tightened the layer-4 continuation boundary so generated terminal
+  continuation leaves only need to cover reachable split-10M frontier pairs,
+  not all third/fourth branch combinations.
+
+- New theorem/interface names in:
+
+  ```lean
+  Cuboctahedron.Generated.NonIdentity.Residual.
+    BellmanTopPairingTerminalStateFrontierSmoke
+  ```
+
+  ```lean
+  terminalContainedEvalPrefixGate_of_layer4MachineReachableFrontierGate
+  Layer4ReachableTerminalContinuationAll
+  terminalContainedEvalPrefixGate_of_layer4ReachableTerminalContinuationAll
+  ```
+
+- Production-facing theorem shape:
+
+  ```lean
+  Layer4MachineFrontierGate rank ->
+  (∀ third fourth,
+    Split10MPrefix4FrontierCons2 third.face fourth.face ->
+      TerminalContainedEvalPrefixGate
+        layer4Machine (Layer4State.s04 third fourth) rank) ->
+  TerminalContainedEvalPrefixGate
+    layer4Machine Layer4State.s00 rank
+  ```
+
+  The all-rank package takes:
+
+  ```lean
+  Layer4ReachableTerminalContinuationAll
+  ```
+
+  and composes it with `Layer4MachineFrontierGateAll`.
+
+- Commands:
+
+  ```bash
+  python3 scripts/run_memory_guarded.py \
+    --max-tree-rss-mib 10000 \
+    --min-available-mib 30000 -- \
+    env LEAN_NUM_THREADS=1 LAKE_JOBS=1 \
+      lake build \
+        Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingTerminalStateFrontierSmoke
+
+  python3 -m py_compile scripts/audit_terminal_machine_pivot_surfaces.py
+  python3 scripts/audit_terminal_machine_pivot_surfaces.py
+
+  rg -n "sorry|admit|axiom|native_decide|unsafe" \
+    Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingTerminalStateFrontierSmoke.lean \
+    scripts/audit_terminal_machine_pivot_surfaces.py
+
+  rg -n "SampledRankIndex|sampledContainsRank|sampledRankOf|SelectedPrefix|acceptedTraceOfId" \
+    Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingTerminalStateFrontierSmoke.lean \
+    scripts/generated/terminal_machine_pivot_surfaces.md \
+    scripts/generated/terminal_machine_pivot_surfaces.json
+  ```
+
+- Results:
+  - `BellmanTopPairingTerminalStateFrontierSmoke` passed under the memory
+    guard in `8.01s`.
+  - Peak tree RSS was `4195 MiB`; minimum available memory observed was
+    `45913 MiB`.
+  - The terminal-machine pivot surface audit passed with
+    `status = machine-pivot-surfaces-present` and `forbidden_hits = 0`.
+  - Targeted forbidden-token and sampled/selected-name scans returned no hits.
+
+- Updated audit boundary:
+
+  ```text
+  prove TerminalContainedEvalPrefixGate machine
+    (Layer4State.s04 third fourth) rank
+  for compact reachable layer-4 frontier states satisfying
+  Split10MPrefix4FrontierCons2; the start prefix is now supplied by the
+  semantic layer-4 frontier theorem
+  ```
+
+- Current promotion status:
+  the next emitter/proof slice should target the reachable split-10M frontier
+  pairs only.  It should produce a `Layer4ReachableTerminalContinuationAll`,
+  then feed
+  `terminalContainedEvalPrefixGate_of_layer4ReachableTerminalContinuationAll`.
+  This keeps the Bellman proof in semantic state-machine space and avoids
+  selected-prefix or sampled-rank membership.

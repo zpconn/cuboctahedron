@@ -55,6 +55,9 @@ REQUIRED_SYMBOLS = {
         "layer4Progress_prefix4_exists_of_closed",
         "terminalContainedEvalPrefixGate_of_layer4MachineFrontierGate",
         "terminalContainedEvalPrefixGate_of_layer4MachineFrontierAll",
+        "terminalContainedEvalPrefixGate_of_layer4MachineReachableFrontierGate",
+        "Layer4ReachableTerminalContinuationAll",
+        "terminalContainedEvalPrefixGate_of_layer4ReachableTerminalContinuationAll",
         "TerminalContainedEvalProgressGate",
     ],
     "closed_transducer_socket": [
@@ -120,17 +123,20 @@ def main() -> int:
                 "closed-transducer all-rank socket consuming a contained terminal gate",
                 "depth-11 graph-path portfolio wrapper consuming the machine socket",
                 "frontier-to-terminal composition from the compact layer-4 state",
+                "reachable-frontier continuation package for split-10M pairs",
             ],
             "remaining_gap": (
                 "prove TerminalContainedEvalPrefixGate machine (Layer4State.s04 "
-                "third fourth) rank for compact layer-4 frontier states; the start "
-                "prefix is now supplied by the semantic layer-4 frontier theorem"
+                "third fourth) rank for compact reachable layer-4 frontier states "
+                "satisfying Split10MPrefix4FrontierCons2; the start prefix is now "
+                "supplied by the semantic layer-4 frontier theorem"
             ),
         },
         "next_recommended_slice": (
             "generate or prove terminal continuation gates from layer-4 frontier "
-            "states, then compose them with terminalContainedEvalPrefixGate_of_"
-            "layer4MachineFrontierAll"
+            "states satisfying Split10MPrefix4FrontierCons2, then compose them "
+            "with terminalContainedEvalPrefixGate_of_layer4ReachableTerminal"
+            "ContinuationAll"
         ),
     }
 
