@@ -110499,6 +110499,12 @@ theorem scaledMargin_nonpos_of_gaugeCorrected_quotient_margin
 def GaugeCorrectedQuotientMarginLanguageBound
 
 theorem scaledMargin_nonpos_of_gaugeCorrected_quotient_language
+
+def GaugeCorrectedQuotientEvalMarginLanguageBound
+
+theorem gaugeCorrectedQuotientMarginLanguageBound_of_eval
+
+theorem scaledMargin_nonpos_of_gaugeCorrected_quotient_eval_language
 ```
 
 These theorems combine four ingredients:
@@ -110513,6 +110519,9 @@ These theorems combine four ingredients:
 This is intentionally stricter than the graph147 diagnostic potential.  A
 potential table alone does not prove the margin theorem; a producer must also
 prove the margin-to-raw-gain contract over the semantic accepted language.
+The `Eval` variant is the preferred target for deterministic semantic
+transducer producers such as graph147: prove the evaluator equation,
+`scaledMargin obj <= const + result.2`, and the final gauge domination fact.
 
 Validation:
 
@@ -110541,6 +110550,23 @@ python3 scripts/run_memory_guarded.py \
   --json scripts/generated/bellman_potential_gauge_margin_lake_guard.json \
   --verbose -- env LEAN_NUM_THREADS=1 LAKE_JOBS=1 \
     lake build Cuboctahedron.Search.BellmanPotential
+
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 180 \
+  --max-tree-rss-mib 8000 \
+  --min-available-mib 30000 \
+  --hard-address-space-mib 8192 \
+  --json scripts/generated/bellman_potential_gauge_eval_margin_guard.json \
+  --verbose -- lake env lean -M 6500 -j1 -s 2048 \
+    Cuboctahedron/Search/BellmanPotential.lean
+
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 180 \
+  --max-tree-rss-mib 8000 \
+  --min-available-mib 30000 \
+  --json scripts/generated/bellman_potential_gauge_eval_margin_lake_guard.json \
+  --verbose -- env LEAN_NUM_THREADS=1 LAKE_JOBS=1 \
+    lake build Cuboctahedron.Search.BellmanPotential
 ```
 
 Results:
@@ -110555,6 +110581,14 @@ Lake module build = pass
 Lake elapsed = 6.00s
 Lake peak_tree_rss = 4055 MiB
 Lake min_available = 46049 MiB
+direct Lean recheck with Eval variant = pass
+direct Lean Eval elapsed = 5.00s
+direct Lean Eval peak_tree_rss = 3955 MiB
+direct Lean Eval min_available = 46200 MiB
+Lake Eval build = pass
+Lake Eval elapsed = 4.00s
+Lake Eval peak_tree_rss = 3861 MiB
+Lake Eval min_available = 46239 MiB
 forbidden-token scan = no hits
 ```
 

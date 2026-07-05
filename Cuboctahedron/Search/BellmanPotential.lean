@@ -820,6 +820,92 @@ theorem scaledMargin_nonpos_of_gaugeCorrected_quotient_language
     (obj := obj) hstep hrun hvalid
     hfinish hroot hmargin
 
+/--
+Deterministic-evaluator version of
+`GaugeCorrectedQuotientMarginLanguageBound`.
+
+This is often the most convenient target for semantic transducer producers:
+the generated proof supplies the evaluator result, the real
+margin-to-evaluator-gain inequality, and the final gauge domination fact.
+-/
+def GaugeCorrectedQuotientEvalMarginLanguageBound
+    {FullState SmallState Label Obj : Type}
+    (next : FullState -> Label -> Option (FullState × Int))
+    (q : FullState -> SmallState)
+    (gauge : FullState -> Int)
+    (V : SmallState -> Int)
+    (scaledMargin : Obj -> Int)
+    (wordOf : Obj -> List Label)
+    (start : FullState)
+    (const : Int)
+    (Accepts : Obj -> Prop) : Prop :=
+  forall obj, Accepts obj -> exists result : FullState × Int,
+    evalLabelStepFn next start (wordOf obj) = some result /\
+      scaledMargin obj <= const + result.2 /\
+        gauge result.1 <= V (q result.1)
+
+theorem gaugeCorrectedQuotientMarginLanguageBound_of_eval
+    {FullState SmallState Label Obj : Type}
+    {FullStep : FullState -> Label -> FullState -> Int -> Prop}
+    {next : FullState -> Label -> Option (FullState × Int)}
+    {q : FullState -> SmallState}
+    {gauge : FullState -> Int}
+    {V : SmallState -> Int}
+    {scaledMargin : Obj -> Int}
+    {wordOf : Obj -> List Label}
+    {start : FullState}
+    {const : Int}
+    {Accepts : Obj -> Prop}
+    (hsound :
+      forall s label t gain,
+        next s label = some (t, gain) -> FullStep s label t gain)
+    (heval :
+      GaugeCorrectedQuotientEvalMarginLanguageBound
+        next q gauge V scaledMargin wordOf start const Accepts) :
+    GaugeCorrectedQuotientMarginLanguageBound
+      FullStep q gauge V scaledMargin wordOf start const Accepts := by
+  intro obj hobj
+  rcases heval obj hobj with ⟨result, hevalEq, hmargin, hfinish⟩
+  refine ⟨result.1, result.2, ?_, hmargin, hfinish⟩
+  exact bellmanLabelStepRun_of_evalLabelStepFn
+    (Step := FullStep) (next := next) hsound hevalEq
+
+theorem scaledMargin_nonpos_of_gaugeCorrected_quotient_eval_language
+    {FullState SmallState Label Obj : Type}
+    {FullStep : FullState -> Label -> FullState -> Int -> Prop}
+    {SmallStep : SmallState -> Label -> SmallState -> Int -> Prop}
+    {next : FullState -> Label -> Option (FullState × Int)}
+    {q : FullState -> SmallState}
+    {gauge : FullState -> Int}
+    {V : SmallState -> Int}
+    {scaledMargin : Obj -> Int}
+    {wordOf : Obj -> List Label}
+    {start : FullState}
+    {const : Int}
+    {Accepts : Obj -> Prop}
+    (hsound :
+      forall s label t gain,
+        next s label = some (t, gain) -> FullStep s label t gain)
+    (hstep :
+      forall {s label t gain},
+        FullStep s label t gain ->
+          exists smallGain,
+            SmallStep (q s) label (q t) smallGain /\
+              gain = smallGain + gauge t - gauge s)
+    (hvalid :
+      forall s label t gain,
+        SmallStep s label t gain -> gain + V t <= V s)
+    (hroot : const + V (q start) - gauge start <= 0)
+    (heval :
+      GaugeCorrectedQuotientEvalMarginLanguageBound
+        next q gauge V scaledMargin wordOf start const Accepts) :
+    forall obj, Accepts obj -> scaledMargin obj <= 0 :=
+  scaledMargin_nonpos_of_gaugeCorrected_quotient_language
+    (q := q) (gauge := gauge) (V := V)
+    hstep hvalid hroot
+    (gaugeCorrectedQuotientMarginLanguageBound_of_eval
+      (FullStep := FullStep) hsound heval)
+
 def BellmanTraceBound
     {State Obj : Type}
     (V : State -> Int)

@@ -94,6 +94,9 @@
 - `theorem scaledMargin_nonpos_of_gaugeCorrected_quotient_margin`: `true`
 - `def GaugeCorrectedQuotientMarginLanguageBound`: `true`
 - `theorem scaledMargin_nonpos_of_gaugeCorrected_quotient_language`: `true`
+- `def GaugeCorrectedQuotientEvalMarginLanguageBound`: `true`
+- `theorem gaugeCorrectedQuotientMarginLanguageBound_of_eval`: `true`
+- `theorem scaledMargin_nonpos_of_gaugeCorrected_quotient_eval_language`: `true`
 
 ## Gauge Audit
 

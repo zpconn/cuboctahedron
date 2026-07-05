@@ -114,6 +114,9 @@ SEMANTIC_INPUT_SYMBOLS = {
         "theorem scaledMargin_nonpos_of_gaugeCorrected_quotient_margin",
         "def GaugeCorrectedQuotientMarginLanguageBound",
         "theorem scaledMargin_nonpos_of_gaugeCorrected_quotient_language",
+        "def GaugeCorrectedQuotientEvalMarginLanguageBound",
+        "theorem gaugeCorrectedQuotientMarginLanguageBound_of_eval",
+        "theorem scaledMargin_nonpos_of_gaugeCorrected_quotient_eval_language",
     ],
 }
 
