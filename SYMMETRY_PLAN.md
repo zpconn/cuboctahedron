@@ -105164,6 +105164,65 @@ Interpretation:
   keys, or one branch per observed path, reject it and switch to a
   cancellation-segment algebra or stronger quotient state.
 
+### 2026-07-05 graph147 step-stack quotient rejected as complete margin certificate
+
+The generic quotient theorem is accepted, but the current graph147
+`step-stack` quotient is not strong enough to be the production margin
+certificate.  A new exact diagnostic profiler now checks the missing gate:
+
+```text
+scripts/profile_graph147_quotient_potential.py
+```
+
+It reads the 10M graph147 Bellman profile plus
+`scripts/generated/graph147_cocycle_quotients_0_10M.json`, verifies the local
+edge equations, computes the least quotient Bellman potential with
+`W(final) = 0`, and checks the worst root/gauge margin bound required by
+`const_add_rawGain_nonpos_of_quotient_labelStepRun`.
+
+Command:
+
+```bash
+python3 -m py_compile scripts/profile_graph147_quotient_potential.py
+python3 scripts/profile_graph147_quotient_potential.py
+```
+
+Result:
+
+```text
+decision = edge_quotient_not_margin_complete
+full edge-label equations = 1054
+quotient states = 44
+quotient edge labels = 206
+quotient potential edge-valid = true
+root potential = 2016
+root gauge = 438
+final gauge range = -566 .. 878
+worst root/gauge bound = 2632
+U = fullPotential + gauge collision classes = 34
+```
+
+Interpretation:
+
+- The `step-stack` quotient remains useful diagnostic compression: all local
+  edge equations are consistent, and a quotient potential validates all
+  quotient edges.
+- It is too coarse as a full margin certificate because the required
+  root/gauge bound is positive (`2632 > 0`).
+- Therefore the current quotient must not be promoted to
+  `StrengthenedGraph147RootMarginBundle`.
+- The next graph147 experiment should either strengthen the quotient state
+  until the root/gauge bound is nonpositive, or switch to the
+  cancellation-tree / certified-segment algebra recommended in the pivot
+  notes.
+
+Artifacts:
+
+```text
+scripts/generated/graph147_cocycle_quotient_potential_0_10M.json
+scripts/generated/graph147_cocycle_quotient_potential_0_10M.md
+```
+
 ### 2026-07-05 graph147 cocycle quotient edge shards accepted
 
 The graph147 margin route has been advanced from the two-branch cocycle smoke

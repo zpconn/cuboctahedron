@@ -1,0 +1,31 @@
+{
+  "decision": "edge_quotient_not_margin_complete",
+  "edge_failure_count": 0,
+  "final_gauge_max": 878,
+  "final_gauge_min": -566,
+  "full_edge_equations": 1054,
+  "full_states": 970,
+  "interpretation": "The current step-stack quotient validates local edge equations, but it is too coarse as a margin certificate: the least quotient potential has a positive worst root/gauge bound.  Do not treat this quotient as production margin evidence without a stronger semantic state, cancellation/segment algebra, or different cocycle quotient.",
+  "mode": "graph147-cocycle-quotient-potential-diagnostic",
+  "potential_max": 2016,
+  "potential_max_bit_length": 11,
+  "potential_min": 0,
+  "profile": "/home/zpconn/code/cuboctahedron/scripts/generated/nonid_margin_bellman_top_pairing_000000000_010000000_with_step_tri_source_graph.json",
+  "quotient": "/home/zpconn/code/cuboctahedron/scripts/generated/graph147_cocycle_quotients_0_10M.json",
+  "quotient_edge_labels": 206,
+  "quotient_finals": 1,
+  "quotient_mode": "step-stack",
+  "quotient_potential_edge_valid": true,
+  "quotient_states": 44,
+  "root_gauge": 438,
+  "root_potential": 2016,
+  "root_quotient_state": "step=0|stack=<empty>",
+  "root_state": 0,
+  "u_collision_classes": 34,
+  "worst_root_gauge_bound": 2632,
+  "worst_root_gauge_example": {
+    "bound": 2632,
+    "final": 548,
+    "root": 0
+  }
+}
