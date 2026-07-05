@@ -36,9 +36,9 @@ observed path remains a no-go.
 | `quotient_states` | `43` |
 | `quotient_edges` | `93` |
 | `quotient_max_bit_length` | `9` |
-| `guard_elapsed_seconds` | `2.0021583390189335` |
-| `guard_peak_rss_mib` | `3488.7734375` |
-| `guard_min_available_mib` | `46336.81640625` |
+| `guard_elapsed_seconds` | `5.003890568012139` |
+| `guard_peak_rss_mib` | `3551.62109375` |
+| `guard_min_available_mib` | `46338.58984375` |
 | `accepted_branch_guard_elapsed_seconds` | `5.0034252110053785` |
 | `accepted_branch_guard_peak_rss_mib` | `3410.734375` |
 | `accepted_branch_guard_min_available_mib` | `46363.515625` |
@@ -57,7 +57,9 @@ observed path remains a no-go.
 | `socket:symbol:acceptedSequenceGraph183AcceptedTailQuotientMarginFamily_of_labelMargin` | `True` | `acceptedSequenceGraph183AcceptedTailQuotientMarginFamily_of_labelMargin` |
 | `socket:symbol:acceptedSequenceGraph183AcceptedTailQuotientMarginFamily_of_exactEval` | `True` | `acceptedSequenceGraph183AcceptedTailQuotientMarginFamily_of_exactEval` |
 | `socket:symbol:graph183TailQuotientMarginFamily_of_sequenceBadFace` | `True` | `graph183TailQuotientMarginFamily_of_sequenceBadFace` |
+| `socket:symbol:graph183TailQuotientMarginFamily_of_strengthenedGraphExactEvalGate` | `True` | `graph183TailQuotientMarginFamily_of_strengthenedGraphExactEvalGate` |
 | `socket:symbol:graph183TailQuotientMarginSequenceBadFace_of_graph183TailQuotientMarginFamily` | `True` | `graph183TailQuotientMarginSequenceBadFace_of_graph183TailQuotientMarginFamily` |
+| `socket:symbol:graph183TailQuotientMarginSequenceBadFace_of_strengthenedGraphExactEvalGate` | `True` | `graph183TailQuotientMarginSequenceBadFace_of_strengthenedGraphExactEvalGate` |
 | `socket:symbol:strengthenedGraph183TailQuotientMargin_of_graph183TailQuotientMarginFamily` | `True` | `strengthenedGraph183TailQuotientMargin_of_graph183TailQuotientMarginFamily` |
 | `socket:symbol:strengthenedGraph183TailQuotientMargin_of_acceptedTailQuotientMarginFamily` | `True` | `strengthenedGraph183TailQuotientMargin_of_acceptedTailQuotientMarginFamily` |
 | `socket:symbol:graph183TailExactEvalFamily_of_sequenceBadFace` | `True` | `graph183TailExactEvalFamily_of_sequenceBadFace` |
@@ -110,8 +112,8 @@ observed path remains a no-go.
 | `quotient_1m:solution_exists` | `True` | `['gauge', 'gauge_count', 'max_bit_length', 'nonzero_values', 'small_gain_count', 'small_gains']` |
 | `quotient_1m:bit_length_under_16` | `True` | `9` |
 | `socket_guard:guard_exit_zero` | `True` | `0` |
-| `socket_guard:rss_under_6500_mib` | `True` | `3488.7734375` |
-| `socket_guard:available_above_30000_mib` | `True` | `46336.81640625` |
+| `socket_guard:rss_under_6500_mib` | `True` | `3551.62109375` |
+| `socket_guard:available_above_30000_mib` | `True` | `46338.58984375` |
 | `accepted_branch_guard:guard_exit_zero` | `True` | `0` |
 | `accepted_branch_guard:rss_under_6500_mib` | `True` | `3410.734375` |
 | `accepted_branch_guard:available_above_30000_mib` | `True` | `46363.515625` |

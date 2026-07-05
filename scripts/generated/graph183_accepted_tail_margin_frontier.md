@@ -77,9 +77,9 @@ cocycle/coboundary quotient.
 
 | metric | value |
 | --- | ---: |
-| `elapsed_seconds` | `2.0021583390189335` |
-| `peak_rss_mib` | `3488.7734375` |
-| `min_available_mib` | `46336.81640625` |
+| `elapsed_seconds` | `5.003890568012139` |
+| `peak_rss_mib` | `3551.62109375` |
+| `min_available_mib` | `46338.58984375` |
 
 ### graph183_accepted_branch_quotient_guard
 
@@ -205,7 +205,9 @@ must still be Lean-checked through the graph183 family theorem.
 | `graph183_quotient_socket:symbol:Graph183TailQuotientMarginFamily` | `True` | `Graph183TailQuotientMarginFamily` |
 | `graph183_quotient_socket:symbol:Graph183TailQuotientMarginSequenceBadFace` | `True` | `Graph183TailQuotientMarginSequenceBadFace` |
 | `graph183_quotient_socket:symbol:graph183TailQuotientMarginFamily_of_sequenceBadFace` | `True` | `graph183TailQuotientMarginFamily_of_sequenceBadFace` |
+| `graph183_quotient_socket:symbol:graph183TailQuotientMarginFamily_of_strengthenedGraphExactEvalGate` | `True` | `graph183TailQuotientMarginFamily_of_strengthenedGraphExactEvalGate` |
 | `graph183_quotient_socket:symbol:graph183TailQuotientMarginSequenceBadFace_of_graph183TailQuotientMarginFamily` | `True` | `graph183TailQuotientMarginSequenceBadFace_of_graph183TailQuotientMarginFamily` |
+| `graph183_quotient_socket:symbol:graph183TailQuotientMarginSequenceBadFace_of_strengthenedGraphExactEvalGate` | `True` | `graph183TailQuotientMarginSequenceBadFace_of_strengthenedGraphExactEvalGate` |
 | `graph183_quotient_socket:symbol:strengthenedGraph183TailQuotientMargin_of_graph183TailQuotientMarginFamily` | `True` | `strengthenedGraph183TailQuotientMargin_of_graph183TailQuotientMarginFamily` |
 | `graph183_quotient_socket:symbol:strengthenedGraph183TailQuotientMargin_of_acceptedTailQuotientMarginFamily` | `True` | `strengthenedGraph183TailQuotientMargin_of_acceptedTailQuotientMarginFamily` |
 | `graph183_quotient_socket:symbol:scaledMargin_nonpos_of_graph183TailQuotientMarginSequenceBadFace` | `True` | `scaledMargin_nonpos_of_graph183TailQuotientMarginSequenceBadFace` |
@@ -285,8 +287,8 @@ must still be Lean-checked through the graph183 family theorem.
 | `cocycle_quotient_1m:solution_bit_length_under_16` | `True` | `9` |
 | `cocycle_quotient_1m:solution_small_gains_match_edges` | `True` | `{'small_gain_count': 93, 'quotient_edges': 93}` |
 | `graph183_quotient_margin_socket:guard_exit_zero` | `True` | `0` |
-| `graph183_quotient_margin_socket:rss_under_6000_mib` | `True` | `3488.7734375` |
-| `graph183_quotient_margin_socket:available_above_30000_mib` | `True` | `46336.81640625` |
+| `graph183_quotient_margin_socket:rss_under_6000_mib` | `True` | `3551.62109375` |
+| `graph183_quotient_margin_socket:available_above_30000_mib` | `True` | `46338.58984375` |
 | `graph183_accepted_branch_quotient:guard_exit_zero` | `True` | `0` |
 | `graph183_accepted_branch_quotient:rss_under_6000_mib` | `True` | `3410.734375` |
 | `graph183_accepted_branch_quotient:available_above_30000_mib` | `True` | `46363.515625` |

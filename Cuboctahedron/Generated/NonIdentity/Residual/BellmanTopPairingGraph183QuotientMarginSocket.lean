@@ -446,6 +446,22 @@ theorem graph183TailQuotientMarginSequenceBadFace_of_exactEvalSequenceBadFace
   have hresult := hgate hprefix
   simpa [graph183AcceptedBranchRawGain_contract] using hresult.margin_bound
 
+theorem graph183TailQuotientMarginSequenceBadFace_of_strengthenedGraphExactEvalGate
+    {sequenceBadFace : Fin numPairWords -> Face -> Prop}
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords}
+    (hgate :
+      TopPairingStrengthenedToGraphExactEvalGate
+        graphPotential closedBellmanNext (fun face : Face => face)
+        graphRoot graphConst scaledMargin sequenceBadFace Face.ym)
+    (hstrengthened :
+      TopPairingStrengthenedClosedLanguageAtRank
+        sequenceBadFace rank Face.ym) :
+    Graph183TailQuotientMarginSequenceBadFace scaledMargin rank Face.ym :=
+  graph183TailQuotientMarginSequenceBadFace_of_exactEvalSequenceBadFace
+    (graph183TailExactEvalSequenceBadFace_of_strengthenedGraphExactEvalGate
+      hgate hstrengthened)
+
 theorem graph183TailQuotientMarginFamily_of_tailExactEval
     {sequenceBadFace : Fin numPairWords -> Face -> Prop}
     {scaledMargin : Fin numPairWords -> Int}
@@ -464,6 +480,21 @@ def graph183TailQuotientMarginFamily_of_exactEvalSequenceBadFace
       scaledMargin :=
   graph183TailQuotientMarginFamily_of_tailExactEval
     (graph183TailExactEvalFamily_of_sequenceBadFace scaledMargin)
+
+def graph183TailQuotientMarginFamily_of_strengthenedGraphExactEvalGate
+    {sequenceBadFace : Fin numPairWords -> Face -> Prop}
+    {scaledMargin : Fin numPairWords -> Int}
+    (hgate :
+      TopPairingStrengthenedToGraphExactEvalGate
+        graphPotential closedBellmanNext (fun face : Face => face)
+        graphRoot graphConst scaledMargin sequenceBadFace Face.ym) :
+    Graph183TailQuotientMarginFamily sequenceBadFace scaledMargin where
+  final_margin_yp_branch_quotient := by
+    intro rank hstrengthened hprefix
+    have hcarrier :=
+      graph183TailQuotientMarginSequenceBadFace_of_strengthenedGraphExactEvalGate
+        hgate hstrengthened
+    exact hcarrier.2 hprefix
 
 theorem graph183TailExactEvalSequenceBadFace_of_quotientMarginSequenceBadFace
     {scaledMargin : Fin numPairWords -> Int}

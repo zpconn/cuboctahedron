@@ -111630,9 +111630,9 @@ Result:
 
 ```text
 exit = 0
-elapsed = 7.01s
-peak RSS = 3501 MiB
-min available = 46285 MiB
+elapsed = 4.00s
+peak RSS = 4018 MiB
+min available = 46102 MiB
 ```
 
 Updated audits:
@@ -111671,6 +111671,17 @@ Graph183TailQuotientMarginSequenceBadFace scaledMargin
 The new bridge means the next producer may equivalently prove a strengthened
 semantic graph-exact eval gate; on the graph183 forced branch, that gate now
 collapses to the exact-eval carrier and then to the quotient-margin carrier.
+The socket now also exposes the direct composition:
+
+```lean
+graph183TailQuotientMarginSequenceBadFace_of_strengthenedGraphExactEvalGate
+graph183TailQuotientMarginFamily_of_strengthenedGraphExactEvalGate
+```
+
+So a future semantic transducer proof of
+`TopPairingStrengthenedToGraphExactEvalGate` can feed
+`Graph183TailQuotientMarginFamily` without routing through sampled membership
+or a hand-written branch-specific final-margin family.
 
 ### 2026-07-05 semantic exact-eval to quotient-margin adapters
 
