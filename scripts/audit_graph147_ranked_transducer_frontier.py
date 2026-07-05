@@ -62,6 +62,18 @@ SELECTED_PREFIX_DIAGNOSTIC_FILES = [
     / "BellmanTopPairingSelectedPrefixAcceptedPrefixEvalBridge.lean",
 ]
 
+ROOT_TRACE_DIAGNOSTIC_FILES = [
+    ROOT
+    / "Cuboctahedron/Generated/NonIdentity/Residual/"
+    / "BellmanTopPairingClosedEvalGate.lean",
+    ROOT
+    / "Cuboctahedron/Generated/NonIdentity/Residual/"
+    / "BellmanTopPairingClosedEvalTraceSmoke.lean",
+    ROOT
+    / "Cuboctahedron/Generated/NonIdentity/Residual/"
+    / "BellmanTopPairingRootTraceMarginSelectedPrefixBridge.lean",
+]
+
 SOCKET_SYMBOLS = [
     "StrengthenedGraph147RankedTransducerInvariantFamily",
     "graphExactEvalGate_of_rankedTransducerInvariantFamily",
@@ -220,6 +232,7 @@ PLAN_PIVOT_MARKERS = [
     "No selected-prefix/root-trace scaling",
     "StrengthenedGraph147RankedShardMarginInvariantFamily",
     "Selected-prefix diagnostics only",
+    "Root-trace diagnostics only",
 ]
 
 SELECTED_PREFIX_DIAGNOSTIC_SYMBOLS = [
@@ -229,6 +242,15 @@ SELECTED_PREFIX_DIAGNOSTIC_SYMBOLS = [
     "GraphAcceptedTraceMargin",
     "AcceptedTraceId",
     "acceptedTraceOfId",
+]
+
+ROOT_TRACE_DIAGNOSTIC_SYMBOLS = [
+    "ClosedTraceOr",
+    "topPairingClosedFaceTraceA",
+    "topPairingClosedFaceTraceB",
+    "ClosedEvalFamily",
+    "RootTrace",
+    "acceptedTrace",
 ]
 
 
@@ -270,9 +292,11 @@ def contains_all(text: str, symbols: list[str]) -> dict[str, bool]:
     return {symbol: symbol in text for symbol in symbols}
 
 
-def diagnostic_file_symbols() -> list[dict[str, object]]:
+def diagnostic_file_symbols(
+    files: list[Path], symbols: list[str]
+) -> list[dict[str, object]]:
     entries: list[dict[str, object]] = []
-    for path in SELECTED_PREFIX_DIAGNOSTIC_FILES:
+    for path in files:
         text = read(path)
         entries.append(
             {
@@ -280,7 +304,7 @@ def diagnostic_file_symbols() -> list[dict[str, object]]:
                 "exists": path.exists(),
                 "symbols": {
                     symbol: symbol in text
-                    for symbol in SELECTED_PREFIX_DIAGNOSTIC_SYMBOLS
+                    for symbol in symbols
                 },
             }
         )
@@ -330,7 +354,14 @@ def main() -> None:
         PRODUCTION_PRODUCER_SYMBOL
     )
     direct_margin_inv_producer_present = bool(producer_usages)
-    selected_prefix_diagnostics = diagnostic_file_symbols()
+    selected_prefix_diagnostics = diagnostic_file_symbols(
+        SELECTED_PREFIX_DIAGNOSTIC_FILES,
+        SELECTED_PREFIX_DIAGNOSTIC_SYMBOLS,
+    )
+    root_trace_diagnostics = diagnostic_file_symbols(
+        ROOT_TRACE_DIAGNOSTIC_FILES,
+        ROOT_TRACE_DIAGNOSTIC_SYMBOLS,
+    )
     forbidden_hits = [
         {
             "term": term,
@@ -445,6 +476,17 @@ def main() -> None:
             ),
             "files": selected_prefix_diagnostics,
         },
+        "root_trace_diagnostics": {
+            "production_allowed": False,
+            "interpretation": (
+                "Closed root-trace and accepted-trace evaluator artifacts may "
+                "remain as discovery or smoke tools only.  They must not be "
+                "scaled as graph147 production coverage; production must "
+                "prove deterministic evaluator membership from semantic "
+                "closed-language state."
+            ),
+            "files": root_trace_diagnostics,
+        },
         "remaining_fields": REMAINING_FIELDS,
         "production_route": PRODUCTION_ROUTE,
         "next_step": (
@@ -551,6 +593,23 @@ def main() -> None:
         ]
     )
     for entry in data["selected_prefix_diagnostics"]["files"]:
+        lines.append(f"### {entry['file']}")
+        lines.append("")
+        lines.append(f"- exists: `{str(entry['exists']).lower()}`")
+        for symbol, present in entry["symbols"].items():
+            lines.append(f"- `{symbol}`: `{str(present).lower()}`")
+        lines.append("")
+    lines.extend(
+        [
+            "## Root-Trace Diagnostics",
+            "",
+            "- production allowed: "
+            f"`{str(data['root_trace_diagnostics']['production_allowed']).lower()}`",
+            f"- interpretation: {data['root_trace_diagnostics']['interpretation']}",
+            "",
+        ]
+    )
+    for entry in data["root_trace_diagnostics"]["files"]:
         lines.append(f"### {entry['file']}")
         lines.append("")
         lines.append(f"- exists: `{str(entry['exists']).lower()}`")

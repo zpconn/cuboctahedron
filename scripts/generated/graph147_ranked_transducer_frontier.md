@@ -81,6 +81,7 @@
 - `No selected-prefix/root-trace scaling`: `true`
 - `StrengthenedGraph147RankedShardMarginInvariantFamily`: `true`
 - `Selected-prefix diagnostics only`: `true`
+- `Root-trace diagnostics only`: `true`
 
 ## Semantic Inputs
 
@@ -189,6 +190,41 @@
 - `GraphAcceptedTraceMargin`: `false`
 - `AcceptedTraceId`: `false`
 - `acceptedTraceOfId`: `false`
+
+## Root-Trace Diagnostics
+
+- production allowed: `false`
+- interpretation: Closed root-trace and accepted-trace evaluator artifacts may remain as discovery or smoke tools only.  They must not be scaled as graph147 production coverage; production must prove deterministic evaluator membership from semantic closed-language state.
+
+### Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedEvalGate.lean
+
+- exists: `true`
+- `ClosedTraceOr`: `true`
+- `topPairingClosedFaceTraceA`: `true`
+- `topPairingClosedFaceTraceB`: `true`
+- `ClosedEvalFamily`: `true`
+- `RootTrace`: `false`
+- `acceptedTrace`: `false`
+
+### Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedEvalTraceSmoke.lean
+
+- exists: `true`
+- `ClosedTraceOr`: `false`
+- `topPairingClosedFaceTraceA`: `true`
+- `topPairingClosedFaceTraceB`: `true`
+- `ClosedEvalFamily`: `false`
+- `RootTrace`: `false`
+- `acceptedTrace`: `false`
+
+### Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingRootTraceMarginSelectedPrefixBridge.lean
+
+- exists: `true`
+- `ClosedTraceOr`: `false`
+- `topPairingClosedFaceTraceA`: `false`
+- `topPairingClosedFaceTraceB`: `false`
+- `ClosedEvalFamily`: `false`
+- `RootTrace`: `true`
+- `acceptedTrace`: `true`
 
 ## Remaining Producer Fields
 

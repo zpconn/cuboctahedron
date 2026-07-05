@@ -111047,6 +111047,15 @@ bundle, or through a checked semantic segment/cocycle quotient if the direct
 margin invariant cannot be proved.
 ```
 
+Root-trace diagnostics only:
+
+```text
+Existing closed root-trace and accepted-trace evaluator files may remain as
+discovery/smoke artifacts.  They must not be scaled as graph147 production
+coverage.  Production must prove deterministic evaluator membership from the
+semantic closed-language state, not from a finite root-trace disjunction.
+```
+
 Audit status after adding this tripwire:
 
 ```text
@@ -111055,6 +111064,7 @@ python3 scripts/audit_graph147_ranked_transducer_frontier.py
 
 status = ready_for_ranked_eval_margin_bundle_producer
 selected_prefix_diagnostics.production_allowed = false
+root_trace_diagnostics.production_allowed = false
 direct_margin_inv_producer.present_outside_socket = false
 ```
 

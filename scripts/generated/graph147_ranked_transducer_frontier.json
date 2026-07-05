@@ -37,6 +37,7 @@
     "meaning": "Graph147 production must be a deterministic closed-language to evaluator theorem.  Selected-prefix/root-trace coverage is diagnostic only unless it is replaced by semantic local transition and margin invariant evidence.",
     "plan_markers": {
       "No selected-prefix/root-trace scaling": true,
+      "Root-trace diagnostics only": true,
       "Selected-prefix diagnostics only": true,
       "StrengthenedGraph147RankedShardMarginInvariantFamily": true,
       "closed-language-to-eval theorem": true,
@@ -52,6 +53,7 @@
     "file": "SYMMETRY_PLAN.md",
     "pivot_markers": {
       "No selected-prefix/root-trace scaling": true,
+      "Root-trace diagnostics only": true,
       "Selected-prefix diagnostics only": true,
       "StrengthenedGraph147RankedShardMarginInvariantFamily": true,
       "closed-language-to-eval theorem": true,
@@ -141,6 +143,48 @@
       "meaning": "every accepted final state has nonnegative potential and proves the full-root margin bound.  The sharper ranked-eval invariant surface now separates this into a suffix margin invariant with local preservation plus a final empty-suffix margin theorem.  The ranked shard adapter additionally supplies the semantic suffix closure and final-potential facts, so the remaining hard part is to instantiate the margin-only invariant from closed target cursor, schedule, local-axis, and full graph147 state facts"
     }
   ],
+  "root_trace_diagnostics": {
+    "files": [
+      {
+        "exists": true,
+        "file": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedEvalGate.lean",
+        "symbols": {
+          "ClosedEvalFamily": true,
+          "ClosedTraceOr": true,
+          "RootTrace": false,
+          "acceptedTrace": false,
+          "topPairingClosedFaceTraceA": true,
+          "topPairingClosedFaceTraceB": true
+        }
+      },
+      {
+        "exists": true,
+        "file": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedEvalTraceSmoke.lean",
+        "symbols": {
+          "ClosedEvalFamily": false,
+          "ClosedTraceOr": false,
+          "RootTrace": false,
+          "acceptedTrace": false,
+          "topPairingClosedFaceTraceA": true,
+          "topPairingClosedFaceTraceB": true
+        }
+      },
+      {
+        "exists": true,
+        "file": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingRootTraceMarginSelectedPrefixBridge.lean",
+        "symbols": {
+          "ClosedEvalFamily": false,
+          "ClosedTraceOr": false,
+          "RootTrace": true,
+          "acceptedTrace": true,
+          "topPairingClosedFaceTraceA": false,
+          "topPairingClosedFaceTraceB": false
+        }
+      }
+    ],
+    "interpretation": "Closed root-trace and accepted-trace evaluator artifacts may remain as discovery or smoke tools only.  They must not be scaled as graph147 production coverage; production must prove deterministic evaluator membership from semantic closed-language state.",
+    "production_allowed": false
+  },
   "selected_prefix_diagnostics": {
     "files": [
       {
