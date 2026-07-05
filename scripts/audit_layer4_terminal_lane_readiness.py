@@ -96,6 +96,9 @@ ZMTMPP_CHAIN_REQUIRED = [
 GRAPH221_FILTERED_REQUIRED = [
     "graph221TargetCompletionState",
     "Graph221TargetCompletionTail",
+    "graph221Layer4ForcedTailPrefixLabels",
+    "graph221Layer4ForcedTailPrefixEval",
+    "graph151TargetCompletionTail_decompose_to_graph221",
     "graph221StrengthenedEvalState_next",
     "graph221YpStrengthenedEvalState_next",
     "graph221YpTmpmStrengthenedEvalState_next",
@@ -201,6 +204,8 @@ def main() -> int:
                 "remaining_gap": (
                     "graph221 now has a rank-free filtered tail-prefix "
                     "continuation for the three graph-accepted suffixes, "
+                    "a graph151-to-graph221 target-completion tail "
+                    "decomposition, "
                     "plus a local theorem deriving that suffix filter from "
                     "target-completion and the strengthened product-state "
                     "evaluator. This is not a full lane gate yet: the next "

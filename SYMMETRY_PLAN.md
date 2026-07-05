@@ -104533,6 +104533,9 @@ BellmanTopPairingGraph183TerminalTailPrefixSmoke.lean
   ```lean
   graph221TargetCompletionState
   Graph221TargetCompletionTail
+  graph221Layer4ForcedTailPrefixLabels
+  graph221Layer4ForcedTailPrefixEval
+  graph151TargetCompletionTail_decompose_to_graph221
   graph221_head_of_targetCompletionTail
   graph221_yp_tmpm_head_of_targetCompletionTail
   graph221AcceptedTailSuffixOk_or_blockedPrefix_of_targetCompletionTail
@@ -104562,6 +104565,31 @@ BellmanTopPairingGraph183TerminalTailPrefixSmoke.lean
   strengthened product-state evaluator run; it does not use sampled ranks,
   selected-prefix ids, accepted-trace ids as membership keys, exact affine RHS,
   or solved start-point data.
+
+- Graph151-to-graph221 hinge now checked:
+  the module also proves that any `Graph151TargetCompletionTail` first follows
+  the forced five-face semantic path to graph221:
+
+  ```lean
+  graph221Layer4ForcedTailPrefixLabels =
+    [tppp, tpmp, tppm, tmmp, tpmm]
+
+  theorem graph221Layer4ForcedTailPrefixEval :
+      evalLabelStepFn strengthenedClosedEvalNext
+          strengthenedClosedPrefix4ZmTmppEvalState
+          graph221Layer4ForcedTailPrefixLabels =
+        some (graph221StrengthenedEvalState, (-264 : Int))
+
+  theorem graph151TargetCompletionTail_decompose_to_graph221
+      (htail : Graph151TargetCompletionTail rest) :
+      exists tail,
+        rest = graph221Layer4ForcedTailPrefixLabels ++ tail /\
+          Graph221TargetCompletionTail tail
+  ```
+
+  This is the non-sampled bridge needed before the final `zm,tmpp` lane theorem:
+  `Graph151TargetCompletionTail` supplies the semantic path to graph221, and
+  the local graph221 filter handles the remaining branch.
 
 - Important negative result:
   an attempted stronger target-completion-only classifier was too strong.
@@ -104637,6 +104665,8 @@ BellmanTopPairingGraph183TerminalTailPrefixSmoke.lean
   partial_lanes = [zm_tmpp]
   zm_tmpp status = partial_graph221_filtered_tail_prefix_continuation
   graph221_filtered_symbols include:
+    graph221Layer4ForcedTailPrefixEval
+    graph151TargetCompletionTail_decompose_to_graph221
     graph221YpTmpmStrengthenedEvalState_zp_none
     graph221YpTmpmZp_strengthenedEval_none
     graph221AcceptedTailSuffixOk_or_blockedPrefix_of_targetCompletionTail
@@ -104672,7 +104702,7 @@ BellmanTopPairingGraph183TerminalTailPrefixSmoke.lean
 
   | Check | Result | Elapsed | Peak Tree RSS | Min Available |
   | --- | --- | ---: | ---: | ---: |
-  | focused graph221 filtered continuation build | pass | `6.03s` | `4145 MiB` | `45964 MiB` |
+  | focused graph221 filtered continuation build | pass | `5.01s` | `4200 MiB` | `45886 MiB` |
   | layer-4 readiness audit | pass | n/a | n/a | n/a |
   | forbidden-token scan on touched proof surfaces | pass | n/a | n/a | n/a |
 
