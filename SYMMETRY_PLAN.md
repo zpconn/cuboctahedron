@@ -110847,3 +110847,147 @@ If the next producer cannot prove these two branch start-margin facts from
 semantic closed-language state, graph147 direct scaling fails the current
 go/no-go rule and the route must switch to a checked segment/cocycle quotient.
 ```
+
+### 2026-07-05 graph147 selected-prefix membership rejection hardened
+
+Audit markers:
+
+```text
+mandatory_graph147_semantic_transducer_pivot
+reject_selected_prefix_membership_scaling
+semantic_branch_start_margin_or_cocycle_quotient
+sequenceBadFace_ok is only a carrier
+closed-language-to-eval theorem
+target-shadow cursor
+No selected-prefix/root-trace scaling
+```
+
+The latest GPT5.5 Pro review changes the next graph147 step from "try more
+graph data" to a stricter proof-shape gate:
+
+```text
+Keep Bellman/state-DAG.
+Reject selected-prefix membership as production evidence.
+Prove a deterministic closed-language-to-ranked-evaluator theorem, including
+the branch start-margin theorem, from semantic holonomy/cancellation fields.
+```
+
+The important distinction is now explicit:
+
+- `TopPairingStrengthenedClosedLanguageAtRank` may still carry a
+  `sequenceBadFace_ok` field.
+- `sequenceBadFace_ok` is only a carrier for a compact semantic theorem.
+- It is **not** acceptable to define `sequenceBadFace` as a selected-prefix,
+  accepted-trace, sampled-rank, exact-affine, solved-start-point, or
+  per-observed-path predicate and call that production coverage.
+
+The currently accepted Lean sockets already prove the deterministic evaluator
+side:
+
+```lean
+TopPairingClosedLanguageAtRank
+  -> TopPairingTargetCursorAtRank
+  -> TopPairingTransducerTail
+  -> Graph147RankedShardSuffixOk
+  -> evalLabelStepFn graph147RankedEvalNext ... = some ...
+```
+
+The only graph147 direct-route theorem still worth attempting is the semantic
+branch start-margin theorem:
+
+```text
+TopPairingStrengthenedClosedLanguageAtRank sequenceBadFace rank Face.ym
+  -> Depth11Layer4PrefixAtRank rank Face.yp Face.zm rest
+  -> Graph147RankedSuffixEvalMarginInv
+       scaledMargin rank graph147RankedPrefix4EvalState rest (-53)
+
+TopPairingStrengthenedClosedLanguageAtRank sequenceBadFace rank Face.ym
+  -> Depth11Layer4PrefixAtRank rank Face.zm Face.yp rest
+  -> Graph147RankedSuffixEvalMarginInv
+       scaledMargin rank graph147RankedPrefix4EvalState rest (-53)
+```
+
+The required producer chain remains:
+
+```lean
+StrengthenedGraph147RankedShardMarginInvariantFamily
+  -> StrengthenedGraph147RankedEvalMarginInvariantFamily
+  -> StrengthenedGraph147RankedEvalMarginBundle
+  -> rankedEvalMarginBundle_of_rankedShardMarginInvariantFamily
+  -> rankedEvalMarginBundle_of_rankedEvalMarginInvariantFamily
+  -> rootMarginBundle_of_rankedEvalMarginBundle
+```
+
+Current audit status target:
+
+```text
+ready_for_ranked_eval_margin_bundle_producer
+```
+
+Validation after hardening the audit markers:
+
+```bash
+python3 -m py_compile scripts/audit_graph147_ranked_transducer_frontier.py
+python3 scripts/audit_graph147_ranked_transducer_frontier.py
+```
+
+Result:
+
+```text
+py_compile = pass
+audit status = ready_for_ranked_eval_margin_bundle_producer
+mandatory pivot markers = all present
+direct MarginInv producer outside socket = false
+gauge audit = full_graph_margin_candidate_only, accepted_modes = ["full"]
+cocycle quotient audit = no_existing_quotient_margin_candidate
+forbidden hits in graph147 sockets = none
+```
+
+Interpretation:
+
+```text
+The strategy pivot is now explicit and machine-audited.  There is still no
+production graph147 MarginInv producer; the current repo has socket/adapters
+only.  The next proof step must instantiate the branch start-margin theorem
+semantically, or deliberately abandon the direct graph147 route for a checked
+segment/cocycle quotient.
+```
+
+Allowed inputs for that theorem:
+
+- target-shadow cursor / triangular source progress;
+- schedule, square-gap, local-axis, pair-count, and used-face invariants;
+- full graph147 Bellman-state semantics;
+- a checked segment algebra over semantic target-shadow/cancellation segments;
+- a checked cocycle/coboundary quotient that proves the same margin invariant.
+
+Rejected inputs:
+
+- selected-prefix ids or root-trace ids;
+- accepted-trace ids;
+- sampled rank/path objects;
+- exact affine RHS keys or solved start-point keys;
+- a branch per observed path/prefix.
+
+Go/no-go decision:
+
+```text
+GO:
+  Build one representative branch start-margin producer that instantiates
+  StrengthenedGraph147RankedShardMarginInvariantFamily or, equivalently,
+  StrengthenedGraph147RankedEvalMarginBundle, using only the semantic inputs
+  above.  The proof must pass the 8 GiB single-process guard.
+
+NO-GO:
+  If the proof requires selected-prefix membership, accepted-trace membership,
+  exact affine keys, or per-path enumeration, stop the graph147 direct route.
+  The next production experiment becomes a certified segment/cocycle quotient
+  targeting GaugeCorrectedQuotientEvalMarginLanguageBound or a new semantic
+  quotient that derives Graph147RankedSuffixEvalMarginInv.
+```
+
+This also clarifies how to use `sequenceBadFace_ok`: it may expose a
+semantic branch theorem selected by the upstream generated family, but the
+upstream proof of that field must itself be semantic and Lean-checkable.  A
+selected-prefix cover can remain a diagnostic oracle for discovering candidate
+states or quotients, but not a final evidence layer.

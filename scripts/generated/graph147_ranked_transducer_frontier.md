@@ -65,6 +65,9 @@
 ## Mandatory Pivot Markers
 
 - `mandatory_graph147_semantic_transducer_pivot`: `true`
+- `reject_selected_prefix_membership_scaling`: `true`
+- `semantic_branch_start_margin_or_cocycle_quotient`: `true`
+- `sequenceBadFace_ok is only a carrier`: `true`
 - `closed-language-to-eval theorem`: `true`
 - `target-shadow cursor`: `true`
 - `No selected-prefix/root-trace scaling`: `true`

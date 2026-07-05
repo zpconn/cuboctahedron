@@ -189,6 +189,9 @@ PRODUCTION_PRODUCER_SYMBOL = "StrengthenedGraph147RankedShardMarginInvariantFami
 
 PLAN_PIVOT_MARKERS = [
     "mandatory_graph147_semantic_transducer_pivot",
+    "reject_selected_prefix_membership_scaling",
+    "semantic_branch_start_margin_or_cocycle_quotient",
+    "sequenceBadFace_ok is only a carrier",
     "closed-language-to-eval theorem",
     "target-shadow cursor",
     "No selected-prefix/root-trace scaling",
