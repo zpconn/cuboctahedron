@@ -136,6 +136,13 @@ private theorem depth11Layer4SemanticFrontierBranch_of_closed_prefix
   all_goals
     try norm_num at hcons
 
+theorem semanticFrontierBranch_of_closed_layer4_prefix
+    {rank : Fin numPairWords} {face₀ face₁ : Face} {rest : List Face}
+    (hclosed : TopPairingClosedLanguageAtRank rank Face.ym)
+    (hprefix : Depth11Layer4PrefixAtRank rank face₀ face₁ rest) :
+    Depth11Layer4SemanticFrontierBranch face₀ face₁ :=
+  depth11Layer4SemanticFrontierBranch_of_closed_prefix hclosed hprefix
+
 /--
 Emitter-facing first-four classifier obligation.
 

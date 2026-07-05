@@ -105455,6 +105455,116 @@ Next layer-4 portfolio gap:
    collapse into selected-prefix / accepted-trace tables.
 3. Combine the heterogeneous branch gates at the semantic nonpos/killed layer.
 
+### 2026-07-05 layer-4 mixed all-rank gate classifier accepted
+
+Closed the first item of the mixed layer-4 portfolio gap by adding a
+heterogeneous all-rank classifier over the strengthened closed language.
+
+New public classifier theorem in
+`BellmanTopPairingDepth11Layer4ClassifierSocket.lean`:
+
+```lean
+theorem semanticFrontierBranch_of_closed_layer4_prefix
+```
+
+New mixed-portfolio theorem surfaces in
+`BellmanTopPairingDepth11Layer4MixedPortfolioSocket.lean`:
+
+```lean
+inductive StrengthenedDepth11Layer4MixedEvalGateAtRank
+structure StrengthenedDepth11Layer4MixedEvalAllFamily
+theorem mixedEvalAllFamily_of_mixedBranchGateFamily
+```
+
+This is the semantic root-routing layer requested by the transducer pivot:
+given `TopPairingStrengthenedClosedLanguageAtRank`, the proof uses the existing
+closed schedule/frontier classifier to route the rank into one of the seven
+layer-4 branches.  The result is intentionally heterogeneous:
+
+- five mapped branches produce `Split10MGraphExactEvalGateAtRank`;
+- the two graph147 branches produce the strengthened graph147
+  `TopPairingGraphExactEvalGateAtRank`.
+
+No sampled rank, selected-prefix id, accepted-trace id, exact affine RHS key, or
+raw path object is introduced.  The scan over the two touched Lean files for
+`sorry|admit|axiom|native_decide|unsafe|SampledRankIndex|sampledContainsRank|sampledRankOf|selectedPrefix|AcceptedTrace|acceptedTrace|exactAffine|affineRhs`
+returned no hits.
+
+Focused checks:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 240 \
+  --max-tree-rss-mib 8000 \
+  --min-available-mib 30000 \
+  --json scripts/generated/layer4_classifier_public_frontier_lake_build_guard.json \
+  --verbose -- env LEAN_NUM_THREADS=1 LAKE_JOBS=1 \
+    lake build \
+      Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingDepth11Layer4ClassifierSocket
+```
+
+Result:
+
+```text
+pass; elapsed=8.01s; peak_tree_rss=4074 MiB; hard_as=none;
+min_available=46058 MiB
+```
+
+Mixed source check:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 240 \
+  --max-tree-rss-mib 8000 \
+  --min-available-mib 30000 \
+  --hard-address-space-mib 8192 \
+  --json scripts/generated/layer4_mixed_eval_all_socket_guard.json \
+  --verbose -- lake env lean -M 6500 -j1 -s 2048 \
+    Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingDepth11Layer4MixedPortfolioSocket.lean
+```
+
+Result:
+
+```text
+pass; elapsed=2.00s; peak_tree_rss=3574 MiB; hard_as=8192 MiB;
+min_available=46339 MiB
+```
+
+Focused Lake build:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 240 \
+  --max-tree-rss-mib 8000 \
+  --min-available-mib 30000 \
+  --json scripts/generated/layer4_mixed_eval_all_lake_build_guard.json \
+  --verbose -- env LEAN_NUM_THREADS=1 LAKE_JOBS=1 \
+    lake build \
+      Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingDepth11Layer4MixedPortfolioSocket
+```
+
+Result:
+
+```text
+pass; elapsed=18.01s; peak_tree_rss=4198 MiB; hard_as=none;
+min_available=45898 MiB
+```
+
+Remaining mixed-portfolio gap:
+
+1. The graph147 branches still need the production
+   `StrengthenedGraph147RootMarginBundle` theorem, preferably via the ranked
+   deterministic transducer/cocycle-quotient route.
+2. The mapped branches still need their semantic mapped branch producers; if
+   those producers want selected prefixes, accepted traces, or exact-affine
+   keys, stop and strengthen the semantic state instead.
+3. The final layer should consume `StrengthenedDepth11Layer4MixedEvalGateAtRank`
+   at the semantic nonpos/killed layer, rather than coercing graph147 into the
+   split-10M graph.
+
 ### 2026-07-05 graph147 ranked transducer socket accepted
 
 GPT5.5's latest recommendation is now reflected in the graph147 route:

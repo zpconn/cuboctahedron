@@ -212,6 +212,141 @@ theorem mixedBranchGateFamily_of_mixedPortfolio
       (Or.inr (Or.inr ⟨rfl, Or.inr (Or.inr rfl)⟩))
       hstrengthened hprefix
 
+/--
+Heterogeneous layer-4 gate for the mixed portfolio.
+
+This is the right root-facing result until the two evaluator surfaces are
+combined at a later semantic nonpositive/killed layer.  A rank is routed either
+to a split-10M graph gate or to the strengthened graph147 gate; no selected
+prefix, accepted trace id, sampled rank object, or affine key is introduced.
+-/
+inductive StrengthenedDepth11Layer4MixedEvalGateAtRank
+    (scaledMargin : Fin numPairWords -> Int)
+    (rank : Fin numPairWords) : Prop
+  | split10M :
+      Split10MGraphExactEvalGateAtRank scaledMargin rank ->
+        StrengthenedDepth11Layer4MixedEvalGateAtRank scaledMargin rank
+  | graph147 :
+      TopPairingGraphExactEvalGateAtRank
+        (fun state : StrengthenedClosedEvalState => graphPotential state.graph)
+        strengthenedClosedEvalNext (fun face : Face => face)
+        strengthenedClosedEvalStart (176 : Int)
+        scaledMargin rank Face.ym ->
+          StrengthenedDepth11Layer4MixedEvalGateAtRank scaledMargin rank
+
+/--
+All-rank strengthened closed-language classifier for the mixed layer-4
+portfolio.  The result remains heterogeneous on purpose.
+-/
+structure StrengthenedDepth11Layer4MixedEvalAllFamily
+    (scaledMargin : Fin numPairWords -> Int)
+    (sequenceBadFace : Fin numPairWords -> Face -> Prop) : Prop where
+  family :
+    ∀ rank,
+      TopPairingStrengthenedClosedLanguageAtRank
+        sequenceBadFace rank Face.ym ->
+        StrengthenedDepth11Layer4MixedEvalGateAtRank scaledMargin rank
+
+theorem mixedEvalAllFamily_of_mixedBranchGateFamily
+    {scaledMargin : Fin numPairWords -> Int}
+    {sequenceBadFace : Fin numPairWords -> Face -> Prop}
+    (hfamily :
+      StrengthenedDepth11Layer4MixedBranchGateFamily
+        scaledMargin sequenceBadFace) :
+    StrengthenedDepth11Layer4MixedEvalAllFamily
+      scaledMargin sequenceBadFace where
+  family := by
+    intro rank hstrengthened
+    rcases topPairingStepScheduleLabels_prefix3
+        hstrengthened.closed.schedule with htmpm | hyp | hzm
+    · rcases htmpm with ⟨rest3, hlabels3⟩
+      cases rest3 with
+      | nil =>
+          have hlenRank :
+              (faceLabelsInContributionOrder (fun f => f)
+                (canonicalSeqOfPairWord (unrankPairWord rank))).length = 14 := by
+            simpa [topPairingRankFaceLabels] using
+              hstrengthened.closed.schedule.1
+          rw [hlabels3] at hlenRank
+          norm_num at hlenRank
+      | cons face₁ rest =>
+          have hprefix :
+              Depth11Layer4PrefixAtRank rank Face.tmpm face₁ rest := by
+            dsimp [Depth11Layer4PrefixAtRank]
+            simpa [topPairingRankFaceLabels] using hlabels3
+          have hfrontier :=
+            semanticFrontierBranch_of_closed_layer4_prefix
+              hstrengthened.closed hprefix
+          rcases hfrontier with htmpmBranch | hypBranch | hzmBranch
+          · rcases htmpmBranch with ⟨_hface₀, htppm | hzm⟩
+            · subst face₁
+              exact StrengthenedDepth11Layer4MixedEvalGateAtRank.split10M
+                (hfamily.tmpm_tppm hstrengthened hprefix)
+            · subst face₁
+              exact StrengthenedDepth11Layer4MixedEvalGateAtRank.split10M
+                (hfamily.tmpm_zm hstrengthened hprefix)
+          · cases hypBranch.1
+          · cases hzmBranch.1
+    · rcases hyp with ⟨rest3, hlabels3⟩
+      cases rest3 with
+      | nil =>
+          have hlenRank :
+              (faceLabelsInContributionOrder (fun f => f)
+                (canonicalSeqOfPairWord (unrankPairWord rank))).length = 14 := by
+            simpa [topPairingRankFaceLabels] using
+              hstrengthened.closed.schedule.1
+          rw [hlabels3] at hlenRank
+          norm_num at hlenRank
+      | cons face₁ rest =>
+          have hprefix :
+              Depth11Layer4PrefixAtRank rank Face.yp face₁ rest := by
+            dsimp [Depth11Layer4PrefixAtRank]
+            simpa [topPairingRankFaceLabels] using hlabels3
+          have hfrontier :=
+            semanticFrontierBranch_of_closed_layer4_prefix
+              hstrengthened.closed hprefix
+          rcases hfrontier with htmpmBranch | hypBranch | hzmBranch
+          · cases htmpmBranch.1
+          · rcases hypBranch with ⟨_hface₀, htmmm | hzm⟩
+            · subst face₁
+              exact StrengthenedDepth11Layer4MixedEvalGateAtRank.split10M
+                (hfamily.yp_tmmm hstrengthened hprefix)
+            · subst face₁
+              exact StrengthenedDepth11Layer4MixedEvalGateAtRank.graph147
+                (hfamily.yp_zm hstrengthened hprefix)
+          · cases hzmBranch.1
+    · rcases hzm with ⟨rest3, hlabels3⟩
+      cases rest3 with
+      | nil =>
+          have hlenRank :
+              (faceLabelsInContributionOrder (fun f => f)
+                (canonicalSeqOfPairWord (unrankPairWord rank))).length = 14 := by
+            simpa [topPairingRankFaceLabels] using
+              hstrengthened.closed.schedule.1
+          rw [hlabels3] at hlenRank
+          norm_num at hlenRank
+      | cons face₁ rest =>
+          have hprefix :
+              Depth11Layer4PrefixAtRank rank Face.zm face₁ rest := by
+            dsimp [Depth11Layer4PrefixAtRank]
+            simpa [topPairingRankFaceLabels] using hlabels3
+          have hfrontier :=
+            semanticFrontierBranch_of_closed_layer4_prefix
+              hstrengthened.closed hprefix
+          rcases hfrontier with htmpmBranch | hypBranch | hzmBranch
+          · cases htmpmBranch.1
+          · cases hypBranch.1
+          · rcases hzmBranch with ⟨_hface₀, htmpp | hyp | hzp⟩
+            · subst face₁
+              exact StrengthenedDepth11Layer4MixedEvalGateAtRank.split10M
+                (hfamily.zm_tmpp hstrengthened hprefix)
+            · subst face₁
+              exact StrengthenedDepth11Layer4MixedEvalGateAtRank.graph147
+                (hfamily.zm_yp hstrengthened hprefix)
+            · subst face₁
+              exact StrengthenedDepth11Layer4MixedEvalGateAtRank.split10M
+                (hfamily.zm_zp hstrengthened hprefix)
+
 theorem depth11Layer4MixedPortfolioSocket_builds : True := by
   exact True.intro
 
