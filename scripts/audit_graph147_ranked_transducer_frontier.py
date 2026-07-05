@@ -57,6 +57,11 @@ TARGET_TAIL_LABELS = (
     / "Cuboctahedron/Generated/NonIdentity/Residual/"
     / "BellmanTopPairingDepth11Layer4Graph147TargetTailLabels.lean"
 )
+DIRECT_START_VIOLATION_BRIDGE = (
+    ROOT
+    / "Cuboctahedron/Generated/NonIdentity/Residual/"
+    / "BellmanTopPairingDepth11Layer4Graph147DirectStartViolationBridge.lean"
+)
 TARGET_CURSOR = ROOT / "Cuboctahedron/Search/TopPairingTargetCursor.lean"
 TRANSDUCER_TAIL = ROOT / "Cuboctahedron/Search/TopPairingTransducerTail.lean"
 TRANSDUCER_EVAL = ROOT / "Cuboctahedron/Search/TopPairingTransducerEvalBridge.lean"
@@ -211,6 +216,19 @@ TARGET_TAIL_LABEL_SYMBOLS = [
     "graph147ZmYp_labels_eq_targetTailTmmp",
 ]
 
+DIRECT_START_VIOLATION_SYMBOLS = [
+    "objectStartViolationMarginCert_of_graph147_yp_zm_targetTailZp",
+    "objectStartViolationMarginCert_of_graph147_yp_zm_targetTailTmmp",
+    "objectStartViolationMarginCert_of_graph147_zm_yp_targetTailZp",
+    "objectStartViolationMarginCert_of_graph147_zm_yp_targetTailTmmp",
+    "nonIdentityRankKilled_of_graph147_yp_zm_targetTailZp",
+    "nonIdentityRankKilled_of_graph147_yp_zm_targetTailTmmp",
+    "nonIdentityRankKilled_of_graph147_zm_yp_targetTailZp",
+    "nonIdentityRankKilled_of_graph147_zm_yp_targetTailTmmp",
+    "nonIdentityRankKilled_of_graph147_yp_zm_semantic_direct",
+    "nonIdentityRankKilled_of_graph147_zm_yp_semantic_direct",
+]
+
 SEMANTIC_INPUT_SYMBOLS = {
     "target_cursor": [
         "topPairingTargetShadow_of_summary",
@@ -309,6 +327,7 @@ PRODUCTION_ROUTE = {
         "raw evaluator unfolding as a hidden Boolean checker",
     ],
     "target": (
+        "Graph147DirectStartViolationBridge -> NonIdentityRankKilled, or "
         "StrengthenedGraph147RankedEvalTargetTailObjectFamily -> "
         "StrengthenedGraph147RankedEvalMarginObjectFamily or "
         "StrengthenedGraph147RankedShardMarginInvariantFamily -> "
@@ -346,6 +365,7 @@ PLAN_PIVOT_MARKERS = [
     "TopPairingBellmanObj",
     "TopPairingGraphExactEvalGateAtRank",
     "graph147 target-tail label equality socket",
+    "graph147 direct start-violation bridge",
 ]
 
 SELECTED_PREFIX_DIAGNOSTIC_SYMBOLS = [
@@ -435,6 +455,7 @@ def main() -> None:
     target_tail_case_socket_text = read(TARGET_TAIL_CASE_SOCKET)
     target_tail_case_margin_socket_text = read(TARGET_TAIL_CASE_MARGIN_SOCKET)
     target_tail_labels_text = read(TARGET_TAIL_LABELS)
+    direct_start_violation_text = read(DIRECT_START_VIOLATION_BRIDGE)
     plan_tail = read(PLAN)
     semantic_files = {
         "target_cursor": read(TARGET_CURSOR),
@@ -465,6 +486,10 @@ def main() -> None:
     target_tail_label_symbols = contains_all(
         target_tail_labels_text,
         TARGET_TAIL_LABEL_SYMBOLS,
+    )
+    direct_start_violation_symbols = contains_all(
+        direct_start_violation_text,
+        DIRECT_START_VIOLATION_SYMBOLS,
     )
     gauge_data = read_json(GAUGE_AUDIT)
     cocycle_quotient_data = read_json(COCYCLE_QUOTIENT_AUDIT)
@@ -539,13 +564,22 @@ def main() -> None:
         target_tail_case_margin_socket_symbols.values()
     )
     all_target_tail_labels = all(target_tail_label_symbols.values())
+    all_direct_start_violation = all(
+        direct_start_violation_symbols.values()
+    )
     all_semantic = all(
         all(symbols.values()) for symbols in semantic_symbols.values()
     )
     all_plan_tail = all(plan_tail_symbols.values())
     all_plan_pivot = all(plan_pivot_markers.values())
     status = (
-        "ready_for_ranked_eval_margin_bundle_producer"
+        "graph147_target_tail_direct_start_violation_ready"
+        if all_socket and all_ranked_eval and all_target_tail_cases
+        and all_target_tail_case_socket and all_target_tail_case_margin_socket
+        and all_target_tail_labels and all_direct_start_violation
+        and all_semantic and full_graph_only
+        and all_plan_tail and all_plan_pivot and not forbidden_hits
+        else "ready_for_ranked_eval_margin_bundle_producer"
         if all_socket and all_ranked_eval and all_target_tail_cases
         and all_target_tail_case_socket and all_target_tail_case_margin_socket
         and all_target_tail_labels and all_semantic and full_graph_only
@@ -577,6 +611,11 @@ def main() -> None:
             "margin_socket_symbols": target_tail_case_margin_socket_symbols,
             "label_socket_file": str(TARGET_TAIL_LABELS.relative_to(ROOT)),
             "label_socket_symbols": target_tail_label_symbols,
+            "direct_start_violation_bridge_file": str(
+                DIRECT_START_VIOLATION_BRIDGE.relative_to(ROOT)
+            ),
+            "direct_start_violation_symbols":
+                direct_start_violation_symbols,
             "language_audit_file": str(
                 TARGET_TAIL_LANGUAGE_AUDIT.relative_to(ROOT)
             ),
@@ -665,9 +704,15 @@ def main() -> None:
             "present_outside_socket": direct_margin_inv_producer_present,
             "usages_outside_socket": producer_usages,
             "interpretation": (
-                "No production producer has been found yet; the current Lean "
-                "surface is a socket plus adapters.  The next proof step is "
-                "to instantiate this socket from semantic margin evidence, "
+                "A direct start-violation bridge now kills the graph147 "
+                "target-tail cases semantically.  The next proof step is to "
+                "route the surrounding graph147 layer-4 portfolio/root through "
+                "that direct bridge, or use the margin socket only for cases "
+                "not covered by direct start-violation."
+                if all_direct_start_violation
+                else "No production producer has been found yet; the current "
+                "Lean surface is a socket plus adapters.  The next proof step "
+                "is to instantiate this socket from semantic margin evidence, "
                 "not to scale selected-prefix or sampled-rank traces."
                 if not direct_margin_inv_producer_present
                 else "A candidate producer usage exists outside the socket and must be audited."
@@ -678,9 +723,11 @@ def main() -> None:
             "interpretation": (
                 "Selected-prefix, accepted-trace, and trace-margin artifacts "
                 "may remain as discovery or smoke tools only.  They must not "
-                "instantiate the graph147 production route; production must "
-                "go through the semantic ranked transducer margin bundle or "
-                "a checked semantic segment/cocycle quotient."
+                "instantiate the graph147 production route through trace-id "
+                "membership.  Production must go through the semantic direct "
+                "start-violation bridge, the semantic ranked transducer "
+                "margin bundle, or a checked semantic segment/cocycle "
+                "quotient."
             ),
             "files": selected_prefix_diagnostics,
         },
@@ -707,15 +754,18 @@ def main() -> None:
         "remaining_fields": REMAINING_FIELDS,
         "production_route": PRODUCTION_ROUTE,
         "next_step": (
-            "Generate or prove the semantic graph147 margin invariant "
-            "producer.  The immediate target is "
-            "StrengthenedGraph147RankedEvalTargetTailCaseScaledMarginFamily, "
-            "whose fields are the two target-tail evaluator-gain facts plus "
-            "the four `scaledMargin obj.rank <= -376` facts for the "
-            "`yp,zm`/`zm,yp` object bounds over the two proved semantic "
-            "target tails.  The margin socket adapts those fields to "
-            "StrengthenedGraph147RankedEvalTargetTailCaseFamily, then to "
-            "the target-tail object family and ranked-eval margin bundle.  "
+            "Prefer the new graph147 direct start-violation bridge for the "
+            "four target-tail cases.  It maps semantic `yp,zm`/`zm,yp` "
+            "branches plus the two proved target tails to accepted traces "
+            "027/028/032/033 and then to `NonIdentityRankKilled`, without "
+            "selected-prefix membership.  The next integration step is to "
+            "route the surrounding layer-4 graph147 portfolio/root through "
+            "`nonIdentityRankKilled_of_graph147_yp_zm_semantic_direct` and "
+            "`nonIdentityRankKilled_of_graph147_zm_yp_semantic_direct`.  "
+            "Keep `StrengthenedGraph147RankedEvalTargetTailCaseScaledMarginFamily` "
+            "as the fallback margin socket: it needs the two target-tail "
+            "evaluator-gain facts plus the four `scaledMargin obj.rank <= -376` "
+            "facts if direct start-violation stops applying.  "
             "TopPairingBellmanObj and the graph-exact semantic gate already "
             "provide the rank-plus-closed-object and closed-language-to-eval "
             "public surfaces, so the next theorem must fill the graph147 "
@@ -740,8 +790,9 @@ def main() -> None:
                 "to evaluator theorem.  Selected-prefix/root-trace coverage "
                 "is diagnostic only unless it is replaced by semantic local "
                 "transition and margin invariant evidence.  The rank-plus-"
-                "closed-object layer already exists; the remaining blocker is "
-                "the semantic graph147 gain/margin producer."
+                "closed-object layer already exists; for the target-tail "
+                "cases, the direct start-violation bridge is now the preferred "
+                "semantic producer."
             ),
             "plan_markers": plan_pivot_markers,
         },
@@ -803,6 +854,15 @@ def main() -> None:
     lines.append("### Label Socket Symbols")
     lines.append("")
     for symbol, present in target_tail_label_symbols.items():
+        lines.append(f"- `{symbol}`: `{str(present).lower()}`")
+    lines.append("")
+    lines.append("### Direct Start-Violation Bridge Symbols")
+    lines.append("")
+    lines.append(
+        "- file: "
+        f"`{data['target_tail_cases']['direct_start_violation_bridge_file']}`"
+    )
+    for symbol, present in direct_start_violation_symbols.items():
         lines.append(f"- `{symbol}`: `{str(present).lower()}`")
     lines.extend(["", "## Plan Tail Symbols", ""])
     lines.append(f"- file: `{data['plan_tail']['file']}`")

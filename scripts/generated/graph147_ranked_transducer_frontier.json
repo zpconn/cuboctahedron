@@ -6,7 +6,7 @@
     "quotient_not_margin_complete": true
   },
   "direct_margin_inv_producer": {
-    "interpretation": "No production producer has been found yet; the current Lean surface is a socket plus adapters.  The next proof step is to instantiate this socket from semantic margin evidence, not to scale selected-prefix or sampled-rank traces.",
+    "interpretation": "A direct start-violation bridge now kills the graph147 target-tail cases semantically.  The next proof step is to route the surrounding graph147 layer-4 portfolio/root through that direct bridge, or use the margin socket only for cases not covered by direct start-violation.",
     "present_outside_socket": false,
     "symbol": "StrengthenedGraph147RankedShardMarginInvariantFamily",
     "usages_outside_socket": []
@@ -34,7 +34,7 @@
   },
   "mandatory_pivot": {
     "marker": "mandatory_graph147_semantic_transducer_pivot",
-    "meaning": "Graph147 production must be a deterministic closed-language to evaluator theorem.  Selected-prefix/root-trace coverage is diagnostic only unless it is replaced by semantic local transition and margin invariant evidence.  The rank-plus-closed-object layer already exists; the remaining blocker is the semantic graph147 gain/margin producer.",
+    "meaning": "Graph147 production must be a deterministic closed-language to evaluator theorem.  Selected-prefix/root-trace coverage is diagnostic only unless it is replaced by semantic local transition and margin invariant evidence.  The rank-plus-closed-object layer already exists; for the target-tail cases, the direct start-violation bridge is now the preferred semantic producer.",
     "plan_markers": {
       "Graph147TargetCompletionTail has exactly two semantic completions": true,
       "No selected-prefix/root-trace scaling": true,
@@ -47,6 +47,7 @@
       "TopPairingBellmanObj": true,
       "TopPairingGraphExactEvalGateAtRank": true,
       "closed-language-to-eval theorem": true,
+      "graph147 direct start-violation bridge": true,
       "graph147 target-tail label equality socket": true,
       "graph147_targetCompletionTail_cases": true,
       "mandatory_graph147_semantic_transducer_pivot": true,
@@ -57,7 +58,7 @@
       "target-shadow cursor": true
     }
   },
-  "next_step": "Generate or prove the semantic graph147 margin invariant producer.  The immediate target is StrengthenedGraph147RankedEvalTargetTailCaseScaledMarginFamily, whose fields are the two target-tail evaluator-gain facts plus the four `scaledMargin obj.rank <= -376` facts for the `yp,zm`/`zm,yp` object bounds over the two proved semantic target tails.  The margin socket adapts those fields to StrengthenedGraph147RankedEvalTargetTailCaseFamily, then to the target-tail object family and ranked-eval margin bundle.  TopPairingBellmanObj and the graph-exact semantic gate already provide the rank-plus-closed-object and closed-language-to-eval public surfaces, so the next theorem must fill the graph147 producer fields semantically rather than adding another object-cover adapter.  If a local invariant is the better proof shape, instantiate StrengthenedGraph147RankedShardMarginInvariantFamily from target-shadow cursor, schedule/square-gap/local-axis tail, pair-count/used-face facts, graph147 Bellman state semantics, or a checked segment/cocycle quotient.  The existing gauge-corrected full graph is only a diagnostic candidate; the existing quotient audit says no coarser quotient is margin-complete yet.  Do not use sampled ranks, selected prefixes, accepted trace ids, exact affine keys, per-observed-path membership, or raw evaluator unfolding as a hidden checker.",
+  "next_step": "Prefer the new graph147 direct start-violation bridge for the four target-tail cases.  It maps semantic `yp,zm`/`zm,yp` branches plus the two proved target tails to accepted traces 027/028/032/033 and then to `NonIdentityRankKilled`, without selected-prefix membership.  The next integration step is to route the surrounding layer-4 graph147 portfolio/root through `nonIdentityRankKilled_of_graph147_yp_zm_semantic_direct` and `nonIdentityRankKilled_of_graph147_zm_yp_semantic_direct`.  Keep `StrengthenedGraph147RankedEvalTargetTailCaseScaledMarginFamily` as the fallback margin socket: it needs the two target-tail evaluator-gain facts plus the four `scaledMargin obj.rank <= -376` facts if direct start-violation stops applying.  TopPairingBellmanObj and the graph-exact semantic gate already provide the rank-plus-closed-object and closed-language-to-eval public surfaces, so the next theorem must fill the graph147 producer fields semantically rather than adding another object-cover adapter.  If a local invariant is the better proof shape, instantiate StrengthenedGraph147RankedShardMarginInvariantFamily from target-shadow cursor, schedule/square-gap/local-axis tail, pair-count/used-face facts, graph147 Bellman state semantics, or a checked segment/cocycle quotient.  The existing gauge-corrected full graph is only a diagnostic candidate; the existing quotient audit says no coarser quotient is margin-complete yet.  Do not use sampled ranks, selected prefixes, accepted trace ids, exact affine keys, per-observed-path membership, or raw evaluator unfolding as a hidden checker.",
   "object_margin_profile": {
     "all_margins_equal_expected_bounds": true,
     "all_margins_le_expected_bounds": true,
@@ -84,6 +85,7 @@
       "TopPairingBellmanObj": true,
       "TopPairingGraphExactEvalGateAtRank": true,
       "closed-language-to-eval theorem": true,
+      "graph147 direct start-violation bridge": true,
       "graph147 target-tail label equality socket": true,
       "graph147_targetCompletionTail_cases": true,
       "mandatory_graph147_semantic_transducer_pivot": true,
@@ -122,7 +124,7 @@
       "one generated branch per observed path",
       "raw evaluator unfolding as a hidden Boolean checker"
     ],
-    "target": "StrengthenedGraph147RankedEvalTargetTailObjectFamily -> StrengthenedGraph147RankedEvalMarginObjectFamily or StrengthenedGraph147RankedShardMarginInvariantFamily -> StrengthenedGraph147RankedEvalMarginInvariantFamily -> StrengthenedGraph147RankedEvalMarginBundle -> rootMarginBundle_of_rankedEvalMarginBundle"
+    "target": "Graph147DirectStartViolationBridge -> NonIdentityRankKilled, or StrengthenedGraph147RankedEvalTargetTailObjectFamily -> StrengthenedGraph147RankedEvalMarginObjectFamily or StrengthenedGraph147RankedShardMarginInvariantFamily -> StrengthenedGraph147RankedEvalMarginInvariantFamily -> StrengthenedGraph147RankedEvalMarginBundle -> rootMarginBundle_of_rankedEvalMarginBundle"
   },
   "ranked_eval_socket": {
     "file": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingDepth11Layer4Graph147RankedEvalSocket.lean",
@@ -294,7 +296,7 @@
         }
       }
     ],
-    "interpretation": "Selected-prefix, accepted-trace, and trace-margin artifacts may remain as discovery or smoke tools only.  They must not instantiate the graph147 production route; production must go through the semantic ranked transducer margin bundle or a checked semantic segment/cocycle quotient.",
+    "interpretation": "Selected-prefix, accepted-trace, and trace-margin artifacts may remain as discovery or smoke tools only.  They must not instantiate the graph147 production route through trace-id membership.  Production must go through the semantic direct start-violation bridge, the semantic ranked transducer margin bundle, or a checked semantic segment/cocycle quotient.",
     "production_allowed": false
   },
   "semantic_inputs": {
@@ -384,7 +386,7 @@
       "strengthenedGraph147BranchSuffixStartBundle": true
     }
   },
-  "status": "ready_for_ranked_eval_margin_bundle_producer",
+  "status": "graph147_target_tail_direct_start_violation_ready",
   "target_tail_cases": {
     "case_socket_file": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingDepth11Layer4Graph147TargetTailCaseSocket.lean",
     "case_socket_symbols": {
@@ -394,6 +396,19 @@
       "rankedEvalMarginBundle_of_tailCaseFamily": true,
       "rankedEvalTargetTailObjectFamily_of_tailCaseFamily": true,
       "rootMarginBundle_of_tailCaseFamily": true
+    },
+    "direct_start_violation_bridge_file": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingDepth11Layer4Graph147DirectStartViolationBridge.lean",
+    "direct_start_violation_symbols": {
+      "nonIdentityRankKilled_of_graph147_yp_zm_semantic_direct": true,
+      "nonIdentityRankKilled_of_graph147_yp_zm_targetTailTmmp": true,
+      "nonIdentityRankKilled_of_graph147_yp_zm_targetTailZp": true,
+      "nonIdentityRankKilled_of_graph147_zm_yp_semantic_direct": true,
+      "nonIdentityRankKilled_of_graph147_zm_yp_targetTailTmmp": true,
+      "nonIdentityRankKilled_of_graph147_zm_yp_targetTailZp": true,
+      "objectStartViolationMarginCert_of_graph147_yp_zm_targetTailTmmp": true,
+      "objectStartViolationMarginCert_of_graph147_yp_zm_targetTailZp": true,
+      "objectStartViolationMarginCert_of_graph147_zm_yp_targetTailTmmp": true,
+      "objectStartViolationMarginCert_of_graph147_zm_yp_targetTailZp": true
     },
     "file": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingDepth11Layer4Graph147TargetTailCases.lean",
     "first_face_histogram": {

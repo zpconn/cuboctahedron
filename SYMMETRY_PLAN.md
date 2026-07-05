@@ -118515,3 +118515,84 @@ Remaining blocker: instantiate
 semantic start-violation producer for these four label cases.  The next theorem
 must provide actual graph147 gain/margin/start-violation evidence; adding more
 object-cover adapters would only move the same blocker around.
+
+#### 2026-07-05 graph147 direct start-violation bridge added
+
+Status: the four graph147 target-tail label cases are not only margin-socket
+targets.  They are existing accepted traces:
+
+```text
+yp,zm + graph147TargetTailZp    = accepted trace t028
+yp,zm + graph147TargetTailTmmp  = accepted trace t027
+zm,yp + graph147TargetTailZp    = accepted trace t033
+zm,yp + graph147TargetTailTmmp  = accepted trace t032
+```
+
+The checked trace start-violation providers for `t027`, `t028`, `t032`, and
+`t033` already exist.  The new graph147 bridge enters those providers through
+the semantic label equalities above and exports direct `NonIdentityRankKilled`
+theorems:
+
+```lean
+Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingDepth11Layer4Graph147DirectStartViolationBridge
+
+objectStartViolationMarginCert_of_graph147_yp_zm_targetTailZp
+objectStartViolationMarginCert_of_graph147_yp_zm_targetTailTmmp
+objectStartViolationMarginCert_of_graph147_zm_yp_targetTailZp
+objectStartViolationMarginCert_of_graph147_zm_yp_targetTailTmmp
+
+nonIdentityRankKilled_of_graph147_yp_zm_targetTailZp
+nonIdentityRankKilled_of_graph147_yp_zm_targetTailTmmp
+nonIdentityRankKilled_of_graph147_zm_yp_targetTailZp
+nonIdentityRankKilled_of_graph147_zm_yp_targetTailTmmp
+
+nonIdentityRankKilled_of_graph147_yp_zm_semantic_direct
+nonIdentityRankKilled_of_graph147_zm_yp_semantic_direct
+```
+
+This is stronger than the ranked-eval margin socket for this local graph147
+target-tail family: `ObjectStartViolationMarginCert` directly proves
+`NonIdentityRankKilled`, so the local Bellman nonpositive-margin contradiction
+is not needed for these four cases.
+
+Focused dependency checks were run serially because each trace provider is a
+real exact certificate leaf:
+
+```text
+trace027 provider: passed, elapsed 145.07s, peak RSS 7100 MiB
+trace028 provider: passed, elapsed  97.04s, peak RSS 6036 MiB
+trace032 provider: passed, elapsed 139.06s, peak RSS 7101 MiB
+trace033 provider: passed, elapsed  94.04s, peak RSS 6027 MiB
+```
+
+The direct bridge itself then checked quickly:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 600 --max-tree-rss-mib 12000 \
+  --min-available-mib 20000 --hard-address-space-mib 32768 \
+  --json scripts/generated/graph147_direct_start_violation_bridge_guard.json \
+  -- lake env lean -M 8000 -j1 -s 32768 \
+    -o .lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingDepth11Layer4Graph147DirectStartViolationBridge.olean \
+    Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingDepth11Layer4Graph147DirectStartViolationBridge.lean
+```
+
+Result:
+
+```text
+passed, elapsed 2.00s, peak RSS 3598 MiB, hard address-space cap 32768 MiB,
+min available 45918 MiB
+```
+
+Additional production-route audit marker:
+
+```text
+graph147 direct start-violation bridge
+```
+
+Updated next step: route the surrounding graph147 layer-4 portfolio/root through
+`nonIdentityRankKilled_of_graph147_yp_zm_semantic_direct` and
+`nonIdentityRankKilled_of_graph147_zm_yp_semantic_direct`.  Keep
+`StrengthenedGraph147RankedEvalTargetTailCaseScaledMarginFamily` as fallback
+for graph147 subfamilies where direct start-violation does not apply, not as
+the first integration route for these four target-tail cases.
