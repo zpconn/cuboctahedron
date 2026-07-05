@@ -42,9 +42,22 @@ SMOKE = ROOT / (
     "Cuboctahedron/Generated/NonIdentity/Residual/"
     "BellmanTopPairingGraph183CocycleQuotientSmoke.lean"
 )
+GRAPH183_START_PROVIDER = ROOT / (
+    "Cuboctahedron/Generated/NonIdentity/Residual/"
+    "BellmanTopPairingGraph183StartViolationProvider.lean"
+)
 PROFILE = ROOT / "scripts/generated/nonid_margin_bellman_graph183_frontier_0_1M.json"
 QUOTIENT = ROOT / "scripts/generated/graph183_cocycle_quotients_0_1M.json"
 GUARD = ROOT / "scripts/generated/graph183_quotient_margin_socket_latest_guard.json"
+GRAPH183_START_PROVIDER_GUARD = (
+    ROOT / "scripts/generated/graph183_start_violation_provider_guard.json"
+)
+GRAPH183_START_PROVIDER_SOURCE_GUARD = (
+    ROOT / "scripts/generated/graph183_start_violation_provider_source_guard.json"
+)
+TRACE_START_VIOLATION_BRIDGE_GUARD = (
+    ROOT / "scripts/generated/trace_start_violation_bridge_guard.json"
+)
 ACCEPTED_BRANCH_GUARD = (
     ROOT
     / "scripts/generated/graph183_accepted_branch_quotient_latest_guard.json"
@@ -94,6 +107,10 @@ REQUIRED_SOCKET_SYMBOLS = [
     "graph183TailQuotientMarginSequenceBadFace_of_exactEvalSequenceBadFace",
     "graph183TailExactEvalSequenceBadFace_of_quotientMarginSequenceBadFace",
     "nonIdentityRankKilled_of_graph183TailQuotientMarginSequenceBadFace",
+    "graph183AcceptedBranchLabels_eq_startViolationLabels",
+    "objectStartViolationMarginCert_of_graph183AcceptedBranchPrefix",
+    "graph183TailBranchQuotientStartViolationFamily_of_margin",
+    "nonIdentityRankKilled_of_graph183TailQuotientMargin",
 ]
 
 REQUIRED_CLOSED_SEMANTIC_GATE_SYMBOLS = [
@@ -122,6 +139,11 @@ REQUIRED_SMOKE_SYMBOLS = [
     "graph183QuotientAcceptedBranchSmoke",
 ]
 
+REQUIRED_GRAPH183_START_PROVIDER_SYMBOLS = [
+    "graph183StartViolationLabels",
+    "objectStartViolationMarginCert_of_graph183AcceptedBranchLabels",
+]
+
 FORBIDDEN_PRODUCER_TOKENS = [
     "SampledRankIndex",
     "sampledContainsRank",
@@ -136,6 +158,13 @@ FORBIDDEN_SOCKET_IMPORT_FRAGMENTS = [
     "BellmanTopPairingTraceStartViolationProviders",
     "BellmanTopPairingTraceStartViolationDirectKilledBridge",
     "TopPairingTraceClassifier.Terminal",
+]
+
+FORBIDDEN_GRAPH183_START_PROVIDER_IMPORT_FRAGMENTS = [
+    "BellmanTopPairingGraphAcceptedTraceMarginBridge",
+    "BellmanTopPairingTrace017StartViolationProvider",
+    "BellmanTopPairingTraceStartViolationProviders",
+    "TopPairingTraceClassifier",
 ]
 
 PRODUCTION_CARRIER_CANDIDATES = [
@@ -304,7 +333,12 @@ def quotient_checks(quotient: dict[str, Any] | None) -> list[dict[str, Any]]:
     ]
 
 
-def guard_checks(label: str, guard: dict[str, Any] | None) -> list[dict[str, Any]]:
+def guard_checks(
+    label: str,
+    guard: dict[str, Any] | None,
+    *,
+    rss_limit_mib: float = 6500.0,
+) -> list[dict[str, Any]]:
     if guard is None:
         return [
             {
@@ -320,8 +354,8 @@ def guard_checks(label: str, guard: dict[str, Any] | None) -> list[dict[str, Any
             "detail": guard.get("exit_code"),
         },
         {
-            "name": f"{label}:rss_under_6500_mib",
-            "passed": float(guard.get("max_tree_rss_mib", 10**9)) <= 6500.0,
+            "name": f"{label}:rss_under_{int(rss_limit_mib)}_mib",
+            "passed": float(guard.get("max_tree_rss_mib", 10**9)) <= rss_limit_mib,
             "detail": guard.get("max_tree_rss_mib"),
         },
         {
@@ -409,8 +443,9 @@ def render_markdown(report: dict[str, Any]) -> str:
         "contract it needs.",
         "The audit now also enforces that this socket does not import trace",
         "start-violation provider leaves or terminal trace-classifier shards.",
-        "Those remain heavy/diagnostic evidence until replaced by a semantic",
-        "branch-local start-violation producer.",
+        "The graph183 branch-local start-violation provider is now a separate",
+        "fixed-template leaf that imports only the lightweight trace",
+        "start-violation bridge, not accepted-trace ids or terminal classifiers.",
         "The 1M graph183 profile and quotient profile support the route as a",
         "diagnostic.  The full 229-edge quotient smoke remains diagnostic only.",
         "However, no production theorem currently proves",
@@ -440,9 +475,13 @@ def main() -> int:
     closed_semantic_gate_text = read_text(CLOSED_SEMANTIC_GATE)
     accepted_branch_text = read_text(ACCEPTED_BRANCH)
     smoke_text = read_text(SMOKE)
+    graph183_start_provider_text = read_text(GRAPH183_START_PROVIDER)
     profile = read_json(PROFILE)
     quotient = read_json(QUOTIENT)
     guard = read_json(GUARD)
+    graph183_start_provider_guard = read_json(GRAPH183_START_PROVIDER_GUARD)
+    graph183_start_provider_source_guard = read_json(GRAPH183_START_PROVIDER_SOURCE_GUARD)
+    trace_start_violation_bridge_guard = read_json(TRACE_START_VIOLATION_BRIDGE_GUARD)
     accepted_branch_guard = read_json(ACCEPTED_BRANCH_GUARD)
     closed_semantic_gate_guard = read_json(CLOSED_SEMANTIC_GATE_GUARD)
     trace017_provider_guard = read_json(TRACE017_PROVIDER_GUARD)
@@ -465,15 +504,30 @@ def main() -> int:
         )
     )
     checks.extend(symbol_checks("smoke", SMOKE, REQUIRED_SMOKE_SYMBOLS))
+    checks.extend(
+        symbol_checks(
+            "graph183_start_provider",
+            GRAPH183_START_PROVIDER,
+            REQUIRED_GRAPH183_START_PROVIDER_SYMBOLS,
+        )
+    )
     checks.extend(forbidden_checks("socket", SOCKET))
     checks.extend(forbidden_checks("closed_semantic_gate", CLOSED_SEMANTIC_GATE))
     checks.extend(forbidden_checks("accepted_branch_quotient", ACCEPTED_BRANCH))
     checks.extend(forbidden_checks("smoke", SMOKE))
+    checks.extend(forbidden_checks("graph183_start_provider", GRAPH183_START_PROVIDER))
     checks.extend(
         forbidden_import_checks(
             "socket",
             SOCKET,
             FORBIDDEN_SOCKET_IMPORT_FRAGMENTS,
+        )
+    )
+    checks.extend(
+        forbidden_import_checks(
+            "graph183_start_provider",
+            GRAPH183_START_PROVIDER,
+            FORBIDDEN_GRAPH183_START_PROVIDER_IMPORT_FRAGMENTS,
         )
     )
     checks.append(
@@ -515,6 +569,25 @@ def main() -> int:
     checks.extend(quotient_checks(quotient))
     checks.extend(guard_checks("socket_guard", guard))
     checks.extend(
+        guard_checks(
+            "graph183_start_provider_guard",
+            graph183_start_provider_guard,
+            rss_limit_mib=7000.0,
+        )
+    )
+    checks.extend(
+        guard_checks(
+            "graph183_start_provider_source_guard",
+            graph183_start_provider_source_guard,
+        )
+    )
+    checks.extend(
+        guard_checks(
+            "trace_start_violation_bridge_guard",
+            trace_start_violation_bridge_guard,
+        )
+    )
+    checks.extend(
         guard_checks("closed_semantic_gate_guard", closed_semantic_gate_guard)
     )
     checks.extend(guard_checks("accepted_branch_guard", accepted_branch_guard))
@@ -525,7 +598,11 @@ def main() -> int:
         )
     )
 
-    status = production_status(socket_text, closed_semantic_gate_text)
+    status = production_status(
+        socket_text,
+        closed_semantic_gate_text,
+        graph183_start_provider_text,
+    )
     failed = [row for row in checks if not row["passed"]]
     decision = (
         "graph183_carrier_sockets_ready_but_producer_missing"
@@ -574,6 +651,27 @@ def main() -> int:
             "accepted_branch_guard_min_available_mib": None
             if accepted_branch_guard is None
             else accepted_branch_guard.get("min_available_seen_mib"),
+            "graph183_start_provider_guard_elapsed_seconds": None
+            if graph183_start_provider_guard is None
+            else graph183_start_provider_guard.get("elapsed_seconds"),
+            "graph183_start_provider_guard_peak_rss_mib": None
+            if graph183_start_provider_guard is None
+            else graph183_start_provider_guard.get("max_tree_rss_mib"),
+            "graph183_start_provider_guard_min_available_mib": None
+            if graph183_start_provider_guard is None
+            else graph183_start_provider_guard.get("min_available_seen_mib"),
+            "graph183_start_provider_source_guard_elapsed_seconds": None
+            if graph183_start_provider_source_guard is None
+            else graph183_start_provider_source_guard.get("elapsed_seconds"),
+            "graph183_start_provider_source_guard_peak_rss_mib": None
+            if graph183_start_provider_source_guard is None
+            else graph183_start_provider_source_guard.get("max_tree_rss_mib"),
+            "trace_start_violation_bridge_guard_elapsed_seconds": None
+            if trace_start_violation_bridge_guard is None
+            else trace_start_violation_bridge_guard.get("elapsed_seconds"),
+            "trace_start_violation_bridge_guard_peak_rss_mib": None
+            if trace_start_violation_bridge_guard is None
+            else trace_start_violation_bridge_guard.get("max_tree_rss_mib"),
             "trace017_provider_guard_exit_code": None
             if trace017_provider_guard is None
             else trace017_provider_guard.get("exit_code"),

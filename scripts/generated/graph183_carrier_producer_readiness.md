@@ -18,8 +18,9 @@ module that checks the 14 local equations and accepted raw-gain
 contract it needs.
 The audit now also enforces that this socket does not import trace
 start-violation provider leaves or terminal trace-classifier shards.
-Those remain heavy/diagnostic evidence until replaced by a semantic
-branch-local start-violation producer.
+The graph183 branch-local start-violation provider is now a separate
+fixed-template leaf that imports only the lightweight trace
+start-violation bridge, not accepted-trace ids or terminal classifiers.
 The 1M graph183 profile and quotient profile support the route as a
 diagnostic.  The full 229-edge quotient smoke remains diagnostic only.
 However, no production theorem currently proves
@@ -43,15 +44,22 @@ observed path remains a no-go.
 | `quotient_states` | `43` |
 | `quotient_edges` | `93` |
 | `quotient_max_bit_length` | `9` |
-| `guard_elapsed_seconds` | `5.003691438003443` |
-| `guard_peak_rss_mib` | `3992.40625` |
-| `guard_min_available_mib` | `46222.859375` |
+| `guard_elapsed_seconds` | `3.002610948984511` |
+| `guard_peak_rss_mib` | `3630.02734375` |
+| `guard_min_available_mib` | `46357.453125` |
 | `closed_semantic_gate_guard_elapsed_seconds` | `3.0027096020057797` |
 | `closed_semantic_gate_guard_peak_rss_mib` | `3719.16015625` |
 | `closed_semantic_gate_guard_min_available_mib` | `46322.6328125` |
 | `accepted_branch_guard_elapsed_seconds` | `5.0034252110053785` |
 | `accepted_branch_guard_peak_rss_mib` | `3410.734375` |
 | `accepted_branch_guard_min_available_mib` | `46363.515625` |
+| `graph183_start_provider_guard_elapsed_seconds` | `45.05008524499135` |
+| `graph183_start_provider_guard_peak_rss_mib` | `6882.125` |
+| `graph183_start_provider_guard_min_available_mib` | `43095.3046875` |
+| `graph183_start_provider_source_guard_elapsed_seconds` | `98.05047912499867` |
+| `graph183_start_provider_source_guard_peak_rss_mib` | `6309.796875` |
+| `trace_start_violation_bridge_guard_elapsed_seconds` | `7.0058386610180605` |
+| `trace_start_violation_bridge_guard_peak_rss_mib` | `3617.1171875` |
 | `trace017_provider_guard_exit_code` | `-15` |
 | `trace017_provider_guard_peak_rss_mib` | `12731.64453125` |
 | `trace017_provider_guard_killed_reason` | `process-tree RSS 12731 MiB exceeded 7000 MiB cap` |
@@ -95,6 +103,10 @@ observed path remains a no-go.
 | `socket:symbol:graph183TailQuotientMarginSequenceBadFace_of_exactEvalSequenceBadFace` | `True` | `graph183TailQuotientMarginSequenceBadFace_of_exactEvalSequenceBadFace` |
 | `socket:symbol:graph183TailExactEvalSequenceBadFace_of_quotientMarginSequenceBadFace` | `True` | `graph183TailExactEvalSequenceBadFace_of_quotientMarginSequenceBadFace` |
 | `socket:symbol:nonIdentityRankKilled_of_graph183TailQuotientMarginSequenceBadFace` | `True` | `nonIdentityRankKilled_of_graph183TailQuotientMarginSequenceBadFace` |
+| `socket:symbol:graph183AcceptedBranchLabels_eq_startViolationLabels` | `True` | `graph183AcceptedBranchLabels_eq_startViolationLabels` |
+| `socket:symbol:objectStartViolationMarginCert_of_graph183AcceptedBranchPrefix` | `True` | `objectStartViolationMarginCert_of_graph183AcceptedBranchPrefix` |
+| `socket:symbol:graph183TailBranchQuotientStartViolationFamily_of_margin` | `True` | `graph183TailBranchQuotientStartViolationFamily_of_margin` |
+| `socket:symbol:nonIdentityRankKilled_of_graph183TailQuotientMargin` | `True` | `nonIdentityRankKilled_of_graph183TailQuotientMargin` |
 | `closed_semantic_gate:exists` | `True` | `Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedBellmanStrengthenedSemanticGateSocket.lean` |
 | `closed_semantic_gate:symbol:StrengthenedClosedBellmanEvalFamily` | `True` | `StrengthenedClosedBellmanEvalFamily` |
 | `closed_semantic_gate:symbol:StrengthenedClosedBellmanGraphExactFamily` | `True` | `StrengthenedClosedBellmanGraphExactFamily` |
@@ -115,6 +127,9 @@ observed path remains a no-go.
 | `smoke:symbol:graph183AcceptedBranchRawGain_contract` | `True` | `graph183AcceptedBranchRawGain_contract` |
 | `smoke:symbol:graph183QuotientStep` | `True` | `graph183QuotientStep` |
 | `smoke:symbol:graph183QuotientAcceptedBranchSmoke` | `True` | `graph183QuotientAcceptedBranchSmoke` |
+| `graph183_start_provider:exists` | `True` | `Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraph183StartViolationProvider.lean` |
+| `graph183_start_provider:symbol:graph183StartViolationLabels` | `True` | `graph183StartViolationLabels` |
+| `graph183_start_provider:symbol:objectStartViolationMarginCert_of_graph183AcceptedBranchLabels` | `True` | `objectStartViolationMarginCert_of_graph183AcceptedBranchLabels` |
 | `socket:forbidden_absent:SampledRankIndex` | `True` | `SampledRankIndex` |
 | `socket:forbidden_absent:sampledContainsRank` | `True` | `sampledContainsRank` |
 | `socket:forbidden_absent:sampledRankOf` | `True` | `sampledRankOf` |
@@ -139,10 +154,20 @@ observed path remains a no-go.
 | `smoke:forbidden_absent:SelectedPrefix` | `True` | `SelectedPrefix` |
 | `smoke:forbidden_absent:AcceptedTraceId` | `True` | `AcceptedTraceId` |
 | `smoke:forbidden_absent:acceptedTraceOfId` | `True` | `acceptedTraceOfId` |
+| `graph183_start_provider:forbidden_absent:SampledRankIndex` | `True` | `SampledRankIndex` |
+| `graph183_start_provider:forbidden_absent:sampledContainsRank` | `True` | `sampledContainsRank` |
+| `graph183_start_provider:forbidden_absent:sampledRankOf` | `True` | `sampledRankOf` |
+| `graph183_start_provider:forbidden_absent:SelectedPrefix` | `True` | `SelectedPrefix` |
+| `graph183_start_provider:forbidden_absent:AcceptedTraceId` | `True` | `AcceptedTraceId` |
+| `graph183_start_provider:forbidden_absent:acceptedTraceOfId` | `True` | `acceptedTraceOfId` |
 | `socket:forbidden_import_absent:BellmanTopPairingTrace017StartViolationProvider` | `True` | `[]` |
 | `socket:forbidden_import_absent:BellmanTopPairingTraceStartViolationProviders` | `True` | `[]` |
 | `socket:forbidden_import_absent:BellmanTopPairingTraceStartViolationDirectKilledBridge` | `True` | `[]` |
 | `socket:forbidden_import_absent:TopPairingTraceClassifier.Terminal` | `True` | `[]` |
+| `graph183_start_provider:forbidden_import_absent:BellmanTopPairingGraphAcceptedTraceMarginBridge` | `True` | `[]` |
+| `graph183_start_provider:forbidden_import_absent:BellmanTopPairingTrace017StartViolationProvider` | `True` | `[]` |
+| `graph183_start_provider:forbidden_import_absent:BellmanTopPairingTraceStartViolationProviders` | `True` | `[]` |
+| `graph183_start_provider:forbidden_import_absent:TopPairingTraceClassifier` | `True` | `[]` |
 | `socket:imports_accepted_branch_quotient` | `True` | `BellmanTopPairingGraph183AcceptedBranchQuotient` |
 | `socket:does_not_import_full_smoke` | `True` | `BellmanTopPairingGraph183CocycleQuotientSmoke` |
 | `accepted_branch:documents_not_coverage` | `True` | `not coverage evidence by itself` |
@@ -161,8 +186,17 @@ observed path remains a no-go.
 | `quotient_1m:solution_exists` | `True` | `['gauge', 'gauge_count', 'max_bit_length', 'nonzero_values', 'small_gain_count', 'small_gains']` |
 | `quotient_1m:bit_length_under_16` | `True` | `9` |
 | `socket_guard:guard_exit_zero` | `True` | `0` |
-| `socket_guard:rss_under_6500_mib` | `True` | `3992.40625` |
-| `socket_guard:available_above_30000_mib` | `True` | `46222.859375` |
+| `socket_guard:rss_under_6500_mib` | `True` | `3630.02734375` |
+| `socket_guard:available_above_30000_mib` | `True` | `46357.453125` |
+| `graph183_start_provider_guard:guard_exit_zero` | `True` | `0` |
+| `graph183_start_provider_guard:rss_under_7000_mib` | `True` | `6882.125` |
+| `graph183_start_provider_guard:available_above_30000_mib` | `True` | `43095.3046875` |
+| `graph183_start_provider_source_guard:guard_exit_zero` | `True` | `0` |
+| `graph183_start_provider_source_guard:rss_under_6500_mib` | `True` | `6309.796875` |
+| `graph183_start_provider_source_guard:available_above_30000_mib` | `True` | `43763.578125` |
+| `trace_start_violation_bridge_guard:guard_exit_zero` | `True` | `0` |
+| `trace_start_violation_bridge_guard:rss_under_6500_mib` | `True` | `3617.1171875` |
+| `trace_start_violation_bridge_guard:available_above_30000_mib` | `True` | `46220.57421875` |
 | `closed_semantic_gate_guard:guard_exit_zero` | `True` | `0` |
 | `closed_semantic_gate_guard:rss_under_6500_mib` | `True` | `3719.16015625` |
 | `closed_semantic_gate_guard:available_above_30000_mib` | `True` | `46322.6328125` |

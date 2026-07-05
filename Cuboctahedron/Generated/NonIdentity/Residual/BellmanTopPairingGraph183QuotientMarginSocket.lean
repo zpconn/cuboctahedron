@@ -1,5 +1,6 @@
 import Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingDepth11Layer4Graph183TailTableSocket
 import Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraph183AcceptedBranchQuotient
+import Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraph183StartViolationProvider
 import Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingClosedBellmanStrengthenedSemanticGateSocket
 import Cuboctahedron.Generated.NonIdentity.BellmanKilledBridge
 
@@ -1080,6 +1081,54 @@ theorem nonIdentityRankKilled_of_graph183TailBranchQuotientStartViolation
     (scaledMargin_nonpos_of_graph183TailQuotientMargin
       hfamily.margin hstrengthened hprefix)
     (hfamily.startViolation_yp_branch rank hstrengthened hprefix)
+
+theorem graph183AcceptedBranchLabels_eq_startViolationLabels :
+    graph183AcceptedBranchLabels =
+      Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraph183StartViolationProvider.graph183StartViolationLabels := by
+  rfl
+
+def objectStartViolationMarginCert_of_graph183AcceptedBranchPrefix
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords}
+    (hprefix :
+      Depth11Layer4PrefixAtRank rank Face.tmpm Face.zm
+        (Face.zp :: Face.tppm :: Face.tpmm :: graph183ForcedTail)) :
+    ObjectStartViolationMarginCert rank (scaledMargin rank) := by
+  exact
+    Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraph183StartViolationProvider.objectStartViolationMarginCert_of_graph183AcceptedBranchLabels
+      (by
+        rw [graph183AcceptedBranchLabels_eq_of_prefix hprefix]
+        exact graph183AcceptedBranchLabels_eq_startViolationLabels)
+
+def graph183TailBranchQuotientStartViolationFamily_of_margin
+    {sequenceBadFace : Fin numPairWords -> Face -> Prop}
+    {scaledMargin : Fin numPairWords -> Int}
+    (hmargin :
+      Graph183TailQuotientMarginFamily sequenceBadFace scaledMargin) :
+    Graph183TailBranchQuotientStartViolationFamily
+      sequenceBadFace scaledMargin where
+  margin := hmargin
+  startViolation_yp_branch := by
+    intro rank _hstrengthened hprefix
+    exact objectStartViolationMarginCert_of_graph183AcceptedBranchPrefix
+      (scaledMargin := scaledMargin) hprefix
+
+theorem nonIdentityRankKilled_of_graph183TailQuotientMargin
+    {sequenceBadFace : Fin numPairWords -> Face -> Prop}
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords}
+    (hfamily :
+      Graph183TailQuotientMarginFamily sequenceBadFace scaledMargin)
+    (hstrengthened :
+      TopPairingStrengthenedClosedLanguageAtRank
+        sequenceBadFace rank Face.ym)
+    (hprefix :
+      Depth11Layer4PrefixAtRank rank Face.tmpm Face.zm
+        (Face.zp :: Face.tppm :: Face.tpmm :: graph183ForcedTail)) :
+    Cuboctahedron.Generated.Coverage.NonIdentityRankKilled rank :=
+  nonIdentityRankKilled_of_graph183TailBranchQuotientStartViolation
+    (graph183TailBranchQuotientStartViolationFamily_of_margin hfamily)
+    hstrengthened hprefix
 
 /--
 Graph183 final-margin family from the checked quotient-gain margin target.

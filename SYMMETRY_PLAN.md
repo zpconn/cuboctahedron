@@ -111514,6 +111514,93 @@ graph183 frontier decision =
   diagnostic_supports_graph183_accepted_tail_margin_bellman_route
 ```
 
+### 2026-07-05 graph183 branch-local start-violation provider
+
+The accepted-trace provider path was too heavy because it imported accepted
+trace ids and terminal trace-classifier shards.  The graph183 branch itself is
+fixed, however, so a branch-local provider can consume the literal graph183
+accepted-branch label equality directly.
+
+Added:
+
+```lean
+Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingGraph183StartViolationProvider.graph183StartViolationLabels
+
+Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingGraph183StartViolationProvider.\
+objectStartViolationMarginCert_of_graph183AcceptedBranchLabels
+```
+
+This provider imports only:
+
+```lean
+BellmanTopPairingTraceStartViolationBridge
+```
+
+and contains no `AcceptedTraceId`, `acceptedTraceOfId`, or terminal
+trace-classifier imports.
+
+The graph183 quotient socket now derives the branch-local start-violation
+certificate from the semantic branch prefix:
+
+```lean
+graph183AcceptedBranchLabels_eq_startViolationLabels
+objectStartViolationMarginCert_of_graph183AcceptedBranchPrefix
+graph183TailBranchQuotientStartViolationFamily_of_margin
+nonIdentityRankKilled_of_graph183TailQuotientMargin
+```
+
+This means the graph183 accepted branch now composes as:
+
+```text
+Graph183TailQuotientMarginFamily sequenceBadFace scaledMargin
+  + semantic graph183 branch prefix
+  -> ObjectStartViolationMarginCert rank (scaledMargin rank)
+  -> NonIdentityRankKilled rank
+```
+
+Focused memory checks:
+
+```text
+TraceStartViolationBridge build:
+  exit = 0
+  elapsed = 7.01s
+  peak RSS = 3617 MiB
+
+Graph183StartViolationProvider source check:
+  exit = 0
+  elapsed = 98.05s
+  peak RSS = 6309 MiB
+
+Graph183StartViolationProvider lake build:
+  exit = 0
+  elapsed = 45.05s
+  peak RSS = 6882 MiB
+
+Graph183QuotientMarginSocket focused check after provider import:
+  exit = 0
+  elapsed = 3.00s
+  peak RSS = 3630 MiB
+```
+
+Decision:
+
+- Accepted as an isolated branch-local heavy leaf.
+- Keep it out of broad root imports except through the lightweight graph183
+  socket/grouping path.
+- Remaining graph183 blocker is now only the semantic quotient-margin producer:
+
+  ```lean
+  Graph183TailQuotientMarginFamily sequenceBadFace scaledMargin
+  ```
+
+  or directly:
+
+  ```lean
+  Graph183TailQuotientMarginSequenceBadFace scaledMargin rank Face.ym
+  ```
+
 ### 2026-07-05 graph183 semantic object-language eval-margin adapter
 
 The graph183 quotient-margin socket now has a semantic object-language target
