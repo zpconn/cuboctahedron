@@ -118323,3 +118323,129 @@ Additional production-route audit marker:
 ```text
 StrengthenedGraph147RankedEvalTargetTailCaseScaledMarginFamily
 ```
+
+#### 2026-07-05 graph147 semantic producer pivot tightened
+
+Status: the latest GPT5.5 review is now the controlling rule for graph147.
+Keep Bellman, but only as a deterministic semantic transducer theorem.  Do not
+scale the selected-prefix producer, root-trace cover, accepted trace ids, or
+sampled rank/path objects.
+
+Accepted existing infrastructure:
+
+```lean
+-- Target-shadow / cursor front door
+topPairingTargetShadow_of_summary
+topPairingTriShadow_eq_target_of_closed
+topPairingTriCursor_of_closed
+TopPairingTargetCursorAtRank
+
+-- Semantic object-cover front door
+structure TopPairingBellmanObj
+def topPairingClosedMembership
+theorem topPairingClosedMembership_covers
+def topPairingClosedObjectCoverOfEvalAccepts
+def topPairingBellmanEvalObjectCoverOfClosedToEval
+def topPairingBellmanEvalObjectCoverOfStrengthenedToEval
+
+-- Graph-exact / eval gate front door
+TopPairingGraphExactEvalGateAtRank
+TopPairingClosedToGraphExactEvalGate
+TopPairingStrengthenedToGraphExactEvalGate
+evalLanguageAtRank_of_graphExactEvalGate
+closedToEvalGate_of_graphExactEvalGate
+strengthenedToEvalGate_of_graphExactEvalGate
+```
+
+This means the rank-plus-closed-proof object layer requested by GPT5.5 already
+exists: rank plus closed-language proof object already exists.  The remaining
+blocker is not another object-cover adapter; it is a
+proof-carrying graph147 producer for the actual target fields:
+
+```text
+tailZpGain    : graph147TargetTailZp evaluator gain is -499
+tailTmmpGain  : graph147TargetTailTmmp evaluator gain is -499
+
+yp_zm_zp      : yp,zm + graph147TargetTailZp    -> scaledMargin rank <= -376
+yp_zm_tmmp    : yp,zm + graph147TargetTailTmmp  -> scaledMargin rank <= -376
+zm_yp_zp      : zm,yp + graph147TargetTailZp    -> scaledMargin rank <= -376
+zm_yp_tmmp    : zm,yp + graph147TargetTailTmmp  -> scaledMargin rank <= -376
+```
+
+No-go rule: Raw evaluator reduction rejected.  The two gain facts must not be
+proved in the adapter by unfolding `graph147RankedEvalNext` through a giant
+`simp`/Boolean reduction.  A quick probe produced huge goals, which is exactly
+the hidden-checker failure mode we are avoiding.  The gain facts may be
+producer fields, small generated step-gain lemmas, or consequences of a
+deterministic segment theorem.
+
+The next accepted theorem shape is one of:
+
+```lean
+StrengthenedGraph147RankedEvalTargetTailCaseScaledMarginFamily
+```
+
+from semantic tail cases and a semantic scaled-margin certificate, or:
+
+```lean
+StrengthenedGraph147RankedShardMarginInvariantFamily
+```
+
+from a local invariant over target-shadow cursor, schedule/square-gap,
+local-axis tail, pair-count/used-face facts, and graph147 Bellman state.
+
+If either proof wants sampled ranks, selected-prefix ids, accepted traces,
+exact affine RHS keys, solved start points, stored paths, or one branch per
+observed path, stop graph147 scaling and pivot to a checked segment/cocycle
+quotient over the same semantic state.  Raw evaluator reduction is also
+rejected as production evidence.
+
+Focused checks for the accepted semantic bridge layer:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 360 --max-tree-rss-mib 12000 \
+  --min-available-mib 20000 --hard-address-space-mib 24576 \
+  --json scripts/generated/top_pairing_bellman_object_graph147_pivot_guard.json \
+  -- lake env lean -M 8000 -j1 -s 24576 \
+    -o .lake/build/lib/lean/Cuboctahedron/Search/TopPairingBellmanObject.olean \
+    Cuboctahedron/Search/TopPairingBellmanObject.lean
+```
+
+Result:
+
+```text
+passed, elapsed 5.00s, peak RSS 3588 MiB, hard address-space cap 24576 MiB,
+min available 46073 MiB
+```
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 360 --max-tree-rss-mib 12000 \
+  --min-available-mib 20000 --hard-address-space-mib 24576 \
+  --json scripts/generated/top_pairing_bellman_semantic_gate_graph147_pivot_guard.json \
+  -- lake env lean -M 8000 -j1 -s 24576 \
+    -o .lake/build/lib/lean/Cuboctahedron/Search/TopPairingBellmanSemanticGate.olean \
+    Cuboctahedron/Search/TopPairingBellmanSemanticGate.lean
+```
+
+Result:
+
+```text
+passed, elapsed 2.00s, peak RSS 3555 MiB, hard address-space cap 24576 MiB,
+min available 46071 MiB
+```
+
+Updated audit:
+
+```bash
+python3 scripts/audit_graph147_ranked_transducer_frontier.py
+```
+
+Result:
+
+```text
+status = ready_for_ranked_eval_margin_bundle_producer
+raw_evaluator_reduction.production_allowed = false
+semantic_inputs include TopPairingBellmanObj and TopPairingGraphExactEvalGateAtRank
+```

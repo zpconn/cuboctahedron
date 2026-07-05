@@ -143,6 +143,10 @@
 - `StrengthenedGraph147RankedShardMarginInvariantFamily`: `true`
 - `Selected-prefix diagnostics only`: `true`
 - `Root-trace diagnostics only`: `true`
+- `Raw evaluator reduction rejected`: `true`
+- `rank plus closed-language proof object already exists`: `true`
+- `TopPairingBellmanObj`: `true`
+- `TopPairingGraphExactEvalGateAtRank`: `true`
 
 ## Semantic Inputs
 
@@ -172,6 +176,28 @@
 
 - file: `Cuboctahedron/Search/TopPairingTransducerSemanticGate.lean`
 - `strengthenedToGraphExactEvalGate_of_rankedTransducerInvariantLocalWithSuffix`: `true`
+
+### bellman_object
+
+- file: `Cuboctahedron/Search/TopPairingBellmanObject.lean`
+- `structure TopPairingBellmanObj`: `true`
+- `def topPairingClosedMembership`: `true`
+- `theorem topPairingClosedMembership_covers`: `true`
+- `def topPairingClosedObjectCoverOfEvalAccepts`: `true`
+- `def topPairingBellmanEvalObjectCoverOfClosedToEval`: `true`
+- `def topPairingBellmanEvalObjectCoverOfStrengthenedToEval`: `true`
+
+### bellman_semantic_gate
+
+- file: `Cuboctahedron/Search/TopPairingBellmanSemanticGate.lean`
+- `abbrev TopPairingClosedToEvalGate`: `true`
+- `abbrev TopPairingStrengthenedToEvalGate`: `true`
+- `abbrev TopPairingGraphExactEvalGateAtRank`: `true`
+- `abbrev TopPairingClosedToGraphExactEvalGate`: `true`
+- `abbrev TopPairingStrengthenedToGraphExactEvalGate`: `true`
+- `theorem evalLanguageAtRank_of_graphExactEvalGate`: `true`
+- `theorem closedToEvalGate_of_graphExactEvalGate`: `true`
+- `theorem strengthenedToEvalGate_of_graphExactEvalGate`: `true`
 
 ### bellman_potential
 
@@ -300,6 +326,11 @@
 - `RootTrace`: `true`
 - `acceptedTrace`: `true`
 
+## Raw Evaluator Reduction
+
+- production allowed: `false`
+- interpretation: Graph147 gain facts may be fields of a proof-carrying producer, or consequences of small generated step lemmas, but the adapter must not prove them by unfolding the whole ranked evaluator with a giant simp/decide reduction.
+
 ## Remaining Producer Fields
 
 - `start`: the generated invariant holds at the strengthened closed evaluator start
@@ -320,13 +351,14 @@ Rejected production coordinates:
 - accepted trace id membership
 - exact affine RHS keys
 - one generated branch per observed path
+- raw evaluator unfolding as a hidden Boolean checker
 
 ## Mandatory Pivot
 
 - marker: `mandatory_graph147_semantic_transducer_pivot`
-- meaning: Graph147 production must be a deterministic closed-language to evaluator theorem.  Selected-prefix/root-trace coverage is diagnostic only unless it is replaced by semantic local transition and margin invariant evidence.
+- meaning: Graph147 production must be a deterministic closed-language to evaluator theorem.  Selected-prefix/root-trace coverage is diagnostic only unless it is replaced by semantic local transition and margin invariant evidence.  The rank-plus-closed-object layer already exists; the remaining blocker is the semantic graph147 gain/margin producer.
 
 
 ## Next Step
 
-Generate or prove the semantic graph147 margin invariant producer.  The immediate target is StrengthenedGraph147RankedEvalTargetTailCaseScaledMarginFamily, whose fields are the two target-tail evaluator-gain facts plus the four `scaledMargin obj.rank <= -376` facts for the `yp,zm`/`zm,yp` object bounds over the two proved semantic target tails.  The margin socket adapts those fields to StrengthenedGraph147RankedEvalTargetTailCaseFamily, then to the target-tail object family and ranked-eval margin bundle.  If a local invariant is the better proof shape, instantiate StrengthenedGraph147RankedShardMarginInvariantFamily from target-shadow cursor, schedule/square-gap/local-axis tail, pair-count/used-face facts, graph147 Bellman state semantics, or a checked segment/cocycle quotient.  The existing gauge-corrected full graph is only a diagnostic candidate; the existing quotient audit says no coarser quotient is margin-complete yet.  Do not use sampled ranks, selected prefixes, accepted trace ids, exact affine keys, or per-observed-path membership.
+Generate or prove the semantic graph147 margin invariant producer.  The immediate target is StrengthenedGraph147RankedEvalTargetTailCaseScaledMarginFamily, whose fields are the two target-tail evaluator-gain facts plus the four `scaledMargin obj.rank <= -376` facts for the `yp,zm`/`zm,yp` object bounds over the two proved semantic target tails.  The margin socket adapts those fields to StrengthenedGraph147RankedEvalTargetTailCaseFamily, then to the target-tail object family and ranked-eval margin bundle.  TopPairingBellmanObj and the graph-exact semantic gate already provide the rank-plus-closed-object and closed-language-to-eval public surfaces, so the next theorem must fill the graph147 producer fields semantically rather than adding another object-cover adapter.  If a local invariant is the better proof shape, instantiate StrengthenedGraph147RankedShardMarginInvariantFamily from target-shadow cursor, schedule/square-gap/local-axis tail, pair-count/used-face facts, graph147 Bellman state semantics, or a checked segment/cocycle quotient.  The existing gauge-corrected full graph is only a diagnostic candidate; the existing quotient audit says no coarser quotient is margin-complete yet.  Do not use sampled ranks, selected prefixes, accepted trace ids, exact affine keys, per-observed-path membership, or raw evaluator unfolding as a hidden checker.

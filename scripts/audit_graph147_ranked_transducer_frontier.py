@@ -56,6 +56,10 @@ TARGET_CURSOR = ROOT / "Cuboctahedron/Search/TopPairingTargetCursor.lean"
 TRANSDUCER_TAIL = ROOT / "Cuboctahedron/Search/TopPairingTransducerTail.lean"
 TRANSDUCER_EVAL = ROOT / "Cuboctahedron/Search/TopPairingTransducerEvalBridge.lean"
 TRANSDUCER_GATE = ROOT / "Cuboctahedron/Search/TopPairingTransducerSemanticGate.lean"
+BELLMAN_OBJECT = ROOT / "Cuboctahedron/Search/TopPairingBellmanObject.lean"
+BELLMAN_SEMANTIC_GATE = (
+    ROOT / "Cuboctahedron/Search/TopPairingBellmanSemanticGate.lean"
+)
 BELLMAN_POTENTIAL = ROOT / "Cuboctahedron/Search/BellmanPotential.lean"
 GAUGE_AUDIT = ROOT / "scripts/generated/graph147_gauge_corrected_potential_0_10M.json"
 COCYCLE_QUOTIENT_AUDIT = (
@@ -211,6 +215,24 @@ SEMANTIC_INPUT_SYMBOLS = {
     "transducer_gate": [
         "strengthenedToGraphExactEvalGate_of_rankedTransducerInvariantLocalWithSuffix",
     ],
+    "bellman_object": [
+        "structure TopPairingBellmanObj",
+        "def topPairingClosedMembership",
+        "theorem topPairingClosedMembership_covers",
+        "def topPairingClosedObjectCoverOfEvalAccepts",
+        "def topPairingBellmanEvalObjectCoverOfClosedToEval",
+        "def topPairingBellmanEvalObjectCoverOfStrengthenedToEval",
+    ],
+    "bellman_semantic_gate": [
+        "abbrev TopPairingClosedToEvalGate",
+        "abbrev TopPairingStrengthenedToEvalGate",
+        "abbrev TopPairingGraphExactEvalGateAtRank",
+        "abbrev TopPairingClosedToGraphExactEvalGate",
+        "abbrev TopPairingStrengthenedToGraphExactEvalGate",
+        "theorem evalLanguageAtRank_of_graphExactEvalGate",
+        "theorem closedToEvalGate_of_graphExactEvalGate",
+        "theorem strengthenedToEvalGate_of_graphExactEvalGate",
+    ],
     "bellman_potential": [
         "theorem scaledMargin_nonpos_of_gaugeCorrected_quotient_margin",
         "def GaugeCorrectedQuotientMarginLanguageBound",
@@ -268,6 +290,7 @@ PRODUCTION_ROUTE = {
         "accepted trace id membership",
         "exact affine RHS keys",
         "one generated branch per observed path",
+        "raw evaluator unfolding as a hidden Boolean checker",
     ],
     "target": (
         "StrengthenedGraph147RankedEvalTargetTailObjectFamily -> "
@@ -302,6 +325,10 @@ PLAN_PIVOT_MARKERS = [
     "StrengthenedGraph147RankedShardMarginInvariantFamily",
     "Selected-prefix diagnostics only",
     "Root-trace diagnostics only",
+    "Raw evaluator reduction rejected",
+    "rank plus closed-language proof object already exists",
+    "TopPairingBellmanObj",
+    "TopPairingGraphExactEvalGateAtRank",
 ]
 
 SELECTED_PREFIX_DIAGNOSTIC_SYMBOLS = [
@@ -397,6 +424,8 @@ def main() -> None:
         "transducer_eval": read(TRANSDUCER_EVAL),
         "transducer_gate": read(TRANSDUCER_GATE),
         "bellman_potential": read(BELLMAN_POTENTIAL),
+        "bellman_object": read(BELLMAN_OBJECT),
+        "bellman_semantic_gate": read(BELLMAN_SEMANTIC_GATE),
     }
 
     semantic_symbols = {
@@ -550,6 +579,8 @@ def main() -> None:
                         "transducer_tail": TRANSDUCER_TAIL,
                         "transducer_eval": TRANSDUCER_EVAL,
                         "transducer_gate": TRANSDUCER_GATE,
+                        "bellman_object": BELLMAN_OBJECT,
+                        "bellman_semantic_gate": BELLMAN_SEMANTIC_GATE,
                         "bellman_potential": BELLMAN_POTENTIAL,
                     }[key].relative_to(ROOT)
                 ),
@@ -639,6 +670,15 @@ def main() -> None:
             ),
             "files": root_trace_diagnostics,
         },
+        "raw_evaluator_reduction": {
+            "production_allowed": False,
+            "interpretation": (
+                "Graph147 gain facts may be fields of a proof-carrying "
+                "producer, or consequences of small generated step lemmas, "
+                "but the adapter must not prove them by unfolding the whole "
+                "ranked evaluator with a giant simp/decide reduction."
+            ),
+        },
         "remaining_fields": REMAINING_FIELDS,
         "production_route": PRODUCTION_ROUTE,
         "next_step": (
@@ -651,6 +691,11 @@ def main() -> None:
             "target tails.  The margin socket adapts those fields to "
             "StrengthenedGraph147RankedEvalTargetTailCaseFamily, then to "
             "the target-tail object family and ranked-eval margin bundle.  "
+            "TopPairingBellmanObj and the graph-exact semantic gate already "
+            "provide the rank-plus-closed-object and closed-language-to-eval "
+            "public surfaces, so the next theorem must fill the graph147 "
+            "producer fields semantically rather than adding another "
+            "object-cover adapter.  "
             "If a local invariant is the "
             "better proof "
             "shape, instantiate StrengthenedGraph147RankedShardMarginInvariantFamily "
@@ -660,7 +705,8 @@ def main() -> None:
             "full graph is only a diagnostic candidate; the existing quotient "
             "audit says no coarser quotient is margin-complete yet.  Do not "
             "use sampled ranks, selected prefixes, accepted trace ids, exact "
-            "affine keys, or per-observed-path membership."
+            "affine keys, per-observed-path membership, or raw evaluator "
+            "unfolding as a hidden checker."
         ),
         "mandatory_pivot": {
             "marker": "mandatory_graph147_semantic_transducer_pivot",
@@ -668,7 +714,9 @@ def main() -> None:
                 "Graph147 production must be a deterministic closed-language "
                 "to evaluator theorem.  Selected-prefix/root-trace coverage "
                 "is diagnostic only unless it is replaced by semantic local "
-                "transition and margin invariant evidence."
+                "transition and margin invariant evidence.  The rank-plus-"
+                "closed-object layer already exists; the remaining blocker is "
+                "the semantic graph147 gain/margin producer."
             ),
             "plan_markers": plan_pivot_markers,
         },
@@ -825,6 +873,16 @@ def main() -> None:
         for symbol, present in entry["symbols"].items():
             lines.append(f"- `{symbol}`: `{str(present).lower()}`")
         lines.append("")
+    lines.extend(
+        [
+            "## Raw Evaluator Reduction",
+            "",
+            "- production allowed: "
+            f"`{str(data['raw_evaluator_reduction']['production_allowed']).lower()}`",
+            f"- interpretation: {data['raw_evaluator_reduction']['interpretation']}",
+            "",
+        ]
+    )
     lines.extend(["## Remaining Producer Fields", ""])
     for field in REMAINING_FIELDS:
         lines.append(f"- `{field['field']}`: {field['meaning']}")
