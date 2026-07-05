@@ -290,6 +290,184 @@ theorem split10MGraphExactEvalGateAtRank_of_graph221_zm_tmpp_semantic_margin
       (hmargin (finish, gain) heval))
 
 /--
+Generic version of the graph151 target-completion tail theorem for the graph221
+lane.
+
+The target-completion derivation uses only closed-language schedule/cursor
+fields plus actual-face omnihedrality.  It does not depend on the particular
+`sequenceBadFace` carrier.  Keeping this theorem generic is important for the
+Bellman pivot: future margin producers may choose a semantic carrier that
+stores deterministic margin facts rather than reusing
+`AcceptedSequenceBadFaceAtRank`.
+-/
+theorem graph151CompletionTail_of_strengthened_prefix_generic
+    {sequenceBadFace : Fin numPairWords -> Face -> Prop}
+    {rank : Fin numPairWords} {rest : List Face}
+    (hstrengthened :
+      TopPairingStrengthenedClosedLanguageAtRank
+        sequenceBadFace rank Face.ym)
+    (hprefix :
+      Depth11Layer4PrefixAtRank rank Face.zm Face.tmpp rest) :
+    Graph151TargetCompletionTail rest := by
+  have hprefixLabels :
+      topPairingRankFaceLabels rank =
+        [Face.xm, Face.ym, Face.zm, Face.tmpp] ++ rest := by
+    simpa [Depth11Layer4PrefixAtRank] using hprefix
+  have hfaceLabels :
+      faceLabelsInContributionOrder (fun f : Face => f)
+          (canonicalSeqOfPairWord (unrankPairWord rank)) =
+        [Face.xm, Face.ym, Face.zm, Face.tmpp] ++ rest := by
+    simpa [topPairingRankFaceLabels] using hprefixLabels
+  have hused :
+      TopPairingUsedFaceTail [Face.xm, Face.ym, Face.zm, Face.tmpp] rest := by
+    apply TopPairingUsedFaceTail.of_actualFaceOmni_append
+    have hactual := hstrengthened.actualFaceOmni
+    change (topPairingRankFaceLabels rank).Nodup at hactual
+    rw [hprefixLabels] at hactual
+    simpa [TopPairingActualFaceOmniLabels] using hactual
+  have hlen :
+      rest.length = graph151TargetCompletionState.remaining.length := by
+    have hlen := hstrengthened.toTopPairingClosedLanguageAtRank.schedule.1
+    rw [hfaceLabels] at hlen
+    simpa [graph151TargetCompletionState] using hlen
+  have hschedule :
+      TopPairingStepScheduleFrom graph151TargetCompletionState.step rest := by
+    have hschedule :=
+      hstrengthened.toTopPairingClosedLanguageAtRank.schedule.2
+    rw [hfaceLabels] at hschedule
+    have htail :=
+      topPairingStepScheduleFrom_append
+        (step := 0)
+        (pfx := [Face.xm, Face.ym, Face.zm, Face.tmpp])
+        (rest := rest) hschedule
+    simpa [graph151TargetCompletionState] using htail
+  have hgap :
+      TopPairingSquareGapFrom graph151TargetCompletionState.gap rest := by
+    have hgap := hstrengthened.toTopPairingClosedLanguageAtRank.squareGap
+    rw [hfaceLabels] at hgap
+    have htail :=
+      topPairingSquareGapFrom_append
+        (gap := 0)
+        (pfx := [Face.xm, Face.ym, Face.zm, Face.tmpp])
+        (rest := rest) hgap
+    simpa [graph151TargetCompletionState, topPairingSquareGapAfter,
+      isSquarePair, pairOfFace] using htail
+  have hcursor :=
+    topPairingTriCursor_of_closed
+      hstrengthened.toTopPairingClosedLanguageAtRank
+  have htriCursor :=
+    graph151_triCursorTail_of_prefix hcursor hprefix
+  exact graph151_targetCompletionTail_of_semanticCore
+    hschedule hgap hused hlen
+    (graph151_targetCancellationTail_of_triCursor htriCursor)
+
+/--
+Generic graph221 root-margin family, parameterized by the strengthened
+language's `sequenceBadFace` predicate.
+
+This is the production-safe surface: an upstream semantic language may carry
+exactly the deterministic graph221 margin fact it needs, without changing the
+graph221 evaluator proof or falling back to sampled objects.
+-/
+structure Graph221ZmTmppSplit10MRootMarginFamily
+    (sequenceBadFace : Fin numPairWords -> Face -> Prop)
+    (scaledMargin : Fin numPairWords -> Int) : Prop where
+  margin :
+    ∀ rank,
+      TopPairingStrengthenedClosedLanguageAtRank
+        sequenceBadFace rank Face.ym ->
+      ∀ rest,
+        Depth11Layer4PrefixAtRank rank Face.zm Face.tmpp rest ->
+        Graph221Layer4Split10MRootMarginBound scaledMargin rank rest
+
+theorem split10MGraphExactEvalGateAtRank_of_graph221_zm_tmpp_generic_rootMarginFamily
+    {sequenceBadFace : Fin numPairWords -> Face -> Prop}
+    {scaledMargin : Fin numPairWords -> Int}
+    (hfamily :
+      Graph221ZmTmppSplit10MRootMarginFamily sequenceBadFace scaledMargin)
+    {rank : Fin numPairWords} {rest : List Face}
+    (hstrengthened :
+      TopPairingStrengthenedClosedLanguageAtRank
+        sequenceBadFace rank Face.ym)
+    (hprefix :
+      Depth11Layer4PrefixAtRank rank Face.zm Face.tmpp rest) :
+    Split10MGraphExactEvalGateAtRank scaledMargin rank := by
+  have htail : Graph151TargetCompletionTail rest :=
+    graph151CompletionTail_of_strengthened_prefix_generic
+      hstrengthened hprefix
+  have hok : graph221Layer4AcceptedTailSuffixOk rest :=
+    graph221Layer4AcceptedTailSuffixOk_of_graph151TargetCompletionTail htail
+  rcases graph221Layer4AcceptedTailSuffixOk_split10M_eval_exists_final_nonneg
+      hok with
+    ⟨finish, gain, heval, hfinal⟩
+  have hlabels :
+      topPairingRankFaceLabels rank =
+        [Face.xm, Face.ym, Face.zm, Face.tmpp] ++ rest := by
+    simpa [Depth11Layer4PrefixAtRank] using hprefix
+  have hevalRank :
+      evalLabelStepFn graphSmokeNext rootState
+          ((topPairingRankFaceLabels rank).map smokeLabelOfFace) =
+        some (finish, gain) := by
+    simpa [hlabels] using heval
+  exact graphExactEvalGateAtRank_of_evalLanguageAtRank
+    (evalLanguageAtRank_of_mappedRankLabelsGraphExact
+      (V := graphPotential)
+      (next := graphSmokeNext)
+      (labelOfFace := smokeLabelOfFace)
+      (start := rootState)
+      (const := (176 : Int))
+      (scaledMargin := scaledMargin)
+      (rank := rank)
+      (badFace := Face.ym)
+      (finish := finish)
+      (gain := gain)
+      hstrengthened.closed
+      hevalRank
+      hfinal
+      (hfamily.margin rank hstrengthened rest hprefix (finish, gain) heval))
+
+theorem scaledMargin_nonpos_of_graph221_zm_tmpp_generic_rootMarginFamily
+    {sequenceBadFace : Fin numPairWords -> Face -> Prop}
+    {scaledMargin : Fin numPairWords -> Int}
+    (hfamily :
+      Graph221ZmTmppSplit10MRootMarginFamily sequenceBadFace scaledMargin)
+    {rank : Fin numPairWords} {rest : List Face}
+    (hstrengthened :
+      TopPairingStrengthenedClosedLanguageAtRank
+        sequenceBadFace rank Face.ym)
+    (hprefix :
+      Depth11Layer4PrefixAtRank rank Face.zm Face.tmpp rest) :
+    scaledMargin rank <= 0 :=
+  scaledMargin_nonpos_of_split10MGraphExactEvalGate
+    (split10MGraphExactEvalGateAtRank_of_graph221_zm_tmpp_generic_rootMarginFamily
+      hfamily hstrengthened hprefix)
+
+/--
+Semantic `sequenceBadFace` carrier for graph221 `zm,tmpp` root-margin bounds.
+
+This predicate is a carrier for a future deterministic margin theorem, not a
+certificate by itself.  Its intended proofs should come from the graph221
+cocycle/Bellman or segment-summary producer over closed-language state.
+-/
+def Graph221ZmTmppSplit10MRootMarginSequenceBadFace
+    (scaledMargin : Fin numPairWords -> Int)
+    (rank : Fin numPairWords) (badFace : Face) : Prop :=
+  badFace = Face.ym ∧
+    ∀ rest,
+      Depth11Layer4PrefixAtRank rank Face.zm Face.tmpp rest ->
+        Graph221Layer4Split10MRootMarginBound scaledMargin rank rest
+
+def graph221ZmTmppSplit10MRootMarginFamily_of_sequenceBadFace
+    (scaledMargin : Fin numPairWords -> Int) :
+    Graph221ZmTmppSplit10MRootMarginFamily
+      (Graph221ZmTmppSplit10MRootMarginSequenceBadFace scaledMargin)
+      scaledMargin where
+  margin := by
+    intro rank hstrengthened rest hprefix
+    rcases hstrengthened.sequenceBadFace_ok with ⟨_hbadFace, hmargin⟩
+    exact hmargin rest hprefix
+
+/--
 Emitter-facing graph221 root-margin family for the accepted-sequence
 `zm,tmpp` branch.
 
@@ -318,9 +496,11 @@ theorem split10MGraphExactEvalGateAtRank_of_graph221_zm_tmpp_rootMarginFamily
     (hprefix :
       Depth11Layer4PrefixAtRank rank Face.zm Face.tmpp rest) :
     Split10MGraphExactEvalGateAtRank scaledMargin rank :=
-  split10MGraphExactEvalGateAtRank_of_graph221_zm_tmpp_semantic_margin
+  split10MGraphExactEvalGateAtRank_of_graph221_zm_tmpp_generic_rootMarginFamily
+    ({ margin := hfamily.margin } :
+      Graph221ZmTmppSplit10MRootMarginFamily
+        AcceptedSequenceBadFaceAtRank scaledMargin)
     hstrengthened hprefix
-    (hfamily.margin rank hstrengthened rest hprefix)
 
 theorem scaledMargin_nonpos_of_graph221_zm_tmpp_rootMarginFamily
     {scaledMargin : Fin numPairWords -> Int}

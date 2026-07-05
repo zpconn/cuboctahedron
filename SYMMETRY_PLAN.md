@@ -116285,3 +116285,102 @@ selected-prefix IDs, sampled-rank objects, exact affine RHS keys, or stored
 paths.  If this margin theorem requires exact affine state, pivot to the
 cocycle quotient experiment before emitting additional graph221 leaves.
 ```
+
+#### 2026-07-05 graph221 generic semantic carrier
+
+Status: accepted as the graph221 producer boundary.
+
+The graph221 socket now follows the graph183 quotient pattern: the hard margin
+fact is carried by the strengthened semantic language's `sequenceBadFace`
+predicate, not by `AcceptedSequenceBadFaceAtRank`, sampled paths, selected
+prefixes, or accepted trace IDs.  New generic surface in
+`Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraph221SemanticTerminalBridge.lean`:
+
+```lean
+theorem graph151CompletionTail_of_strengthened_prefix_generic
+    (hstrengthened :
+      TopPairingStrengthenedClosedLanguageAtRank
+        sequenceBadFace rank Face.ym)
+    (hprefix :
+      Depth11Layer4PrefixAtRank rank Face.zm Face.tmpp rest) :
+    Graph151TargetCompletionTail rest
+
+structure Graph221ZmTmppSplit10MRootMarginFamily
+    (sequenceBadFace : Fin numPairWords -> Face -> Prop)
+    (scaledMargin : Fin numPairWords -> Int) : Prop
+
+theorem split10MGraphExactEvalGateAtRank_of_graph221_zm_tmpp_generic_rootMarginFamily
+    (hfamily :
+      Graph221ZmTmppSplit10MRootMarginFamily sequenceBadFace scaledMargin)
+    (hstrengthened :
+      TopPairingStrengthenedClosedLanguageAtRank
+        sequenceBadFace rank Face.ym)
+    (hprefix :
+      Depth11Layer4PrefixAtRank rank Face.zm Face.tmpp rest) :
+    Split10MGraphExactEvalGateAtRank scaledMargin rank
+
+theorem scaledMargin_nonpos_of_graph221_zm_tmpp_generic_rootMarginFamily
+    (hfamily :
+      Graph221ZmTmppSplit10MRootMarginFamily sequenceBadFace scaledMargin)
+    (hstrengthened :
+      TopPairingStrengthenedClosedLanguageAtRank
+        sequenceBadFace rank Face.ym)
+    (hprefix :
+      Depth11Layer4PrefixAtRank rank Face.zm Face.tmpp rest) :
+    scaledMargin rank <= 0
+
+def Graph221ZmTmppSplit10MRootMarginSequenceBadFace
+    (scaledMargin : Fin numPairWords -> Int)
+    (rank : Fin numPairWords) (badFace : Face) : Prop
+
+def graph221ZmTmppSplit10MRootMarginFamily_of_sequenceBadFace
+    (scaledMargin : Fin numPairWords -> Int) :
+    Graph221ZmTmppSplit10MRootMarginFamily
+      (Graph221ZmTmppSplit10MRootMarginSequenceBadFace scaledMargin)
+      scaledMargin
+```
+
+The generic `graph151CompletionTail_of_strengthened_prefix_generic` is the key
+proof-engineering correction.  Target-completion for the `zm,tmpp` graph221
+lane depends on closed schedule/cursor facts and actual-face omnihedrality, not
+on a particular bad-face carrier.  That lets a future deterministic margin
+producer choose a graph221-specific carrier:
+
+```lean
+badFace = Face.ym ∧
+  ∀ rest,
+    Depth11Layer4PrefixAtRank rank Face.zm Face.tmpp rest ->
+      Graph221Layer4Split10MRootMarginBound scaledMargin rank rest
+```
+
+and immediately obtain the split-10M graph-exact gate and `scaledMargin <= 0`
+for the branch.
+
+Focused guarded check:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 360 --max-tree-rss-mib 8000 \
+  --min-available-mib 30000 --hard-address-space-mib 16384 \
+  --json scripts/generated/graph221_semantic_terminal_bridge_guard.json \
+  -- lake env lean -M 8000 -j1 -s 16384 \
+    -o .lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraph221SemanticTerminalBridge.olean \
+    Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraph221SemanticTerminalBridge.lean
+```
+
+Result: passed, elapsed `7.01s`, peak RSS `4035.56 MiB`, min available
+`46219.97 MiB`.
+
+Forbidden-token scan over the touched bridge found no `sorry`, `admit`,
+`axiom`, `native_decide`, or `unsafe`.
+
+Next implementation target:
+
+```text
+Build the first actual proof of
+Graph221ZmTmppSplit10MRootMarginSequenceBadFace scaledMargin rank Face.ym
+from a deterministic margin producer.  Prefer a small graph221 segment/cocycle
+object that proves the evaluator-gain margin inequality; do not use exact
+affine RHS keys, solved start-point keys, AcceptedTraceId, selected-prefix
+tables, or sampled ranks.
+```
