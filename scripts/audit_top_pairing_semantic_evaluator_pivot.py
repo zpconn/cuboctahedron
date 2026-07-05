@@ -68,6 +68,9 @@ FILES = {
     "graph183_quotient_margin_socket": ROOT
     / "Cuboctahedron/Generated/NonIdentity/Residual/"
     / "BellmanTopPairingGraph183QuotientMarginSocket.lean",
+    "closed_bellman_strengthened_semantic_gate_socket": ROOT
+    / "Cuboctahedron/Generated/NonIdentity/Residual/"
+    / "BellmanTopPairingClosedBellmanStrengthenedSemanticGateSocket.lean",
     "graph183_accepted_branch_quotient": ROOT
     / "Cuboctahedron/Generated/NonIdentity/Residual/"
     / "BellmanTopPairingGraph183AcceptedBranchQuotient.lean",
@@ -105,6 +108,8 @@ GUARDS = {
     / "scripts/generated/graph169_continuation_socket_lake_guard.json",
     "graph183_tail_table_socket_lake": ROOT
     / "scripts/generated/graph183_tail_table_socket_lake_guard.json",
+    "closed_bellman_strengthened_semantic_gate_socket": ROOT
+    / "scripts/generated/closed_bellman_strengthened_semantic_gate_socket_latest_guard.json",
 }
 
 REQUIRED_SYMBOLS = {
@@ -293,6 +298,17 @@ REQUIRED_SYMBOLS = {
         "strengthenedGraph183TailQuotientMargin_of_acceptedTailQuotientMarginFamily",
         "graph183QuotientMarginSocket_builds",
     ],
+    "closed_bellman_strengthened_semantic_gate_socket": [
+        "StrengthenedClosedBellmanEvalFamily",
+        "StrengthenedClosedBellmanGraphExactFamily",
+        "StrengthenedClosedBellmanStepRunFamily",
+        "graphExactEvalGate_of_stepRunFamily",
+        "evalFamily_of_graphExactFamily",
+        "strengthenedClosedBellmanObjectCover_of_evalFamily",
+        "scaledMargin_nonpos_of_strengthenedClosedBellmanEvalFamily",
+        "scaledMargin_nonpos_of_strengthenedClosedBellmanGraphExactFamily",
+        "scaledMargin_nonpos_of_strengthenedClosedBellmanStepRunFamily",
+    ],
     "graph183_accepted_branch_quotient": [
         "acceptedLocalEquation",
         "graph183AcceptedBranchRawGain",
@@ -339,6 +355,7 @@ PRODUCTION_SCAN_FILES = [
     "graph169_continuation_socket",
     "graph183_tail_table_socket",
     "graph183_quotient_margin_socket",
+    "closed_bellman_strengthened_semantic_gate_socket",
     "graph183_accepted_branch_quotient",
     "target_completion_local_branch_table_shard000",
     "depth11_closed_providers",
@@ -401,6 +418,23 @@ GRAPH_ALIGNMENT_GUARDS = {
             "strengthenedGraph183TailQuotientMargin_of_graph183TailQuotientMarginFamily",
             "graph183AcceptedBranchRawGain",
             "graph183AcceptedBranchRawGain_contract",
+        ],
+        "must_not_contain": [
+            "SampledRankIndex",
+            "sampledContainsRank",
+            "sampledRankOf",
+            "SelectedPrefix",
+            "AcceptedTraceId",
+            "acceptedTraceOfId",
+        ],
+    },
+    "closed_bellman_strengthened_semantic_gate_socket": {
+        "must_contain": [
+            "StrengthenedClosedBellmanStepRunFamily",
+            "graphExactEvalGate_of_stepRunFamily",
+            "evalLabelStepFn_of_bellmanLabelStepRun",
+            "closedBellmanStep_next",
+            "scaledMargin_nonpos_of_strengthenedClosedBellmanStepRunFamily",
         ],
         "must_not_contain": [
             "SampledRankIndex",

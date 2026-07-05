@@ -111514,6 +111514,118 @@ graph183 frontier decision =
   diagnostic_supports_graph183_accepted_tail_margin_bellman_route
 ```
 
+### 2026-07-05 strengthened step-run to exact-eval gate
+
+GPT5.5's latest review tightened the Bellman go/no-go condition: keep
+Bellman, but only if closed-language membership drives a deterministic
+semantic evaluator theorem.  The production object should not be a selected
+prefix, sampled path, accepted trace id, exact affine RHS key, or one branch
+per rank.  It should be a semantic closed-language object whose labels admit a
+checked Bellman step run.
+
+Added the missing upstream adapter for that shape:
+
+```lean
+graphExactEvalGate_of_stepRunFamily :
+  StrengthenedClosedBellmanStepRunFamily sequenceBadFace scaledMargin ->
+    TopPairingStrengthenedToGraphExactEvalGate
+      graphPotential closedBellmanNext (fun face : Face => face)
+      graphRoot graphConst scaledMargin sequenceBadFace Face.ym
+```
+
+The adapter uses the generic deterministic evaluator theorem:
+
+```lean
+evalLabelStepFn_of_bellmanLabelStepRun
+```
+
+and the graph-local dispatcher soundness lemma:
+
+```lean
+closedBellmanStep_next
+```
+
+This makes `StrengthenedClosedBellmanStepRunFamily` a first-class production
+ingress, parallel to the graph-exact and eval-family ingress surfaces.  A
+future generated producer may now prove a semantic `BellmanLabelStepRun` for
+each closed-language rank family and receive the graph-exact gate without
+proving a separate total inverse theorem for `closedBellmanNext`.
+
+Updated audits now scan the strengthened semantic-gate socket directly and
+require:
+
+```lean
+StrengthenedClosedBellmanEvalFamily
+StrengthenedClosedBellmanGraphExactFamily
+StrengthenedClosedBellmanStepRunFamily
+graphExactEvalGate_of_stepRunFamily
+evalFamily_of_graphExactFamily
+strengthenedClosedBellmanObjectCover_of_evalFamily
+scaledMargin_nonpos_of_strengthenedClosedBellmanStepRunFamily
+```
+
+Focused guarded Lean check:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 6500 --min-available-mib 30000 \
+  --timeout-seconds 180 --hard-address-space-mib 6500 \
+  --json scripts/generated/closed_bellman_strengthened_semantic_gate_socket_latest_guard.json \
+  -- lake env lean -M 6500 -j1 -s 2048 \
+    Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingClosedBellmanStrengthenedSemanticGateSocket.lean
+```
+
+Result:
+
+```text
+exit = 0
+elapsed = 3.00s
+peak RSS = 3719 MiB
+min available = 46322 MiB
+```
+
+Updated audits:
+
+```bash
+python3 -m py_compile \
+  scripts/audit_latest_bellman_semantic_pivot.py \
+  scripts/audit_top_pairing_semantic_evaluator_pivot.py \
+  scripts/audit_graph183_carrier_producer_readiness.py \
+  scripts/audit_graph183_accepted_tail_margin_frontier.py
+python3 scripts/audit_latest_bellman_semantic_pivot.py
+python3 scripts/audit_top_pairing_semantic_evaluator_pivot.py
+python3 scripts/audit_graph183_carrier_producer_readiness.py
+python3 scripts/audit_graph183_accepted_tail_margin_frontier.py
+```
+
+Results:
+
+```text
+latest Bellman status =
+  latest-bellman-semantic-pivot-has-graph183-sequencebadface-carrier
+semantic evaluator decision =
+  semantic_evaluator_pivot_ready_for_graph183_sequencebadface_carrier
+graph183 carrier decision =
+  graph183_carrier_sockets_ready_but_producer_missing
+graph183 frontier decision =
+  diagnostic_supports_graph183_accepted_tail_margin_bellman_route
+```
+
+Status: this does not prove graph183 coverage.  It removes another API excuse
+for sampled-prefix membership.  The next theorem still must be semantic:
+
+```lean
+Graph183TailQuotientMarginSequenceBadFace scaledMargin
+```
+
+or an upstream `StrengthenedClosedBellmanStepRunFamily` instance that implies
+it.  If that producer needs exact affine RHS, solved start-point keys, accepted
+trace ids, selected prefixes, or rank/path enumeration, the Bellman graph is
+not yet production-safe and the next pivot should add missing semantic state
+(target-shadow cursor, tri-source progress, square-gap/counts, local axis) or
+move to the cancellation-segment/cocycle-gauge quotient.
+
 ### 2026-07-05 strengthened family-to-graph183 carrier pivot
 
 The next Bellman step is now explicitly framed as a deterministic semantic
@@ -113143,3 +113255,59 @@ semantic evaluator decision =
 graph183 frontier decision =
   diagnostic_supports_graph183_accepted_tail_margin_bellman_route
 ```
+
+### 2026-07-05 latest checkpoint - semantic step-run ingress is now audited
+
+Current pivot:
+
+1. Keep Bellman and deterministic `closedBellmanNext`.
+2. Reject selected-prefix, sampled-rank/path, accepted-trace-id,
+   exact-affine-RHS, solved-start-point, and one-branch-per-rank membership.
+3. Make the next producer prove semantic closed-language step runs or the
+   graph183 quotient-margin sequence-bad-face predicate.
+
+New audited API:
+
+```lean
+graphExactEvalGate_of_stepRunFamily :
+  StrengthenedClosedBellmanStepRunFamily sequenceBadFace scaledMargin ->
+    TopPairingStrengthenedToGraphExactEvalGate
+      graphPotential closedBellmanNext (fun face : Face => face)
+      graphRoot graphConst scaledMargin sequenceBadFace Face.ym
+```
+
+Guarded direct Lean check:
+
+```text
+target = Cuboctahedron/Generated/NonIdentity/Residual/
+  BellmanTopPairingClosedBellmanStrengthenedSemanticGateSocket.lean
+exit = 0
+elapsed = 3.00s
+peak RSS = 3719 MiB
+min available = 46322 MiB
+```
+
+Audit decisions:
+
+```text
+latest Bellman status =
+  latest-bellman-semantic-pivot-has-graph183-sequencebadface-carrier
+semantic evaluator decision =
+  semantic_evaluator_pivot_ready_for_graph183_sequencebadface_carrier
+graph183 carrier decision =
+  graph183_carrier_sockets_ready_but_producer_missing
+graph183 frontier decision =
+  diagnostic_supports_graph183_accepted_tail_margin_bellman_route
+```
+
+Immediate next theorem target remains semantic producer evidence:
+
+```lean
+Graph183TailQuotientMarginSequenceBadFace scaledMargin
+```
+
+or a semantic `StrengthenedClosedBellmanStepRunFamily` instance strong enough to
+feed that carrier.  If that proof starts demanding sampled ranks, selected
+prefixes, exact affine keys, or rank/path enumeration, the route should add the
+missing semantic state field or pivot to cancellation-segment / cocycle-gauge
+quotienting before scaling.

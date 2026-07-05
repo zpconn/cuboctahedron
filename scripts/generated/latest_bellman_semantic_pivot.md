@@ -1,7 +1,7 @@
 # Latest Bellman Semantic Pivot Audit
 
 - status: `latest-bellman-semantic-pivot-has-graph183-sequencebadface-carrier`
-- files checked: `10`
+- files checked: `11`
 - forbidden hits: `0`
 
 ## Checked Surfaces
@@ -26,6 +26,8 @@
   - required symbols: present
 - `graph183_quotient_socket`: `Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraph183QuotientMarginSocket.lean`
   - required symbols: present
+- `closed_bellman_strengthened_semantic_gate_socket`: `Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedBellmanStrengthenedSemanticGateSocket.lean`
+  - required symbols: present
 
 ## Decision
 
@@ -38,6 +40,7 @@ Accepted:
 - graph183 accepted branch has a tiny Lean-checked quotient raw-gain module
 - the full graph183 quotient smoke is diagnostic, not a production import
 - graph183 now exposes a generic sequenceBadFace quotient-margin carrier
+- strengthened closed Bellman now exposes step-run, graph-exact, and eval-family ingress surfaces
 - the next graph183 target is an upstream semantic proof of that carrier
 
 Rejected:

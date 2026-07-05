@@ -30,6 +30,7 @@ membership and toward deterministic closed-language evaluator proofs.
 | `graph169_continuation_socket` | `224` | none |
 | `graph183_tail_table_socket` | `1357` | none |
 | `graph183_quotient_margin_socket` | `883` | none |
+| `closed_bellman_strengthened_semantic_gate_socket` | `223` | none |
 | `graph183_accepted_branch_quotient` | `97` | none |
 | `graph183_cocycle_quotient_smoke` | `1803` | none |
 | `target_completion_local_branch_table_shard000` | `1403` | none |
@@ -48,6 +49,7 @@ membership and toward deterministic closed-language evaluator proofs.
 - `graph157_continuation_socket_lake`: exit `0`, elapsed `5.004316574006225`, peak RSS MiB `4337.02734375`
 - `graph169_continuation_socket_lake`: exit `0`, elapsed `4.003211283998098`, peak RSS MiB `4042.34765625`
 - `graph183_tail_table_socket_lake`: exit `0`, elapsed `136.09755036400747`, peak RSS MiB `5875.578125`
+- `closed_bellman_strengthened_semantic_gate_socket`: exit `0`, elapsed `3.0027096020057797`, peak RSS MiB `3719.16015625`
 
 ## Forbidden Production Hits
 

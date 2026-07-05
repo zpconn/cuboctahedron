@@ -1,6 +1,12 @@
 {
   "decision": "semantic_evaluator_pivot_ready_for_graph183_sequencebadface_carrier",
   "files": {
+    "closed_bellman_strengthened_semantic_gate_socket": {
+      "exists": true,
+      "lines": 223,
+      "missing_symbols": [],
+      "path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedBellmanStrengthenedSemanticGateSocket.lean"
+    },
     "closed_final_margin_socket": {
       "exists": true,
       "lines": 432,
@@ -131,6 +137,30 @@
   "forbidden_hits": [],
   "graph_alignment_violations": [],
   "guards": {
+    "closed_bellman_strengthened_semantic_gate_socket": {
+      "available_floor_mib": 30000.0,
+      "command": [
+        "lake",
+        "env",
+        "lean",
+        "-M",
+        "6500",
+        "-j1",
+        "-s",
+        "2048",
+        "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedBellmanStrengthenedSemanticGateSocket.lean"
+      ],
+      "elapsed_seconds": 3.0027096020057797,
+      "exit_code": 0,
+      "hard_address_space_mib": 6500.0,
+      "killed_reason": null,
+      "max_tree_rss_kib": 3808420,
+      "max_tree_rss_mib": 3719.16015625,
+      "min_available_seen_kib": 47434376,
+      "min_available_seen_mib": 46322.6328125,
+      "rss_cap_mib": 6500.0,
+      "timeout_seconds": 180.0
+    },
     "depth11_closed_providers_lake": {
       "available_floor_mib": 30000.0,
       "command": [

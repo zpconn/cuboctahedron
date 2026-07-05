@@ -86,6 +86,31 @@ structure StrengthenedClosedBellmanStepRunFamily
             0 <= graphPotential finish /\
               scaledMargin rank <= graphConst + gain
 
+def graphExactEvalGate_of_stepRunFamily
+    {sequenceBadFace : Fin numPairWords -> Face -> Prop}
+    {scaledMargin : Fin numPairWords -> Int}
+    (hfamily :
+      StrengthenedClosedBellmanStepRunFamily sequenceBadFace scaledMargin) :
+    TopPairingStrengthenedToGraphExactEvalGate
+      graphPotential closedBellmanNext (fun face : Face => face)
+      graphRoot graphConst scaledMargin sequenceBadFace Face.ym := by
+  intro rank hstrengthened
+  rcases hfamily.run rank hstrengthened with
+    ⟨finish, gain, hrun, hfinal, hmargin⟩
+  refine ⟨finish, gain, ?_⟩
+  exact
+    { closed := hstrengthened.closed
+      eval_eq := by
+        simpa [topPairingRankFaceLabels] using
+          (evalLabelStepFn_of_bellmanLabelStepRun
+            (next := closedBellmanNext)
+            (hnext := by
+              intro state face nextState gain hstep
+              exact closedBellmanStep_next hstep)
+            hrun)
+      final_nonneg := hfinal
+      margin_bound := hmargin }
+
 def evalFamily_of_graphExactFamily
     {sequenceBadFace : Fin numPairWords -> Face -> Prop}
     {scaledMargin : Fin numPairWords -> Int}

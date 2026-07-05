@@ -49,6 +49,9 @@ FILES = {
     "graph183_quotient_socket": ROOT
     / "Cuboctahedron/Generated/NonIdentity/Residual/"
     / "BellmanTopPairingGraph183QuotientMarginSocket.lean",
+    "closed_bellman_strengthened_semantic_gate_socket": ROOT
+    / "Cuboctahedron/Generated/NonIdentity/Residual/"
+    / "BellmanTopPairingClosedBellmanStrengthenedSemanticGateSocket.lean",
 }
 
 
@@ -148,6 +151,17 @@ REQUIRED = {
         "AcceptedSequenceGraph183TailBranchQuotientStartViolationFamily",
         "nonIdentityRankKilled_of_acceptedSequenceGraph183TailBranchQuotientStartViolation",
     ],
+    "closed_bellman_strengthened_semantic_gate_socket": [
+        "StrengthenedClosedBellmanEvalFamily",
+        "StrengthenedClosedBellmanGraphExactFamily",
+        "StrengthenedClosedBellmanStepRunFamily",
+        "graphExactEvalGate_of_stepRunFamily",
+        "evalFamily_of_graphExactFamily",
+        "strengthenedClosedBellmanObjectCover_of_evalFamily",
+        "scaledMargin_nonpos_of_strengthenedClosedBellmanEvalFamily",
+        "scaledMargin_nonpos_of_strengthenedClosedBellmanGraphExactFamily",
+        "scaledMargin_nonpos_of_strengthenedClosedBellmanStepRunFamily",
+    ],
 }
 
 
@@ -218,6 +232,7 @@ def main() -> int:
             "graph183 accepted branch has a tiny Lean-checked quotient raw-gain module",
             "the full graph183 quotient smoke is diagnostic, not a production import",
             "graph183 now exposes a generic sequenceBadFace quotient-margin carrier",
+            "strengthened closed Bellman now exposes step-run, graph-exact, and eval-family ingress surfaces",
             "the next graph183 target is an upstream semantic proof of that carrier",
         ],
         "rejected": [

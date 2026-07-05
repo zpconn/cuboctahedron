@@ -7,6 +7,7 @@
     "graph183 accepted branch has a tiny Lean-checked quotient raw-gain module",
     "the full graph183 quotient smoke is diagnostic, not a production import",
     "graph183 now exposes a generic sequenceBadFace quotient-margin carrier",
+    "strengthened closed Bellman now exposes step-run, graph-exact, and eval-family ingress surfaces",
     "the next graph183 target is an upstream semantic proof of that carrier"
   ],
   "files": {
@@ -19,6 +20,22 @@
         "objectCoverOfEvalAccepts": true,
         "structure TopPairingBellmanObj": true,
         "topPairingClosedMembership": true
+      }
+    },
+    "closed_bellman_strengthened_semantic_gate_socket": {
+      "forbidden_hits": [],
+      "missing": [],
+      "path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedBellmanStrengthenedSemanticGateSocket.lean",
+      "required_symbols": {
+        "StrengthenedClosedBellmanEvalFamily": true,
+        "StrengthenedClosedBellmanGraphExactFamily": true,
+        "StrengthenedClosedBellmanStepRunFamily": true,
+        "evalFamily_of_graphExactFamily": true,
+        "graphExactEvalGate_of_stepRunFamily": true,
+        "scaledMargin_nonpos_of_strengthenedClosedBellmanEvalFamily": true,
+        "scaledMargin_nonpos_of_strengthenedClosedBellmanGraphExactFamily": true,
+        "scaledMargin_nonpos_of_strengthenedClosedBellmanStepRunFamily": true,
+        "strengthenedClosedBellmanObjectCover_of_evalFamily": true
       }
     },
     "graph183_accepted_branch_quotient": {
