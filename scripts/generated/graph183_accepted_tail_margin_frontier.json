@@ -462,8 +462,18 @@
       "passed": true
     },
     {
+      "detail": "Graph183TailQuotientMarginEvalFamily",
+      "name": "graph183_quotient_socket:symbol:Graph183TailQuotientMarginEvalFamily",
+      "passed": true
+    },
+    {
       "detail": "graph183TailQuotientMarginFamily_of_sequenceBadFace",
       "name": "graph183_quotient_socket:symbol:graph183TailQuotientMarginFamily_of_sequenceBadFace",
+      "passed": true
+    },
+    {
+      "detail": "graph183TailQuotientMarginFamily_of_evalMarginFamily",
+      "name": "graph183_quotient_socket:symbol:graph183TailQuotientMarginFamily_of_evalMarginFamily",
       "passed": true
     },
     {
@@ -484,6 +494,11 @@
     {
       "detail": "graph183TailQuotientMarginSequenceBadFace_of_graph183TailQuotientMarginFamily",
       "name": "graph183_quotient_socket:symbol:graph183TailQuotientMarginSequenceBadFace_of_graph183TailQuotientMarginFamily",
+      "passed": true
+    },
+    {
+      "detail": "graph183TailQuotientMarginSequenceBadFace_of_evalMarginFamily",
+      "name": "graph183_quotient_socket:symbol:graph183TailQuotientMarginSequenceBadFace_of_evalMarginFamily",
       "passed": true
     },
     {
@@ -910,12 +925,12 @@
       "passed": true
     },
     {
-      "detail": 3568.85546875,
+      "detail": 3866.640625,
       "name": "graph183_quotient_margin_socket:rss_under_6000_mib",
       "passed": true
     },
     {
-      "detail": 46331.421875,
+      "detail": 46268.66796875,
       "name": "graph183_quotient_margin_socket:available_above_30000_mib",
       "passed": true
     },
@@ -956,9 +971,9 @@
       "peak_rss_mib": 3410.734375
     },
     "graph183_quotient_margin_socket_guard": {
-      "elapsed_seconds": 2.0023167910112534,
-      "min_available_mib": 46331.421875,
-      "peak_rss_mib": 3568.85546875
+      "elapsed_seconds": 7.004544878000161,
+      "min_available_mib": 46268.66796875,
+      "peak_rss_mib": 3866.640625
     },
     "graph183_scaling_contract": {
       "graph183_accepted_bound_scaled": -172,

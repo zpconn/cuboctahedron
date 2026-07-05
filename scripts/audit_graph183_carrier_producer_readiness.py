@@ -56,6 +56,7 @@ CLOSED_SEMANTIC_GATE_GUARD = (
 
 REQUIRED_SOCKET_SYMBOLS = [
     "Graph183TailQuotientMarginSequenceBadFace",
+    "Graph183TailQuotientMarginEvalFamily",
     "Graph183TailExactEvalSequenceBadFace",
     "graph183TailExactEvalSequenceBadFace_of_strengthenedGraphExactEvalGate",
     "acceptedSequenceGraph183AcceptedBranchQuotientMarginFamily_of_labelMargin",
@@ -64,10 +65,12 @@ REQUIRED_SOCKET_SYMBOLS = [
     "acceptedSequenceGraph183AcceptedTailQuotientMarginFamily_of_labelMargin",
     "acceptedSequenceGraph183AcceptedTailQuotientMarginFamily_of_exactEval",
     "graph183TailQuotientMarginFamily_of_sequenceBadFace",
+    "graph183TailQuotientMarginFamily_of_evalMarginFamily",
     "graph183TailQuotientMarginFamily_of_strengthenedGraphExactEvalGate",
     "graph183TailQuotientMarginFamily_of_strengthenedClosedBellmanGraphExactFamily",
     "graph183TailQuotientMarginFamily_of_strengthenedClosedBellmanStepRunFamily",
     "graph183TailQuotientMarginSequenceBadFace_of_graph183TailQuotientMarginFamily",
+    "graph183TailQuotientMarginSequenceBadFace_of_evalMarginFamily",
     "graph183TailQuotientMarginSequenceBadFace_of_strengthenedGraphExactEvalGate",
     "graph183TailQuotientMarginSequenceBadFace_of_strengthenedClosedBellmanGraphExactFamily",
     "graph183TailQuotientMarginSequenceBadFace_of_strengthenedClosedBellmanStepRunFamily",

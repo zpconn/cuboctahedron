@@ -214,6 +214,81 @@ def graph183TailQuotientMarginFamily_of_sequenceBadFace
     rcases hstrengthened.sequenceBadFace_ok with ⟨_hbadFace, hmargin⟩
     exact hmargin hprefix
 
+/--
+Deterministic-evaluator production target for graph183 accepted-tail quotient
+margins.
+
+This is intentionally narrower than a full exact-eval gate.  A semantic
+transducer or cocycle producer only needs to prove that the strengthened closed
+rank evaluates through `closedBellmanNext` and that the geometric scaled margin
+is bounded by the evaluator gain.  The graph183 branch prefix already identifies
+that evaluator gain with the checked accepted-branch quotient raw gain.
+-/
+structure Graph183TailQuotientMarginEvalFamily
+    (sequenceBadFace : Fin numPairWords -> Face -> Prop)
+    (scaledMargin : Fin numPairWords -> Int) : Prop where
+  eval_margin_yp_branch :
+    ∀ rank,
+      TopPairingStrengthenedClosedLanguageAtRank
+        sequenceBadFace rank Face.ym ->
+      Depth11Layer4PrefixAtRank rank Face.tmpm Face.zm
+        (Face.zp :: Face.tppm :: Face.tpmm :: graph183ForcedTail) ->
+      ∃ result : Nat × Int,
+        evalLabelStepFn closedBellmanNext graphRoot
+            (topPairingRankFaceLabels rank) = some result ∧
+          scaledMargin rank <= graphConst + result.2
+
+/--
+Turn the deterministic-evaluator margin target into the graph183 quotient
+margin family.
+
+The only graph-specific step is uniqueness of the deterministic evaluator
+result: the graph183 tail-table prefix theorem gives the accepted branch result
+`(126, graph183AcceptedBranchRawGain)`, so any semantic eval-margin proof for
+the same rank/prefix becomes the exact quotient-margin carrier.
+-/
+def graph183TailQuotientMarginFamily_of_evalMarginFamily
+    {sequenceBadFace : Fin numPairWords -> Face -> Prop}
+    {scaledMargin : Fin numPairWords -> Int}
+    (hfamily :
+      Graph183TailQuotientMarginEvalFamily sequenceBadFace scaledMargin) :
+    Graph183TailQuotientMarginFamily sequenceBadFace scaledMargin where
+  final_margin_yp_branch_quotient := by
+    intro rank hstrengthened hprefix
+    rcases hfamily.eval_margin_yp_branch rank hstrengthened hprefix with
+      ⟨result, heval, hmargin⟩
+    have hbranch :
+        evalLabelStepFn closedBellmanNext graphRoot
+            (topPairingRankFaceLabels rank) =
+          some (126, ((194 : Int) + (-542 : Int))) :=
+      graph183AcceptedBranchEval_of_prefix hprefix
+    have hsame : result = (126, ((194 : Int) + (-542 : Int))) := by
+      have hsome :
+          some result =
+            some (126, ((194 : Int) + (-542 : Int))) :=
+        heval.symm.trans hbranch
+      cases hsome
+      rfl
+    cases hsame
+    simpa [graph183AcceptedBranchRawGain_contract] using hmargin
+
+theorem graph183TailQuotientMarginSequenceBadFace_of_evalMarginFamily
+    {sequenceBadFace : Fin numPairWords -> Face -> Prop}
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords}
+    (hfamily :
+      Graph183TailQuotientMarginEvalFamily sequenceBadFace scaledMargin)
+    (hstrengthened :
+      TopPairingStrengthenedClosedLanguageAtRank
+        sequenceBadFace rank Face.ym) :
+    Graph183TailQuotientMarginSequenceBadFace scaledMargin rank Face.ym := by
+  refine ⟨rfl, ?_⟩
+  intro hprefix
+  exact
+    (graph183TailQuotientMarginFamily_of_evalMarginFamily
+      hfamily).final_margin_yp_branch_quotient
+        rank hstrengthened hprefix
+
 theorem graph183TailQuotientMarginSequenceBadFace_of_graph183TailQuotientMarginFamily
     {sequenceBadFace : Fin numPairWords -> Face -> Prop}
     {scaledMargin : Fin numPairWords -> Int}

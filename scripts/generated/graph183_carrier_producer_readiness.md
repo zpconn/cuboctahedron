@@ -39,9 +39,9 @@ observed path remains a no-go.
 | `quotient_states` | `43` |
 | `quotient_edges` | `93` |
 | `quotient_max_bit_length` | `9` |
-| `guard_elapsed_seconds` | `2.0023167910112534` |
-| `guard_peak_rss_mib` | `3568.85546875` |
-| `guard_min_available_mib` | `46331.421875` |
+| `guard_elapsed_seconds` | `7.004544878000161` |
+| `guard_peak_rss_mib` | `3866.640625` |
+| `guard_min_available_mib` | `46268.66796875` |
 | `closed_semantic_gate_guard_elapsed_seconds` | `3.0027096020057797` |
 | `closed_semantic_gate_guard_peak_rss_mib` | `3719.16015625` |
 | `closed_semantic_gate_guard_min_available_mib` | `46322.6328125` |
@@ -55,6 +55,7 @@ observed path remains a no-go.
 | --- | --- | --- |
 | `socket:exists` | `True` | `Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraph183QuotientMarginSocket.lean` |
 | `socket:symbol:Graph183TailQuotientMarginSequenceBadFace` | `True` | `Graph183TailQuotientMarginSequenceBadFace` |
+| `socket:symbol:Graph183TailQuotientMarginEvalFamily` | `True` | `Graph183TailQuotientMarginEvalFamily` |
 | `socket:symbol:Graph183TailExactEvalSequenceBadFace` | `True` | `Graph183TailExactEvalSequenceBadFace` |
 | `socket:symbol:graph183TailExactEvalSequenceBadFace_of_strengthenedGraphExactEvalGate` | `True` | `graph183TailExactEvalSequenceBadFace_of_strengthenedGraphExactEvalGate` |
 | `socket:symbol:acceptedSequenceGraph183AcceptedBranchQuotientMarginFamily_of_labelMargin` | `True` | `acceptedSequenceGraph183AcceptedBranchQuotientMarginFamily_of_labelMargin` |
@@ -63,10 +64,12 @@ observed path remains a no-go.
 | `socket:symbol:acceptedSequenceGraph183AcceptedTailQuotientMarginFamily_of_labelMargin` | `True` | `acceptedSequenceGraph183AcceptedTailQuotientMarginFamily_of_labelMargin` |
 | `socket:symbol:acceptedSequenceGraph183AcceptedTailQuotientMarginFamily_of_exactEval` | `True` | `acceptedSequenceGraph183AcceptedTailQuotientMarginFamily_of_exactEval` |
 | `socket:symbol:graph183TailQuotientMarginFamily_of_sequenceBadFace` | `True` | `graph183TailQuotientMarginFamily_of_sequenceBadFace` |
+| `socket:symbol:graph183TailQuotientMarginFamily_of_evalMarginFamily` | `True` | `graph183TailQuotientMarginFamily_of_evalMarginFamily` |
 | `socket:symbol:graph183TailQuotientMarginFamily_of_strengthenedGraphExactEvalGate` | `True` | `graph183TailQuotientMarginFamily_of_strengthenedGraphExactEvalGate` |
 | `socket:symbol:graph183TailQuotientMarginFamily_of_strengthenedClosedBellmanGraphExactFamily` | `True` | `graph183TailQuotientMarginFamily_of_strengthenedClosedBellmanGraphExactFamily` |
 | `socket:symbol:graph183TailQuotientMarginFamily_of_strengthenedClosedBellmanStepRunFamily` | `True` | `graph183TailQuotientMarginFamily_of_strengthenedClosedBellmanStepRunFamily` |
 | `socket:symbol:graph183TailQuotientMarginSequenceBadFace_of_graph183TailQuotientMarginFamily` | `True` | `graph183TailQuotientMarginSequenceBadFace_of_graph183TailQuotientMarginFamily` |
+| `socket:symbol:graph183TailQuotientMarginSequenceBadFace_of_evalMarginFamily` | `True` | `graph183TailQuotientMarginSequenceBadFace_of_evalMarginFamily` |
 | `socket:symbol:graph183TailQuotientMarginSequenceBadFace_of_strengthenedGraphExactEvalGate` | `True` | `graph183TailQuotientMarginSequenceBadFace_of_strengthenedGraphExactEvalGate` |
 | `socket:symbol:graph183TailQuotientMarginSequenceBadFace_of_strengthenedClosedBellmanGraphExactFamily` | `True` | `graph183TailQuotientMarginSequenceBadFace_of_strengthenedClosedBellmanGraphExactFamily` |
 | `socket:symbol:graph183TailQuotientMarginSequenceBadFace_of_strengthenedClosedBellmanStepRunFamily` | `True` | `graph183TailQuotientMarginSequenceBadFace_of_strengthenedClosedBellmanStepRunFamily` |
@@ -138,8 +141,8 @@ observed path remains a no-go.
 | `quotient_1m:solution_exists` | `True` | `['gauge', 'gauge_count', 'max_bit_length', 'nonzero_values', 'small_gain_count', 'small_gains']` |
 | `quotient_1m:bit_length_under_16` | `True` | `9` |
 | `socket_guard:guard_exit_zero` | `True` | `0` |
-| `socket_guard:rss_under_6500_mib` | `True` | `3568.85546875` |
-| `socket_guard:available_above_30000_mib` | `True` | `46331.421875` |
+| `socket_guard:rss_under_6500_mib` | `True` | `3866.640625` |
+| `socket_guard:available_above_30000_mib` | `True` | `46268.66796875` |
 | `closed_semantic_gate_guard:guard_exit_zero` | `True` | `0` |
 | `closed_semantic_gate_guard:rss_under_6500_mib` | `True` | `3719.16015625` |
 | `closed_semantic_gate_guard:available_above_30000_mib` | `True` | `46322.6328125` |

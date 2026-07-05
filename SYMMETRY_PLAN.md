@@ -113436,3 +113436,83 @@ graph183 frontier decision =
 graph183 carrier decision =
   graph183_carrier_sockets_ready_but_producer_missing
 ```
+
+### 2026-07-05 graph183 deterministic eval-margin producer socket
+
+Added a narrower production surface for the graph183 accepted-tail quotient
+margin.  Instead of requiring a full graph-exact gate or whole-label equality,
+the next semantic producer may now prove only deterministic evaluator success
+and the margin-to-evaluator-gain inequality:
+
+```lean
+Graph183TailQuotientMarginEvalFamily
+graph183TailQuotientMarginFamily_of_evalMarginFamily
+graph183TailQuotientMarginSequenceBadFace_of_evalMarginFamily
+```
+
+The adapter uses the already checked graph183 tail-table theorem
+`graph183AcceptedBranchEval_of_prefix` to identify the deterministic evaluator
+gain with `graph183AcceptedBranchRawGain`.  This makes the next proof target:
+
+```lean
+Graph183TailQuotientMarginEvalFamily sequenceBadFace scaledMargin
+```
+
+or directly:
+
+```lean
+Graph183TailQuotientMarginSequenceBadFace scaledMargin rank Face.ym
+```
+
+from semantic closed-language state.  This matches the latest Bellman pivot:
+the producer should be a deterministic target-shadow / tri-source / cocycle
+margin theorem, not a selected-prefix, sampled-rank, accepted-trace, exact-RHS,
+or one-path-per-rank proof.
+
+Focused guarded Lean check:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 7000 --min-available-mib 30000 \
+  --timeout-seconds 240 --hard-address-space-mib 7000 \
+  --json scripts/generated/graph183_quotient_margin_socket_latest_guard.json \
+  -- lake env lean -M 7000 -j1 -s 2048 \
+    Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingGraph183QuotientMarginSocket.lean
+```
+
+Result:
+
+```text
+exit = 0
+elapsed = 7.00s
+peak RSS = 3866 MiB
+min available = 46268 MiB
+```
+
+Updated audits:
+
+```bash
+python3 -m py_compile \
+  scripts/audit_graph183_carrier_producer_readiness.py \
+  scripts/audit_latest_bellman_semantic_pivot.py \
+  scripts/audit_top_pairing_semantic_evaluator_pivot.py \
+  scripts/audit_graph183_accepted_tail_margin_frontier.py
+python3 scripts/audit_graph183_carrier_producer_readiness.py
+python3 scripts/audit_latest_bellman_semantic_pivot.py
+python3 scripts/audit_top_pairing_semantic_evaluator_pivot.py
+python3 scripts/audit_graph183_accepted_tail_margin_frontier.py
+```
+
+Results:
+
+```text
+graph183 carrier decision =
+  graph183_carrier_sockets_ready_but_producer_missing
+latest Bellman status =
+  latest-bellman-semantic-pivot-has-graph183-sequencebadface-carrier
+semantic evaluator decision =
+  semantic_evaluator_pivot_ready_for_graph183_sequencebadface_carrier
+graph183 frontier decision =
+  diagnostic_supports_graph183_accepted_tail_margin_bellman_route
+```

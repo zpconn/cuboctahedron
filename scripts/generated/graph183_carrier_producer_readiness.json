@@ -11,6 +11,11 @@
       "passed": true
     },
     {
+      "detail": "Graph183TailQuotientMarginEvalFamily",
+      "name": "socket:symbol:Graph183TailQuotientMarginEvalFamily",
+      "passed": true
+    },
+    {
       "detail": "Graph183TailExactEvalSequenceBadFace",
       "name": "socket:symbol:Graph183TailExactEvalSequenceBadFace",
       "passed": true
@@ -51,6 +56,11 @@
       "passed": true
     },
     {
+      "detail": "graph183TailQuotientMarginFamily_of_evalMarginFamily",
+      "name": "socket:symbol:graph183TailQuotientMarginFamily_of_evalMarginFamily",
+      "passed": true
+    },
+    {
       "detail": "graph183TailQuotientMarginFamily_of_strengthenedGraphExactEvalGate",
       "name": "socket:symbol:graph183TailQuotientMarginFamily_of_strengthenedGraphExactEvalGate",
       "passed": true
@@ -68,6 +78,11 @@
     {
       "detail": "graph183TailQuotientMarginSequenceBadFace_of_graph183TailQuotientMarginFamily",
       "name": "socket:symbol:graph183TailQuotientMarginSequenceBadFace_of_graph183TailQuotientMarginFamily",
+      "passed": true
+    },
+    {
+      "detail": "graph183TailQuotientMarginSequenceBadFace_of_evalMarginFamily",
+      "name": "socket:symbol:graph183TailQuotientMarginSequenceBadFace_of_evalMarginFamily",
       "passed": true
     },
     {
@@ -433,12 +448,12 @@
       "passed": true
     },
     {
-      "detail": 3568.85546875,
+      "detail": 3866.640625,
       "name": "socket_guard:rss_under_6500_mib",
       "passed": true
     },
     {
-      "detail": 46331.421875,
+      "detail": 46268.66796875,
       "name": "socket_guard:available_above_30000_mib",
       "passed": true
     },
@@ -482,9 +497,9 @@
     "closed_semantic_gate_guard_elapsed_seconds": 3.0027096020057797,
     "closed_semantic_gate_guard_min_available_mib": 46322.6328125,
     "closed_semantic_gate_guard_peak_rss_mib": 3719.16015625,
-    "guard_elapsed_seconds": 2.0023167910112534,
-    "guard_min_available_mib": 46331.421875,
-    "guard_peak_rss_mib": 3568.85546875,
+    "guard_elapsed_seconds": 7.004544878000161,
+    "guard_min_available_mib": 46268.66796875,
+    "guard_peak_rss_mib": 3866.640625,
     "profile_edges": 229,
     "profile_margin_families": 1,
     "profile_matched": 37,
