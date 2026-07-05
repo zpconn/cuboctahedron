@@ -239,6 +239,9 @@ GRAPH147_DETERMINISTIC_TARGET_SHARD_REQUIRED = [
     "ShardExternalTailOk.terminal_of_graph147Lane",
     "ShardTargetSuffixOk.eval_exists_final_nonneg_of_graph147Lane",
     "eval_exists_final_nonneg_of_graph147TargetCompletionTail",
+    "Graph147TargetCompletionTailMarginBound",
+    "Graph147TargetCompletionTailEvalGate",
+    "bellmanEvalAccepts_of_graph147TargetCompletionTail_margin",
     "nextTarget?_prefix4YpZm_zp",
     "nextTarget?_prefix4YpZm_tmmp",
     "nextTarget?_terminal_graph112",
@@ -723,10 +726,13 @@ def main() -> int:
                     "existence under external graph sockets.  It now separates "
                     "terminal graph states 141/138 from continuation graph "
                     "states 157/159, with empty-tail evaluator/final-potential "
-                    "sockets only for the terminal exits.  The lane still needs "
-                    "the graph147 terminal margin socket and rank-parametric "
-                    "closed-language-to-eval theorem without selected-prefix "
-                    "or sampled-rank membership.  The graph150/151 continuation "
+                    "sockets only for the terminal exits.  The lane now exposes "
+                    "the graph147 margin socket as "
+                    "Graph147TargetCompletionTailMarginBound, and still needs "
+                    "a semantic proof of that margin bound plus the "
+                    "rank-parametric closed-language-to-eval theorem without "
+                    "selected-prefix or sampled-rank membership.  The "
+                    "graph150/151 continuation "
                     "states still need their own continuation-to-margin sockets "
                     "outside this graph147 lane."
                     if graph147_deterministic_target_shard_ok

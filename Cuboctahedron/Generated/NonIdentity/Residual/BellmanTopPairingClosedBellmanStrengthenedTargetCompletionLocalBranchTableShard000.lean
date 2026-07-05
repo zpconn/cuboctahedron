@@ -1013,6 +1013,75 @@ theorem eval_exists_final_nonneg_of_graph147TargetCompletionTail
         (state := .prefix4YpZm)
         (by simpa [Graph147TargetCompletionTail, completionState] using htail))
 
+/--
+Semantic margin socket for the graph-147 target-completion lane.
+
+The deterministic target-completion proof above supplies the evaluator result
+and terminal nonnegative potential. The remaining mathematical producer must
+prove this margin bound from the closed-language fields, not from sampled
+ranks, selected prefixes, accepted traces, or exact affine keys.
+-/
+def Graph147TargetCompletionTailMarginBound
+    (scaledMargin : Fin numPairWords -> Int)
+    (rank : Fin numPairWords) (labels : List Face) : Prop :=
+  ∀ result : StrengthenedClosedEvalState × Int,
+    evalLabelStepFn strengthenedClosedEvalNext
+        strengthenedClosedPrefix4YpZmEvalState labels = some result ->
+      scaledMargin rank <= (176 : Int) + result.2
+
+def Graph147TargetCompletionTailEvalGate
+    (scaledMargin : Fin numPairWords -> Int)
+    (rank : Fin numPairWords) (labels : List Face) : Prop :=
+  ∃ result : StrengthenedClosedEvalState × Int,
+    evalLabelStepFn strengthenedClosedEvalNext
+        strengthenedClosedPrefix4YpZmEvalState labels = some result ∧
+      0 <= graphPotential result.1.graph ∧
+        scaledMargin rank <= (176 : Int) + result.2
+
+theorem graph147TargetCompletionTailEvalGate_of_tail_margin
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords} {labels : List Face}
+    (htail : Graph147TargetCompletionTail labels)
+    (hmargin :
+      Graph147TargetCompletionTailMarginBound scaledMargin rank labels) :
+    Graph147TargetCompletionTailEvalGate scaledMargin rank labels := by
+  rcases eval_exists_final_nonneg_of_graph147TargetCompletionTail htail with
+    ⟨finish, totalGain, heval, hfinal⟩
+  exact ⟨(finish, totalGain), heval, hfinal,
+    hmargin (finish, totalGain) heval⟩
+
+theorem bellmanEvalAccepts_of_graph147TargetCompletionTailEvalGate
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords} {labels : List Face}
+    (hgate :
+      Graph147TargetCompletionTailEvalGate scaledMargin rank labels) :
+    BellmanEvalAccepts
+      (fun state : StrengthenedClosedEvalState => graphPotential state.graph)
+      strengthenedClosedEvalNext
+      strengthenedClosedPrefix4YpZmEvalState
+      (176 : Int)
+      scaledMargin
+      (fun _rank : Fin numPairWords => labels)
+      rank := by
+  exact hgate
+
+theorem bellmanEvalAccepts_of_graph147TargetCompletionTail_margin
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords} {labels : List Face}
+    (htail : Graph147TargetCompletionTail labels)
+    (hmargin :
+      Graph147TargetCompletionTailMarginBound scaledMargin rank labels) :
+    BellmanEvalAccepts
+      (fun state : StrengthenedClosedEvalState => graphPotential state.graph)
+      strengthenedClosedEvalNext
+      strengthenedClosedPrefix4YpZmEvalState
+      (176 : Int)
+      scaledMargin
+      (fun _rank : Fin numPairWords => labels)
+      rank :=
+  bellmanEvalAccepts_of_graph147TargetCompletionTailEvalGate
+    (graph147TargetCompletionTailEvalGate_of_tail_margin htail hmargin)
+
 def localBranchTable :
     (state : ShardState) ->
       StrengthenedTargetCompletionLocalBranchTable

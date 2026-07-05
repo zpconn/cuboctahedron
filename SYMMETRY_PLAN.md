@@ -105265,6 +105265,34 @@ It still does not prove the graph147 integer margin bound
 `scaledMargin rank <= 176 + totalGain`; that remains the terminal margin socket
 for this lane.
 
+Seventh follow-up accepted in the same shard: the graph147 lane now exposes the
+terminal margin socket as a small semantic Bellman-evaluator API:
+
+```lean
+def Graph147TargetCompletionTailMarginBound
+def Graph147TargetCompletionTailEvalGate
+theorem graph147TargetCompletionTailEvalGate_of_tail_margin
+theorem bellmanEvalAccepts_of_graph147TargetCompletionTailEvalGate
+theorem bellmanEvalAccepts_of_graph147TargetCompletionTail_margin
+```
+
+This is not a proof of the margin theorem.  It deliberately makes the remaining
+mathematical obligation explicit:
+
+```lean
+Graph147TargetCompletionTailMarginBound scaledMargin rank labels
+```
+
+means that the semantic closed-language producer must prove
+`scaledMargin rank <= 176 + totalGain` for whatever deterministic evaluator
+result target-completion produces.  Once that semantic margin fact is available,
+`bellmanEvalAccepts_of_graph147TargetCompletionTail_margin` packages the
+existing target-completion evaluator result and terminal nonnegative potential
+as a `BellmanEvalAccepts` witness for `strengthenedClosedEvalNext`.  This keeps
+the next proof goal at the right abstraction boundary: target-completion plus
+semantic margin, not selected-prefix, sampled-rank, accepted-trace, exact-affine,
+or per-observed-path membership.
+
 Focused guarded build:
 
 ```bash
@@ -105279,8 +105307,18 @@ python3 scripts/run_memory_guarded.py \
 Result:
 
 ```text
-pass; elapsed=5.00s; peak_tree_rss=4139 MiB; min_available=46011 MiB
+pass; elapsed=5.00s; peak_tree_rss=4191 MiB; min_available=45935 MiB
 ```
+
+The first graph147 eval-gate attempt failed safely under the same guard in
+`10.01s` with `4089 MiB` peak tree RSS.  It failed because the eval gate was
+incorrectly introduced as a Prop-valued structure with a computational
+`result` field.  The accepted version uses an existential Prop, matching the
+existing `BellmanEvalAccepts` shape exactly.
+
+The previous graph147-lane final-nonnegative build passed under the same guard
+in `5.00s` with `4139 MiB` peak tree RSS and `46011 MiB` minimum available
+memory.
 
 The first graph147-lane final-nonnegative attempt failed safely under the same
 guard in `14.01s` with `4148 MiB` peak tree RSS.  It failed on proof-shape
@@ -105366,13 +105404,17 @@ deterministic_target_shard_symbols.ShardState.inGraph147Lane_of_nextTarget?_shar
 deterministic_target_shard_symbols.ShardExternalTailOk.terminal_of_graph147Lane = true
 deterministic_target_shard_symbols.ShardTargetSuffixOk.eval_exists_final_nonneg_of_graph147Lane = true
 deterministic_target_shard_symbols.eval_exists_final_nonneg_of_graph147TargetCompletionTail = true
+deterministic_target_shard_symbols.Graph147TargetCompletionTailMarginBound = true
+deterministic_target_shard_symbols.Graph147TargetCompletionTailEvalGate = true
+deterministic_target_shard_symbols.bellmanEvalAccepts_of_graph147TargetCompletionTail_margin = true
 forbidden_hits = []
 ```
 
 Remaining formal boundary:
 
 ```text
-prove the graph147 terminal margin socket and the rank-parametric
+prove the graph147 semantic margin theorem behind
+Graph147TargetCompletionTailMarginBound and the rank-parametric
 closed-language-to-eval theorem that turns
 TopPairingStrengthenedClosedLanguageAtRank / TopPairingClosedLanguageAtRank
 into the evaluator result and `scaledMargin <= 176 + gain` for this lane.
