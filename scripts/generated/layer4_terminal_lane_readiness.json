@@ -48,6 +48,20 @@
       "file": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedBellmanStrengthenedNextFrontierSmoke.lean",
       "forbidden_hits": [],
       "fourth": "Face.zm",
+      "graph112_109_symbols": {
+        "Graph109TargetCompletionTail": true,
+        "Graph112TargetCompletionTail": true,
+        "graph109TargetCompletionState": true,
+        "graph109_head_of_targetCompletionTail": true,
+        "graph112TargetCompletionState": true,
+        "graph112_head_of_targetCompletionTail": true,
+        "strengthenedClosedPrefix13YpZmTmmpTpmpTpppTpmmTmppTppmTmpmTmmmZpEvalState": true,
+        "strengthenedClosedPrefix13YpZmZpTmmmTpmmTppmTpmpTmpmTpppTmppTmmpEvalState": true,
+        "strengthenedClosed_prefix13_yp_zm_tmmp_tpmp_tppp_tpmm_tmpp_tppm_tmpm_tmmm_zp_next_from_graph75": true,
+        "strengthenedClosed_prefix13_yp_zm_zp_tmmm_tpmm_tppm_tpmp_tmpm_tppp_tmpp_tmmp_next_from_graph69": true,
+        "strengthenedPrefix13Graph109TargetCompletionLocalBranchTable": true,
+        "strengthenedPrefix13Graph112TargetCompletionLocalBranchTable": true
+      },
       "graph176_178_symbols": {
         "Graph176TargetCompletionTail": true,
         "Graph178TargetCompletionTail": true,
@@ -132,7 +146,7 @@
         "strengthenedPrefix10Graph11TargetCompletionLocalBranchTable": true,
         "strengthenedPrefix10Graph6TargetCompletionLocalBranchTable": true
       },
-      "remaining_gap": "graph147 now advances through graph69 and graph75.  The latest forced steps are graph69 to tmmp/graph112 and graph75 to zp/graph109.  The lane still needs deterministic target-completion/evaluator suffix continuations from graph112 and graph109 before it becomes a terminal semantic gate.",
+      "remaining_gap": "graph147 now reaches terminal graph states 141 and 138 through deterministic target-completion/evaluator local tables.  The lane still needs the terminal semantic eval/margin gate that consumes these local tables and proves the closed-language-to-eval theorem without selected-prefix or sampled-rank membership.",
       "required_symbols": {
         "Graph147TargetCompletionTail": true,
         "graph147TargetCompletionState": true,
@@ -140,7 +154,7 @@
         "strengthenedClosedPrefix4YpZm_eval_eq_zm_yp": true,
         "strengthenedPrefix4Graph147TargetCompletionLocalBranchTable": true
       },
-      "status": "partial_graph69_graph75_target_completion_local_table",
+      "status": "partial_terminal_graph141_graph138_local_table",
       "suffix_symbols": {
         "Graph153TargetCompletionTail": true,
         "Graph155TargetCompletionTail": true,
@@ -268,6 +282,20 @@
       "file": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedBellmanStrengthenedNextFrontierSmoke.lean",
       "forbidden_hits": [],
       "fourth": "Face.yp",
+      "graph112_109_symbols": {
+        "Graph109TargetCompletionTail": true,
+        "Graph112TargetCompletionTail": true,
+        "graph109TargetCompletionState": true,
+        "graph109_head_of_targetCompletionTail": true,
+        "graph112TargetCompletionState": true,
+        "graph112_head_of_targetCompletionTail": true,
+        "strengthenedClosedPrefix13YpZmTmmpTpmpTpppTpmmTmppTppmTmpmTmmmZpEvalState": true,
+        "strengthenedClosedPrefix13YpZmZpTmmmTpmmTppmTpmpTmpmTpppTmppTmmpEvalState": true,
+        "strengthenedClosed_prefix13_yp_zm_tmmp_tpmp_tppp_tpmm_tmpp_tppm_tmpm_tmmm_zp_next_from_graph75": true,
+        "strengthenedClosed_prefix13_yp_zm_zp_tmmm_tpmm_tppm_tpmp_tmpm_tppp_tmpp_tmmp_next_from_graph69": true,
+        "strengthenedPrefix13Graph109TargetCompletionLocalBranchTable": true,
+        "strengthenedPrefix13Graph112TargetCompletionLocalBranchTable": true
+      },
       "graph176_178_symbols": {
         "Graph176TargetCompletionTail": true,
         "Graph178TargetCompletionTail": true,
@@ -352,7 +380,7 @@
         "strengthenedPrefix10Graph11TargetCompletionLocalBranchTable": true,
         "strengthenedPrefix10Graph6TargetCompletionLocalBranchTable": true
       },
-      "remaining_gap": "graph147 now advances through graph69 and graph75.  The latest forced steps are graph69 to tmmp/graph112 and graph75 to zp/graph109.  The lane still needs deterministic target-completion/evaluator suffix continuations from graph112 and graph109 before it becomes a terminal semantic gate.",
+      "remaining_gap": "graph147 now reaches terminal graph states 141 and 138 through deterministic target-completion/evaluator local tables.  The lane still needs the terminal semantic eval/margin gate that consumes these local tables and proves the closed-language-to-eval theorem without selected-prefix or sampled-rank membership.",
       "required_symbols": {
         "Graph147TargetCompletionTail": true,
         "graph147TargetCompletionState": true,
@@ -360,7 +388,7 @@
         "strengthenedClosedPrefix4YpZm_eval_eq_zm_yp": true,
         "strengthenedPrefix4Graph147TargetCompletionLocalBranchTable": true
       },
-      "status": "partial_graph69_graph75_target_completion_local_table",
+      "status": "partial_terminal_graph141_graph138_local_table",
       "suffix_symbols": {
         "Graph153TargetCompletionTail": true,
         "Graph155TargetCompletionTail": true,

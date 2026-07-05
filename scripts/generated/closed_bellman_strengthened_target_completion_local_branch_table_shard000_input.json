@@ -1,12 +1,12 @@
 {
-  "branch_count": 20,
+  "branch_count": 22,
   "decision": "source-derived-bounded-frontier-ready-for-emitter",
   "mode": "closed-bellman-strengthened-local-branch-table-frontier",
   "next_profiler_requirement": "Replace this static frontier with discovered reachable semantic states whose tables are proved by the same local-transition API.",
   "semantic_status": "This input is a source-derived bounded frontier contract for generated StrengthenedLocalBranchTable shards. It is not rank coverage.",
   "shard": 0,
   "source": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedBellmanStrengthenedNextFrontierSmoke.lean",
-  "state_count": 19,
+  "state_count": 21,
   "states": [
     {
       "branch_count": 2,
@@ -105,6 +105,52 @@
       "eval_state": "strengthenedClosedPrefix12YpZmTmmpTpmpTpppTpmmTmppTppmTmpmTmmmEvalState",
       "graph": 75,
       "table": "strengthenedPrefix12Graph75TargetCompletionLocalBranchTable",
+      "table_class": "StrengthenedTargetCompletionLocalBranchTable",
+      "table_kind": "target-completion"
+    },
+    {
+      "branch_count": 1,
+      "branch_details": [
+        {
+          "constructor": "xp",
+          "description": "xp -> graph 141, gain -73",
+          "face": "xp",
+          "gain": -73,
+          "next_graph": 141
+        }
+      ],
+      "branch_type": "StrengthenedPrefix13Graph112Branch",
+      "branches": [
+        "xp -> graph 141, gain -73"
+      ],
+      "completion_state": "graph112TargetCompletionState",
+      "constructor": "prefix13YpZmZpTmmmTpmmTppmTpmpTmpmTpppTmppTmmp",
+      "eval_state": "strengthenedClosedPrefix13YpZmZpTmmmTpmmTppmTpmpTmpmTpppTmppTmmpEvalState",
+      "graph": 112,
+      "table": "strengthenedPrefix13Graph112TargetCompletionLocalBranchTable",
+      "table_class": "StrengthenedTargetCompletionLocalBranchTable",
+      "table_kind": "target-completion"
+    },
+    {
+      "branch_count": 1,
+      "branch_details": [
+        {
+          "constructor": "xp",
+          "description": "xp -> graph 138, gain -73",
+          "face": "xp",
+          "gain": -73,
+          "next_graph": 138
+        }
+      ],
+      "branch_type": "StrengthenedPrefix13Graph109Branch",
+      "branches": [
+        "xp -> graph 138, gain -73"
+      ],
+      "completion_state": "graph109TargetCompletionState",
+      "constructor": "prefix13YpZmTmmpTpmpTpppTpmmTmppTppmTmpmTmmmZp",
+      "eval_state": "strengthenedClosedPrefix13YpZmTmmpTpmpTpppTpmmTmppTppmTmpmTmmmZpEvalState",
+      "graph": 109,
+      "table": "strengthenedPrefix13Graph109TargetCompletionLocalBranchTable",
       "table_class": "StrengthenedTargetCompletionLocalBranchTable",
       "table_kind": "target-completion"
     },

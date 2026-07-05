@@ -105220,7 +105220,7 @@ Result:
 pass; no matches
 ```
 
-### 2026-07-05 graph153/155 through graph69/75 target-completion continuation accepted
+### 2026-07-05 graph153/155 through terminal graph141/138 local tables accepted
 
 The shared graph147 lane for `yp_zm` / `zm_yp` has advanced one more
 deterministic semantic step without selected-prefix, sampled-rank,
@@ -105249,7 +105249,7 @@ def strengthenedPrefix5Graph155TargetCompletionLocalBranchTable :
 
 The refreshed generated target-completion shard now has five states and six
 branches before the graph163/166 extension.  The newest refreshed shard now
-has nineteen states and twenty branches.  It packages:
+has twenty-one states and twenty-two branches.  It packages:
 
 - graph147: `zp -> graph153`, `tmmp -> graph155`;
 - graph153: `tmmm -> graph163`;
@@ -105268,6 +105268,8 @@ has nineteen states and twenty branches.  It packages:
 - graph41: `tmmm -> graph75`;
 - graph69: `tmmp -> graph112`;
 - graph75: `zp -> graph109`;
+- graph112: `xp -> graph141`;
+- graph109: `xp -> graph138`;
 - graph150 and graph151 as before.
 
 Focused guarded checks:
@@ -105358,6 +105360,14 @@ min_available=43794 MiB
 
 TargetCompletionLocalBranchTableShard000: pass; elapsed=3.00s;
 peak_tree_rss=4028 MiB; min_available=46120 MiB
+
+After the terminal graph112/109 extension:
+
+NextFrontierSmoke: pass; elapsed=60.05s; peak_tree_rss=5834 MiB;
+min_available=43969 MiB
+
+TargetCompletionLocalBranchTableShard000: pass; elapsed=3.00s;
+peak_tree_rss=4047 MiB; min_available=46096 MiB
 ```
 
 Readiness audit:
@@ -105371,15 +105381,15 @@ Result:
 ```text
 validated_lanes = [tmpm_zm, zm_tmpp]
 partial_lanes = [yp_zm, zm_yp]
-yp_zm.status = partial_graph69_graph75_target_completion_local_table
-zm_yp.status = partial_graph69_graph75_target_completion_local_table
+yp_zm.status = partial_terminal_graph141_graph138_local_table
+zm_yp.status = partial_terminal_graph141_graph138_local_table
 forbidden_hits = []
 ```
 
 Next slice:
 
-1. Continue the same deterministic target-completion/evaluator pattern from
-   graph112 and graph109.
+1. Build the terminal semantic eval/margin gate that consumes the deterministic
+   local tables through graph141 and graph138.
 2. Stop immediately if the proof wants selected prefixes, sampled ranks,
    accepted trace IDs, exact affine keys, or one branch per observed path.
 3. If target-completion alone stops being deterministic, add only semantic

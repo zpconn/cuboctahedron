@@ -1,8 +1,8 @@
 # Closed Bellman Strengthened Local Branch Table Shard 000
 
 - Lean output: `Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedBellmanStrengthenedTargetCompletionLocalBranchTableShard000.lean`
-- State count: `19`
-- Branch count: `20`
+- State count: `21`
+- Branch count: `22`
 
 This is generated local-transition evidence, not rank coverage.
 
@@ -48,6 +48,26 @@ This is generated local-transition evidence, not rank coverage.
 - Branch count: `1`
 
 - zp -> graph 109, gain -10
+
+### `prefix13YpZmZpTmmmTpmmTppmTpmpTmpmTpppTmppTmmp`
+
+- Eval state: `strengthenedClosedPrefix13YpZmZpTmmmTpmmTppmTpmpTmpmTpppTmppTmmpEvalState`
+- Completion state: `graph112TargetCompletionState`
+- Table kind: `target-completion`
+- Table: `strengthenedPrefix13Graph112TargetCompletionLocalBranchTable`
+- Branch count: `1`
+
+- xp -> graph 141, gain -73
+
+### `prefix13YpZmTmmpTpmpTpppTpmmTmppTppmTmpmTmmmZp`
+
+- Eval state: `strengthenedClosedPrefix13YpZmTmmpTpmpTpppTpmmTmppTppmTmpmTmmmZpEvalState`
+- Completion state: `graph109TargetCompletionState`
+- Table kind: `target-completion`
+- Table: `strengthenedPrefix13Graph109TargetCompletionLocalBranchTable`
+- Branch count: `1`
+
+- xp -> graph 138, gain -73
 
 ### `prefix9YpZmZpTmmmTpmmTppmTpmp`
 
