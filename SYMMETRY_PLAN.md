@@ -105398,6 +105398,91 @@ Decision:
   per-observed-path evidence, stop and switch to the segment/cocycle quotient
   state experiment.
 
+### 2026-07-05 graph147 full-root margin bundle surface accepted
+
+The graph147 direct socket now also exposes a producer surface whose statement
+matches the natural deterministic transducer theorem over the full rank label
+list.  Future generated code can prove a full-root margin theorem once per
+semantic state machine, then use this adapter to obtain the existing
+`StrengthenedGraph147RootMarginBundle`.
+
+Added theorem/structure names:
+
+```lean
+structure StrengthenedGraph147YpZmFullRootMarginFamily
+structure StrengthenedGraph147ZmYpFullRootMarginFamily
+structure StrengthenedGraph147FullRootMarginBundle
+
+def rootMarginFamily_of_yp_zm_fullRootMargin
+def rootMarginFamily_of_zm_yp_fullRootMargin
+def rootMarginBundle_of_fullRootMarginBundle
+```
+
+This is still a socket, not coverage.  It makes the next graph147 producer
+prove the following direct statement:
+
+```lean
+evalLabelStepFn strengthenedClosedEvalNext strengthenedClosedEvalStart
+    (topPairingRankFaceLabels rank) = some result ->
+scaledMargin rank <= (176 : Int) + result.2
+```
+
+rather than proving the graph147 suffix/root-margin socket by hand.
+
+Focused guarded check:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 240 \
+  --max-tree-rss-mib 8000 \
+  --min-available-mib 30000 \
+  --json scripts/generated/graph147_full_root_margin_bundle_adapter_guard.json \
+  --verbose -- \
+  env LEAN_NUM_THREADS=1 LAKE_JOBS=1 \
+    lake build \
+      Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingDepth11Layer4Graph147DirectEvalSocket
+```
+
+Result:
+
+```text
+pass; elapsed=3.00s; peak_tree_rss=4054 MiB; min_available=46107 MiB
+```
+
+Audit/forbidden-token checks:
+
+```bash
+python3 -m py_compile scripts/audit_layer4_terminal_lane_readiness.py
+
+python3 -c "import json, subprocess; data=json.loads(subprocess.check_output(['python3','scripts/audit_layer4_terminal_lane_readiness.py'])); syms=data['lanes']['yp_zm']['direct_eval_socket_symbols']; print(syms['StrengthenedGraph147FullRootMarginBundle']); print(syms['rootMarginBundle_of_fullRootMarginBundle']); print(data['lanes']['yp_zm']['status']); print(data['lanes']['zm_yp']['status'])"
+
+rg -n "sorry|admit|axiom|native_decide|unsafe" \
+  Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingDepth11Layer4Graph147DirectEvalSocket.lean \
+  scripts/audit_layer4_terminal_lane_readiness.py
+```
+
+Result:
+
+```text
+py_compile: pass
+audit symbols: true, true
+yp_zm.status = partial_graph147_direct_eval_socket
+zm_yp.status = partial_graph147_direct_eval_socket
+forbidden-token scan: pass; no matches
+```
+
+Next concrete producer target:
+
+```text
+Instantiate TopPairingTransducerSemanticGate.strengthenedToGraphExactEvalGate_of_rankedTransducerInvariantLocalWithSuffix
+or an equivalent generated local-invariant theorem for graph147, then package
+that full-root margin theorem through rootMarginBundle_of_fullRootMarginBundle.
+```
+
+The go/no-go rule remains unchanged: no selected-prefix ids, sampled ranks,
+accepted-trace ids, exact affine RHS keys, solved start points, or
+per-observed-path proof branches.
+
 ### 2026-07-05 graph147 gauge-corrected potential audit
 
 After the latest GPT5.5 Pro pivot, the graph147 Bellman route was re-audited

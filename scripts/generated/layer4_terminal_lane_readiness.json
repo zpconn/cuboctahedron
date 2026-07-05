@@ -142,10 +142,13 @@
         "strengthenedClosed_prefix4_zm_yp_eval_eq": true
       },
       "direct_eval_socket_symbols": {
+        "StrengthenedGraph147FullRootMarginBundle": true,
         "StrengthenedGraph147RootMarginBundle": true,
         "StrengthenedGraph147TargetCompletionBundle": true,
+        "StrengthenedGraph147YpZmFullRootMarginFamily": true,
         "StrengthenedGraph147YpZmRootMarginFamily": true,
         "StrengthenedGraph147YpZmTargetCompletionFamily": true,
+        "StrengthenedGraph147ZmYpFullRootMarginFamily": true,
         "StrengthenedGraph147ZmYpRootMarginFamily": true,
         "StrengthenedGraph147ZmYpTargetCompletionFamily": true,
         "graph147TargetCompletionTailRootMarginBound_of_fullEvalMargin": true,
@@ -161,6 +164,9 @@
         "graphExactEvalGateAtRank_of_yp_zm_targetCompletionFamily": true,
         "graphExactEvalGateAtRank_of_zm_yp_rootMarginFamily": true,
         "graphExactEvalGateAtRank_of_zm_yp_targetCompletionFamily": true,
+        "rootMarginBundle_of_fullRootMarginBundle": true,
+        "rootMarginFamily_of_yp_zm_fullRootMargin": true,
+        "rootMarginFamily_of_zm_yp_fullRootMargin": true,
         "targetCompletionBundle_of_rootMarginBundle": true,
         "targetCompletionFamily_of_yp_zm_rootMargin": true,
         "targetCompletionFamily_of_zm_yp_rootMargin": true
@@ -487,10 +493,13 @@
         "strengthenedClosed_prefix4_zm_yp_eval_eq": true
       },
       "direct_eval_socket_symbols": {
+        "StrengthenedGraph147FullRootMarginBundle": true,
         "StrengthenedGraph147RootMarginBundle": true,
         "StrengthenedGraph147TargetCompletionBundle": true,
+        "StrengthenedGraph147YpZmFullRootMarginFamily": true,
         "StrengthenedGraph147YpZmRootMarginFamily": true,
         "StrengthenedGraph147YpZmTargetCompletionFamily": true,
+        "StrengthenedGraph147ZmYpFullRootMarginFamily": true,
         "StrengthenedGraph147ZmYpRootMarginFamily": true,
         "StrengthenedGraph147ZmYpTargetCompletionFamily": true,
         "graph147TargetCompletionTailRootMarginBound_of_fullEvalMargin": true,
@@ -506,6 +515,9 @@
         "graphExactEvalGateAtRank_of_yp_zm_targetCompletionFamily": true,
         "graphExactEvalGateAtRank_of_zm_yp_rootMarginFamily": true,
         "graphExactEvalGateAtRank_of_zm_yp_targetCompletionFamily": true,
+        "rootMarginBundle_of_fullRootMarginBundle": true,
+        "rootMarginFamily_of_yp_zm_fullRootMargin": true,
+        "rootMarginFamily_of_zm_yp_fullRootMargin": true,
         "targetCompletionBundle_of_rootMarginBundle": true,
         "targetCompletionFamily_of_yp_zm_rootMargin": true,
         "targetCompletionFamily_of_zm_yp_rootMargin": true

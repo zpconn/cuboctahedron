@@ -137,6 +137,56 @@ structure StrengthenedGraph147RootMarginBundle
     StrengthenedGraph147ZmYpRootMarginFamily
       scaledMargin sequenceBadFace
 
+/--
+Full-root graph-147 margin producer surface for the `yp, zm` branch.
+
+This is the natural theorem shape for a deterministic transducer producer: it
+talks about the full rank label list, not the older graph-147 suffix socket.
+-/
+structure StrengthenedGraph147YpZmFullRootMarginFamily
+    (scaledMargin : Fin numPairWords -> Int)
+    (sequenceBadFace : Fin numPairWords -> Face -> Prop) : Prop where
+  margin :
+    ∀ rank,
+      TopPairingStrengthenedClosedLanguageAtRank
+        sequenceBadFace rank Face.ym ->
+        ∀ rest,
+          Depth11Layer4PrefixAtRank rank Face.yp Face.zm rest ->
+          ∀ result : StrengthenedClosedEvalState × Int,
+            evalLabelStepFn strengthenedClosedEvalNext strengthenedClosedEvalStart
+                (topPairingRankFaceLabels rank) =
+              some result ->
+            scaledMargin rank <= (176 : Int) + result.2
+
+/--
+Full-root graph-147 margin producer surface for the `zm, yp` branch.
+-/
+structure StrengthenedGraph147ZmYpFullRootMarginFamily
+    (scaledMargin : Fin numPairWords -> Int)
+    (sequenceBadFace : Fin numPairWords -> Face -> Prop) : Prop where
+  margin :
+    ∀ rank,
+      TopPairingStrengthenedClosedLanguageAtRank
+        sequenceBadFace rank Face.ym ->
+        ∀ rest,
+          Depth11Layer4PrefixAtRank rank Face.zm Face.yp rest ->
+          ∀ result : StrengthenedClosedEvalState × Int,
+            evalLabelStepFn strengthenedClosedEvalNext strengthenedClosedEvalStart
+                (topPairingRankFaceLabels rank) =
+              some result ->
+            scaledMargin rank <= (176 : Int) + result.2
+
+/-- Bundle for full-root graph-147 margin producers. -/
+structure StrengthenedGraph147FullRootMarginBundle
+    (scaledMargin : Fin numPairWords -> Int)
+    (sequenceBadFace : Fin numPairWords -> Face -> Prop) : Prop where
+  yp_zm :
+    StrengthenedGraph147YpZmFullRootMarginFamily
+      scaledMargin sequenceBadFace
+  zm_yp :
+    StrengthenedGraph147ZmYpFullRootMarginFamily
+      scaledMargin sequenceBadFace
+
 theorem graph147TargetCompletionTailRootMarginBound_of_fullEvalMargin
     {scaledMargin : Fin numPairWords -> Int}
     {rank : Fin numPairWords}
@@ -187,6 +237,55 @@ theorem graph147ZmYpRootMarginBound_of_fullEvalMargin
       scaledMargin rank (-53 : Int) labels :=
   graph147TargetCompletionTailRootMarginBound_of_fullEvalMargin
     strengthenedClosed_prefix4_zm_yp_eval_eq hfull
+
+def rootMarginFamily_of_yp_zm_fullRootMargin
+    {scaledMargin : Fin numPairWords -> Int}
+    {sequenceBadFace : Fin numPairWords -> Face -> Prop}
+    (hfamily :
+      StrengthenedGraph147YpZmFullRootMarginFamily
+        scaledMargin sequenceBadFace) :
+    StrengthenedGraph147YpZmRootMarginFamily
+      scaledMargin sequenceBadFace where
+  margin := by
+    intro rank hstrengthened rest hprefix
+    have hlabels :
+        topPairingRankFaceLabels rank =
+          [Face.xm, Face.ym, Face.yp, Face.zm] ++ rest := by
+      simpa [Depth11Layer4PrefixAtRank] using hprefix
+    apply graph147YpZmRootMarginBound_of_fullEvalMargin
+    intro result heval
+    exact hfamily.margin rank hstrengthened rest hprefix result
+      (by simpa [hlabels] using heval)
+
+def rootMarginFamily_of_zm_yp_fullRootMargin
+    {scaledMargin : Fin numPairWords -> Int}
+    {sequenceBadFace : Fin numPairWords -> Face -> Prop}
+    (hfamily :
+      StrengthenedGraph147ZmYpFullRootMarginFamily
+        scaledMargin sequenceBadFace) :
+    StrengthenedGraph147ZmYpRootMarginFamily
+      scaledMargin sequenceBadFace where
+  margin := by
+    intro rank hstrengthened rest hprefix
+    have hlabels :
+        topPairingRankFaceLabels rank =
+          [Face.xm, Face.ym, Face.zm, Face.yp] ++ rest := by
+      simpa [Depth11Layer4PrefixAtRank] using hprefix
+    apply graph147ZmYpRootMarginBound_of_fullEvalMargin
+    intro result heval
+    exact hfamily.margin rank hstrengthened rest hprefix result
+      (by simpa [hlabels] using heval)
+
+def rootMarginBundle_of_fullRootMarginBundle
+    {scaledMargin : Fin numPairWords -> Int}
+    {sequenceBadFace : Fin numPairWords -> Face -> Prop}
+    (hbundle :
+      StrengthenedGraph147FullRootMarginBundle
+        scaledMargin sequenceBadFace) :
+    StrengthenedGraph147RootMarginBundle
+      scaledMargin sequenceBadFace where
+  yp_zm := rootMarginFamily_of_yp_zm_fullRootMargin hbundle.yp_zm
+  zm_yp := rootMarginFamily_of_zm_yp_fullRootMargin hbundle.zm_yp
 
 private theorem graph147YpZm_usedFaceTail_of_strengthened_prefix
     {sequenceBadFace : Fin numPairWords -> Face -> Prop}
