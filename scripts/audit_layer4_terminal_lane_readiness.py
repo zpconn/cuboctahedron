@@ -128,6 +128,13 @@ GRAPH221_FILTERED_REQUIRED = [
     "graph221InitialContainedEvalPrefixGate_of_strengthened_prefix_and_eval",
 ]
 
+GRAPH221_SEMANTIC_SUFFIX_REQUIRED = [
+    "graph221Layer4ContainedEvalPrefixGate_of_graph151TargetCompletionTail_and_suffixOk",
+    "graph221InitialContainedEvalPrefixGate_of_graph151TargetCompletionTail_and_suffixOk",
+    "Graph221Layer4SemanticSuffixFamily",
+    "graph221InitialContainedEvalPrefixGate_of_strengthened_prefix_and_suffixFamily",
+]
+
 FORBIDDEN = [
     "SampledRankIndex",
     "sampledContainsRank",
@@ -156,6 +163,9 @@ def main() -> int:
     graph221_filtered_ok, graph221_filtered_missing = contains_all(
         graph221_text, GRAPH221_FILTERED_REQUIRED
     )
+    graph221_semantic_suffix_ok, graph221_semantic_suffix_missing = contains_all(
+        graph221_text, GRAPH221_SEMANTIC_SUFFIX_REQUIRED
+    )
     forbidden_hits = [
         token for token in FORBIDDEN if token in graph183_text
     ]
@@ -179,7 +189,14 @@ def main() -> int:
                 "forbidden_hits": forbidden_hits,
             }
         elif lane == "zm_tmpp":
-            if graph151_partial_ok and zm_tmpp_chain_ok and graph221_filtered_ok:
+            if (
+                graph151_partial_ok
+                and zm_tmpp_chain_ok
+                and graph221_filtered_ok
+                and graph221_semantic_suffix_ok
+            ):
+                partial_status = "partial_graph221_semantic_suffix_family_frontier"
+            elif graph151_partial_ok and zm_tmpp_chain_ok and graph221_filtered_ok:
                 partial_status = "partial_graph221_layer4_gate_with_eval_premise"
             elif graph151_partial_ok and zm_tmpp_chain_ok:
                 partial_status = "partial_forced_chain_reaches_graph221_branch"
@@ -209,12 +226,28 @@ def main() -> int:
                     symbol: symbol not in graph221_filtered_missing
                     for symbol in GRAPH221_FILTERED_REQUIRED
                 },
+                "graph221_semantic_suffix_symbols": {
+                    symbol: symbol not in graph221_semantic_suffix_missing
+                    for symbol in GRAPH221_SEMANTIC_SUFFIX_REQUIRED
+                },
                 "forbidden_hits": [
                     token
                     for token in FORBIDDEN
                     if token in next_frontier_text or token in graph221_text
                 ],
                 "remaining_gap": (
+                    "graph221 now has a non-circular semantic suffix-family "
+                    "frontier: once a production theorem proves "
+                    "graph221Layer4AcceptedTailSuffixOk from strengthened "
+                    "closed-language product-state semantics, the terminal "
+                    "machine gate follows without assuming strengthened "
+                    "evaluator success.  The next proof must target "
+                    "Graph221Layer4SemanticSuffixFamily.  If that target needs "
+                    "selected prefixes, sampled ranks, exact affine keys, or "
+                    "one branch per observed path, switch to the "
+                    "cocycle/cancellation-summary quotient experiment."
+                    if graph221_semantic_suffix_ok
+                    else (
                     "graph221 now has a rank-free filtered tail-prefix "
                     "continuation for the three graph-accepted suffixes, "
                     "a graph151-to-graph221 target-completion tail "
@@ -240,6 +273,7 @@ def main() -> int:
                         "graph151 target-completion semantics forces the next "
                         "face tppp, but no graph151 post-tppp suffix/terminal "
                         "continuation table analogous to graph183 is present"
+                    )
                     )
                     )
                 ),
@@ -284,6 +318,13 @@ def main() -> int:
         "missing_lanes": missing,
         "lanes": lane_report,
         "next_recommended_slice": (
+            "prove Graph221Layer4SemanticSuffixFamily from deterministic "
+            "product-state/cancellation semantics for the zm_tmpp graph221 "
+            "frontier; if that proof wants selected-prefix or exact-affine "
+            "membership, stop and run the cocycle/cancellation-summary "
+            "quotient experiment"
+            if graph221_semantic_suffix_ok
+            else (
             "lift the zm_tmpp lane through graph221 by deriving the "
             "strengthened evaluator success from the strengthened "
             "closed-language prefix, then feed "
@@ -303,6 +344,7 @@ def main() -> int:
                     "through the same four-piece terminal-machine pattern "
                     "validated by graph183"
                 )
+            )
             )
         ),
     }

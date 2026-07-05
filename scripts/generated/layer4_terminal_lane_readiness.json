@@ -103,14 +103,20 @@
         "graph221_head_of_targetCompletionTail": true,
         "graph221_yp_tmpm_head_of_targetCompletionTail": true
       },
-      "remaining_gap": "graph221 now has a rank-free filtered tail-prefix continuation for the three graph-accepted suffixes, a graph151-to-graph221 target-completion tail decomposition, semantic discharge of the Graph151 target-completion tail from the strengthened closed language plus depth-11 prefix, a local theorem deriving the suffix filter from target-completion plus the strengthened product-state evaluator, and a lane-level terminal machine gate that starts from the initial state once the strengthened eval success premise is supplied. This is not a full lane gate yet: the next proof must derive that evaluator success directly from the strengthened closed-language rank/prefix hypotheses.",
+      "graph221_semantic_suffix_symbols": {
+        "Graph221Layer4SemanticSuffixFamily": true,
+        "graph221InitialContainedEvalPrefixGate_of_graph151TargetCompletionTail_and_suffixOk": true,
+        "graph221InitialContainedEvalPrefixGate_of_strengthened_prefix_and_suffixFamily": true,
+        "graph221Layer4ContainedEvalPrefixGate_of_graph151TargetCompletionTail_and_suffixOk": true
+      },
+      "remaining_gap": "graph221 now has a non-circular semantic suffix-family frontier: once a production theorem proves graph221Layer4AcceptedTailSuffixOk from strengthened closed-language product-state semantics, the terminal machine gate follows without assuming strengthened evaluator success.  The next proof must target Graph221Layer4SemanticSuffixFamily.  If that target needs selected prefixes, sampled ranks, exact affine keys, or one branch per observed path, switch to the cocycle/cancellation-summary quotient experiment.",
       "required_symbols": {
         "Graph151TargetCompletionTail": true,
         "graph151TargetCompletionState": true,
         "graph151_head_of_targetCompletionTail": true,
         "strengthenedPrefix4Graph151TargetCompletionLocalBranchTable": true
       },
-      "status": "partial_graph221_layer4_gate_with_eval_premise",
+      "status": "partial_graph221_semantic_suffix_family_frontier",
       "third": "Face.zm"
     },
     "zm_yp": {
@@ -139,7 +145,7 @@
     "zm_yp",
     "zm_zp"
   ],
-  "next_recommended_slice": "lift the zm_tmpp lane through graph221 by deriving the strengthened evaluator success from the strengthened closed-language prefix, then feed the resulting accepted suffix into the same four-piece terminal-machine pattern validated by graph183",
+  "next_recommended_slice": "prove Graph221Layer4SemanticSuffixFamily from deterministic product-state/cancellation semantics for the zm_tmpp graph221 frontier; if that proof wants selected-prefix or exact-affine membership, stop and run the cocycle/cancellation-summary quotient experiment",
   "partial_lane_count": 1,
   "partial_lanes": [
     "zm_tmpp"

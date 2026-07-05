@@ -105121,3 +105121,43 @@ remaining_gap =
   semantics; pivot to cocycle quotient if that requires observed-prefix
   membership or exact affine keys
 ```
+
+### 2026-07-05 audit updated for graph221 semantic suffix frontier
+
+The layer-4 readiness audit now recognizes the new graph221 suffix-family
+surface:
+
+```text
+Graph221Layer4SemanticSuffixFamily
+graph221Layer4ContainedEvalPrefixGate_of_graph151TargetCompletionTail_and_suffixOk
+graph221InitialContainedEvalPrefixGate_of_graph151TargetCompletionTail_and_suffixOk
+graph221InitialContainedEvalPrefixGate_of_strengthened_prefix_and_suffixFamily
+```
+
+Command:
+
+```bash
+python3 scripts/audit_layer4_terminal_lane_readiness.py
+```
+
+Result:
+
+```text
+status = one_lane_validated_remaining_lanes_missing
+validated_lanes = [tmpm_zm]
+partial_lanes = [zm_tmpp]
+zm_tmpp.status = partial_graph221_semantic_suffix_family_frontier
+forbidden_hits = []
+next_recommended_slice =
+  prove Graph221Layer4SemanticSuffixFamily from deterministic
+  product-state/cancellation semantics for the zm_tmpp graph221 frontier;
+  if that proof wants selected-prefix or exact-affine membership, stop and run
+  the cocycle/cancellation-summary quotient experiment
+```
+
+Files updated:
+
+```text
+scripts/audit_layer4_terminal_lane_readiness.py
+scripts/generated/layer4_terminal_lane_readiness.json
+```
