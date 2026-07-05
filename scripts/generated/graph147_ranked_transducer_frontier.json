@@ -84,6 +84,7 @@
   "ranked_eval_socket": {
     "file": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingDepth11Layer4Graph147RankedEvalSocket.lean",
     "symbols": {
+      "Graph147RankedEvalMarginSequenceBadFace": true,
       "Graph147RankedSuffixEvalMarginInv": true,
       "StrengthenedGraph147RankedEvalMarginBundle": true,
       "StrengthenedGraph147RankedEvalMarginInvariantFamily": true,
@@ -99,12 +100,14 @@
       "graph147ZmYpRootMarginBound_of_ranked_eval_margin": true,
       "graph147ZmYp_graph_eval_exists_finalPotential_of_strengthened_prefix": true,
       "graph147ZmYp_rankedPrefix4Tail_of_strengthened_prefix": true,
+      "rankedEvalMarginBundle_of_graph147RankedEvalMarginSequenceBadFace": true,
       "rankedEvalMarginBundle_of_graphExactEvalGate": true,
       "rankedEvalMarginBundle_of_rankedEvalMarginInvariantFamily": true,
       "rankedEvalMarginBundle_of_rankedShardMarginInvariantFamily": true,
       "rankedEvalMarginBundle_of_rankedTransducerInvariantFamily": true,
       "rankedEvalMarginInvariantFamily_of_rankedShardMarginInvariantFamily": true,
       "rankedShardMarginInvariantFamily_of_rankedEvalMarginBundle": true,
+      "rootMarginBundle_of_graph147RankedEvalMarginSequenceBadFace": true,
       "rootMarginBundle_of_graphExactEvalGate_via_rankedEvalMarginBundle": true,
       "rootMarginBundle_of_rankedEvalMarginBundle": true,
       "rootMarginBundle_of_rankedEvalMarginBundle_via_suffixEvalMarginInv": true,

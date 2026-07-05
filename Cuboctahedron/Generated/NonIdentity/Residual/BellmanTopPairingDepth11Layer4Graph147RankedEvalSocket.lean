@@ -916,6 +916,62 @@ def rootMarginBundle_of_rankedEvalMarginBundle_via_suffixEvalMarginInv
   rootMarginBundle_of_rankedShardMarginInvariantFamily_via_rankedEvalMarginBundle
     (rankedShardMarginInvariantFamily_of_rankedEvalMarginBundle hbundle)
 
+/--
+Semantic `sequenceBadFace` carrier for the graph-147 ranked-evaluator margin.
+
+This predicate is intentionally just a carrier surface: it says that the
+upstream strengthened language supplies the two branch start-margin theorems
+needed by `Graph147RankedSuffixEvalMarginInv`.  It is acceptable only when the
+upstream proof of this predicate is itself semantic.  A selected-prefix,
+sampled-rank, accepted-trace, exact-affine, or per-observed-path proof of this
+predicate is not production evidence.
+-/
+def Graph147RankedEvalMarginSequenceBadFace
+    (scaledMargin : Fin numPairWords -> Int)
+    (rank : Fin numPairWords) (badFace : Face) : Prop :=
+  badFace = Face.ym ∧
+    (∀ rest,
+      Depth11Layer4PrefixAtRank rank Face.yp Face.zm rest ->
+        Graph147RankedSuffixEvalMarginInv scaledMargin rank
+          graph147RankedPrefix4EvalState rest (-53 : Int)) ∧
+    (∀ rest,
+      Depth11Layer4PrefixAtRank rank Face.zm Face.yp rest ->
+        Graph147RankedSuffixEvalMarginInv scaledMargin rank
+          graph147RankedPrefix4EvalState rest (-53 : Int))
+
+/--
+If `sequenceBadFace_ok` carries the semantic graph-147 branch start-margin
+facts, the ranked-evaluator margin bundle is immediate.
+
+This is a guardrail adapter for the current pivot.  It documents exactly what
+would have to be proved upstream, and it does not inspect sampled paths,
+selected prefixes, accepted traces, affine RHS keys, or rank tables.
+-/
+def rankedEvalMarginBundle_of_graph147RankedEvalMarginSequenceBadFace
+    (scaledMargin : Fin numPairWords -> Int) :
+    StrengthenedGraph147RankedEvalMarginBundle
+      scaledMargin
+      (Graph147RankedEvalMarginSequenceBadFace scaledMargin) where
+  yp_zm := by
+    refine ⟨?_⟩
+    intro rank hstrengthened rest hprefix finish gain heval
+    rcases hstrengthened.sequenceBadFace_ok with ⟨_hbadFace, hyp_zm, _hzm_yp⟩
+    exact hyp_zm rest hprefix finish gain heval
+  zm_yp := by
+    refine ⟨?_⟩
+    intro rank hstrengthened rest hprefix finish gain heval
+    rcases hstrengthened.sequenceBadFace_ok with ⟨_hbadFace, _hyp_zm, hzm_yp⟩
+    exact hzm_yp rest hprefix finish gain heval
+
+def rootMarginBundle_of_graph147RankedEvalMarginSequenceBadFace
+    (scaledMargin : Fin numPairWords -> Int) :
+    StrengthenedGraph147RootMarginBundle
+      scaledMargin
+      (Graph147RankedEvalMarginSequenceBadFace scaledMargin) :=
+  rootMarginBundle_of_rankedEvalMarginBundle_via_suffixEvalMarginInv
+    (rankedEvalMarginBundle_of_graph147RankedEvalMarginSequenceBadFace
+      scaledMargin)
+
 def rankedEvalMarginFamily_of_yp_zm_graphExactEvalGate
     {scaledMargin : Fin numPairWords -> Int}
     {sequenceBadFace : Fin numPairWords -> Face -> Prop}

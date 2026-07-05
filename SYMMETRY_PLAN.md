@@ -110991,3 +110991,75 @@ semantic branch theorem selected by the upstream generated family, but the
 upstream proof of that field must itself be semantic and Lean-checkable.  A
 selected-prefix cover can remain a diagnostic oracle for discovering candidate
 states or quotients, but not a final evidence layer.
+
+### 2026-07-05 graph147 semantic sequenceBadFace carrier socket
+
+The graph147 ranked eval socket now makes the acceptable `sequenceBadFace_ok`
+usage explicit:
+
+```lean
+def Graph147RankedEvalMarginSequenceBadFace
+
+def rankedEvalMarginBundle_of_graph147RankedEvalMarginSequenceBadFace
+
+def rootMarginBundle_of_graph147RankedEvalMarginSequenceBadFace
+```
+
+`Graph147RankedEvalMarginSequenceBadFace scaledMargin rank badFace` means:
+
+```text
+badFace = Face.ym
+and the `yp,zm` branch start-margin theorem holds
+and the `zm,yp` branch start-margin theorem holds
+```
+
+The adapter proves:
+
+```text
+TopPairingStrengthenedClosedLanguageAtRank
+  (Graph147RankedEvalMarginSequenceBadFace scaledMargin) rank Face.ym
+  -> StrengthenedGraph147RankedEvalMarginBundle
+  -> StrengthenedGraph147RootMarginBundle
+```
+
+Interpretation:
+
+```text
+This is still a socket, not coverage.  It prevents ambiguity about
+`sequenceBadFace_ok`: the field may carry the semantic branch margin theorem,
+but the upstream producer must prove that predicate without selected prefixes,
+accepted traces, sampled ranks, exact affine keys, or per-path enumeration.
+```
+
+Focused validation:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 240 \
+  --max-tree-rss-mib 8000 \
+  --min-available-mib 30000 \
+  --hard-address-space-mib 8192 \
+  --json scripts/generated/graph147_ranked_sequence_badface_socket_guard.json \
+  --verbose -- lake env lean -M 6500 -j1 -s 2048 \
+    Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingDepth11Layer4Graph147RankedEvalSocket.lean
+
+python3 -m py_compile scripts/audit_graph147_ranked_transducer_frontier.py
+python3 scripts/audit_graph147_ranked_transducer_frontier.py
+
+rg -n "sorry|admit|axiom|native_decide|unsafe|selectedPrefix|SelectedPrefix|SampledRankIndex|acceptedTrace|AcceptedTrace|exactAffine|affineRhs" \
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingDepth11Layer4Graph147RankedEvalSocket.lean
+```
+
+Result:
+
+```text
+direct Graph147RankedEvalSocket = pass
+elapsed = 7.00s
+peak_tree_rss = 3851 MiB
+min_available = 46296 MiB
+hard_as = 8192 MiB
+audit status = ready_for_ranked_eval_margin_bundle_producer
+forbidden-token scan = no hits
+```
