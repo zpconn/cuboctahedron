@@ -1272,6 +1272,41 @@ structure Layer4PrefixMachineContinuationFromContainsAll
             machine (frontierPrefix.after4 third fourth) rank
 
 /--
+Target-completion continuation package for a full generated terminal machine.
+
+This is the semantic replacement for selected-prefix membership at the layer-4
+handoff.  A generated machine supplies the first four checked transitions; a
+generated suffix leaf then proves terminality from the target-completion tail
+of the remaining labels, not from a sampled trace id or observed prefix class.
+-/
+structure Layer4PrefixMachineTargetCompletionContinuationAll
+    {StateId : Type}
+    (machine : TerminalStepStatePartialMachine StateId)
+    (frontierPrefix : Layer4ReachablePrefixMachine machine)
+    (completionState :
+      ThirdBranch -> FourthBranch -> TopPairingTargetCompletionState) :
+    Prop where
+  tail :
+    ∀ rank,
+      TopPairingClosedLanguageAtRank rank Face.ym ->
+      ∀ third fourth,
+        Split10MPrefix4FrontierCons2 third.face fourth.face ->
+          TerminalStepState.Contains
+            (machine.stateOf (frontierPrefix.after4 third fourth)) rank ->
+          ∃ rest : List Face,
+            topPairingRankFaceLabels rank =
+                (machine.stateOf (frontierPrefix.after4 third fourth)).pfx ++
+                  rest ∧
+              TopPairingTargetCompletionTail
+                (completionState third fourth) rest
+  terminal :
+    ∀ third fourth,
+      Split10MPrefix4FrontierCons2 third.face fourth.face ->
+        TerminalTargetCompletionContinuation
+          machine (frontierPrefix.after4 third fourth)
+          (completionState third fourth)
+
+/--
 Compose a generic full-machine layer-4 prefix with reachable suffix
 continuations.
 
@@ -1297,6 +1332,44 @@ theorem terminalContainedEvalPrefixGate_of_layer4PrefixMachineContinuationFromCo
   exact terminalContainedEvalPrefixGate_trans_progress
     machine hprogress
       (hcontinuation.terminal rank hclosed third fourth hfrontier hcontains)
+
+/--
+Compose a generic full-machine layer-4 prefix with target-completion suffix
+continuations.
+
+This is the current preferred production socket for the Bellman pivot: the
+membership theorem after layer 4 is a deterministic target-completion suffix
+theorem, not a selected-prefix or sampled-rank table.
+-/
+theorem terminalContainedEvalPrefixGate_of_layer4PrefixMachineTargetCompletionContinuationAll
+    {StateId : Type}
+    {machine : TerminalStepStatePartialMachine StateId}
+    {completionState :
+      ThirdBranch -> FourthBranch -> TopPairingTargetCompletionState}
+    (frontierPrefix : Layer4ReachablePrefixMachine machine)
+    (hcontinuation :
+      Layer4PrefixMachineTargetCompletionContinuationAll
+        machine frontierPrefix completionState)
+    {rank : Fin numPairWords}
+    (hclosed : TopPairingClosedLanguageAtRank rank Face.ym) :
+    TerminalContainedEvalPrefixGate machine frontierPrefix.start rank := by
+  rcases frontierPrefix.progress rank hclosed with
+    ⟨third, fourth, hprogress, hfrontier⟩
+  have hcontains :
+      TerminalStepState.Contains
+        (machine.stateOf (frontierPrefix.after4 third fourth)) rank :=
+    contains_of_containedEvalProgressGate machine hprogress
+  rcases hcontinuation.tail rank hclosed third fourth hfrontier
+      hcontains with
+    ⟨rest, hlabels, htail⟩
+  have hsuffix :
+      TerminalContainedEvalPrefixGate
+        machine (frontierPrefix.after4 third fourth) rank :=
+    terminalContainedEvalPrefixGate_of_targetCompletionContinuation
+      (hcontinuation.terminal third fourth hfrontier)
+      hcontains hlabels htail
+  exact terminalContainedEvalPrefixGate_trans_progress
+    machine hprogress hsuffix
 
 theorem terminalStateFrontierSmoke_builds : True := by
   exact True.intro

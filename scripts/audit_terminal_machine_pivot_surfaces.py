@@ -43,6 +43,8 @@ REQUIRED_SYMBOLS = {
     "terminal_eval_socket": [
         "TerminalContainedEvalPrefixGate",
         "TerminalContainedEvalProgressGate",
+        "TerminalTargetCompletionContinuation",
+        "terminalContainedEvalPrefixGate_of_targetCompletionContinuation",
         "terminalContainedEvalPrefixGate_trans_progress",
         "terminalContainedEvalPrefixGate_of_progress_terminal",
         "terminalContainedEvalPrefixGate_of_terminal_state",
@@ -66,6 +68,8 @@ REQUIRED_SYMBOLS = {
         "layer4ReachablePrefixMachine",
         "Layer4PrefixMachineContinuationFromContainsAll",
         "terminalContainedEvalPrefixGate_of_layer4PrefixMachineContinuationFromContainsAll",
+        "Layer4PrefixMachineTargetCompletionContinuationAll",
+        "terminalContainedEvalPrefixGate_of_layer4PrefixMachineTargetCompletionContinuationAll",
         "TerminalContainedEvalProgressGate",
     ],
     "closed_transducer_socket": [
@@ -135,20 +139,21 @@ def main() -> int:
                 "reachable-frontier continuation package for split-10M pairs",
                 "from-contains continuation package for layer-4 suffix leaves",
                 "generic full-machine layer-4 prefix socket",
+                "target-completion continuation socket for layer-4 suffix leaves",
             ],
             "remaining_gap": (
                 "instantiate a full generated terminal machine with "
-                "Layer4ReachablePrefixMachine and prove terminal continuations "
-                "from its after4 third fourth states for reachable "
-                "Split10MPrefix4FrontierCons2 pairs"
+                "Layer4ReachablePrefixMachine and prove target-completion "
+                "continuations from its after4 third fourth states for "
+                "reachable Split10MPrefix4FrontierCons2 pairs"
             ),
         },
         "next_recommended_slice": (
-            "generate or prove terminal continuation gates from layer-4 frontier "
-            "states inside a full generated terminal machine satisfying "
-            "Layer4ReachablePrefixMachine, then compose them with "
-            "terminalContainedEvalPrefixGate_of_layer4PrefixMachineContinuation"
-            "FromContainsAll"
+            "generate or prove target-completion terminal continuation gates "
+            "from layer-4 frontier states inside a full generated terminal "
+            "machine satisfying Layer4ReachablePrefixMachine, then compose "
+            "them with terminalContainedEvalPrefixGate_of_layer4PrefixMachine"
+            "TargetCompletionContinuationAll"
         ),
     }
 

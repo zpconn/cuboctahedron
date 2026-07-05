@@ -1,5 +1,6 @@
 import Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingTerminalStatePartialMachineSocket
 import Cuboctahedron.Search.BellmanPotential
+import Cuboctahedron.Search.TopPairingTargetCompletionTail
 
 /-!
 Evaluator socket for partial terminal-state machines.
@@ -94,8 +95,50 @@ def TerminalContainedEvalProgressGate
       TerminalStepState.Contains (machine.stateOf start) rank ∧
         topPairingRankFaceLabels rank =
           (machine.stateOf start).pfx ++ labels ++ rest ∧
-          evalLabelStepFn (nextEval machine) start labels =
-            some (finish, gain)
+      evalLabelStepFn (nextEval machine) start labels =
+        some (finish, gain)
+
+/--
+Production-shaped target-completion continuation for a generated terminal
+machine state.
+
+The old selected-prefix experiments proved terminal continuations from sampled
+or observed traces.  This continuation is the semantic replacement: a generated
+leaf may assume the rank is contained in the current terminal state and that
+the remaining suffix satisfies a `TopPairingTargetCompletionTail` state, then
+it must drive the same partial machine to a terminal producer state.
+-/
+structure TerminalTargetCompletionContinuation
+    {StateId : Type}
+    (machine : TerminalStepStatePartialMachine StateId)
+    (start : StateId)
+    (completionState : TopPairingTargetCompletionState) : Prop where
+  terminal :
+    ∀ rank,
+      TerminalStepState.Contains (machine.stateOf start) rank ->
+        ∀ rest,
+          topPairingRankFaceLabels rank =
+              (machine.stateOf start).pfx ++ rest ->
+            TopPairingTargetCompletionTail completionState rest ->
+              TerminalContainedEvalPrefixGate machine start rank
+
+theorem terminalContainedEvalPrefixGate_of_targetCompletionContinuation
+    {StateId : Type}
+    {machine : TerminalStepStatePartialMachine StateId}
+    {start : StateId}
+    {completionState : TopPairingTargetCompletionState}
+    (hcontinuation :
+      TerminalTargetCompletionContinuation machine start completionState)
+    {rank : Fin numPairWords}
+    (hcontains :
+      TerminalStepState.Contains (machine.stateOf start) rank)
+    {rest : List Face}
+    (hlabels :
+      topPairingRankFaceLabels rank =
+        (machine.stateOf start).pfx ++ rest)
+    (htail : TopPairingTargetCompletionTail completionState rest) :
+    TerminalContainedEvalPrefixGate machine start rank :=
+  hcontinuation.terminal rank hcontains rest hlabels htail
 
 theorem terminalContainedEvalProgressGate_of_next?
     {StateId : Type} (machine : TerminalStepStatePartialMachine StateId)

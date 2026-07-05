@@ -103224,3 +103224,121 @@ local tables.
   and then prove `Layer4PrefixMachineContinuationFromContainsAll` for that
   machine.  This avoids the impossible requirement of continuing inside the
   smoke-only `layer4Machine`.
+
+### 2026-07-04 target-completion continuation socket accepted
+
+- Incorporated the latest Bellman/transducer pivot recommendation: keep the
+  Bellman route, but do not scale selected-prefix membership.  The production
+  membership theorem after the layer-4 frontier must be a deterministic
+  target-completion evaluator theorem:
+
+  ```text
+  closed language + reachable layer-4 state
+    -> target-completion suffix tail
+    -> checked partial-machine terminal prefix
+  ```
+
+- Added a generic target-completion continuation surface in:
+
+  ```lean
+  Cuboctahedron.Generated.NonIdentity.Residual.
+    BellmanTopPairingTerminalStatePartialMachineEvalSocket
+  ```
+
+- New generic theorem/interface names:
+
+  ```lean
+  TerminalTargetCompletionContinuation
+  terminalContainedEvalPrefixGate_of_targetCompletionContinuation
+  ```
+
+- Added the layer-4/full-machine composition socket in:
+
+  ```lean
+  Cuboctahedron.Generated.NonIdentity.Residual.
+    BellmanTopPairingTerminalStateFrontierSmoke
+  ```
+
+- New layer-4 theorem/interface names:
+
+  ```lean
+  Layer4PrefixMachineTargetCompletionContinuationAll
+  terminalContainedEvalPrefixGate_of_layer4PrefixMachineTargetCompletionContinuationAll
+  ```
+
+- Production-facing theorem shape:
+
+  ```lean
+  (frontierPrefix : Layer4ReachablePrefixMachine machine) ->
+  Layer4PrefixMachineTargetCompletionContinuationAll
+    machine frontierPrefix completionState ->
+  TopPairingClosedLanguageAtRank rank Face.ym ->
+  TerminalContainedEvalPrefixGate machine frontierPrefix.start rank
+  ```
+
+  The suffix leaf now receives three semantic facts: reachable split-10M
+  layer-4 pair, semantic containment of the after-four state, and a
+  `TopPairingTargetCompletionTail` proof for the remaining labels.  It should
+  not use selected-prefix trace ids, sampled rank objects, exact affine RHS
+  keys, or accepted trace tables as production membership evidence.
+
+- Commands:
+
+  ```bash
+  python3 scripts/run_memory_guarded.py \
+    --max-tree-rss-mib 10000 \
+    --min-available-mib 30000 -- \
+    env LEAN_NUM_THREADS=1 LAKE_JOBS=1 \
+      lake build \
+        Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingTerminalStatePartialMachineEvalSocket
+
+  python3 scripts/run_memory_guarded.py \
+    --max-tree-rss-mib 10000 \
+    --min-available-mib 30000 -- \
+    env LEAN_NUM_THREADS=1 LAKE_JOBS=1 \
+      lake build \
+        Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingTerminalStateFrontierSmoke
+
+  python3 -m py_compile scripts/audit_terminal_machine_pivot_surfaces.py
+  python3 scripts/audit_terminal_machine_pivot_surfaces.py
+
+  rg -n "sorry|admit|axiom|native_decide|unsafe" \
+    Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingTerminalStatePartialMachineEvalSocket.lean \
+    Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingTerminalStateFrontierSmoke.lean \
+    scripts/audit_terminal_machine_pivot_surfaces.py
+
+  rg -n "SampledRankIndex|sampledContainsRank|sampledRankOf|SelectedPrefix|acceptedTraceOfId" \
+    Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingTerminalStatePartialMachineEvalSocket.lean \
+    Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingTerminalStateFrontierSmoke.lean
+  ```
+
+- Results:
+  - `BellmanTopPairingTerminalStatePartialMachineEvalSocket` passed under the
+    memory guard in `9.01s`, with peak tree RSS `4040 MiB` and minimum
+    available memory `46058 MiB`.
+  - `BellmanTopPairingTerminalStateFrontierSmoke` passed under the memory
+    guard in `5.00s`, with peak tree RSS `4177 MiB` and minimum available
+    memory `45977 MiB`.
+  - The terminal-machine pivot surface audit passed with
+    `status = machine-pivot-surfaces-present` and `forbidden_hits = 0`.
+  - The forbidden-token scans returned no matches in the touched production
+    sockets.
+
+- Updated audit boundary:
+
+  ```text
+  instantiate a full generated terminal machine with
+  Layer4ReachablePrefixMachine and prove target-completion continuations from
+  its after4 third fourth states for reachable Split10MPrefix4FrontierCons2
+  pairs
+  ```
+
+- Current promotion status:
+  this is now the preferred terminal-machine production route.  The next
+  generator should emit a full generated partial machine satisfying
+  `Layer4ReachablePrefixMachine`, provide a semantic `completionState third
+  fourth` for each reachable after-four state, prove the corresponding
+  target-completion tail theorem from the closed language, and prove
+  `TerminalTargetCompletionContinuation` for each suffix state.  The final
+  composition should call
+  `terminalContainedEvalPrefixGate_of_layer4PrefixMachineTargetCompletionContinuationAll`.

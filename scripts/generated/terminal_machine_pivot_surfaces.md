@@ -18,5 +18,5 @@
 
 ## Boundary
 
-- remaining gap: instantiate a full generated terminal machine with Layer4ReachablePrefixMachine and prove terminal continuations from its after4 third fourth states for reachable Split10MPrefix4FrontierCons2 pairs
-- next slice: generate or prove terminal continuation gates from layer-4 frontier states inside a full generated terminal machine satisfying Layer4ReachablePrefixMachine, then compose them with terminalContainedEvalPrefixGate_of_layer4PrefixMachineContinuationFromContainsAll
+- remaining gap: instantiate a full generated terminal machine with Layer4ReachablePrefixMachine and prove target-completion continuations from its after4 third fourth states for reachable Split10MPrefix4FrontierCons2 pairs
+- next slice: generate or prove target-completion terminal continuation gates from layer-4 frontier states inside a full generated terminal machine satisfying Layer4ReachablePrefixMachine, then compose them with terminalContainedEvalPrefixGate_of_layer4PrefixMachineTargetCompletionContinuationAll
