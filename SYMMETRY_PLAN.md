@@ -117411,3 +117411,92 @@ obligation semantically, preferably by looking for another direct
 start-violation/terminal route before adding new Bellman margin evidence.  The
 remaining branches are tmpm,tppm; yp,tmmm; yp,zm; zm,yp; and zm,zp.
 ```
+
+#### 2026-07-05 graph147 ranked-transducer pivot audit
+
+Status: accepted as the next theorem-facing graph147 target.
+
+The latest GPT5.5 guidance says the Bellman route should continue only as a
+deterministic semantic transducer theorem, not as a selected-prefix,
+observed-trace, sampled-rank, mapped-class, exact-affine, or stored-path
+membership proof.  The graph147 `yp,zm` and `zm,yp` lanes already have the
+right Lean boundary in:
+
+```text
+Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingDepth11Layer4Graph147DirectEvalSocket.lean
+```
+
+The audit now records this as:
+
+```text
+graph147_ranked_transducer_target.status =
+  accepted_graph147_ranked_transducer_boundary
+```
+
+The important theorem surfaces are:
+
+```lean
+structure StrengthenedGraph147RankedTransducerInvariantFamily
+def Graph147RankedShardSuffixOk
+theorem graph147RankedShardSuffixOk_localStep
+theorem graph147RankedShardSuffixOk_finalPotential
+theorem graph147YpZm_rankedShardSuffixOk_of_strengthened_prefix
+theorem graph147ZmYp_rankedShardSuffixOk_of_strengthened_prefix
+def rootMarginBundle_of_rankedTransducerInvariantFamily
+```
+
+Interpretation:
+
+```text
+The graph147 suffix-start and local-step obligations are now semantic and
+rank-parametric.  `Graph147RankedShardSuffixOk` supplies suffix closure; the
+target-cursor theorem supplies the target-completion tail; and the ranked
+transducer adapter turns the invariant family into the existing root-margin
+bundle.  The missing proof-producing field is the finish/root-margin field of
+`StrengthenedGraph147RankedTransducerInvariantFamily`.
+```
+
+The audit recommendation now says:
+
+```text
+use the accepted graph147 ranked-transducer boundary as the next theorem
+target: prove the finish/root-margin field needed by
+StrengthenedGraph147RankedTransducerInvariantFamily for the yp_zm and zm_yp
+lanes.  The suffix-start and local-step theorem surfaces are already semantic;
+do not fall back to mapped class cases, selected-prefix covers, sampled ranks,
+accepted traces, exact affine keys, or stored path membership.
+```
+
+Commands run:
+
+```bash
+python3 -m py_compile scripts/audit_layer4_terminal_lane_readiness.py
+python3 scripts/audit_layer4_terminal_lane_readiness.py
+
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 360 --max-tree-rss-mib 12000 \
+  --min-available-mib 20000 --hard-address-space-mib 24576 \
+  --json scripts/generated/graph147_ranked_transducer_target_guard.json \
+  -- lake env lean -M 8000 -j1 -s 24576 \
+    -o .lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingDepth11Layer4Graph147DirectEvalSocket.olean \
+    Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingDepth11Layer4Graph147DirectEvalSocket.lean
+```
+
+Results:
+
+```text
+audit: passed; generated scripts/generated/layer4_terminal_lane_readiness.json
+graph147 direct eval/ranked-transducer socket: passed, elapsed 6.00s,
+  peak RSS 3988 MiB, min available 46205 MiB
+```
+
+Next implementation target:
+
+```text
+Implement the first small graph147 ranked-transducer finish/root-margin slice.
+Start by defining the narrowest `Inv`/`SuffixOk` pair that reuses
+`Graph147RankedShardSuffixOk`, then prove the `finish` margin field for one
+branch or a branch-symmetric bundle.  Stop immediately if the proof wants a
+selected-prefix id, sampled rank/path, AcceptedTraceId, exact affine RHS,
+solved start point, or mapped-class case as the production membership witness.
+```

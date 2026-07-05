@@ -361,6 +361,19 @@ GRAPH147_DIRECT_EVAL_SOCKET_REQUIRED = [
     "graphExactEvalGateAtRank_of_rootMarginBundle_zm_yp",
 ]
 
+GRAPH147_RANKED_TRANSDUCER_TARGET_REQUIRED = [
+    "StrengthenedGraph147RankedTransducerInvariantFamily",
+    "graphExactEvalGate_of_rankedTransducerInvariantFamily",
+    "rootMarginBundle_of_rankedTransducerInvariantFamily",
+    "Graph147RankedShardSuffixOk",
+    "graph147RankedShardSuffixOk_localStep",
+    "graph147RankedShardSuffixOk_finalPotential",
+    "StrengthenedGraph147BranchSuffixStartBundle",
+    "strengthenedGraph147BranchSuffixStartBundle",
+    "graph147YpZm_rankedShardSuffixOk_of_strengthened_prefix",
+    "graph147ZmYp_rankedShardSuffixOk_of_strengthened_prefix",
+]
+
 GRAPH147_COCYCLE_BRANCH_SMOKE_REQUIRED = [
     "graph147QuotientStep",
     "graph147YpZmBranchRawGain_contract",
@@ -719,6 +732,12 @@ def main() -> int:
         contains_all(
             graph147_direct_eval_socket_text,
             GRAPH147_DIRECT_EVAL_SOCKET_REQUIRED,
+        )
+    )
+    graph147_ranked_transducer_target_ok, graph147_ranked_transducer_target_missing = (
+        contains_all(
+            graph147_direct_eval_socket_text,
+            GRAPH147_RANKED_TRANSDUCER_TARGET_REQUIRED,
         )
     )
     graph147_cocycle_branch_smoke_ok, graph147_cocycle_branch_smoke_missing = (
@@ -1220,6 +1239,15 @@ def main() -> int:
                     symbol: symbol not in graph147_direct_eval_socket_missing
                     for symbol in GRAPH147_DIRECT_EVAL_SOCKET_REQUIRED
                 },
+                "ranked_transducer_target_symbols": {
+                    symbol: symbol not in graph147_ranked_transducer_target_missing
+                    for symbol in GRAPH147_RANKED_TRANSDUCER_TARGET_REQUIRED
+                },
+                "ranked_transducer_target_status": (
+                    "accepted_graph147_ranked_transducer_boundary"
+                    if graph147_ranked_transducer_target_ok
+                    else "missing_graph147_ranked_transducer_boundary"
+                ),
                 "cocycle_branch_smoke_symbols": {
                     symbol: symbol not in graph147_cocycle_branch_smoke_missing
                     for symbol in GRAPH147_COCYCLE_BRANCH_SMOKE_REQUIRED
@@ -1273,8 +1301,12 @@ def main() -> int:
                     "route diagnostically but is not coverage evidence.  "
                     "Tail plus margin then produce "
                     "TopPairingGraphExactEvalGateAtRank directly.  The lane "
-                    "is still partial until those margin fields are proved "
-                    "without selected-prefix or sampled-rank membership."
+                    "is still partial until those margin fields are proved.  "
+                    "The sharper preferred route is now the ranked-transducer "
+                    "boundary in this file: prove a finish/root-margin theorem "
+                    "for `StrengthenedGraph147RankedTransducerInvariantFamily`, "
+                    "using `Graph147RankedShardSuffixOk` for suffix closure, "
+                    "not a mapped class case or selected-prefix membership."
                     if graph147_direct_eval_socket_ok
                     else (
                     "graph147 now reaches terminal graph states 141 and 138 "
@@ -1560,6 +1592,41 @@ def main() -> int:
                 or token in closed_transducer_producer_socket_text
             ],
         },
+        "graph147_ranked_transducer_target": {
+            "status": (
+                "accepted_graph147_ranked_transducer_boundary"
+                if graph147_ranked_transducer_target_ok
+                else "missing_graph147_ranked_transducer_boundary"
+            ),
+            "file": (
+                str(GRAPH147_DIRECT_EVAL_SOCKET_FILE.relative_to(ROOT))
+                if GRAPH147_DIRECT_EVAL_SOCKET_FILE.exists()
+                else None
+            ),
+            "required_symbols": {
+                symbol: symbol not in graph147_ranked_transducer_target_missing
+                for symbol in GRAPH147_RANKED_TRANSDUCER_TARGET_REQUIRED
+            },
+            "interpretation": (
+                "Graph147 has the preferred deterministic ranked-transducer "
+                "boundary for the yp_zm and zm_yp lanes.  The suffix-start "
+                "and local-step pieces are semantic and rank-parametric; the "
+                "remaining proof-producing target is the finish/root-margin "
+                "field of StrengthenedGraph147RankedTransducerInvariantFamily, "
+                "not a mapped-branch classifier or selected-prefix cover."
+                if graph147_ranked_transducer_target_ok
+                else (
+                    "Graph147 direct eval support exists only as a partial "
+                    "socket.  Add the ranked-transducer invariant boundary "
+                    "before scaling another graph147 producer."
+                )
+            ),
+            "forbidden_hits": [
+                token
+                for token in FORBIDDEN
+                if token in graph147_direct_eval_socket_text
+            ],
+        },
         "direct_killed_layer4_portfolio": {
             "status": (
                 "accepted_graph183_graph221_direct_portfolio_socket"
@@ -1630,14 +1697,26 @@ def main() -> int:
                     and not graph221_direct_start_violation_production_ok
                 )
                 else
-                "use the accepted closed-language transducer boundary and the "
-                "graph183+graph221 direct portfolio to attack one remaining "
-                "layer-4 obligation semantically.  Prefer a direct "
-                "start-violation/terminal route if one exists; otherwise prove "
-                "a deterministic closed-language-to-evaluator/margin theorem. "
-                "Stop immediately if the proof needs selected-prefix, "
-                "sampled-rank, accepted-trace, exact-affine, or stored-path "
-                "membership"
+                (
+                    "use the accepted graph147 ranked-transducer boundary as "
+                    "the next theorem target: prove the finish/root-margin "
+                    "field needed by StrengthenedGraph147RankedTransducerInvariantFamily "
+                    "for the yp_zm and zm_yp lanes.  The suffix-start and "
+                    "local-step theorem surfaces are already semantic; do not "
+                    "fall back to mapped class cases, selected-prefix covers, "
+                    "sampled ranks, accepted traces, exact affine keys, or "
+                    "stored path membership"
+                    if graph147_ranked_transducer_target_ok
+                    else
+                    "use the accepted closed-language transducer boundary and "
+                    "the graph183+graph221 direct portfolio to attack one "
+                    "remaining layer-4 obligation semantically.  Prefer a "
+                    "direct start-violation/terminal route if one exists; "
+                    "otherwise prove a deterministic closed-language-to-evaluator/"
+                    "margin theorem.  Stop immediately if the proof needs "
+                    "selected-prefix, sampled-rank, accepted-trace, exact-affine, "
+                    "or stored-path membership"
+                )
                 if graph221_direct_start_violation_production_ok
                 else (
                 "prove Graph221ZmTmppSplit10MRootMarginSequenceBadFace from a "
