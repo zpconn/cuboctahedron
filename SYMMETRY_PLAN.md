@@ -105876,6 +105876,71 @@ Result:
 pass; no matches
 ```
 
+### 2026-07-05 current strategy after the graph147 quotient pivot
+
+The latest GPT5.5 Pro guidance has been adopted as the active rule for the
+graph147 nonidentity residual route.
+
+What is already in place:
+
+- The target-shadow inverse/cursor is already formalized in
+  `Cuboctahedron/Search/TopPairingTargetCursor.lean`.
+- The graph147 target-completion tail is already derived semantically in
+  `BellmanTopPairingDepth11Layer4Graph147DirectEvalSocket.lean`; this uses the
+  closed-language target cursor, schedule, square-gap, used-face, and
+  remaining-face state, not sampled ranks or selected prefixes.
+- The graph147 direct socket has already narrowed the remaining producer to
+  `StrengthenedGraph147RootMarginBundle`.
+- The `step-stack` cocycle quotient has now been checked on all `1054`
+  observed graph147 edge-label equations from the 10M diagnostic profile in
+  nine small shards.  This supports the margin route but is still diagnostic.
+
+Therefore the next graph147 production theorem must not be another selected
+prefix cover.  The correct theorem target is a deterministic semantic
+root-margin producer:
+
+```lean
+StrengthenedGraph147RootMarginBundle
+  scaledMargin AcceptedSequenceBadFaceAtRank
+```
+
+or, branch-locally,
+
+```lean
+∀ rank,
+  TopPairingStrengthenedClosedLanguageAtRank
+    AcceptedSequenceBadFaceAtRank rank Face.ym ->
+  ∀ rest,
+    Depth11Layer4PrefixAtRank rank Face.yp Face.zm rest ->
+    Graph147TargetCompletionTailRootMarginBound
+      scaledMargin rank (-53 : Int) rest
+```
+
+and the analogous `Face.zm Face.yp` branch.
+
+The proof must be driven by one of the following semantic mechanisms:
+
+1. a deterministic closed-language-to-quotient-evaluator theorem using the
+   existing target cursor and product-state fields;
+2. a cancellation/segment algebra that composes certified Bellman segments
+   over target-shadow gaps and triangular slots;
+3. a stronger cocycle quotient state if the current `step-stack` quotient is
+   too weak to connect semantic membership to the margin gain.
+
+Do not proceed with graph147 if the proof wants:
+
+- sampled ranks;
+- selected-prefix ids;
+- accepted-trace ids;
+- exact affine RHS keys;
+- exact solved start-point keys;
+- one generated branch per observed path.
+
+If any of those appear, graph147 scaling should stop and the next experiment
+should be the cancellation-tree segment algebra or a stronger quotient-state
+profiler.  The selected-prefix producer remains useful as a discovery tool,
+not as final Lean evidence.
+
 ### 2026-07-05 graph147 direct eval socket accepted
 
 The latest GPT5.5 Pro guidance has been applied to the graph147 lane: keep the
