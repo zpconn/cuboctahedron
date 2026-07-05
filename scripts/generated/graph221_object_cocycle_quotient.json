@@ -1,0 +1,903 @@
+{
+  "arithmetic": "exact rational diagnostic; not proof evidence",
+  "best_consistent": {
+    "compression": {
+      "edge_ratio": 0.9047619047619048,
+      "state_ratio": 0.8095238095238095
+    },
+    "consistent": true,
+    "equations": 21,
+    "full_edges": 21,
+    "full_states": 21,
+    "labels": 14,
+    "max_raw_gain_collision_width": 1,
+    "mode": "step-stack",
+    "quotient_edges": 19,
+    "quotient_states": 17,
+    "raw_gain_collision_groups": 0,
+    "solution": {
+      "gauge": [
+        {
+          "quotient_state": "step=0|stack=<empty>",
+          "state": 0,
+          "state_key": "step=0|rem=2,2,2,2,2,2,2|par=000|stack=<empty>|triSrc=",
+          "value": "368"
+        },
+        {
+          "quotient_state": "step=10|stack=dm11 d111 d1m1 dm11",
+          "state": 57,
+          "state_key": "step=10|rem=1,0,1,1,0,1,0|par=101|stack=dm11 d111 d1m1 dm11|triSrc=3:dm11->dm11@111|4:d111->d111@111|5:d1m1->d1m1@111|6:d11m->d11m@111|7:d11m->d11m@111|8:dm11->dm11@111",
+          "value": "-117"
+        },
+        {
+          "quotient_state": "step=10|stack=dm11 d111 d1m1 dm11 d111",
+          "state": 85,
+          "state_key": "step=10|rem=1,1,1,0,0,1,0|par=111|stack=dm11 d111 d1m1 dm11 d111|triSrc=3:dm11->dm11@111|4:d111->d111@111|5:d1m1->d1m1@111|6:d11m->d11m@111|7:d11m->d11m@111|8:dm11->dm11@111|9:d111->d111@111",
+          "value": "96"
+        },
+        {
+          "quotient_state": "step=11|stack=dm11 d111 d1m1 dm11 d111",
+          "state": 185,
+          "state_key": "step=11|rem=1,0,1,1,0,0,0|par=101|stack=dm11 d111 d1m1 dm11 d111|triSrc=3:dm11->dm11@111|4:d111->d111@111|5:d1m1->d1m1@111|6:d11m->d11m@111|7:d11m->d11m@111|8:dm11->dm11@111|10:d1m1->d111@101",
+          "value": "-21"
+        },
+        {
+          "quotient_state": "step=11|stack=dm11 d111 d1m1 dm11 d111 d1m1",
+          "state": 228,
+          "state_key": "step=11|rem=1,1,1,0,0,0,0|par=111|stack=dm11 d111 d1m1 dm11 d111 d1m1|triSrc=3:dm11->dm11@111|4:d111->d111@111|5:d1m1->d1m1@111|6:d11m->d11m@111|7:d11m->d11m@111|8:dm11->dm11@111|9:d111->d111@111|10:d1m1->d1m1@111",
+          "value": "-28"
+        },
+        {
+          "quotient_state": "step=12|stack=dm11 d111 d1m1 dm11 d111 d1m1",
+          "state": 339,
+          "state_key": "step=12|rem=1,0,1,0,0,0,0|par=101|stack=dm11 d111 d1m1 dm11 d111 d1m1|triSrc=3:dm11->dm11@111|4:d111->d111@111|5:d1m1->d1m1@111|6:d11m->d11m@111|7:d11m->d11m@111|8:dm11->dm11@111|10:d1m1->d111@101|11:d111->d1m1@101",
+          "value": "-145"
+        },
+        {
+          "quotient_state": "step=12|stack=dm11 d111 d1m1 dm11 d111 d1m1",
+          "state": 340,
+          "state_key": "step=12|rem=1,0,1,0,0,0,0|par=101|stack=dm11 d111 d1m1 dm11 d111 d1m1|triSrc=3:dm11->dm11@111|4:d111->d111@111|5:d1m1->d1m1@111|6:d11m->d11m@111|7:d11m->d11m@111|8:dm11->dm11@111|9:d111->d111@111|10:d1m1->d1m1@111",
+          "value": "75"
+        },
+        {
+          "quotient_state": "step=12|stack=dm11 d111 d1m1 dm11 d111 d1m1",
+          "state": 363,
+          "state_key": "step=12|rem=1,1,0,0,0,0,0|par=110|stack=dm11 d111 d1m1 dm11 d111 d1m1|triSrc=3:dm11->dm11@111|4:d111->d111@111|5:d1m1->d1m1@111|6:d11m->d11m@111|7:d11m->d11m@111|8:dm11->dm11@111|9:d111->d111@111|10:d1m1->d1m1@111",
+          "value": "-38"
+        },
+        {
+          "quotient_state": "step=13|stack=dm11 d111 d1m1 dm11 d111 d1m1",
+          "state": 484,
+          "state_key": "step=13|rem=1,0,0,0,0,0,0|par=100|stack=dm11 d111 d1m1 dm11 d111 d1m1|triSrc=3:dm11->dm11@111|4:d111->d111@111|5:d1m1->d1m1@111|6:d11m->d11m@111|7:d11m->d11m@111|8:dm11->dm11@111|10:d1m1->d111@101|11:d111->d1m1@101",
+          "value": "-155"
+        },
+        {
+          "quotient_state": "step=13|stack=dm11 d111 d1m1 dm11 d111 d1m1",
+          "state": 485,
+          "state_key": "step=13|rem=1,0,0,0,0,0,0|par=100|stack=dm11 d111 d1m1 dm11 d111 d1m1|triSrc=3:dm11->dm11@111|4:d111->d111@111|5:d1m1->d1m1@111|6:d11m->d11m@111|7:d11m->d11m@111|8:dm11->dm11@111|9:d111->d111@111|10:d1m1->d1m1@111",
+          "value": "65"
+        },
+        {
+          "quotient_state": "step=14|stack=dm11 d111 d1m1 dm11 d111 d1m1",
+          "state": 600,
+          "state_key": "step=14|rem=0,0,0,0,0,0,0|par=000|stack=dm11 d111 d1m1 dm11 d111 d1m1|triSrc=3:dm11->dm11@111|4:d111->d111@111|5:d1m1->d1m1@111|6:d11m->d11m@111|7:d11m->d11m@111|8:dm11->dm11@111|10:d1m1->d111@101|11:d111->d1m1@101",
+          "value": "-228"
+        },
+        {
+          "quotient_state": "step=14|stack=dm11 d111 d1m1 dm11 d111 d1m1",
+          "state": 601,
+          "state_key": "step=14|rem=0,0,0,0,0,0,0|par=000|stack=dm11 d111 d1m1 dm11 d111 d1m1|triSrc=3:dm11->dm11@111|4:d111->d111@111|5:d1m1->d1m1@111|6:d11m->d11m@111|7:d11m->d11m@111|8:dm11->dm11@111|9:d111->d111@111|10:d1m1->d1m1@111",
+          "value": "-8"
+        },
+        {
+          "quotient_state": "step=1|stack=<empty>",
+          "state": 608,
+          "state_key": "step=1|rem=1,2,2,2,2,2,2|par=100|stack=<empty>|triSrc=",
+          "value": "471"
+        },
+        {
+          "quotient_state": "step=2|stack=<empty>",
+          "state": 610,
+          "state_key": "step=2|rem=1,1,2,2,2,2,2|par=110|stack=<empty>|triSrc=",
+          "value": "398"
+        },
+        {
+          "quotient_state": "step=3|stack=<empty>",
+          "state": 616,
+          "state_key": "step=3|rem=1,1,1,2,2,2,2|par=111|stack=<empty>|triSrc=",
+          "value": "388"
+        },
+        {
+          "quotient_state": "step=4|stack=dm11",
+          "state": 632,
+          "state_key": "step=4|rem=1,1,1,2,2,2,1|par=111|stack=dm11|triSrc=3:dm11->dm11@111",
+          "value": "264"
+        },
+        {
+          "quotient_state": "step=5|stack=dm11 d111",
+          "state": 662,
+          "state_key": "step=5|rem=1,1,1,1,2,2,1|par=111|stack=dm11 d111|triSrc=3:dm11->dm11@111|4:d111->d111@111",
+          "value": "360"
+        },
+        {
+          "quotient_state": "step=6|stack=dm11 d111 d1m1",
+          "state": 713,
+          "state_key": "step=6|rem=1,1,1,1,2,1,1|par=111|stack=dm11 d111 d1m1|triSrc=3:dm11->dm11@111|4:d111->d111@111|5:d1m1->d1m1@111",
+          "value": "324"
+        },
+        {
+          "quotient_state": "step=7|stack=dm11 d111 d1m1 d11m",
+          "state": 778,
+          "state_key": "step=7|rem=1,1,1,1,1,1,1|par=111|stack=dm11 d111 d1m1 d11m|triSrc=3:dm11->dm11@111|4:d111->d111@111|5:d1m1->d1m1@111|6:d11m->d11m@111",
+          "value": "180"
+        },
+        {
+          "quotient_state": "step=8|stack=dm11 d111 d1m1",
+          "state": 852,
+          "state_key": "step=8|rem=1,1,1,1,0,1,1|par=111|stack=dm11 d111 d1m1|triSrc=3:dm11->dm11@111|4:d111->d111@111|5:d1m1->d1m1@111|6:d11m->d11m@111|7:d11m->d11m@111",
+          "value": "36"
+        },
+        {
+          "quotient_state": "step=9|stack=dm11 d111 d1m1 dm11",
+          "state": 945,
+          "state_key": "step=9|rem=1,1,1,1,0,1,0|par=111|stack=dm11 d111 d1m1 dm11|triSrc=3:dm11->dm11@111|4:d111->d111@111|5:d1m1->d1m1@111|6:d11m->d11m@111|7:d11m->d11m@111|8:dm11->dm11@111",
+          "value": "0"
+        }
+      ],
+      "gauge_count": 21,
+      "max_bit_length": 9,
+      "nonzero_values": 20,
+      "small_gain_count": 19,
+      "small_gains": [
+        {
+          "dst": "step=1|stack=<empty>",
+          "label": 8,
+          "label_key": "face=xm|pair=x",
+          "src": "step=0|stack=<empty>",
+          "value": "0"
+        },
+        {
+          "dst": "step=2|stack=<empty>",
+          "label": 10,
+          "label_key": "face=ym|pair=y",
+          "src": "step=1|stack=<empty>",
+          "value": "0"
+        },
+        {
+          "dst": "step=3|stack=<empty>",
+          "label": 12,
+          "label_key": "face=zm|pair=z",
+          "src": "step=2|stack=<empty>",
+          "value": "0"
+        },
+        {
+          "dst": "step=4|stack=dm11",
+          "label": 3,
+          "label_key": "face=tmpp|pair=dm11",
+          "src": "step=3|stack=<empty>",
+          "value": "0"
+        },
+        {
+          "dst": "step=5|stack=dm11 d111",
+          "label": 7,
+          "label_key": "face=tppp|pair=d111",
+          "src": "step=4|stack=dm11",
+          "value": "0"
+        },
+        {
+          "dst": "step=6|stack=dm11 d111 d1m1",
+          "label": 5,
+          "label_key": "face=tpmp|pair=d1m1",
+          "src": "step=5|stack=dm11 d111",
+          "value": "0"
+        },
+        {
+          "dst": "step=7|stack=dm11 d111 d1m1 d11m",
+          "label": 6,
+          "label_key": "face=tppm|pair=d11m",
+          "src": "step=6|stack=dm11 d111 d1m1",
+          "value": "0"
+        },
+        {
+          "dst": "step=8|stack=dm11 d111 d1m1",
+          "label": 1,
+          "label_key": "face=tmmp|pair=d11m",
+          "src": "step=7|stack=dm11 d111 d1m1 d11m",
+          "value": "0"
+        },
+        {
+          "dst": "step=9|stack=dm11 d111 d1m1 dm11",
+          "label": 4,
+          "label_key": "face=tpmm|pair=dm11",
+          "src": "step=8|stack=dm11 d111 d1m1",
+          "value": "0"
+        },
+        {
+          "dst": "step=10|stack=dm11 d111 d1m1 dm11",
+          "label": 11,
+          "label_key": "face=yp|pair=y",
+          "src": "step=9|stack=dm11 d111 d1m1 dm11",
+          "value": "0"
+        },
+        {
+          "dst": "step=11|stack=dm11 d111 d1m1 dm11 d111",
+          "label": 2,
+          "label_key": "face=tmpm|pair=d1m1",
+          "src": "step=10|stack=dm11 d111 d1m1 dm11",
+          "value": "0"
+        },
+        {
+          "dst": "step=12|stack=dm11 d111 d1m1 dm11 d111 d1m1",
+          "label": 0,
+          "label_key": "face=tmmm|pair=d111",
+          "src": "step=11|stack=dm11 d111 d1m1 dm11 d111",
+          "value": "0"
+        },
+        {
+          "dst": "step=13|stack=dm11 d111 d1m1 dm11 d111 d1m1",
+          "label": 13,
+          "label_key": "face=zp|pair=z",
+          "src": "step=12|stack=dm11 d111 d1m1 dm11 d111 d1m1",
+          "value": "0"
+        },
+        {
+          "dst": "step=14|stack=dm11 d111 d1m1 dm11 d111 d1m1",
+          "label": 9,
+          "label_key": "face=xp|pair=x",
+          "src": "step=13|stack=dm11 d111 d1m1 dm11 d111 d1m1",
+          "value": "0"
+        },
+        {
+          "dst": "step=10|stack=dm11 d111 d1m1 dm11 d111",
+          "label": 0,
+          "label_key": "face=tmmm|pair=d111",
+          "src": "step=9|stack=dm11 d111 d1m1 dm11",
+          "value": "0"
+        },
+        {
+          "dst": "step=11|stack=dm11 d111 d1m1 dm11 d111 d1m1",
+          "label": 2,
+          "label_key": "face=tmpm|pair=d1m1",
+          "src": "step=10|stack=dm11 d111 d1m1 dm11 d111",
+          "value": "0"
+        },
+        {
+          "dst": "step=12|stack=dm11 d111 d1m1 dm11 d111 d1m1",
+          "label": 11,
+          "label_key": "face=yp|pair=y",
+          "src": "step=11|stack=dm11 d111 d1m1 dm11 d111 d1m1",
+          "value": "0"
+        },
+        {
+          "dst": "step=12|stack=dm11 d111 d1m1 dm11 d111 d1m1",
+          "label": 13,
+          "label_key": "face=zp|pair=z",
+          "src": "step=11|stack=dm11 d111 d1m1 dm11 d111 d1m1",
+          "value": "0"
+        },
+        {
+          "dst": "step=13|stack=dm11 d111 d1m1 dm11 d111 d1m1",
+          "label": 11,
+          "label_key": "face=yp|pair=y",
+          "src": "step=12|stack=dm11 d111 d1m1 dm11 d111 d1m1",
+          "value": "0"
+        }
+      ]
+    },
+    "variables": 40
+  },
+  "decision": "graph221_cocycle_quotient_candidate_found",
+  "graph221_class_count": 3,
+  "graph221_classes": [
+    {
+      "class_index": 16,
+      "edge_indices": [
+        0,
+        533,
+        540,
+        556,
+        590,
+        643,
+        714,
+        800,
+        894,
+        1015,
+        58,
+        218,
+        380,
+        525
+      ],
+      "expected_bound": -420,
+      "expected_gain": -596,
+      "faces": [
+        "xm",
+        "ym",
+        "zm",
+        "tmpp",
+        "tppp",
+        "tpmp",
+        "tppm",
+        "tmmp",
+        "tpmm",
+        "yp",
+        "tmpm",
+        "tmmm",
+        "zp",
+        "xp"
+      ],
+      "final": 600,
+      "label_indices": [
+        8,
+        10,
+        12,
+        3,
+        7,
+        5,
+        6,
+        1,
+        4,
+        11,
+        2,
+        0,
+        13,
+        9
+      ],
+      "margin_scaled": -420
+    },
+    {
+      "class_index": 17,
+      "edge_indices": [
+        0,
+        533,
+        540,
+        556,
+        590,
+        643,
+        714,
+        800,
+        894,
+        1016,
+        105,
+        266,
+        381,
+        526
+      ],
+      "expected_bound": -200,
+      "expected_gain": -376,
+      "faces": [
+        "xm",
+        "ym",
+        "zm",
+        "tmpp",
+        "tppp",
+        "tpmp",
+        "tppm",
+        "tmmp",
+        "tpmm",
+        "tmmm",
+        "tmpm",
+        "yp",
+        "zp",
+        "xp"
+      ],
+      "final": 601,
+      "label_indices": [
+        8,
+        10,
+        12,
+        3,
+        7,
+        5,
+        6,
+        1,
+        4,
+        0,
+        2,
+        11,
+        13,
+        9
+      ],
+      "margin_scaled": -200
+    },
+    {
+      "class_index": 18,
+      "edge_indices": [
+        0,
+        533,
+        540,
+        556,
+        590,
+        643,
+        714,
+        800,
+        894,
+        1016,
+        105,
+        267,
+        404,
+        526
+      ],
+      "expected_bound": -200,
+      "expected_gain": -376,
+      "faces": [
+        "xm",
+        "ym",
+        "zm",
+        "tmpp",
+        "tppp",
+        "tpmp",
+        "tppm",
+        "tmmp",
+        "tpmm",
+        "tmmm",
+        "tmpm",
+        "zp",
+        "yp",
+        "xp"
+      ],
+      "final": 601,
+      "label_indices": [
+        8,
+        10,
+        12,
+        3,
+        7,
+        5,
+        6,
+        1,
+        4,
+        0,
+        2,
+        13,
+        11,
+        9
+      ],
+      "margin_scaled": -200
+    }
+  ],
+  "input": "/home/zpconn/code/cuboctahedron/scripts/generated/nonid_margin_bellman_top_pairing_000000000_010000000_with_step_tri_source_graph.json",
+  "mode": "graph221-object-cocycle-quotient-profile",
+  "quotients": [
+    {
+      "compression": {
+        "edge_ratio": 1.0,
+        "state_ratio": 1.0
+      },
+      "consistent": true,
+      "equations": 21,
+      "full_edges": 21,
+      "full_states": 21,
+      "labels": 14,
+      "max_raw_gain_collision_width": 1,
+      "mode": "full",
+      "quotient_edges": 21,
+      "quotient_states": 21,
+      "raw_gain_collision_groups": 0,
+      "variables": 42
+    },
+    {
+      "compression": {
+        "edge_ratio": 0.9047619047619048,
+        "state_ratio": 0.8571428571428571
+      },
+      "consistent": true,
+      "equations": 21,
+      "full_edges": 21,
+      "full_states": 21,
+      "labels": 14,
+      "max_raw_gain_collision_width": 1,
+      "mode": "step-tri-src-no-pos",
+      "quotient_edges": 19,
+      "quotient_states": 18,
+      "raw_gain_collision_groups": 0,
+      "variables": 40
+    },
+    {
+      "compression": {
+        "edge_ratio": 0.9047619047619048,
+        "state_ratio": 0.8571428571428571
+      },
+      "consistent": true,
+      "equations": 21,
+      "full_edges": 21,
+      "full_states": 21,
+      "labels": 14,
+      "max_raw_gain_collision_width": 1,
+      "mode": "step-tri-targets",
+      "quotient_edges": 19,
+      "quotient_states": 18,
+      "raw_gain_collision_groups": 0,
+      "variables": 40
+    },
+    {
+      "compression": {
+        "edge_ratio": 0.9047619047619048,
+        "state_ratio": 0.8571428571428571
+      },
+      "consistent": true,
+      "equations": 21,
+      "full_edges": 21,
+      "full_states": 21,
+      "labels": 14,
+      "max_raw_gain_collision_width": 1,
+      "mode": "step-par-tri-targets",
+      "quotient_edges": 19,
+      "quotient_states": 18,
+      "raw_gain_collision_groups": 0,
+      "variables": 40
+    },
+    {
+      "compression": {
+        "edge_ratio": 0.9047619047619048,
+        "state_ratio": 0.8571428571428571
+      },
+      "consistent": true,
+      "equations": 21,
+      "full_edges": 21,
+      "full_states": 21,
+      "labels": 14,
+      "max_raw_gain_collision_width": 1,
+      "mode": "no-tri-src",
+      "quotient_edges": 19,
+      "quotient_states": 18,
+      "raw_gain_collision_groups": 0,
+      "variables": 40
+    },
+    {
+      "compression": {
+        "edge_ratio": 0.9047619047619048,
+        "state_ratio": 0.8571428571428571
+      },
+      "consistent": true,
+      "equations": 21,
+      "full_edges": 21,
+      "full_states": 21,
+      "labels": 14,
+      "max_raw_gain_collision_width": 1,
+      "mode": "no-rem",
+      "quotient_edges": 19,
+      "quotient_states": 18,
+      "raw_gain_collision_groups": 0,
+      "variables": 40
+    },
+    {
+      "compression": {
+        "edge_ratio": 0.9047619047619048,
+        "state_ratio": 0.8571428571428571
+      },
+      "consistent": true,
+      "equations": 21,
+      "full_edges": 21,
+      "full_states": 21,
+      "labels": 14,
+      "max_raw_gain_collision_width": 1,
+      "mode": "step-par-stack",
+      "quotient_edges": 19,
+      "quotient_states": 18,
+      "raw_gain_collision_groups": 0,
+      "variables": 40
+    },
+    {
+      "compression": {
+        "edge_ratio": 0.9047619047619048,
+        "state_ratio": 0.8571428571428571
+      },
+      "consistent": true,
+      "equations": 21,
+      "full_edges": 21,
+      "full_states": 21,
+      "labels": 14,
+      "max_raw_gain_collision_width": 1,
+      "mode": "step-rem-par",
+      "quotient_edges": 19,
+      "quotient_states": 18,
+      "raw_gain_collision_groups": 0,
+      "variables": 40
+    },
+    {
+      "compression": {
+        "edge_ratio": 0.9047619047619048,
+        "state_ratio": 0.8095238095238095
+      },
+      "consistent": true,
+      "equations": 21,
+      "full_edges": 21,
+      "full_states": 21,
+      "labels": 14,
+      "max_raw_gain_collision_width": 1,
+      "mode": "step-stack",
+      "quotient_edges": 19,
+      "quotient_states": 17,
+      "raw_gain_collision_groups": 0,
+      "solution": {
+        "gauge": [
+          {
+            "quotient_state": "step=0|stack=<empty>",
+            "state": 0,
+            "state_key": "step=0|rem=2,2,2,2,2,2,2|par=000|stack=<empty>|triSrc=",
+            "value": "368"
+          },
+          {
+            "quotient_state": "step=10|stack=dm11 d111 d1m1 dm11",
+            "state": 57,
+            "state_key": "step=10|rem=1,0,1,1,0,1,0|par=101|stack=dm11 d111 d1m1 dm11|triSrc=3:dm11->dm11@111|4:d111->d111@111|5:d1m1->d1m1@111|6:d11m->d11m@111|7:d11m->d11m@111|8:dm11->dm11@111",
+            "value": "-117"
+          },
+          {
+            "quotient_state": "step=10|stack=dm11 d111 d1m1 dm11 d111",
+            "state": 85,
+            "state_key": "step=10|rem=1,1,1,0,0,1,0|par=111|stack=dm11 d111 d1m1 dm11 d111|triSrc=3:dm11->dm11@111|4:d111->d111@111|5:d1m1->d1m1@111|6:d11m->d11m@111|7:d11m->d11m@111|8:dm11->dm11@111|9:d111->d111@111",
+            "value": "96"
+          },
+          {
+            "quotient_state": "step=11|stack=dm11 d111 d1m1 dm11 d111",
+            "state": 185,
+            "state_key": "step=11|rem=1,0,1,1,0,0,0|par=101|stack=dm11 d111 d1m1 dm11 d111|triSrc=3:dm11->dm11@111|4:d111->d111@111|5:d1m1->d1m1@111|6:d11m->d11m@111|7:d11m->d11m@111|8:dm11->dm11@111|10:d1m1->d111@101",
+            "value": "-21"
+          },
+          {
+            "quotient_state": "step=11|stack=dm11 d111 d1m1 dm11 d111 d1m1",
+            "state": 228,
+            "state_key": "step=11|rem=1,1,1,0,0,0,0|par=111|stack=dm11 d111 d1m1 dm11 d111 d1m1|triSrc=3:dm11->dm11@111|4:d111->d111@111|5:d1m1->d1m1@111|6:d11m->d11m@111|7:d11m->d11m@111|8:dm11->dm11@111|9:d111->d111@111|10:d1m1->d1m1@111",
+            "value": "-28"
+          },
+          {
+            "quotient_state": "step=12|stack=dm11 d111 d1m1 dm11 d111 d1m1",
+            "state": 339,
+            "state_key": "step=12|rem=1,0,1,0,0,0,0|par=101|stack=dm11 d111 d1m1 dm11 d111 d1m1|triSrc=3:dm11->dm11@111|4:d111->d111@111|5:d1m1->d1m1@111|6:d11m->d11m@111|7:d11m->d11m@111|8:dm11->dm11@111|10:d1m1->d111@101|11:d111->d1m1@101",
+            "value": "-145"
+          },
+          {
+            "quotient_state": "step=12|stack=dm11 d111 d1m1 dm11 d111 d1m1",
+            "state": 340,
+            "state_key": "step=12|rem=1,0,1,0,0,0,0|par=101|stack=dm11 d111 d1m1 dm11 d111 d1m1|triSrc=3:dm11->dm11@111|4:d111->d111@111|5:d1m1->d1m1@111|6:d11m->d11m@111|7:d11m->d11m@111|8:dm11->dm11@111|9:d111->d111@111|10:d1m1->d1m1@111",
+            "value": "75"
+          },
+          {
+            "quotient_state": "step=12|stack=dm11 d111 d1m1 dm11 d111 d1m1",
+            "state": 363,
+            "state_key": "step=12|rem=1,1,0,0,0,0,0|par=110|stack=dm11 d111 d1m1 dm11 d111 d1m1|triSrc=3:dm11->dm11@111|4:d111->d111@111|5:d1m1->d1m1@111|6:d11m->d11m@111|7:d11m->d11m@111|8:dm11->dm11@111|9:d111->d111@111|10:d1m1->d1m1@111",
+            "value": "-38"
+          },
+          {
+            "quotient_state": "step=13|stack=dm11 d111 d1m1 dm11 d111 d1m1",
+            "state": 484,
+            "state_key": "step=13|rem=1,0,0,0,0,0,0|par=100|stack=dm11 d111 d1m1 dm11 d111 d1m1|triSrc=3:dm11->dm11@111|4:d111->d111@111|5:d1m1->d1m1@111|6:d11m->d11m@111|7:d11m->d11m@111|8:dm11->dm11@111|10:d1m1->d111@101|11:d111->d1m1@101",
+            "value": "-155"
+          },
+          {
+            "quotient_state": "step=13|stack=dm11 d111 d1m1 dm11 d111 d1m1",
+            "state": 485,
+            "state_key": "step=13|rem=1,0,0,0,0,0,0|par=100|stack=dm11 d111 d1m1 dm11 d111 d1m1|triSrc=3:dm11->dm11@111|4:d111->d111@111|5:d1m1->d1m1@111|6:d11m->d11m@111|7:d11m->d11m@111|8:dm11->dm11@111|9:d111->d111@111|10:d1m1->d1m1@111",
+            "value": "65"
+          },
+          {
+            "quotient_state": "step=14|stack=dm11 d111 d1m1 dm11 d111 d1m1",
+            "state": 600,
+            "state_key": "step=14|rem=0,0,0,0,0,0,0|par=000|stack=dm11 d111 d1m1 dm11 d111 d1m1|triSrc=3:dm11->dm11@111|4:d111->d111@111|5:d1m1->d1m1@111|6:d11m->d11m@111|7:d11m->d11m@111|8:dm11->dm11@111|10:d1m1->d111@101|11:d111->d1m1@101",
+            "value": "-228"
+          },
+          {
+            "quotient_state": "step=14|stack=dm11 d111 d1m1 dm11 d111 d1m1",
+            "state": 601,
+            "state_key": "step=14|rem=0,0,0,0,0,0,0|par=000|stack=dm11 d111 d1m1 dm11 d111 d1m1|triSrc=3:dm11->dm11@111|4:d111->d111@111|5:d1m1->d1m1@111|6:d11m->d11m@111|7:d11m->d11m@111|8:dm11->dm11@111|9:d111->d111@111|10:d1m1->d1m1@111",
+            "value": "-8"
+          },
+          {
+            "quotient_state": "step=1|stack=<empty>",
+            "state": 608,
+            "state_key": "step=1|rem=1,2,2,2,2,2,2|par=100|stack=<empty>|triSrc=",
+            "value": "471"
+          },
+          {
+            "quotient_state": "step=2|stack=<empty>",
+            "state": 610,
+            "state_key": "step=2|rem=1,1,2,2,2,2,2|par=110|stack=<empty>|triSrc=",
+            "value": "398"
+          },
+          {
+            "quotient_state": "step=3|stack=<empty>",
+            "state": 616,
+            "state_key": "step=3|rem=1,1,1,2,2,2,2|par=111|stack=<empty>|triSrc=",
+            "value": "388"
+          },
+          {
+            "quotient_state": "step=4|stack=dm11",
+            "state": 632,
+            "state_key": "step=4|rem=1,1,1,2,2,2,1|par=111|stack=dm11|triSrc=3:dm11->dm11@111",
+            "value": "264"
+          },
+          {
+            "quotient_state": "step=5|stack=dm11 d111",
+            "state": 662,
+            "state_key": "step=5|rem=1,1,1,1,2,2,1|par=111|stack=dm11 d111|triSrc=3:dm11->dm11@111|4:d111->d111@111",
+            "value": "360"
+          },
+          {
+            "quotient_state": "step=6|stack=dm11 d111 d1m1",
+            "state": 713,
+            "state_key": "step=6|rem=1,1,1,1,2,1,1|par=111|stack=dm11 d111 d1m1|triSrc=3:dm11->dm11@111|4:d111->d111@111|5:d1m1->d1m1@111",
+            "value": "324"
+          },
+          {
+            "quotient_state": "step=7|stack=dm11 d111 d1m1 d11m",
+            "state": 778,
+            "state_key": "step=7|rem=1,1,1,1,1,1,1|par=111|stack=dm11 d111 d1m1 d11m|triSrc=3:dm11->dm11@111|4:d111->d111@111|5:d1m1->d1m1@111|6:d11m->d11m@111",
+            "value": "180"
+          },
+          {
+            "quotient_state": "step=8|stack=dm11 d111 d1m1",
+            "state": 852,
+            "state_key": "step=8|rem=1,1,1,1,0,1,1|par=111|stack=dm11 d111 d1m1|triSrc=3:dm11->dm11@111|4:d111->d111@111|5:d1m1->d1m1@111|6:d11m->d11m@111|7:d11m->d11m@111",
+            "value": "36"
+          },
+          {
+            "quotient_state": "step=9|stack=dm11 d111 d1m1 dm11",
+            "state": 945,
+            "state_key": "step=9|rem=1,1,1,1,0,1,0|par=111|stack=dm11 d111 d1m1 dm11|triSrc=3:dm11->dm11@111|4:d111->d111@111|5:d1m1->d1m1@111|6:d11m->d11m@111|7:d11m->d11m@111|8:dm11->dm11@111",
+            "value": "0"
+          }
+        ],
+        "gauge_count": 21,
+        "max_bit_length": 9,
+        "nonzero_values": 20,
+        "small_gain_count": 19,
+        "small_gains": [
+          {
+            "dst": "step=1|stack=<empty>",
+            "label": 8,
+            "label_key": "face=xm|pair=x",
+            "src": "step=0|stack=<empty>",
+            "value": "0"
+          },
+          {
+            "dst": "step=2|stack=<empty>",
+            "label": 10,
+            "label_key": "face=ym|pair=y",
+            "src": "step=1|stack=<empty>",
+            "value": "0"
+          },
+          {
+            "dst": "step=3|stack=<empty>",
+            "label": 12,
+            "label_key": "face=zm|pair=z",
+            "src": "step=2|stack=<empty>",
+            "value": "0"
+          },
+          {
+            "dst": "step=4|stack=dm11",
+            "label": 3,
+            "label_key": "face=tmpp|pair=dm11",
+            "src": "step=3|stack=<empty>",
+            "value": "0"
+          },
+          {
+            "dst": "step=5|stack=dm11 d111",
+            "label": 7,
+            "label_key": "face=tppp|pair=d111",
+            "src": "step=4|stack=dm11",
+            "value": "0"
+          },
+          {
+            "dst": "step=6|stack=dm11 d111 d1m1",
+            "label": 5,
+            "label_key": "face=tpmp|pair=d1m1",
+            "src": "step=5|stack=dm11 d111",
+            "value": "0"
+          },
+          {
+            "dst": "step=7|stack=dm11 d111 d1m1 d11m",
+            "label": 6,
+            "label_key": "face=tppm|pair=d11m",
+            "src": "step=6|stack=dm11 d111 d1m1",
+            "value": "0"
+          },
+          {
+            "dst": "step=8|stack=dm11 d111 d1m1",
+            "label": 1,
+            "label_key": "face=tmmp|pair=d11m",
+            "src": "step=7|stack=dm11 d111 d1m1 d11m",
+            "value": "0"
+          },
+          {
+            "dst": "step=9|stack=dm11 d111 d1m1 dm11",
+            "label": 4,
+            "label_key": "face=tpmm|pair=dm11",
+            "src": "step=8|stack=dm11 d111 d1m1",
+            "value": "0"
+          },
+          {
+            "dst": "step=10|stack=dm11 d111 d1m1 dm11",
+            "label": 11,
+            "label_key": "face=yp|pair=y",
+            "src": "step=9|stack=dm11 d111 d1m1 dm11",
+            "value": "0"
+          },
+          {
+            "dst": "step=11|stack=dm11 d111 d1m1 dm11 d111",
+            "label": 2,
+            "label_key": "face=tmpm|pair=d1m1",
+            "src": "step=10|stack=dm11 d111 d1m1 dm11",
+            "value": "0"
+          },
+          {
+            "dst": "step=12|stack=dm11 d111 d1m1 dm11 d111 d1m1",
+            "label": 0,
+            "label_key": "face=tmmm|pair=d111",
+            "src": "step=11|stack=dm11 d111 d1m1 dm11 d111",
+            "value": "0"
+          },
+          {
+            "dst": "step=13|stack=dm11 d111 d1m1 dm11 d111 d1m1",
+            "label": 13,
+            "label_key": "face=zp|pair=z",
+            "src": "step=12|stack=dm11 d111 d1m1 dm11 d111 d1m1",
+            "value": "0"
+          },
+          {
+            "dst": "step=14|stack=dm11 d111 d1m1 dm11 d111 d1m1",
+            "label": 9,
+            "label_key": "face=xp|pair=x",
+            "src": "step=13|stack=dm11 d111 d1m1 dm11 d111 d1m1",
+            "value": "0"
+          },
+          {
+            "dst": "step=10|stack=dm11 d111 d1m1 dm11 d111",
+            "label": 0,
+            "label_key": "face=tmmm|pair=d111",
+            "src": "step=9|stack=dm11 d111 d1m1 dm11",
+            "value": "0"
+          },
+          {
+            "dst": "step=11|stack=dm11 d111 d1m1 dm11 d111 d1m1",
+            "label": 2,
+            "label_key": "face=tmpm|pair=d1m1",
+            "src": "step=10|stack=dm11 d111 d1m1 dm11 d111",
+            "value": "0"
+          },
+          {
+            "dst": "step=12|stack=dm11 d111 d1m1 dm11 d111 d1m1",
+            "label": 11,
+            "label_key": "face=yp|pair=y",
+            "src": "step=11|stack=dm11 d111 d1m1 dm11 d111 d1m1",
+            "value": "0"
+          },
+          {
+            "dst": "step=12|stack=dm11 d111 d1m1 dm11 d111 d1m1",
+            "label": 13,
+            "label_key": "face=zp|pair=z",
+            "src": "step=11|stack=dm11 d111 d1m1 dm11 d111 d1m1",
+            "value": "0"
+          },
+          {
+            "dst": "step=13|stack=dm11 d111 d1m1 dm11 d111 d1m1",
+            "label": 11,
+            "label_key": "face=yp|pair=y",
+            "src": "step=12|stack=dm11 d111 d1m1 dm11 d111 d1m1",
+            "value": "0"
+          }
+        ]
+      },
+      "variables": 40
+    },
+    {
+      "compression": {
+        "edge_ratio": 0.9047619047619048,
+        "state_ratio": 0.8571428571428571
+      },
+      "consistent": true,
+      "equations": 21,
+      "full_edges": 21,
+      "full_states": 21,
+      "labels": 14,
+      "max_raw_gain_collision_width": 1,
+      "mode": "step-par",
+      "quotient_edges": 19,
+      "quotient_states": 18,
+      "raw_gain_collision_groups": 0,
+      "variables": 40
+    }
+  ],
+  "subgraph_edge_equations": 21,
+  "subgraph_state_count": 21
+}

@@ -116787,4 +116787,80 @@ affine RHS, selected-prefix, accepted-trace, sampled-rank, or stored-path
 membership, stop and run the graph221 cocycle/cancellation-summary quotient
 experiment over these same three suffixes.
 ```
+
+#### 2026-07-05 graph221 object cocycle quotient diagnostic
+
+Status: diagnostic accepted; not proof evidence.
+
+No existing graph221 quotient module was available to reuse.  I added a small
+diagnostic profiler:
+
+```text
+scripts/profile_graph221_object_cocycle_quotient.py
+```
+
+It filters the existing bounded exact graph export to the three graph221
+object-margin suffix paths, deduplicates the observed edge-label equations, and
+tests the same exact rational cocycle/gauge quotient condition used for the
+graph183 diagnostics:
+
+```text
+rawGain = smallGain(q src, label, q dst) + gauge(dst) - gauge(src)
+```
+
+Outputs:
+
+```text
+scripts/generated/graph221_object_cocycle_quotient.json
+scripts/generated/graph221_object_cocycle_quotient.md
+```
+
+Result:
+
+```text
+decision: graph221_cocycle_quotient_candidate_found
+graph221 classes: 3
+subgraph states: 21
+subgraph edge-label equations: 21
+best mode: step-stack
+best quotient states: 17
+best quotient edges: 19
+gauge entries: 21
+small-gain entries: 19
+nonzero values: 20
+max rational bit length: 9
+```
+
+All tested quotient modes were consistent on this tiny graph221 subgraph; the
+best compression by `(quotient_edges, quotient_states)` is `step-stack`.
+Interpretation:
+
+```text
+The graph221 margin problem is small enough that the next proof-producing
+attempt should be a compact cocycle/segment theorem over the three semantic
+suffixes, not a selected-prefix, accepted-trace, or sampled-rank proof.  Since
+the quotient profile is still based on observed bounded paths, it must not be
+imported as coverage evidence.  It only selects the next Lean target shape.
+```
+
+Commands run:
+
+```bash
+python3 -m py_compile scripts/profile_graph221_object_cocycle_quotient.py
+python3 scripts/profile_graph221_object_cocycle_quotient.py
+```
+
+Both commands passed.
+
+Next implementation target:
+
+```text
+Emit or hand-build the smallest graph221 cocycle/segment Lean smoke that checks
+the 21 observed edge-label equations and proves the three branch margin bounds
+through `Graph221ZmTmppSplit10MBranchMarginFamily`.  The smoke must remain
+diagnostic unless it also proves semantic closed-language membership for the
+three suffixes.  The first proof-bearing target should expose the quotient
+equations and branch constants, then a later theorem must replace observed
+path membership with `Graph221ZmTmppSplit10MRootMarginObj` semantics.
+```
 ```
