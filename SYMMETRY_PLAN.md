@@ -104868,3 +104868,75 @@ Result:
 ```text
 pass; elapsed=6.00s; peak_tree_rss=4189 MiB; min_available=45896 MiB
 ```
+
+### 2026-07-05 checkpoint: graph151 tail premise discharged semantically
+
+The graph221 lane has now closed one of the two semantic premises from the
+previous checkpoint.  The new theorem
+
+```lean
+theorem graph151CompletionTail_of_strengthened_prefix
+  (hstrengthened :
+    TopPairingStrengthenedClosedLanguageAtRank
+      AcceptedSequenceBadFaceAtRank rank Face.ym)
+  (hprefix : Depth11Layer4PrefixAtRank rank Face.zm Face.tmpp rest) :
+  Graph151TargetCompletionTail rest
+```
+
+derives the `Graph151TargetCompletionTail` premise directly from the strengthened
+closed language and the depth-11 `zm,tmpp` prefix.  It uses only semantic
+closed-language facts: accepted-face `Nodup`, schedule, square-gap, target-shadow
+cursor, and the target-completion cancellation summary.  It does not introduce
+sampled ranks, selected prefix ids, exact affine RHS keys, solved start points,
+or per-rank/path branches.
+
+The graph221 initial gate is correspondingly narrowed to:
+
+```lean
+theorem graph221InitialContainedEvalPrefixGate_of_strengthened_prefix_and_eval
+  (hstrengthened :
+    TopPairingStrengthenedClosedLanguageAtRank
+      AcceptedSequenceBadFaceAtRank rank Face.ym)
+  (hprefix : Depth11Layer4PrefixAtRank rank Face.zm Face.tmpp rest)
+  (heval :
+    evalLabelStepFn strengthenedClosedEvalNext
+        strengthenedClosedPrefix4ZmTmppEvalState rest =
+      some (finish, gain)) :
+  TerminalContainedEvalPrefixGate
+    TerminalStepStatePartialMachine.semantic TerminalStepState.initial rank
+```
+
+So the remaining `zm,tmpp` graph221 blocker is exactly the deterministic
+strengthened evaluator success theorem from the semantic prefix/closed-language
+state.  This is the go/no-go point described by GPT5.5 Pro: if the evaluator
+success proof requires selected prefixes, sampled paths, exact affine RHS, or one
+branch per observed rank/path, stop and switch to the cancellation-tree/cocycle
+quotient experiment.  If it can be proved as a semantic suffix invariant over
+`strengthenedClosedEvalNext`, continue the Bellman state-DAG route.
+
+Readiness audit status is now:
+
+```text
+zm_tmpp status =
+  partial_graph221_layer4_gate_with_eval_premise
+remaining_gap =
+  derive strengthened evaluator success directly from the strengthened
+  closed-language rank/prefix hypotheses
+```
+
+Focused build:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 10000 \
+  --min-available-mib 30000 -- \
+  env LEAN_NUM_THREADS=1 LAKE_JOBS=1 \
+    lake build \
+      Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraph221TerminalTailPrefixSmoke
+```
+
+Result:
+
+```text
+pass; elapsed=5.01s; peak_tree_rss=4246 MiB; min_available=45847 MiB
+```

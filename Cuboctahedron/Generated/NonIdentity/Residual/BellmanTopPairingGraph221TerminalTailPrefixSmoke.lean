@@ -812,6 +812,295 @@ theorem graph221Layer4AcceptedTailSuffixOk_of_graph151TargetCompletionTail_and_s
   graph221AcceptedTailSuffixOk_of_graph151TargetCompletionTail_and_strengthenedEval
     htail heval
 
+theorem graph151_usedFaceTail_of_acceptedSequence_prefix
+    {rank : Fin numPairWords} {rest : List Face}
+    (hstrengthened :
+      TopPairingStrengthenedClosedLanguageAtRank
+        AcceptedSequenceBadFaceAtRank rank Face.ym)
+    (hprefix :
+      Depth11Layer4PrefixAtRank rank Face.zm Face.tmpp rest) :
+    TopPairingUsedFaceTail [Face.xm, Face.ym, Face.zm, Face.tmpp] rest := by
+  apply TopPairingUsedFaceTail.of_actualFaceOmni_append
+  have hactual := hstrengthened.actualFaceOmni
+  change (topPairingRankFaceLabels rank).Nodup at hactual
+  have hprefix' :
+      topPairingRankFaceLabels rank =
+        [Face.xm, Face.ym, Face.zm, Face.tmpp] ++ rest := by
+    simpa [Depth11Layer4PrefixAtRank] using hprefix
+  rw [hprefix'] at hactual
+  simpa [TopPairingActualFaceOmniLabels] using hactual
+
+theorem graph151_restLength_of_acceptedSequence_prefix
+    {rank : Fin numPairWords} {rest : List Face}
+    (hstrengthened :
+      TopPairingStrengthenedClosedLanguageAtRank
+        AcceptedSequenceBadFaceAtRank rank Face.ym)
+    (hprefix :
+      Depth11Layer4PrefixAtRank rank Face.zm Face.tmpp rest) :
+    rest.length = graph151TargetCompletionState.remaining.length := by
+  have hprefix' :
+      topPairingRankFaceLabels rank =
+        [Face.xm, Face.ym, Face.zm, Face.tmpp] ++ rest := by
+    simpa [Depth11Layer4PrefixAtRank] using hprefix
+  have hprefixLabels :
+      faceLabelsInContributionOrder (fun f : Face => f)
+          (canonicalSeqOfPairWord (unrankPairWord rank)) =
+        [Face.xm, Face.ym, Face.zm, Face.tmpp] ++ rest := by
+    simpa [topPairingRankFaceLabels] using hprefix'
+  have hlen := hstrengthened.toTopPairingClosedLanguageAtRank.schedule.1
+  rw [hprefixLabels] at hlen
+  simpa [graph151TargetCompletionState] using hlen
+
+theorem graph151_stepScheduleTail_of_acceptedSequence_prefix
+    {rank : Fin numPairWords} {rest : List Face}
+    (hstrengthened :
+      TopPairingStrengthenedClosedLanguageAtRank
+        AcceptedSequenceBadFaceAtRank rank Face.ym)
+    (hprefix :
+      Depth11Layer4PrefixAtRank rank Face.zm Face.tmpp rest) :
+    TopPairingStepScheduleFrom graph151TargetCompletionState.step rest := by
+  have hprefix' :
+      topPairingRankFaceLabels rank =
+        [Face.xm, Face.ym, Face.zm, Face.tmpp] ++ rest := by
+    simpa [Depth11Layer4PrefixAtRank] using hprefix
+  have hprefixLabels :
+      faceLabelsInContributionOrder (fun f : Face => f)
+          (canonicalSeqOfPairWord (unrankPairWord rank)) =
+        [Face.xm, Face.ym, Face.zm, Face.tmpp] ++ rest := by
+    simpa [topPairingRankFaceLabels] using hprefix'
+  have hschedule := hstrengthened.toTopPairingClosedLanguageAtRank.schedule.2
+  rw [hprefixLabels] at hschedule
+  have htail :=
+    topPairingStepScheduleFrom_append
+      (step := 0)
+      (pfx := [Face.xm, Face.ym, Face.zm, Face.tmpp])
+      (rest := rest) hschedule
+  simpa [graph151TargetCompletionState] using htail
+
+theorem graph151_squareGapTail_of_acceptedSequence_prefix
+    {rank : Fin numPairWords} {rest : List Face}
+    (hstrengthened :
+      TopPairingStrengthenedClosedLanguageAtRank
+        AcceptedSequenceBadFaceAtRank rank Face.ym)
+    (hprefix :
+      Depth11Layer4PrefixAtRank rank Face.zm Face.tmpp rest) :
+    TopPairingSquareGapFrom graph151TargetCompletionState.gap rest := by
+  have hprefix' :
+      topPairingRankFaceLabels rank =
+        [Face.xm, Face.ym, Face.zm, Face.tmpp] ++ rest := by
+    simpa [Depth11Layer4PrefixAtRank] using hprefix
+  have hprefixLabels :
+      faceLabelsInContributionOrder (fun f : Face => f)
+          (canonicalSeqOfPairWord (unrankPairWord rank)) =
+        [Face.xm, Face.ym, Face.zm, Face.tmpp] ++ rest := by
+    simpa [topPairingRankFaceLabels] using hprefix'
+  have hgap := hstrengthened.toTopPairingClosedLanguageAtRank.squareGap
+  rw [hprefixLabels] at hgap
+  have htail :=
+    topPairingSquareGapFrom_append
+      (gap := 0)
+      (pfx := [Face.xm, Face.ym, Face.zm, Face.tmpp])
+      (rest := rest) hgap
+  simpa [graph151TargetCompletionState, topPairingSquareGapAfter,
+    isSquarePair, pairOfFace] using htail
+
+theorem graph151_triCursorTail_of_prefix
+    {rank : Fin numPairWords} {rest : List Face}
+    (hcursor : TopPairingTargetCursorAtRank rank)
+    (hprefix :
+      Depth11Layer4PrefixAtRank rank Face.zm Face.tmpp rest) :
+    TopPairingTriCursorFrom graph151TargetCompletionState.triState.shadowLen
+      graph151TargetCompletionState.parity rest := by
+  have hprefix' :
+      topPairingRankFaceLabels rank =
+        [Face.xm, Face.ym, Face.zm, Face.tmpp] ++ rest := by
+    simpa [Depth11Layer4PrefixAtRank] using hprefix
+  unfold TopPairingTargetCursorAtRank at hcursor
+  rw [hprefix'] at hcursor
+  have htail1 :=
+    TopPairingTriCursorFrom.cons_square_tail
+      hcursor (by rfl : triLetterOfFace? Face.xm = none)
+  have htail2 :=
+    TopPairingTriCursorFrom.cons_square_tail
+      htail1 (by rfl : triLetterOfFace? Face.ym = none)
+  have htail3 :=
+    TopPairingTriCursorFrom.cons_square_tail
+      htail2 (by rfl : triLetterOfFace? Face.zm = none)
+  rcases
+      TopPairingTriCursorFrom.cons_tri_tail
+        htail3 (by rfl : triLetterOfFace? Face.tmpp = some TriLetter.dm11)
+    with ⟨_hk, _hletter, htail4⟩
+  simpa [graph151TargetCompletionState, SqParity.id, SqParity.applyPair,
+    SqParity.xor, SqParity.toggleForPair, SqParity.toggleX, SqParity.toggleY,
+    SqParity.toggleZ, pairOfFace, strengthenedClosedPrefix4ZmTmppTransducerState,
+    strengthenedClosedPrefix3ZmTransducerState, strengthenedClosedPrefix2TransducerState,
+    strengthenedClosedPrefix1TransducerState, topPairingNextGap,
+    topPairingNextLinear] using htail4
+
+private def graph221TargetCompletionStateAfter :
+    TopPairingTargetCompletionState -> List Face ->
+      TopPairingTargetCompletionState
+  | state, [] => state
+  | state, face :: rest =>
+      graph221TargetCompletionStateAfter (state.next face) rest
+
+abbrev Graph151TargetCancellationTail (rest : List Face) : Prop :=
+  (graph221TargetCompletionStateAfter graph151TargetCompletionState rest).triState.summary =
+    topPairingTargetSummary
+
+private theorem graph151_remaining_iff_not_prefix_used (face : Face) :
+    face ∈ graph151TargetCompletionState.remaining ↔
+      face ∉ [Face.xm, Face.ym, Face.zm, Face.tmpp] := by
+  cases face <;> simp [graph151TargetCompletionState]
+
+private theorem graph221TargetCompletionTail_of_semanticCore :
+    ∀ {state : TopPairingTargetCompletionState} {used rest : List Face},
+      (∀ face : Face, face ∈ state.remaining ↔ face ∉ used) ->
+      state.remaining.Nodup ->
+      rest.length = state.remaining.length ->
+      TopPairingStepScheduleFrom state.step rest ->
+      TopPairingSquareGapFrom state.gap rest ->
+      TopPairingUsedFaceTail used rest ->
+      (graph221TargetCompletionStateAfter state rest).triState.summary =
+        topPairingTargetSummary ->
+      TopPairingTargetCompletionTail state rest
+  | state, used, [], hremaining, _hnodup, hlen, _hschedule, _hgap, _hused,
+      hsummary => by
+      cases hremainingEq : state.remaining with
+      | nil =>
+          exact TopPairingTargetCompletionTail.nil hremainingEq hsummary
+      | cons face rest =>
+          simp [hremainingEq] at hlen
+  | state, used, face :: rest, hremaining, hnodup, hlen, hschedule, hgap,
+      hused, hsummary => by
+      unfold TopPairingStepScheduleFrom at hschedule
+      rcases hschedule with ⟨hfaceSchedule, hscheduleRest⟩
+      have hfaceRemaining : face ∈ state.remaining :=
+        (hremaining face).2 (TopPairingUsedFaceTail.head_not_used hused)
+      have hsquareAllowed : state.squareAllowed face := by
+        unfold TopPairingTargetCompletionState.squareAllowed
+        unfold TopPairingSquareGapFrom at hgap
+        by_cases hsquare : isSquarePair (pairOfFace face) = true
+        · rw [hsquare] at hgap
+          simp [hsquare, hgap.1]
+        · have hsquareFalse :
+            isSquarePair (pairOfFace face) = false := by
+              cases hpair : isSquarePair (pairOfFace face)
+              · rfl
+              · exact False.elim (hsquare hpair)
+          simp [hsquareFalse]
+      have hgapRest :
+          TopPairingSquareGapFrom (state.next face).gap rest := by
+        unfold TopPairingSquareGapFrom at hgap
+        unfold TopPairingTargetCompletionState.next topPairingNextGap
+        by_cases hsquare : isSquarePair (pairOfFace face) = true
+        · rw [hsquare] at hgap
+          simp [hsquare]
+          exact hgap.2
+        · have hsquareFalse :
+            isSquarePair (pairOfFace face) = false := by
+              cases hpair : isSquarePair (pairOfFace face)
+              · rfl
+              · exact False.elim (hsquare hpair)
+          rw [hsquareFalse] at hgap
+          simp [hsquareFalse]
+          exact hgap
+      have hremainingNext :
+          ∀ f : Face,
+            f ∈ (state.next face).remaining ↔ f ∉ face :: used := by
+        intro f
+        change f ∈ state.remaining.erase face ↔ f ∉ face :: used
+        rw [hnodup.erase_eq_filter]
+        simp [hremaining f, and_comm, and_left_comm, and_assoc]
+      have hlenNext :
+          rest.length = (state.next face).remaining.length := by
+        have herase :
+            (state.remaining.erase face).length + 1 =
+              state.remaining.length :=
+          List.length_erase_add_one hfaceRemaining
+        have hlenSucc : rest.length + 1 = state.remaining.length := by
+          simpa using hlen
+        simp [TopPairingTargetCompletionState.next]
+        omega
+      have htail :=
+        graph221TargetCompletionTail_of_semanticCore
+          (state := state.next face)
+          (used := face :: used)
+          (rest := rest)
+          hremainingNext (hnodup.erase face) hlenNext hscheduleRest hgapRest
+          (TopPairingUsedFaceTail.cons_tail hused) hsummary
+      exact TopPairingTargetCompletionTail.cons
+        hfaceRemaining hfaceSchedule hsquareAllowed htail
+
+theorem graph151_targetCompletionTail_of_semanticCore
+    {rest : List Face}
+    (hschedule :
+      TopPairingStepScheduleFrom graph151TargetCompletionState.step rest)
+    (hgap :
+      TopPairingSquareGapFrom graph151TargetCompletionState.gap rest)
+    (hused :
+      TopPairingUsedFaceTail [Face.xm, Face.ym, Face.zm, Face.tmpp] rest)
+    (hlen : rest.length = graph151TargetCompletionState.remaining.length)
+    (hcancel : Graph151TargetCancellationTail rest) :
+    Graph151TargetCompletionTail rest :=
+  graph221TargetCompletionTail_of_semanticCore
+    (state := graph151TargetCompletionState)
+    (used := [Face.xm, Face.ym, Face.zm, Face.tmpp])
+    (rest := rest)
+    graph151_remaining_iff_not_prefix_used (by decide) hlen hschedule hgap
+    hused hcancel
+
+private theorem graph221TargetCompletionStateAfter_triState_eq_foldl_acted
+    (state : TopPairingTargetCompletionState) (rest : List Face) :
+    (graph221TargetCompletionStateAfter state rest).triState =
+      (actedTriLettersFrom state.parity rest).foldl
+        TriCancellationState.push state.triState := by
+  induction rest generalizing state with
+  | nil =>
+      rfl
+  | cons face rest ih =>
+      cases face <;>
+        simp [graph221TargetCompletionStateAfter,
+          TopPairingTargetCompletionState.next,
+          actedTriLettersFrom, triLetterOfFace?, pairOfFace,
+          TriLetter.ofPairId?, SqParity.applyPair, SqParity.toggleForPair, ih]
+
+theorem graph151_targetCancellationTail_of_triCursor
+    {rest : List Face}
+    (hcursor :
+      TopPairingTriCursorFrom
+        graph151TargetCompletionState.triState.shadowLen
+        graph151TargetCompletionState.parity rest) :
+    Graph151TargetCancellationTail rest := by
+  have hacted := TopPairingTriCursorFrom.actedTriLetters_eq_drop hcursor
+  unfold Graph151TargetCancellationTail
+  rw [graph221TargetCompletionStateAfter_triState_eq_foldl_acted]
+  rw [hacted]
+  rfl
+
+theorem graph151CompletionTail_of_strengthened_prefix
+    {rank : Fin numPairWords} {rest : List Face}
+    (hstrengthened :
+      TopPairingStrengthenedClosedLanguageAtRank
+        AcceptedSequenceBadFaceAtRank rank Face.ym)
+    (hprefix :
+      Depth11Layer4PrefixAtRank rank Face.zm Face.tmpp rest) :
+    Graph151TargetCompletionTail rest := by
+  have hcursor :=
+    topPairingTriCursor_of_closed
+      hstrengthened.toTopPairingClosedLanguageAtRank
+  exact graph151_targetCompletionTail_of_semanticCore
+    (graph151_stepScheduleTail_of_acceptedSequence_prefix
+      hstrengthened hprefix)
+    (graph151_squareGapTail_of_acceptedSequence_prefix
+      hstrengthened hprefix)
+    (graph151_usedFaceTail_of_acceptedSequence_prefix
+      hstrengthened hprefix)
+    (graph151_restLength_of_acceptedSequence_prefix
+      hstrengthened hprefix)
+    (graph151_targetCancellationTail_of_triCursor
+      (graph151_triCursorTail_of_prefix hcursor hprefix))
+
 theorem graph221Tail029_split :
     graph221Tail029 = graph221TailPrefix029 ++ graph221TailPrefixRemaining := by
   rfl
@@ -1129,6 +1418,25 @@ theorem graph221InitialContainedEvalPrefixGate_of_graph151TargetCompletionTail_a
       hstrengthened hprefix)
     (graph221Layer4ContainedEvalPrefixGate_of_graph151TargetCompletionTail_and_strengthenedEval
       hstrengthened hprefix htail heval)
+
+theorem graph221InitialContainedEvalPrefixGate_of_strengthened_prefix_and_eval
+    {rank : Fin numPairWords} {rest : List Face}
+    {finish : StrengthenedClosedEvalState} {gain : Int}
+    (hstrengthened :
+      TopPairingStrengthenedClosedLanguageAtRank
+        AcceptedSequenceBadFaceAtRank rank Face.ym)
+    (hprefix :
+      Depth11Layer4PrefixAtRank rank Face.zm Face.tmpp rest)
+    (heval :
+      evalLabelStepFn strengthenedClosedEvalNext
+          strengthenedClosedPrefix4ZmTmppEvalState rest =
+        some (finish, gain)) :
+    TerminalContainedEvalPrefixGate
+      TerminalStepStatePartialMachine.semantic TerminalStepState.initial rank :=
+  graph221InitialContainedEvalPrefixGate_of_graph151TargetCompletionTail_and_strengthenedEval
+    hstrengthened hprefix
+    (graph151CompletionTail_of_strengthened_prefix hstrengthened hprefix)
+    heval
 
 theorem graph221TerminalTailPrefixSmoke_builds : True := by
   exact True.intro

@@ -124,6 +124,8 @@ GRAPH221_FILTERED_REQUIRED = [
     "graph221Layer4ContainedEvalPrefixGate_of_graph151TargetCompletionTail_and_strengthenedEval",
     "graph221Layer4ProgressGate_of_strengthened_prefix",
     "graph221InitialContainedEvalPrefixGate_of_graph151TargetCompletionTail_and_strengthenedEval",
+    "graph151CompletionTail_of_strengthened_prefix",
+    "graph221InitialContainedEvalPrefixGate_of_strengthened_prefix_and_eval",
 ]
 
 FORBIDDEN = [
@@ -178,7 +180,7 @@ def main() -> int:
             }
         elif lane == "zm_tmpp":
             if graph151_partial_ok and zm_tmpp_chain_ok and graph221_filtered_ok:
-                partial_status = "partial_graph221_layer4_gate_with_graph151_eval_premises"
+                partial_status = "partial_graph221_layer4_gate_with_eval_premise"
             elif graph151_partial_ok and zm_tmpp_chain_ok:
                 partial_status = "partial_forced_chain_reaches_graph221_branch"
             elif graph151_partial_ok:
@@ -216,15 +218,16 @@ def main() -> int:
                     "graph221 now has a rank-free filtered tail-prefix "
                     "continuation for the three graph-accepted suffixes, "
                     "a graph151-to-graph221 target-completion tail "
-                    "decomposition, a local theorem deriving the suffix "
+                    "decomposition, semantic discharge of the Graph151 "
+                    "target-completion tail from the strengthened closed "
+                    "language plus depth-11 prefix, a local theorem deriving the suffix "
                     "filter from target-completion plus the strengthened "
                     "product-state evaluator, and a lane-level terminal "
                     "machine gate that starts from the initial state once "
-                    "the Graph151TargetCompletionTail and strengthened eval "
-                    "success premises are supplied. This is not a full lane "
-                    "gate yet: the next proof must derive those two premises "
-                    "directly from the strengthened closed-language rank/"
-                    "prefix hypotheses."
+                    "the strengthened eval success premise is supplied. "
+                    "This is not a full lane gate yet: the next proof must "
+                    "derive that evaluator success directly from the "
+                    "strengthened closed-language rank/prefix hypotheses."
                     if graph221_filtered_ok
                     else (
                     "graph151 now advances semantically through tppp to "
@@ -282,8 +285,8 @@ def main() -> int:
         "lanes": lane_report,
         "next_recommended_slice": (
             "lift the zm_tmpp lane through graph221 by deriving the "
-            "Graph151 target-completion tail and strengthened evaluator "
-            "success from the strengthened closed-language prefix, then feed "
+            "strengthened evaluator success from the strengthened "
+            "closed-language prefix, then feed "
             "the resulting accepted suffix into the same four-piece "
             "terminal-machine pattern validated by graph183"
             if graph221_filtered_ok
