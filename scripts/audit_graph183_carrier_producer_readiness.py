@@ -30,6 +30,10 @@ SOCKET = ROOT / (
     "Cuboctahedron/Generated/NonIdentity/Residual/"
     "BellmanTopPairingGraph183QuotientMarginSocket.lean"
 )
+CLOSED_SEMANTIC_GATE = ROOT / (
+    "Cuboctahedron/Generated/NonIdentity/Residual/"
+    "BellmanTopPairingClosedBellmanStrengthenedSemanticGateSocket.lean"
+)
 ACCEPTED_BRANCH = ROOT / (
     "Cuboctahedron/Generated/NonIdentity/Residual/"
     "BellmanTopPairingGraph183AcceptedBranchQuotient.lean"
@@ -44,6 +48,10 @@ GUARD = ROOT / "scripts/generated/graph183_quotient_margin_socket_latest_guard.j
 ACCEPTED_BRANCH_GUARD = (
     ROOT
     / "scripts/generated/graph183_accepted_branch_quotient_latest_guard.json"
+)
+CLOSED_SEMANTIC_GATE_GUARD = (
+    ROOT
+    / "scripts/generated/closed_bellman_strengthened_semantic_gate_socket_latest_guard.json"
 )
 
 REQUIRED_SOCKET_SYMBOLS = [
@@ -69,6 +77,18 @@ REQUIRED_SOCKET_SYMBOLS = [
     "graph183TailQuotientMarginSequenceBadFace_of_exactEvalSequenceBadFace",
     "graph183TailExactEvalSequenceBadFace_of_quotientMarginSequenceBadFace",
     "nonIdentityRankKilled_of_graph183TailQuotientMarginSequenceBadFace",
+]
+
+REQUIRED_CLOSED_SEMANTIC_GATE_SYMBOLS = [
+    "StrengthenedClosedBellmanEvalFamily",
+    "StrengthenedClosedBellmanGraphExactFamily",
+    "StrengthenedClosedBellmanStepRunFamily",
+    "graphExactEvalGate_of_stepRunFamily",
+    "evalFamily_of_graphExactFamily",
+    "strengthenedClosedBellmanObjectCover_of_evalFamily",
+    "scaledMargin_nonpos_of_strengthenedClosedBellmanEvalFamily",
+    "scaledMargin_nonpos_of_strengthenedClosedBellmanGraphExactFamily",
+    "scaledMargin_nonpos_of_strengthenedClosedBellmanStepRunFamily",
 ]
 
 REQUIRED_ACCEPTED_BRANCH_SYMBOLS = [
@@ -267,8 +287,9 @@ def guard_checks(label: str, guard: dict[str, Any] | None) -> list[dict[str, Any
     ]
 
 
-def production_status(socket_text: str) -> dict[str, Any]:
-    found = [name for name in PRODUCTION_CARRIER_CANDIDATES if name in socket_text]
+def production_status(*texts: str) -> dict[str, Any]:
+    haystack = "\n".join(texts)
+    found = [name for name in PRODUCTION_CARRIER_CANDIDATES if name in haystack]
     return {
         "candidate_names_checked": PRODUCTION_CARRIER_CANDIDATES,
         "found": found,
@@ -290,6 +311,9 @@ def render_markdown(report: dict[str, Any]) -> str:
         "## Meaning",
         "",
         "The Lean carrier sockets are present and build under a memory guard.",
+        "The strengthened closed-Bellman semantic gate is also present: it",
+        "accepts step-run, graph-exact, and eval-family producer shapes and",
+        "adapts semantic step runs to deterministic exact-evaluator gates.",
         "The production socket now imports a tiny accepted-branch quotient",
         "module that checks the 14 local equations and accepted raw-gain",
         "contract it needs.",
@@ -319,15 +343,24 @@ def render_markdown(report: dict[str, Any]) -> str:
 
 def main() -> int:
     socket_text = read_text(SOCKET)
+    closed_semantic_gate_text = read_text(CLOSED_SEMANTIC_GATE)
     accepted_branch_text = read_text(ACCEPTED_BRANCH)
     smoke_text = read_text(SMOKE)
     profile = read_json(PROFILE)
     quotient = read_json(QUOTIENT)
     guard = read_json(GUARD)
     accepted_branch_guard = read_json(ACCEPTED_BRANCH_GUARD)
+    closed_semantic_gate_guard = read_json(CLOSED_SEMANTIC_GATE_GUARD)
 
     checks: list[dict[str, Any]] = []
     checks.extend(symbol_checks("socket", SOCKET, REQUIRED_SOCKET_SYMBOLS))
+    checks.extend(
+        symbol_checks(
+            "closed_semantic_gate",
+            CLOSED_SEMANTIC_GATE,
+            REQUIRED_CLOSED_SEMANTIC_GATE_SYMBOLS,
+        )
+    )
     checks.extend(
         symbol_checks(
             "accepted_branch_quotient",
@@ -337,6 +370,7 @@ def main() -> int:
     )
     checks.extend(symbol_checks("smoke", SMOKE, REQUIRED_SMOKE_SYMBOLS))
     checks.extend(forbidden_checks("socket", SOCKET))
+    checks.extend(forbidden_checks("closed_semantic_gate", CLOSED_SEMANTIC_GATE))
     checks.extend(forbidden_checks("accepted_branch_quotient", ACCEPTED_BRANCH))
     checks.extend(forbidden_checks("smoke", SMOKE))
     checks.append(
@@ -377,9 +411,12 @@ def main() -> int:
     checks.extend(profile_checks(profile))
     checks.extend(quotient_checks(quotient))
     checks.extend(guard_checks("socket_guard", guard))
+    checks.extend(
+        guard_checks("closed_semantic_gate_guard", closed_semantic_gate_guard)
+    )
     checks.extend(guard_checks("accepted_branch_guard", accepted_branch_guard))
 
-    status = production_status(socket_text)
+    status = production_status(socket_text, closed_semantic_gate_text)
     failed = [row for row in checks if not row["passed"]]
     decision = (
         "graph183_carrier_sockets_ready_but_producer_missing"
@@ -410,6 +447,15 @@ def main() -> int:
             "guard_elapsed_seconds": guard_metrics.get("elapsed_seconds"),
             "guard_peak_rss_mib": guard_metrics.get("max_tree_rss_mib"),
             "guard_min_available_mib": guard_metrics.get("min_available_seen_mib"),
+            "closed_semantic_gate_guard_elapsed_seconds": None
+            if closed_semantic_gate_guard is None
+            else closed_semantic_gate_guard.get("elapsed_seconds"),
+            "closed_semantic_gate_guard_peak_rss_mib": None
+            if closed_semantic_gate_guard is None
+            else closed_semantic_gate_guard.get("max_tree_rss_mib"),
+            "closed_semantic_gate_guard_min_available_mib": None
+            if closed_semantic_gate_guard is None
+            else closed_semantic_gate_guard.get("min_available_seen_mib"),
             "accepted_branch_guard_elapsed_seconds": None
             if accepted_branch_guard is None
             else accepted_branch_guard.get("elapsed_seconds"),
@@ -429,7 +475,7 @@ def main() -> int:
 
     OUT_JSON.parent.mkdir(parents=True, exist_ok=True)
     OUT_JSON.write_text(json.dumps(report, indent=2, sort_keys=True) + "\n")
-    OUT_MD.write_text(render_markdown(report), encoding="utf-8")
+    OUT_MD.write_text(render_markdown(report) + "\n", encoding="utf-8")
     print(f"wrote {rel(OUT_JSON)}")
     print(f"wrote {rel(OUT_MD)}")
     print(f"decision: {decision}")

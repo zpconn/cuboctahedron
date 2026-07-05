@@ -116,6 +116,56 @@
       "passed": true
     },
     {
+      "detail": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedBellmanStrengthenedSemanticGateSocket.lean",
+      "name": "closed_semantic_gate:exists",
+      "passed": true
+    },
+    {
+      "detail": "StrengthenedClosedBellmanEvalFamily",
+      "name": "closed_semantic_gate:symbol:StrengthenedClosedBellmanEvalFamily",
+      "passed": true
+    },
+    {
+      "detail": "StrengthenedClosedBellmanGraphExactFamily",
+      "name": "closed_semantic_gate:symbol:StrengthenedClosedBellmanGraphExactFamily",
+      "passed": true
+    },
+    {
+      "detail": "StrengthenedClosedBellmanStepRunFamily",
+      "name": "closed_semantic_gate:symbol:StrengthenedClosedBellmanStepRunFamily",
+      "passed": true
+    },
+    {
+      "detail": "graphExactEvalGate_of_stepRunFamily",
+      "name": "closed_semantic_gate:symbol:graphExactEvalGate_of_stepRunFamily",
+      "passed": true
+    },
+    {
+      "detail": "evalFamily_of_graphExactFamily",
+      "name": "closed_semantic_gate:symbol:evalFamily_of_graphExactFamily",
+      "passed": true
+    },
+    {
+      "detail": "strengthenedClosedBellmanObjectCover_of_evalFamily",
+      "name": "closed_semantic_gate:symbol:strengthenedClosedBellmanObjectCover_of_evalFamily",
+      "passed": true
+    },
+    {
+      "detail": "scaledMargin_nonpos_of_strengthenedClosedBellmanEvalFamily",
+      "name": "closed_semantic_gate:symbol:scaledMargin_nonpos_of_strengthenedClosedBellmanEvalFamily",
+      "passed": true
+    },
+    {
+      "detail": "scaledMargin_nonpos_of_strengthenedClosedBellmanGraphExactFamily",
+      "name": "closed_semantic_gate:symbol:scaledMargin_nonpos_of_strengthenedClosedBellmanGraphExactFamily",
+      "passed": true
+    },
+    {
+      "detail": "scaledMargin_nonpos_of_strengthenedClosedBellmanStepRunFamily",
+      "name": "closed_semantic_gate:symbol:scaledMargin_nonpos_of_strengthenedClosedBellmanStepRunFamily",
+      "passed": true
+    },
+    {
       "detail": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraph183AcceptedBranchQuotient.lean",
       "name": "accepted_branch_quotient:exists",
       "passed": true
@@ -193,6 +243,36 @@
     {
       "detail": "acceptedTraceOfId",
       "name": "socket:forbidden_absent:acceptedTraceOfId",
+      "passed": true
+    },
+    {
+      "detail": "SampledRankIndex",
+      "name": "closed_semantic_gate:forbidden_absent:SampledRankIndex",
+      "passed": true
+    },
+    {
+      "detail": "sampledContainsRank",
+      "name": "closed_semantic_gate:forbidden_absent:sampledContainsRank",
+      "passed": true
+    },
+    {
+      "detail": "sampledRankOf",
+      "name": "closed_semantic_gate:forbidden_absent:sampledRankOf",
+      "passed": true
+    },
+    {
+      "detail": "SelectedPrefix",
+      "name": "closed_semantic_gate:forbidden_absent:SelectedPrefix",
+      "passed": true
+    },
+    {
+      "detail": "AcceptedTraceId",
+      "name": "closed_semantic_gate:forbidden_absent:AcceptedTraceId",
+      "passed": true
+    },
+    {
+      "detail": "acceptedTraceOfId",
+      "name": "closed_semantic_gate:forbidden_absent:acceptedTraceOfId",
       "passed": true
     },
     {
@@ -364,6 +444,21 @@
     },
     {
       "detail": 0,
+      "name": "closed_semantic_gate_guard:guard_exit_zero",
+      "passed": true
+    },
+    {
+      "detail": 3719.16015625,
+      "name": "closed_semantic_gate_guard:rss_under_6500_mib",
+      "passed": true
+    },
+    {
+      "detail": 46322.6328125,
+      "name": "closed_semantic_gate_guard:available_above_30000_mib",
+      "passed": true
+    },
+    {
+      "detail": 0,
       "name": "accepted_branch_guard:guard_exit_zero",
       "passed": true
     },
@@ -384,6 +479,9 @@
     "accepted_branch_guard_elapsed_seconds": 5.0034252110053785,
     "accepted_branch_guard_min_available_mib": 46363.515625,
     "accepted_branch_guard_peak_rss_mib": 3410.734375,
+    "closed_semantic_gate_guard_elapsed_seconds": 3.0027096020057797,
+    "closed_semantic_gate_guard_min_available_mib": 46322.6328125,
+    "closed_semantic_gate_guard_peak_rss_mib": 3719.16015625,
     "guard_elapsed_seconds": 2.0023167910112534,
     "guard_min_available_mib": 46331.421875,
     "guard_peak_rss_mib": 3568.85546875,

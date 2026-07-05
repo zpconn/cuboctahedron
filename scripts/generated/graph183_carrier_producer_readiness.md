@@ -10,6 +10,9 @@ generated coverage.
 ## Meaning
 
 The Lean carrier sockets are present and build under a memory guard.
+The strengthened closed-Bellman semantic gate is also present: it
+accepts step-run, graph-exact, and eval-family producer shapes and
+adapts semantic step runs to deterministic exact-evaluator gates.
 The production socket now imports a tiny accepted-branch quotient
 module that checks the 14 local equations and accepted raw-gain
 contract it needs.
@@ -39,6 +42,9 @@ observed path remains a no-go.
 | `guard_elapsed_seconds` | `2.0023167910112534` |
 | `guard_peak_rss_mib` | `3568.85546875` |
 | `guard_min_available_mib` | `46331.421875` |
+| `closed_semantic_gate_guard_elapsed_seconds` | `3.0027096020057797` |
+| `closed_semantic_gate_guard_peak_rss_mib` | `3719.16015625` |
+| `closed_semantic_gate_guard_min_available_mib` | `46322.6328125` |
 | `accepted_branch_guard_elapsed_seconds` | `5.0034252110053785` |
 | `accepted_branch_guard_peak_rss_mib` | `3410.734375` |
 | `accepted_branch_guard_min_available_mib` | `46363.515625` |
@@ -70,6 +76,16 @@ observed path remains a no-go.
 | `socket:symbol:graph183TailQuotientMarginSequenceBadFace_of_exactEvalSequenceBadFace` | `True` | `graph183TailQuotientMarginSequenceBadFace_of_exactEvalSequenceBadFace` |
 | `socket:symbol:graph183TailExactEvalSequenceBadFace_of_quotientMarginSequenceBadFace` | `True` | `graph183TailExactEvalSequenceBadFace_of_quotientMarginSequenceBadFace` |
 | `socket:symbol:nonIdentityRankKilled_of_graph183TailQuotientMarginSequenceBadFace` | `True` | `nonIdentityRankKilled_of_graph183TailQuotientMarginSequenceBadFace` |
+| `closed_semantic_gate:exists` | `True` | `Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedBellmanStrengthenedSemanticGateSocket.lean` |
+| `closed_semantic_gate:symbol:StrengthenedClosedBellmanEvalFamily` | `True` | `StrengthenedClosedBellmanEvalFamily` |
+| `closed_semantic_gate:symbol:StrengthenedClosedBellmanGraphExactFamily` | `True` | `StrengthenedClosedBellmanGraphExactFamily` |
+| `closed_semantic_gate:symbol:StrengthenedClosedBellmanStepRunFamily` | `True` | `StrengthenedClosedBellmanStepRunFamily` |
+| `closed_semantic_gate:symbol:graphExactEvalGate_of_stepRunFamily` | `True` | `graphExactEvalGate_of_stepRunFamily` |
+| `closed_semantic_gate:symbol:evalFamily_of_graphExactFamily` | `True` | `evalFamily_of_graphExactFamily` |
+| `closed_semantic_gate:symbol:strengthenedClosedBellmanObjectCover_of_evalFamily` | `True` | `strengthenedClosedBellmanObjectCover_of_evalFamily` |
+| `closed_semantic_gate:symbol:scaledMargin_nonpos_of_strengthenedClosedBellmanEvalFamily` | `True` | `scaledMargin_nonpos_of_strengthenedClosedBellmanEvalFamily` |
+| `closed_semantic_gate:symbol:scaledMargin_nonpos_of_strengthenedClosedBellmanGraphExactFamily` | `True` | `scaledMargin_nonpos_of_strengthenedClosedBellmanGraphExactFamily` |
+| `closed_semantic_gate:symbol:scaledMargin_nonpos_of_strengthenedClosedBellmanStepRunFamily` | `True` | `scaledMargin_nonpos_of_strengthenedClosedBellmanStepRunFamily` |
 | `accepted_branch_quotient:exists` | `True` | `Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraph183AcceptedBranchQuotient.lean` |
 | `accepted_branch_quotient:symbol:acceptedLocalEquation` | `True` | `acceptedLocalEquation` |
 | `accepted_branch_quotient:symbol:graph183AcceptedBranchRawGain` | `True` | `graph183AcceptedBranchRawGain` |
@@ -86,6 +102,12 @@ observed path remains a no-go.
 | `socket:forbidden_absent:SelectedPrefix` | `True` | `SelectedPrefix` |
 | `socket:forbidden_absent:AcceptedTraceId` | `True` | `AcceptedTraceId` |
 | `socket:forbidden_absent:acceptedTraceOfId` | `True` | `acceptedTraceOfId` |
+| `closed_semantic_gate:forbidden_absent:SampledRankIndex` | `True` | `SampledRankIndex` |
+| `closed_semantic_gate:forbidden_absent:sampledContainsRank` | `True` | `sampledContainsRank` |
+| `closed_semantic_gate:forbidden_absent:sampledRankOf` | `True` | `sampledRankOf` |
+| `closed_semantic_gate:forbidden_absent:SelectedPrefix` | `True` | `SelectedPrefix` |
+| `closed_semantic_gate:forbidden_absent:AcceptedTraceId` | `True` | `AcceptedTraceId` |
+| `closed_semantic_gate:forbidden_absent:acceptedTraceOfId` | `True` | `acceptedTraceOfId` |
 | `accepted_branch_quotient:forbidden_absent:SampledRankIndex` | `True` | `SampledRankIndex` |
 | `accepted_branch_quotient:forbidden_absent:sampledContainsRank` | `True` | `sampledContainsRank` |
 | `accepted_branch_quotient:forbidden_absent:sampledRankOf` | `True` | `sampledRankOf` |
@@ -118,6 +140,9 @@ observed path remains a no-go.
 | `socket_guard:guard_exit_zero` | `True` | `0` |
 | `socket_guard:rss_under_6500_mib` | `True` | `3568.85546875` |
 | `socket_guard:available_above_30000_mib` | `True` | `46331.421875` |
+| `closed_semantic_gate_guard:guard_exit_zero` | `True` | `0` |
+| `closed_semantic_gate_guard:rss_under_6500_mib` | `True` | `3719.16015625` |
+| `closed_semantic_gate_guard:available_above_30000_mib` | `True` | `46322.6328125` |
 | `accepted_branch_guard:guard_exit_zero` | `True` | `0` |
 | `accepted_branch_guard:rss_under_6500_mib` | `True` | `3410.734375` |
 | `accepted_branch_guard:available_above_30000_mib` | `True` | `46363.515625` |

@@ -113311,3 +113311,43 @@ feed that carrier.  If that proof starts demanding sampled ranks, selected
 prefixes, exact affine keys, or rank/path enumeration, the route should add the
 missing semantic state field or pivot to cancellation-segment / cocycle-gauge
 quotienting before scaling.
+
+### 2026-07-05 graph183 readiness audit includes step-run ingress
+
+Updated the graph183 carrier producer readiness audit so it now checks the
+strengthened closed-Bellman semantic gate socket directly.  The audit requires:
+
+```lean
+StrengthenedClosedBellmanEvalFamily
+StrengthenedClosedBellmanGraphExactFamily
+StrengthenedClosedBellmanStepRunFamily
+graphExactEvalGate_of_stepRunFamily
+```
+
+and scans that socket for sampled-rank / selected-prefix leakage.  This keeps
+the graph183 status honest: the route has a memory-safe upstream step-run
+ingress, but still lacks the semantic producer theorem.
+
+Commands:
+
+```bash
+python3 -m py_compile scripts/audit_graph183_carrier_producer_readiness.py
+python3 scripts/audit_graph183_carrier_producer_readiness.py
+```
+
+Result:
+
+```text
+decision = graph183_carrier_sockets_ready_but_producer_missing
+closed semantic gate guard =
+  elapsed 3.00s, peak RSS 3719 MiB, min available 46322 MiB
+```
+
+Next theorem target is unchanged:
+
+```lean
+Graph183TailQuotientMarginSequenceBadFace scaledMargin
+```
+
+proved from semantic closed-language / deterministic evaluator /
+cocycle-gauge state, not by path sampling.
