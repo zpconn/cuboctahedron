@@ -1305,7 +1305,13 @@
       "graph183TailQuotientMarginSequenceBadFace_of_quotientEval",
       "graph183TailQuotientMarginSequenceBadFace_of_cocycleQuotient",
       "graph183TailQuotientObjectMarginBound_of_cocycleQuotient",
+      "graph183TailQuotientObjectMarginBound_of_closedSemanticTransducer",
+      "graph183TailQuotientObjectMarginBound_of_targetCursorCocycle",
+      "strengthenedClosedBellmanStepRunFamily_of_graph183SemanticTransducer",
+      "strengthenedClosedBellmanStepRunFamily_of_targetCursorCocycle",
       "graph183TailQuotientMarginSequenceBadFaceProducer",
+      "Graph183TailQuotientObjectMarginBoundProducer",
+      "Graph183StrengthenedClosedBellmanStepRunProducer",
       "Graph183TailQuotientMarginCarrierProducer"
     ],
     "found": [],

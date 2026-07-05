@@ -8,8 +8,8 @@ graph183 Bellman frontier honest:
 * the accepted-branch quotient module is checked and production-sized;
 * the full cocycle quotient smoke is diagnostic only;
 * the 1M profiler supports the route but does not prove coverage;
-* the actual production theorem proving the carrier from closed-language /
-  quotient-gauge semantics has not yet been emitted.
+* the actual production theorem proving the carrier from closed-language
+  object-margin or semantic step-run semantics has not yet been emitted.
 
 The script exits successfully when this status is internally consistent.  It
 should not be read as completing graph183 coverage.
@@ -282,7 +282,13 @@ PRODUCTION_CARRIER_CANDIDATES = [
     "graph183TailQuotientMarginSequenceBadFace_of_quotientEval",
     "graph183TailQuotientMarginSequenceBadFace_of_cocycleQuotient",
     "graph183TailQuotientObjectMarginBound_of_cocycleQuotient",
+    "graph183TailQuotientObjectMarginBound_of_closedSemanticTransducer",
+    "graph183TailQuotientObjectMarginBound_of_targetCursorCocycle",
+    "strengthenedClosedBellmanStepRunFamily_of_graph183SemanticTransducer",
+    "strengthenedClosedBellmanStepRunFamily_of_targetCursorCocycle",
     "graph183TailQuotientMarginSequenceBadFaceProducer",
+    "Graph183TailQuotientObjectMarginBoundProducer",
+    "Graph183StrengthenedClosedBellmanStepRunProducer",
     "Graph183TailQuotientMarginCarrierProducer",
 ]
 

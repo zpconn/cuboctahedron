@@ -112203,6 +112203,25 @@ scripts/audit_graph183_carrier_producer_readiness.py
 scripts/audit_top_pairing_semantic_evaluator_pivot.py
 ```
 
+Follow-up audit alignment:
+
+- `scripts/audit_graph183_carrier_producer_readiness.py` now recognizes the
+  expected producer names for this sharpened gate:
+  `graph183TailQuotientObjectMarginBound_of_closedSemanticTransducer`,
+  `graph183TailQuotientObjectMarginBound_of_targetCursorCocycle`,
+  `strengthenedClosedBellmanStepRunFamily_of_graph183SemanticTransducer`,
+  and `strengthenedClosedBellmanStepRunFamily_of_targetCursorCocycle`, plus
+  explicit producer-type sentinels.
+- The audit still reports:
+
+  ```text
+  decision = graph183_carrier_sockets_ready_but_producer_missing
+  ```
+
+  which is the intended state: sockets and target theorem surfaces exist, but
+  the actual semantic object-margin/step-run producer has not been emitted or
+  proved.
+
 ### 2026-07-05 graph183 branch-local start-violation provider
 
 The accepted-trace provider path was too heavy because it imported accepted
