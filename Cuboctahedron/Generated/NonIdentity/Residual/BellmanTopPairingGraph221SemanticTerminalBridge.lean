@@ -467,6 +467,34 @@ def graph221ZmTmppSplit10MRootMarginFamily_of_sequenceBadFace
     rcases hstrengthened.sequenceBadFace_ok with ⟨_hbadFace, hmargin⟩
     exact hmargin rest hprefix
 
+theorem split10MGraphExactEvalGateAtRank_of_graph221_zm_tmpp_sequenceBadFace
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords} {rest : List Face}
+    (hstrengthened :
+      TopPairingStrengthenedClosedLanguageAtRank
+        (Graph221ZmTmppSplit10MRootMarginSequenceBadFace scaledMargin)
+        rank Face.ym)
+    (hprefix :
+      Depth11Layer4PrefixAtRank rank Face.zm Face.tmpp rest) :
+    Split10MGraphExactEvalGateAtRank scaledMargin rank :=
+  split10MGraphExactEvalGateAtRank_of_graph221_zm_tmpp_generic_rootMarginFamily
+    (graph221ZmTmppSplit10MRootMarginFamily_of_sequenceBadFace scaledMargin)
+    hstrengthened hprefix
+
+theorem scaledMargin_nonpos_of_graph221_zm_tmpp_sequenceBadFace
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords} {rest : List Face}
+    (hstrengthened :
+      TopPairingStrengthenedClosedLanguageAtRank
+        (Graph221ZmTmppSplit10MRootMarginSequenceBadFace scaledMargin)
+        rank Face.ym)
+    (hprefix :
+      Depth11Layer4PrefixAtRank rank Face.zm Face.tmpp rest) :
+    scaledMargin rank <= 0 :=
+  scaledMargin_nonpos_of_graph221_zm_tmpp_generic_rootMarginFamily
+    (graph221ZmTmppSplit10MRootMarginFamily_of_sequenceBadFace scaledMargin)
+    hstrengthened hprefix
+
 /--
 Emitter-facing graph221 root-margin family for the accepted-sequence
 `zm,tmpp` branch.

@@ -396,20 +396,38 @@
         "graph221_head_of_targetCompletionTail": true,
         "graph221_yp_tmpm_head_of_targetCompletionTail": true
       },
+      "graph221_root_margin_socket_status": "accepted_root_margin_socket_pending_margin_producer",
+      "graph221_root_margin_socket_symbols": {
+        "AcceptedSequenceGraph221ZmTmppSplit10MRootMarginFamily": true,
+        "Graph221Layer4Split10MRootMarginBound": true,
+        "Graph221ZmTmppSplit10MRootMarginFamily": true,
+        "Graph221ZmTmppSplit10MRootMarginSequenceBadFace": true,
+        "graph151CompletionTail_of_strengthened_prefix_generic": true,
+        "graph221Layer4AcceptedTailSuffixOk_split10M_eval_exists_final_nonneg": true,
+        "graph221ZmTmppSplit10MRootMarginFamily_of_sequenceBadFace": true,
+        "scaledMargin_nonpos_of_graph221_zm_tmpp_generic_rootMarginFamily": true,
+        "scaledMargin_nonpos_of_graph221_zm_tmpp_rootMarginFamily": true,
+        "scaledMargin_nonpos_of_graph221_zm_tmpp_sequenceBadFace": true,
+        "split10MGraphExactEvalGateAtRank_of_graph221_zm_tmpp_generic_rootMarginFamily": true,
+        "split10MGraphExactEvalGateAtRank_of_graph221_zm_tmpp_rootMarginFamily": true,
+        "split10MGraphExactEvalGateAtRank_of_graph221_zm_tmpp_semantic_margin": true,
+        "split10MGraphExactEvalGateAtRank_of_graph221_zm_tmpp_sequenceBadFace": true
+      },
       "graph221_semantic_suffix_symbols": {
         "Graph221Layer4SemanticSuffixFamily": true,
         "graph221InitialContainedEvalPrefixGate_of_graph151TargetCompletionTail_and_suffixOk": true,
         "graph221InitialContainedEvalPrefixGate_of_strengthened_prefix_and_suffixFamily": true,
         "graph221Layer4ContainedEvalPrefixGate_of_graph151TargetCompletionTail_and_suffixOk": true
       },
-      "remaining_gap": "graph221 is now a validated semantic gate for the zm_tmpp lane: target-completion itself excludes the yp,tmpm,zp branch because the post-yp,tmpm,zp state has canComplete = false.  The next work is to apply the same deterministic target-completion/evaluator pattern to the remaining layer-4 lanes without selected-prefix or sampled-rank membership.",
+      "graph221_semantic_terminal_bridge_file": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraph221SemanticTerminalBridge.lean",
+      "remaining_gap": "graph221 is now a validated semantic gate for the zm_tmpp lane and exposes the graph-exact root-margin socket.  The next graph221 work is to prove Graph221ZmTmppSplit10MRootMarginSequenceBadFace from a deterministic margin producer over closed holonomy/cancellation state, without accepted trace ids, selected-prefix tables, sampled ranks, exact affine RHS keys, or stored paths.",
       "required_symbols": {
         "Graph151TargetCompletionTail": true,
         "graph151TargetCompletionState": true,
         "graph151_head_of_targetCompletionTail": true,
         "strengthenedPrefix4Graph151TargetCompletionLocalBranchTable": true
       },
-      "status": "validated_graph221_semantic_gate",
+      "status": "validated_graph221_semantic_gate_root_margin_socket_ready",
       "third": "Face.zm"
     },
     "zm_yp": {
@@ -694,7 +712,7 @@
     "zm_yp",
     "zm_zp"
   ],
-  "next_recommended_slice": "continue the deterministic semantic terminal-lane pattern on the remaining layer-4 lanes; use target-completion/evaluator product state and stop for the cocycle/cancellation-summary quotient experiment if a lane requires selected-prefix, sampled-rank, accepted-trace, exact-affine, or per-observed-path membership",
+  "next_recommended_slice": "prove Graph221ZmTmppSplit10MRootMarginSequenceBadFace from a deterministic graph221 margin producer over closed holonomy/cancellation state; if that proof wants exact affine RHS, selected-prefix, accepted-trace, sampled-rank, or stored-path membership, stop and run the cocycle/cancellation-summary quotient experiment",
   "partial_lane_count": 2,
   "partial_lanes": [
     "yp_zm",

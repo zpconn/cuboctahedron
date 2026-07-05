@@ -71,6 +71,12 @@ GRAPH221_FILE = (
     / "BellmanTopPairingGraph221TerminalTailPrefixSmoke.lean"
 )
 
+GRAPH221_SEMANTIC_TERMINAL_BRIDGE_FILE = (
+    ROOT
+    / "Cuboctahedron/Generated/NonIdentity/Residual/"
+    / "BellmanTopPairingGraph221SemanticTerminalBridge.lean"
+)
+
 BELLMAN_POTENTIAL_FILE = ROOT / "Cuboctahedron/Search/BellmanPotential.lean"
 
 LANES = [
@@ -450,6 +456,23 @@ GRAPH221_DIRECT_SEMANTIC_REQUIRED = [
     "graph221InitialContainedEvalPrefixGate_of_strengthened_prefix_semantic",
 ]
 
+GRAPH221_ROOT_MARGIN_SOCKET_REQUIRED = [
+    "Graph221Layer4Split10MRootMarginBound",
+    "graph221Layer4AcceptedTailSuffixOk_split10M_eval_exists_final_nonneg",
+    "split10MGraphExactEvalGateAtRank_of_graph221_zm_tmpp_semantic_margin",
+    "graph151CompletionTail_of_strengthened_prefix_generic",
+    "Graph221ZmTmppSplit10MRootMarginFamily",
+    "split10MGraphExactEvalGateAtRank_of_graph221_zm_tmpp_generic_rootMarginFamily",
+    "scaledMargin_nonpos_of_graph221_zm_tmpp_generic_rootMarginFamily",
+    "Graph221ZmTmppSplit10MRootMarginSequenceBadFace",
+    "graph221ZmTmppSplit10MRootMarginFamily_of_sequenceBadFace",
+    "split10MGraphExactEvalGateAtRank_of_graph221_zm_tmpp_sequenceBadFace",
+    "scaledMargin_nonpos_of_graph221_zm_tmpp_sequenceBadFace",
+    "AcceptedSequenceGraph221ZmTmppSplit10MRootMarginFamily",
+    "split10MGraphExactEvalGateAtRank_of_graph221_zm_tmpp_rootMarginFamily",
+    "scaledMargin_nonpos_of_graph221_zm_tmpp_rootMarginFamily",
+]
+
 BELLMAN_SEGMENT_CORE_REQUIRED = [
     "structure CertifiedBellmanSegment",
     "namespace CertifiedBellmanSegment",
@@ -509,6 +532,11 @@ def main() -> int:
         else ""
     )
     graph221_text = GRAPH221_FILE.read_text() if GRAPH221_FILE.exists() else ""
+    graph221_semantic_terminal_bridge_text = (
+        GRAPH221_SEMANTIC_TERMINAL_BRIDGE_FILE.read_text()
+        if GRAPH221_SEMANTIC_TERMINAL_BRIDGE_FILE.exists()
+        else ""
+    )
     bellman_potential_text = BELLMAN_POTENTIAL_FILE.read_text()
     graph183_ok, graph183_missing = contains_all(graph183_text, GRAPH183_REQUIRED)
     bellman_segment_core_ok, bellman_segment_core_missing = contains_all(
@@ -598,6 +626,12 @@ def main() -> int:
     graph221_direct_semantic_ok, graph221_direct_semantic_missing = contains_all(
         graph221_text, GRAPH221_DIRECT_SEMANTIC_REQUIRED
     )
+    graph221_root_margin_socket_ok, graph221_root_margin_socket_missing = (
+        contains_all(
+            graph221_semantic_terminal_bridge_text,
+            GRAPH221_ROOT_MARGIN_SOCKET_REQUIRED,
+        )
+    )
     forbidden_hits = [
         token for token in FORBIDDEN if token in graph183_text
     ]
@@ -621,7 +655,9 @@ def main() -> int:
                 "forbidden_hits": forbidden_hits,
             }
         elif lane == "zm_tmpp":
-            if graph221_direct_semantic_ok:
+            if graph221_direct_semantic_ok and graph221_root_margin_socket_ok:
+                partial_status = "validated_graph221_semantic_gate_root_margin_socket_ready"
+            elif graph221_direct_semantic_ok:
                 partial_status = "validated_graph221_semantic_gate"
             elif (
                 graph151_partial_ok
@@ -656,6 +692,11 @@ def main() -> int:
                     if GRAPH221_FILE.exists()
                     else None
                 ),
+                "graph221_semantic_terminal_bridge_file": (
+                    str(GRAPH221_SEMANTIC_TERMINAL_BRIDGE_FILE.relative_to(ROOT))
+                    if GRAPH221_SEMANTIC_TERMINAL_BRIDGE_FILE.exists()
+                    else None
+                ),
                 "required_symbols": {
                     symbol: symbol not in graph151_partial_missing
                     for symbol in GRAPH151_PARTIAL_REQUIRED
@@ -680,19 +721,40 @@ def main() -> int:
                     symbol: symbol not in graph221_direct_semantic_missing
                     for symbol in GRAPH221_DIRECT_SEMANTIC_REQUIRED
                 },
+                "graph221_root_margin_socket_symbols": {
+                    symbol: symbol not in graph221_root_margin_socket_missing
+                    for symbol in GRAPH221_ROOT_MARGIN_SOCKET_REQUIRED
+                },
+                "graph221_root_margin_socket_status": (
+                    "accepted_root_margin_socket_pending_margin_producer"
+                    if graph221_root_margin_socket_ok
+                    else "missing_root_margin_socket"
+                ),
                 "forbidden_hits": [
                     token
                     for token in FORBIDDEN
                     if token in next_frontier_text or token in graph221_text
                 ],
                 "remaining_gap": (
-                    "graph221 is now a validated semantic gate for the zm_tmpp "
-                    "lane: target-completion itself excludes the yp,tmpm,zp "
-                    "branch because the post-yp,tmpm,zp state has "
-                    "canComplete = false.  The next work is to apply the same "
-                    "deterministic target-completion/evaluator pattern to the "
-                    "remaining layer-4 lanes without selected-prefix or "
-                    "sampled-rank membership."
+                    (
+                        "graph221 is now a validated semantic gate for the "
+                        "zm_tmpp lane and exposes the graph-exact root-margin "
+                        "socket.  The next graph221 work is to prove "
+                        "Graph221ZmTmppSplit10MRootMarginSequenceBadFace from "
+                        "a deterministic margin producer over closed "
+                        "holonomy/cancellation state, without accepted trace "
+                        "ids, selected-prefix tables, sampled ranks, exact "
+                        "affine RHS keys, or stored paths."
+                        if graph221_root_margin_socket_ok
+                        else
+                        "graph221 is now a validated semantic gate for the "
+                        "zm_tmpp lane: target-completion itself excludes the "
+                        "yp,tmpm,zp branch because the post-yp,tmpm,zp state "
+                        "has canComplete = false.  The next work is to apply "
+                        "the same deterministic target-completion/evaluator "
+                        "pattern to the remaining layer-4 lanes without "
+                        "selected-prefix or sampled-rank membership."
+                    )
                     if graph221_direct_semantic_ok
                     else (
                     "graph221 target-completion now reduces the frontier to "
@@ -1177,11 +1239,22 @@ def main() -> int:
         },
         "lanes": lane_report,
         "next_recommended_slice": (
-            "continue the deterministic semantic terminal-lane pattern on the "
-            "remaining layer-4 lanes; use target-completion/evaluator product "
-            "state and stop for the cocycle/cancellation-summary quotient "
-            "experiment if a lane requires selected-prefix, sampled-rank, "
-            "accepted-trace, exact-affine, or per-observed-path membership"
+            (
+                "prove Graph221ZmTmppSplit10MRootMarginSequenceBadFace from a "
+                "deterministic graph221 margin producer over closed "
+                "holonomy/cancellation state; if that proof wants exact "
+                "affine RHS, selected-prefix, accepted-trace, sampled-rank, "
+                "or stored-path membership, stop and run the cocycle/"
+                "cancellation-summary quotient experiment"
+                if graph221_root_margin_socket_ok
+                else
+                "continue the deterministic semantic terminal-lane pattern on "
+                "the remaining layer-4 lanes; use target-completion/evaluator "
+                "product state and stop for the cocycle/cancellation-summary "
+                "quotient experiment if a lane requires selected-prefix, "
+                "sampled-rank, accepted-trace, exact-affine, or "
+                "per-observed-path membership"
+            )
             if graph221_direct_semantic_ok
             else (
             "prove Graph221Layer4BlockedPrefixExcludedFamily as a deterministic "

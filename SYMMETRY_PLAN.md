@@ -116384,3 +116384,86 @@ object that proves the evaluator-gain margin inequality; do not use exact
 affine RHS keys, solved start-point keys, AcceptedTraceId, selected-prefix
 tables, or sampled ranks.
 ```
+
+#### 2026-07-05 graph221 sequenceBadFace direct socket and audit update
+
+Status: accepted as the current graph221 frontier.
+
+The graph221 `zm,tmpp` bridge now exposes direct theorems from the semantic
+`Graph221ZmTmppSplit10MRootMarginSequenceBadFace` carrier to the graph-exact
+gate and nonpositive margin result.  This removes one downstream adapter step
+for future deterministic margin producers:
+
+```lean
+theorem split10MGraphExactEvalGateAtRank_of_graph221_zm_tmpp_sequenceBadFace
+    (hstrengthened :
+      TopPairingStrengthenedClosedLanguageAtRank
+        (Graph221ZmTmppSplit10MRootMarginSequenceBadFace scaledMargin)
+        rank Face.ym)
+    (hprefix :
+      Depth11Layer4PrefixAtRank rank Face.zm Face.tmpp rest) :
+    Split10MGraphExactEvalGateAtRank scaledMargin rank
+
+theorem scaledMargin_nonpos_of_graph221_zm_tmpp_sequenceBadFace
+    (hstrengthened :
+      TopPairingStrengthenedClosedLanguageAtRank
+        (Graph221ZmTmppSplit10MRootMarginSequenceBadFace scaledMargin)
+        rank Face.ym)
+    (hprefix :
+      Depth11Layer4PrefixAtRank rank Face.zm Face.tmpp rest) :
+    scaledMargin rank <= 0
+```
+
+The layer-4 readiness audit now recognizes the graph221 semantic terminal
+bridge and reports:
+
+```text
+zm_tmpp status: validated_graph221_semantic_gate_root_margin_socket_ready
+graph221 root-margin socket: accepted_root_margin_socket_pending_margin_producer
+next recommended slice:
+  prove Graph221ZmTmppSplit10MRootMarginSequenceBadFace from a deterministic
+  graph221 margin producer over closed holonomy/cancellation state; if that
+  proof wants exact affine RHS, selected-prefix, accepted-trace, sampled-rank,
+  or stored-path membership, stop and run the cocycle/cancellation-summary
+  quotient experiment
+```
+
+Commands run:
+
+```bash
+python3 -m py_compile scripts/audit_layer4_terminal_lane_readiness.py
+
+python3 scripts/audit_layer4_terminal_lane_readiness.py
+
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 360 --max-tree-rss-mib 8000 \
+  --min-available-mib 30000 --hard-address-space-mib 16384 \
+  --json scripts/generated/graph221_semantic_terminal_bridge_guard.json \
+  -- lake env lean -M 8000 -j1 -s 16384 \
+    -o .lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraph221SemanticTerminalBridge.olean \
+    Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraph221SemanticTerminalBridge.lean
+
+rg -n "sorry|admit|axiom|native_decide|unsafe" \
+  Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraph221SemanticTerminalBridge.lean
+```
+
+Results:
+
+```text
+py_compile: passed
+layer-4 readiness audit: passed and regenerated scripts/generated/layer4_terminal_lane_readiness.json
+guarded Lean check: passed, elapsed 8.01s, peak RSS 4006.68 MiB,
+  min available 46235.06 MiB
+forbidden-token scan on touched Lean bridge: no hits
+```
+
+Next implementation target remains the actual margin producer:
+
+```text
+Prove Graph221ZmTmppSplit10MRootMarginSequenceBadFace from deterministic
+closed-language/cancellation-state margin evidence.  The proof should target
+Graph221Layer4Split10MRootMarginBound and may use Bellman segment/cocycle
+objects, but it must not introduce AcceptedTraceId, selected-prefix IDs,
+sampled-rank membership, exact affine RHS keys, solved start-point keys, or
+stored path tables.
+```

@@ -13,14 +13,14 @@
     ".lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraph221SemanticTerminalBridge.olean",
     "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraph221SemanticTerminalBridge.lean"
   ],
-  "elapsed_seconds": 7.00509752400103,
+  "elapsed_seconds": 8.005880169017473,
   "exit_code": 0,
   "hard_address_space_mib": 16384.0,
   "killed_reason": null,
-  "max_tree_rss_kib": 4132412,
-  "max_tree_rss_mib": 4035.55859375,
-  "min_available_seen_kib": 47329252,
-  "min_available_seen_mib": 46219.97265625,
+  "max_tree_rss_kib": 4102844,
+  "max_tree_rss_mib": 4006.68359375,
+  "min_available_seen_kib": 47344700,
+  "min_available_seen_mib": 46235.05859375,
   "rss_cap_mib": 8000.0,
   "timeout_seconds": 360.0
 }
