@@ -223,6 +223,7 @@ GRAPH147_DETERMINISTIC_TARGET_SHARD_REQUIRED = [
     "nextTarget?_shard_sound",
     "ShardTargetSuffixOk.of_targetCompletionTail",
     "ShardTargetSuffixOk.eval_exists_of_external",
+    "eval_exists_of_targetCompletionTail",
     "nextTarget?_prefix4YpZm_zp",
     "nextTarget?_prefix4YpZm_tmmp",
     "nextTarget?_terminal_graph112",
@@ -703,8 +704,9 @@ def main() -> int:
                     "nextTarget? API from semantic shard states to either the "
                     "next shard state or an external graph target.  It also "
                     "proves that target-completion tails feed the recursive "
-                    "ShardTargetSuffixOk predicate.  The lane still needs the "
-                    "external terminal semantic eval/margin sockets and the "
+                    "ShardTargetSuffixOk predicate and compose to evaluator "
+                    "existence under external graph sockets.  The lane still "
+                    "needs the external terminal semantic eval/margin sockets and the "
                     "rank-parametric closed-language-to-eval theorem without "
                     "selected-prefix or sampled-rank membership."
                     if graph147_deterministic_target_shard_ok

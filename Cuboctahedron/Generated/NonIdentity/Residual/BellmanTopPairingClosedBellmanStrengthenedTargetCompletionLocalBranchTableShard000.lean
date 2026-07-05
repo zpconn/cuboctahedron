@@ -725,6 +725,37 @@ theorem ShardTargetSuffixOk.eval_exists_of_external
       refine ⟨finish, stepGain + tailGain, ?_⟩
       exact evalLabelStepFn_cons_some hnextEval htail
 
+theorem eval_exists_of_targetCompletionTail
+    {ExternalOk : Nat -> List Face -> Prop}
+    (hexternalOk :
+      ∀ {state : ShardState} {graph : Nat} {face : Face} {gain : Int}
+          {rest : List Face},
+        nextTarget? state face = some (.externalGraph graph, gain) ->
+        TopPairingTargetCompletionTail
+          ((completionState state).next face) rest ->
+          ExternalOk graph rest)
+    (hexternalEval :
+      ∀ {state : ShardState} {graph : Nat} {face : Face} {gain : Int}
+          {rest : List Face},
+        nextTarget? state face = some (.externalGraph graph, gain) ->
+        ExternalOk graph rest ->
+          ∃ nextState finish tailGain,
+            strengthenedClosedEvalNext (evalState state) face =
+                some (nextState, gain) ∧
+              evalLabelStepFn strengthenedClosedEvalNext nextState rest =
+                some (finish, tailGain))
+    {state : ShardState} {labels : List Face}
+    (htail :
+      TopPairingTargetCompletionTail (completionState state) labels) :
+    ∃ finish totalGain,
+      evalLabelStepFn strengthenedClosedEvalNext (evalState state) labels =
+        some (finish, totalGain) :=
+  ShardTargetSuffixOk.eval_exists_of_external
+    (ExternalOk := ExternalOk)
+    hexternalEval
+    (ShardTargetSuffixOk.of_targetCompletionTail
+      (ExternalOk := ExternalOk) hexternalOk htail)
+
 def localBranchTable :
     (state : ShardState) ->
       StrengthenedTargetCompletionLocalBranchTable

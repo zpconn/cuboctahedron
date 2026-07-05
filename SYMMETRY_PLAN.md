@@ -105141,6 +105141,7 @@ theorem nextTarget?_shard_sound
 theorem ShardTargetSuffixOk.first_step_graph_sound
 theorem ShardTargetSuffixOk.of_targetCompletionTail
 theorem ShardTargetSuffixOk.eval_exists_of_external
+theorem eval_exists_of_targetCompletionTail
 theorem nextTarget?_prefix4YpZm_zp
 theorem nextTarget?_prefix4YpZm_tmmp
 theorem nextTarget?_terminal_graph112
@@ -105188,6 +105189,17 @@ socket.  The proof is explicit over semantic shard state and existing
 closed-language/target-completion-to-suffix theorem for this bounded shard, not
 an observed-prefix or sampled-rank cover.
 
+Third follow-up accepted in the same shard:
+`eval_exists_of_targetCompletionTail` composes
+`ShardTargetSuffixOk.of_targetCompletionTail` with
+`ShardTargetSuffixOk.eval_exists_of_external`.  A semantic
+target-completion tail now directly yields `evalLabelStepFn` existence for this
+bounded shard, assuming only external graph evaluator sockets for the four
+handoff exits.  This is the exact direction requested by the Bellman pivot:
+closed target-completion language to deterministic evaluator, with no
+sampled-rank, selected-prefix, accepted-trace, exact-affine, or
+per-observed-path membership layer.
+
 Focused guarded build:
 
 ```bash
@@ -105202,8 +105214,14 @@ python3 scripts/run_memory_guarded.py \
 Result:
 
 ```text
-pass; elapsed=4.00s; peak_tree_rss=4070 MiB; min_available=46026 MiB
+pass; elapsed=5.00s; peak_tree_rss=4022 MiB; min_available=46079 MiB
 ```
+
+The previous focused build after `ShardTargetSuffixOk.of_targetCompletionTail`
+also passed under the same guard in `4.00s` with `4070 MiB` peak tree RSS.
+The checkpoint rerun against existing artifacts also passed under the same
+guard in `5.00s` with `781 MiB` peak tree RSS and `46495 MiB` minimum
+available memory.
 
 The first build attempt failed safely under the same guard because the target
 constructor was named `state`, which collided with Lean pattern elaboration.
@@ -105241,6 +105259,7 @@ zm_yp.status = partial_terminal_graph141_graph138_deterministic_target_api
 deterministic_target_shard_symbols.nextTarget?_shard_sound = true
 deterministic_target_shard_symbols.ShardTargetSuffixOk.of_targetCompletionTail = true
 deterministic_target_shard_symbols.ShardTargetSuffixOk.eval_exists_of_external = true
+deterministic_target_shard_symbols.eval_exists_of_targetCompletionTail = true
 forbidden_hits = []
 ```
 
