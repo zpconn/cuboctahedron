@@ -120,6 +120,18 @@ not production-safe.  The next pivot should then be a cancellation
 segment or cocycle/coboundary quotient for this margin form, followed
 by the same Bellman potential bound.
 
+Latest graph183 go/no-go refinement: continue Bellman for exactly
+one semantic-membership experiment.  The accepted targets are either
+`Graph183TailQuotientObjectMarginBound sequenceBadFace scaledMargin`
+over the existing rank-plus-closed-language branch object, or a
+`StrengthenedClosedBellmanStepRunFamily sequenceBadFace scaledMargin`
+that supplies the same deterministic `BellmanLabelStepRun` and
+margin bound.  Do not spend the next step on another potential,
+sampled smoke, or rank-indexed certificate.  If this theorem cannot
+be proved from target cursor / tri-source / cancellation / cocycle
+state, Bellman remains a discovery tool only until the semantic
+state is strengthened.
+
 The graph183 cocycle quotient evidence is now checked through the
 sharded edge-equation aggregate, not the old one-file smoke.  The
 aggregate exposes public `FullStep`/`SmallStep` relations,
