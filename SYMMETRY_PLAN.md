@@ -115947,3 +115947,84 @@ This should remain a semantic branch-family proof.  If the producer tries to
 materialize observed ranks, accepted trace IDs, selected-prefix tables, exact
 affine RHS keys, or full stored paths, stop and replace the state predicate
 with the deterministic transducer/cocycle fields instead.
+
+### 2026-07-05 target-completion ingress for graph183 step-run portfolio
+
+Status: semantic target-completion branch ingress added.
+
+The graph183-direct socket can now build the killed all-rank layer-4 family
+directly from target-completion branch families for the five non-graph147 /
+non-graph183 branches, plus the existing graph147 root-margin bundle:
+
+```lean
+acceptedSequenceMixedKilledAllFamily_of_graph183DirectTargetCompletionStepRunPortfolio
+```
+
+Inputs:
+
+```lean
+AcceptedSequenceDepth11Layer4StartViolationGate scaledMargin
+StrengthenedDepth11Layer4TargetCompletionBranchFamily
+  scaledMargin AcceptedSequenceBadFaceAtRank Face.tmpm Face.tppm state_tmpm_tppm
+StrengthenedDepth11Layer4TargetCompletionBranchFamily
+  scaledMargin AcceptedSequenceBadFaceAtRank Face.yp Face.tmmm state_yp_tmmm
+StrengthenedGraph147RootMarginBundle
+  scaledMargin AcceptedSequenceBadFaceAtRank
+StrengthenedDepth11Layer4TargetCompletionBranchFamily
+  scaledMargin AcceptedSequenceBadFaceAtRank Face.zm Face.tmpp state_zm_tmpp
+StrengthenedDepth11Layer4TargetCompletionBranchFamily
+  scaledMargin AcceptedSequenceBadFaceAtRank Face.zm Face.zp state_zm_zp
+```
+
+Output:
+
+```lean
+AcceptedSequenceDepth11Layer4MixedKilledAllFamily scaledMargin
+```
+
+The adapter performs only semantic conversions:
+
+```text
+target-completion branch family
+  -> strengthened mapped branch portfolio
+  -> graph183-direct step-run portfolio
+  -> split/nonpos/killed all-family
+  -> killed all-family
+```
+
+This gives the next generator a more precise theorem target: prove
+target-completion branch membership/classification facts for five named
+branches, prove the graph147 root-margin bundle, and provide the start-violation
+gate.  It does not require graph147 exact-eval nonpositive obligations, sampled
+ranks, selected-prefix IDs, accepted traces, exact affine RHS keys, or full
+stored Bellman paths.
+
+Focused guarded check:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 360 --max-tree-rss-mib 8000 \
+  --min-available-mib 30000 --hard-address-space-mib 16384 \
+  --json scripts/generated/graph183_direct_killed_portfolio_socket_guard.json \
+  -- lake env lean -M 8000 -j1 -s 16384 \
+    -o .lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingDepth11Layer4Graph183DirectKilledPortfolioSocket.olean \
+    Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingDepth11Layer4Graph183DirectKilledPortfolioSocket.lean
+```
+
+Passed: elapsed `4.00s`, peak RSS `3622 MiB`, min available `46359 MiB`.
+
+Forbidden-token scan over the touched Lean socket found no `sorry`, `admit`,
+`axiom`, `native_decide`, or `unsafe`.
+
+Next implementation target:
+
+```text
+Build one representative target-completion branch family, preferably one of the
+five mapped branches above, and verify whether the semantic state is strong
+enough to prove both tail membership and Depth11Layer4MappedClassCase without
+rank/path enumeration.
+```
+
+If a representative branch proof needs observed traces or exact affine keys,
+strengthen the target-completion state with deterministic transducer/cocycle
+fields before attempting broad generation.

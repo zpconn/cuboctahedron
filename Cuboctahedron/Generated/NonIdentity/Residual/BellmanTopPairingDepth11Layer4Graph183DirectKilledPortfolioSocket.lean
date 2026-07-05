@@ -1,4 +1,5 @@
 import Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingDepth11Layer4MixedPortfolioSocket
+import Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingDepth11Layer4TargetCompletionBranchSocket
 import Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraph183QuotientMarginSocket
 
 /-!
@@ -26,6 +27,7 @@ open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingDepth11Layer4
 open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingDepth11Layer4Graph147DirectEvalSocket
 open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingDepth11Layer4MappedBranchSocket
 open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingDepth11Layer4MixedPortfolioSocket
+open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingDepth11Layer4TargetCompletionBranchSocket
 open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraph183QuotientMarginSocket
 open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphAcceptedEvalLanguage
 open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingClosedBellmanStrengthenedSemanticGateSocket
@@ -802,6 +804,54 @@ def acceptedSequenceMixedKilledAllFamily_of_graph183DirectStepRunPortfolio
       startGate hstrengthened
       ((acceptedSequenceSplitNonposOrKilledAllFamily_of_graph183DirectStepRunPortfolio
         hfamily).family rank hstrengthened)
+
+/--
+Target-completion producer ingress for the graph183-direct step-run portfolio.
+
+This is the next semantic surface for generated branch proofs: each non-graph147
+branch can prove a `TopPairingTargetCompletionTail` membership theorem plus a
+mapped class case, while graph147 supplies the root-margin bundle that is
+converted to step-run gates.  The result is the killed all-rank layer-4 family.
+-/
+def acceptedSequenceMixedKilledAllFamily_of_graph183DirectTargetCompletionStepRunPortfolio
+    {scaledMargin : Fin numPairWords -> Int}
+    {state_tmpm_tppm state_yp_tmmm state_zm_tmpp state_zm_zp :
+      TopPairingTargetCompletionState}
+    (startGate :
+      AcceptedSequenceDepth11Layer4StartViolationGate scaledMargin)
+    (tmpm_tppm :
+      StrengthenedDepth11Layer4TargetCompletionBranchFamily
+        scaledMargin AcceptedSequenceBadFaceAtRank Face.tmpm Face.tppm
+        state_tmpm_tppm)
+    (yp_tmmm :
+      StrengthenedDepth11Layer4TargetCompletionBranchFamily
+        scaledMargin AcceptedSequenceBadFaceAtRank Face.yp Face.tmmm
+        state_yp_tmmm)
+    (graph147 :
+      StrengthenedGraph147RootMarginBundle
+        scaledMargin AcceptedSequenceBadFaceAtRank)
+    (zm_tmpp :
+      StrengthenedDepth11Layer4TargetCompletionBranchFamily
+        scaledMargin AcceptedSequenceBadFaceAtRank Face.zm Face.tmpp
+        state_zm_tmpp)
+    (zm_zp :
+      StrengthenedDepth11Layer4TargetCompletionBranchFamily
+        scaledMargin AcceptedSequenceBadFaceAtRank Face.zm Face.zp
+        state_zm_zp) :
+    AcceptedSequenceDepth11Layer4MixedKilledAllFamily
+      scaledMargin :=
+  acceptedSequenceMixedKilledAllFamily_of_graph183DirectStepRunPortfolio
+    startGate
+    (acceptedSequenceGraph183DirectStepRunPortfolioFamily_of_rootMarginBundle
+      (strengthenedMappedBranchPortfolio_of_targetCompletionBranchFamily
+        tmpm_tppm)
+      (strengthenedMappedBranchPortfolio_of_targetCompletionBranchFamily
+        yp_tmmm)
+      graph147
+      (strengthenedMappedBranchPortfolio_of_targetCompletionBranchFamily
+        zm_tmpp)
+      (strengthenedMappedBranchPortfolio_of_targetCompletionBranchFamily
+        zm_zp))
 
 theorem graph183DirectKilledPortfolioSocket_builds : True := by
   exact True.intro
