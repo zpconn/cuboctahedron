@@ -105383,6 +105383,8 @@ BellmanPotential.lean`:
 ```lean
 structure CertifiedBellmanSegment
 theorem CertifiedBellmanSegment.ofRun
+theorem CertifiedBellmanSegment.ofEvalLabelStepFn
+theorem CertifiedBellmanSegment.ofEvalLabelStepFnNextInvariant
 theorem CertifiedBellmanSegment.nil
 theorem CertifiedBellmanSegment.append
 theorem CertifiedBellmanSegment.const_add_gain_nonpos
@@ -105455,6 +105457,71 @@ Result:
 ```text
 pass; no matches
 ```
+
+### 2026-07-05 evaluator-to-segment bridge accepted
+
+The certified segment core now connects directly to deterministic evaluator
+modules.  `Cuboctahedron/Search/BellmanPotential.lean` adds:
+
+```lean
+theorem CertifiedBellmanSegment.ofEvalLabelStepFn
+theorem CertifiedBellmanSegment.ofEvalLabelStepFnNextInvariant
+```
+
+The first theorem converts an `evalLabelStepFn next start labels =
+some (finish, gain)` equation into a `CertifiedBellmanSegment`, assuming each
+`next` step is sound for the semantic `Step` relation.  The second theorem is
+the common generated case where the step relation is exactly
+
+```lean
+fun s label t gain => next s label = some (t, gain)
+```
+
+and a local invariant proves both range preservation and
+`gain + V t <= V s`.
+
+This matters for the graph147 route because future cancellation/segment
+modules can be driven by evaluator equations and local transition invariants,
+without storing path objects, sampled ranks, selected prefixes, or accepted
+trace ids.  It is still only a proof principle; graph147 coverage still needs
+a semantic margin producer.
+
+Focused guarded checks:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 10000 \
+  --min-available-mib 30000 \
+  --json scripts/generated/bellman_potential_certified_segment_eval_guard.json -- \
+  env LEAN_NUM_THREADS=1 LAKE_JOBS=1 \
+    lake build Cuboctahedron.Search.BellmanPotential
+
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 10000 \
+  --min-available-mib 30000 \
+  --json scripts/generated/top_pairing_transducer_semantic_gate_after_segment_eval_guard.json -- \
+  env LEAN_NUM_THREADS=1 LAKE_JOBS=1 \
+    lake build Cuboctahedron.Search.TopPairingTransducerSemanticGate
+```
+
+Results:
+
+```text
+BellmanPotential: pass; elapsed=3.00s; peak_tree_rss=4087 MiB;
+min_available=46063 MiB
+
+TopPairingTransducerSemanticGate: pass; elapsed=10.01s;
+peak_tree_rss=4070 MiB; min_available=46111 MiB
+```
+
+Next graph147 implementation rule:
+
+- If the graph147 margin producer can be decomposed into semantic target-tail
+  segments, use `CertifiedBellmanSegment.ofEvalLabelStepFnNextInvariant` for
+  each deterministic segment and `CertifiedBellmanSegment.append` to assemble
+  the whole tail.
+- If segment construction needs exact affine RHS, solved start-point keys, or
+  observed prefix ids, reject that segment coordinate.
 
 Interpretation:
 

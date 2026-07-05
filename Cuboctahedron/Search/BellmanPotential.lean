@@ -503,6 +503,65 @@ theorem ofRun
     labelStepRunGain_add_finalPotential_le_startPotential
       (V := V) hrun hvalid
 
+/--
+Build a certified segment from a deterministic evaluator equation, provided
+each evaluator step is sound for the semantic step relation.
+-/
+theorem ofEvalLabelStepFn
+    {State Label : Type} {V : State -> Int}
+    {Step : State -> Label -> State -> Int -> Prop}
+    {next : State -> Label -> Option (State × Int)}
+    {start finish : State} {labels : List Label} {gain : Int}
+    (hsound :
+      forall s label t gain,
+        next s label = some (t, gain) -> Step s label t gain)
+    (hvalid :
+      forall s label t gain, Step s label t gain -> gain + V t <= V s)
+    (heval : evalLabelStepFn next start labels = some (finish, gain)) :
+    CertifiedBellmanSegment V Step start finish labels gain := by
+  exact ofRun
+    (V := V)
+    (bellmanLabelStepRun_of_evalLabelStepFn
+      (Step := Step) (next := next) hsound heval)
+    hvalid
+
+/--
+Specialized evaluator adapter for the common generated case where the semantic
+step relation is the `next = some` graph itself and `hnext` provides the local
+range/potential invariant.
+-/
+theorem ofEvalLabelStepFnNextInvariant
+    {State Label : Type} {V : State -> Int}
+    {next : State -> Label -> Option (State × Int)}
+    {InRange : State -> Prop}
+    {start finish : State} {labels : List Label} {gain : Int}
+    (hnext :
+      forall s label t gain,
+        InRange s ->
+          next s label = some (t, gain) ->
+            InRange t /\ gain + V t <= V s)
+    (hstart : InRange start)
+    (heval : evalLabelStepFn next start labels = some (finish, gain)) :
+    CertifiedBellmanSegment V
+        (fun s label t gain => next s label = some (t, gain))
+        start finish labels gain /\
+      InRange finish := by
+  have hbound :=
+    evalLabelStepFn_bound_of_next_invariant
+      (V := V) (next := next) (InRange := InRange)
+      hnext hstart heval
+  refine ⟨?seg, hbound.1⟩
+  refine
+    { run :=
+        bellmanLabelStepRun_of_evalLabelStepFn
+          (Step := fun s label t gain => next s label = some (t, gain))
+          (next := next)
+          (by
+            intro s label t gain h
+            exact h)
+          heval
+      potential_bound := hbound.2 }
+
 theorem nil
     {State Label : Type} {V : State -> Int}
     {Step : State -> Label -> State -> Int -> Prop}

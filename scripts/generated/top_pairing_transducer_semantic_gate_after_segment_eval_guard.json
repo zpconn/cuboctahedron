@@ -1,0 +1,21 @@
+{
+  "available_floor_mib": 30000.0,
+  "command": [
+    "env",
+    "LEAN_NUM_THREADS=1",
+    "LAKE_JOBS=1",
+    "lake",
+    "build",
+    "Cuboctahedron.Search.TopPairingTransducerSemanticGate"
+  ],
+  "elapsed_seconds": 10.006917054997757,
+  "exit_code": 0,
+  "hard_address_space_mib": null,
+  "killed_reason": null,
+  "max_tree_rss_kib": 4167680,
+  "max_tree_rss_mib": 4070.0,
+  "min_available_seen_kib": 47218256,
+  "min_available_seen_mib": 46111.578125,
+  "rss_cap_mib": 10000.0,
+  "timeout_seconds": null
+}
