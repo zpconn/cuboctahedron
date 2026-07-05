@@ -505,6 +505,100 @@ def rootMarginBundle_of_rankedTransducerInvariantFamily
   rootMarginBundle_of_graphExactEvalGate
     (graphExactEvalGate_of_rankedTransducerInvariantFamily hfamily)
 
+/--
+Concrete graph-147 shard suffix candidate for the ranked transducer route.
+
+This is not the final margin producer.  It isolates the suffix/local-step part
+of `StrengthenedGraph147RankedTransducerInvariantFamily`: while the evaluator
+is inside the deterministic graph-147 shard, suffix membership is witnessed by
+`ShardTargetSuffixOk`; once the shard reaches terminal graph states `141` or
+`138`, the remaining suffix is empty and the final potential is already
+nonnegative.
+-/
+def Graph147RankedShardSuffixOk
+    (_rank : Fin numPairWords)
+    (state :
+      TopPairingTransducerEvalState StrengthenedClosedEvalState)
+    (labels : List Face) : Prop :=
+  (∃ shardState : ShardState,
+    state.graph = evalState shardState ∧
+      ShardState.inGraph147Lane shardState ∧
+        ShardTargetSuffixOk ShardExternalTailOk shardState labels) ∨
+  (labels = [] ∧ 0 <= graphPotential state.graph.graph)
+
+/--
+The graph-147 shard suffix candidate is closed under one deterministic
+semantic evaluator step.
+
+This is the production-shaped local-step theorem for the ranked-transducer
+producer.  It case-splits only on the finite shard suffix proof and the
+deterministic `nextTarget?` table; it does not inspect ranks, sampled paths,
+selected prefixes, accepted trace ids, or affine keys.
+-/
+theorem graph147RankedShardSuffixOk_localStep
+    {rank : Fin numPairWords}
+    {state :
+      TopPairingTransducerEvalState StrengthenedClosedEvalState}
+    {face : Face} {rest : List Face}
+    (htail : state.Tail (face :: rest))
+    (hsuffix :
+      Graph147RankedShardSuffixOk rank state (face :: rest)) :
+    ∃ nextState gain,
+      TopPairingTransducerEvalState.next?
+          strengthenedClosedEvalNext (fun face : Face => face)
+          state face =
+        some (nextState, gain) ∧
+      nextState.Tail rest ∧
+        Graph147RankedShardSuffixOk rank nextState rest := by
+  rcases hsuffix with
+    ⟨shardState, hgraphEq, hlane, hsuffixShard⟩ | ⟨hnil, _hfinal⟩
+  · cases hsuffixShard with
+    | shard_step hstep hrest =>
+        rename_i nextShard stepGain
+        have hgraph :
+            strengthenedClosedEvalNext state.graph face =
+              some (evalState nextShard, stepGain) := by
+          rw [hgraphEq]
+          exact nextTarget?_shard_sound hstep
+        rcases TopPairingTransducerEvalState.next?_tail
+            (next := strengthenedClosedEvalNext)
+            (labelOfFace := fun face : Face => face)
+            htail hgraph with
+          ⟨nextState, hnext, htailNext, hgraphNext⟩
+        refine ⟨nextState, stepGain, hnext, htailNext, Or.inl ?_⟩
+        refine ⟨nextShard, hgraphNext,
+          ShardState.inGraph147Lane_of_nextTarget?_shard hlane hstep,
+          hrest⟩
+    | external_step hstep hrest =>
+        rename_i graph stepGain
+        have hterminal :
+            TerminalExternalOk graph rest :=
+          ShardExternalTailOk.terminal_of_graph147Lane
+            hlane hstep hrest
+        rcases nextTarget?_graph_sound hstep with
+          ⟨graphNextState, hgraphStep, hgraphNat⟩
+        have hgraph :
+            strengthenedClosedEvalNext state.graph face =
+              some (graphNextState, stepGain) := by
+          rw [hgraphEq]
+          exact hgraphStep
+        rcases TopPairingTransducerEvalState.next?_tail
+            (next := strengthenedClosedEvalNext)
+            (labelOfFace := fun face : Face => face)
+            htail hgraph with
+          ⟨nextState, hnext, htailNext, hgraphNext⟩
+        refine ⟨nextState, stepGain, hnext, htailNext, Or.inr ?_⟩
+        cases hterminal
+        · constructor
+          · rfl
+          · rw [hgraphNext, hgraphNat]
+            exact TerminalExternalOk.final_nonneg TerminalExternalOk.graph141
+        · constructor
+          · rfl
+          · rw [hgraphNext, hgraphNat]
+            exact TerminalExternalOk.final_nonneg TerminalExternalOk.graph138
+  · cases hnil
+
 private theorem graph147YpZm_usedFaceTail_of_strengthened_prefix
     {sequenceBadFace : Fin numPairWords -> Face -> Prop}
     {rank : Fin numPairWords} {rest : List Face}

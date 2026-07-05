@@ -9,6 +9,8 @@
 - `StrengthenedGraph147RankedTransducerInvariantFamily`: `true`
 - `graphExactEvalGate_of_rankedTransducerInvariantFamily`: `true`
 - `rootMarginBundle_of_rankedTransducerInvariantFamily`: `true`
+- `Graph147RankedShardSuffixOk`: `true`
+- `graph147RankedShardSuffixOk_localStep`: `true`
 
 ## Semantic Inputs
 

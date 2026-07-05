@@ -107559,6 +107559,73 @@ semantics, with the segment/cocycle quotient route reserved for a genuine
 semantic-state strengthening rather than an accidental fallback to sampled
 membership.
 
+### 2026-07-05 graph147 ranked suffix local-step theorem accepted
+
+The graph147 direct eval socket now exposes a concrete suffix predicate for
+the deterministic shard table:
+
+```lean
+def Graph147RankedShardSuffixOk
+theorem graph147RankedShardSuffixOk_localStep
+```
+
+`Graph147RankedShardSuffixOk` says that the combined transducer/evaluator is
+either inside the graph147 finite shard with a `ShardTargetSuffixOk` proof, or
+has reached a terminal graph147 state with empty suffix and nonnegative final
+potential.  The local-step theorem proves that this predicate is preserved by
+one deterministic `TopPairingTransducerEvalState.next?` step.  The proof only
+case-splits on the finite `ShardTargetSuffixOk` table and uses
+`nextTarget?_shard_sound`, `nextTarget?_graph_sound`, and
+`TopPairingTransducerEvalState.next?_tail`; it does not inspect ranks, sampled
+paths, selected prefixes, accepted trace ids, exact affine RHS keys, or solved
+start points.
+
+Focused hard-capped check:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 240 \
+  --max-tree-rss-mib 8000 \
+  --min-available-mib 30000 \
+  --hard-address-space-mib 8192 \
+  --json scripts/generated/graph147_ranked_suffix_local_step_guard.json \
+  --verbose -- lake env lean -M 6500 -j1 -s 2048 \
+    Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingDepth11Layer4Graph147DirectEvalSocket.lean
+```
+
+Result:
+
+```text
+pass; elapsed=3.00s; peak_tree_rss=3985 MiB; hard_as=8192 MiB;
+min_available=46200 MiB
+```
+
+Audit update:
+
+```bash
+python3 -m py_compile scripts/audit_graph147_ranked_transducer_frontier.py
+python3 scripts/audit_graph147_ranked_transducer_frontier.py
+```
+
+Result:
+
+```text
+status = ready_for_ranked_transducer_invariant_producer
+socket.Graph147RankedShardSuffixOk = true
+socket.graph147RankedShardSuffixOk_localStep = true
+gauge_audit.full_graph_only = true
+```
+
+Interpretation: the `localStep` field of
+`StrengthenedGraph147RankedTransducerInvariantFamily` now has a checked
+graph147-shard proof shape.  The remaining fields are still real:
+`suffixStart` must connect strengthened closed ranks to the shard suffix
+predicate, and `finish` must supply the full-root margin bound.  If either
+field wants observed-path membership or exact affine keys, stop this lane and
+move to the certified segment/cocycle quotient route before emitting broader
+Lean.
+
 ### 2026-07-05 current strategy after the graph147 quotient pivot
 
 The latest GPT5.5 Pro guidance has been adopted as the active rule for the

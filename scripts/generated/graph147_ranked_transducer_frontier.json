@@ -76,7 +76,9 @@
     "file": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingDepth11Layer4Graph147DirectEvalSocket.lean",
     "forbidden_hits": [],
     "symbols": {
+      "Graph147RankedShardSuffixOk": true,
       "StrengthenedGraph147RankedTransducerInvariantFamily": true,
+      "graph147RankedShardSuffixOk_localStep": true,
       "graphExactEvalGate_of_rankedTransducerInvariantFamily": true,
       "rootMarginBundle_of_rankedTransducerInvariantFamily": true
     }

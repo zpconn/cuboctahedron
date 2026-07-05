@@ -39,6 +39,8 @@ SOCKET_SYMBOLS = [
     "StrengthenedGraph147RankedTransducerInvariantFamily",
     "graphExactEvalGate_of_rankedTransducerInvariantFamily",
     "rootMarginBundle_of_rankedTransducerInvariantFamily",
+    "Graph147RankedShardSuffixOk",
+    "graph147RankedShardSuffixOk_localStep",
 ]
 
 SEMANTIC_INPUT_SYMBOLS = {
