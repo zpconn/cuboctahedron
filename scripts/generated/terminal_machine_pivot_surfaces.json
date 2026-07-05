@@ -1,0 +1,62 @@
+{
+  "accepted_boundary": {
+    "already_present": [
+      "target-shadow inversion and cursor from closed language",
+      "contained terminal-machine progress gates",
+      "closed-transducer all-rank socket consuming a contained terminal gate",
+      "depth-11 graph-path portfolio wrapper consuming the machine socket"
+    ],
+    "remaining_gap": "prove TerminalContainedEvalPrefixGate machine start rank, not just TerminalContainedEvalProgressGate to the layer-4 frontier, from TopPairingStrengthenedClosedLanguageAtRank"
+  },
+  "files": {
+    "closed_transducer_socket": {
+      "missing": [],
+      "path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedTransducerProducerSocket.lean",
+      "symbols": {
+        "StrengthenedClosedTransducerMachineProducerAll": true,
+        "closedTransducerProducerAll_of_machineProducerAll": true,
+        "scaledMargin_nonpos_of_machineProducerAll": true
+      }
+    },
+    "depth11_graph_path": {
+      "missing": [],
+      "path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSemanticStateDAGDepth11GraphPathProvidersSmoke.lean",
+      "symbols": {
+        "Depth11GraphPathMachinePortfolioAll": true,
+        "machineProducerAll_of_depth11GraphPathMachinePortfolioAll": true,
+        "scaledMargin_nonpos_of_depth11GraphPathMachinePortfolioAll": true
+      }
+    },
+    "target_cursor": {
+      "missing": [],
+      "path": "Cuboctahedron/Search/TopPairingTargetCursor.lean",
+      "symbols": {
+        "topPairingTargetShadow_of_summary": true,
+        "topPairingTriCursor_of_closed": true,
+        "topPairingTriShadow_eq_target_of_closed": true
+      }
+    },
+    "terminal_eval_socket": {
+      "missing": [],
+      "path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingTerminalStatePartialMachineEvalSocket.lean",
+      "symbols": {
+        "TerminalContainedEvalPrefixGate": true,
+        "TerminalContainedEvalProgressGate": true,
+        "terminalContainedEvalPrefixGate_of_progress_terminal": true,
+        "terminalTraceLabels_of_containedEvalPrefixGate": true
+      }
+    },
+    "terminal_frontier": {
+      "missing": [],
+      "path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingTerminalStateFrontierSmoke.lean",
+      "symbols": {
+        "TerminalContainedEvalProgressGate": true,
+        "layer4Prefix4FrontierCons2_exists_of_closed": true,
+        "layer4Progress_prefix4_exists_of_closed": true
+      }
+    }
+  },
+  "forbidden_hits": [],
+  "next_recommended_slice": "extend the terminal frontier emitter from layer-4 progress to a terminal contained eval-prefix gate, or add a compositional frontier-to-terminal machine theorem if a full terminal gate is still too large",
+  "status": "machine-pivot-surfaces-present"
+}

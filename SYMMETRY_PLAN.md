@@ -102635,3 +102635,73 @@ local tables.
   family from `TopPairingStrengthenedClosedLanguageAtRank`, then reuse this
   machine portfolio socket with the existing depth-11 graph-path class and
   final-margin producers.
+
+### 2026-07-04 terminal-machine pivot surface audit
+
+- Added a lightweight audit script:
+
+  ```text
+  scripts/audit_terminal_machine_pivot_surfaces.py
+  ```
+
+  It checks that the repository now has the theorem surfaces needed for the
+  deterministic terminal-machine pivot and writes:
+
+  ```text
+  scripts/generated/terminal_machine_pivot_surfaces.json
+  scripts/generated/terminal_machine_pivot_surfaces.md
+  ```
+
+- Audited surfaces:
+
+  ```lean
+  topPairingTargetShadow_of_summary
+  topPairingTriShadow_eq_target_of_closed
+  topPairingTriCursor_of_closed
+
+  TerminalContainedEvalPrefixGate
+  TerminalContainedEvalProgressGate
+  terminalContainedEvalPrefixGate_of_progress_terminal
+  terminalTraceLabels_of_containedEvalPrefixGate
+
+  layer4Prefix4FrontierCons2_exists_of_closed
+  layer4Progress_prefix4_exists_of_closed
+
+  StrengthenedClosedTransducerMachineProducerAll
+  closedTransducerProducerAll_of_machineProducerAll
+  scaledMargin_nonpos_of_machineProducerAll
+
+  Depth11GraphPathMachinePortfolioAll
+  machineProducerAll_of_depth11GraphPathMachinePortfolioAll
+  scaledMargin_nonpos_of_depth11GraphPathMachinePortfolioAll
+  ```
+
+- Audit result:
+
+  ```text
+  status = machine-pivot-surfaces-present
+  forbidden_hits = 0
+  ```
+
+- Meaning:
+  the target-shadow/cursor theorem, contained-progress terminal-machine
+  machinery, closed-transducer machine socket, and depth-11 graph-path machine
+  portfolio wrapper are all present.  The audit also prevents a false positive:
+  the current terminal frontier proves
+  `TerminalContainedEvalProgressGate` to the layer-4 frontier, not yet a full
+  `TerminalContainedEvalPrefixGate` ending in a terminal state.
+
+- Commands:
+
+  ```bash
+  python3 -m py_compile scripts/audit_terminal_machine_pivot_surfaces.py
+  python3 scripts/audit_terminal_machine_pivot_surfaces.py
+  ```
+
+- Next implementation target:
+  extend the terminal frontier emitter from layer-4 contained progress to a
+  terminal contained eval-prefix gate, or add a compositional
+  frontier-to-terminal machine theorem if a single full terminal gate is too
+  large.  This should remain a semantic state-machine proof over the closed
+  language; it must not reintroduce selected prefixes, sampled ranks, accepted
+  trace ids, exact affine RHS keys, or per-rank path objects.
