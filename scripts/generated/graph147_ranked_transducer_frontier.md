@@ -39,6 +39,17 @@
 - file: `Cuboctahedron/Search/TopPairingTransducerSemanticGate.lean`
 - `strengthenedToGraphExactEvalGate_of_rankedTransducerInvariantLocalWithSuffix`: `true`
 
+## Gauge Audit
+
+- file: `scripts/generated/graph147_gauge_corrected_potential_0_10M.json`
+- decision: `full_graph_margin_candidate_only`
+- accepted modes: `['full']`
+- full graph only: `true`
+- graph states: `970`
+- graph edges: `1054`
+- graph finals: `116`
+- const scaled: `176`
+
 ## Remaining Producer Fields
 
 - `start`: the generated invariant holds at the strengthened closed evaluator start
@@ -48,4 +59,4 @@
 
 ## Next Step
 
-Generate or prove StrengthenedGraph147RankedTransducerInvariantFamily from target-shadow cursor, schedule/square-gap/local-axis tail, pair-count/used-face facts, and graph147 Bellman state semantics. Do not use sampled ranks, selected prefixes, accepted trace ids, exact affine keys, or per-observed-path membership.
+Generate or prove StrengthenedGraph147RankedTransducerInvariantFamily from target-shadow cursor, schedule/square-gap/local-axis tail, pair-count/used-face facts, and deterministic full-graph147 Bellman state semantics.  Do not use sampled ranks, selected prefixes, accepted trace ids, exact affine keys, or per-observed-path membership.  If the proof needs those, stop and switch to a segment/cocycle quotient experiment.

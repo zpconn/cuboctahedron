@@ -1,5 +1,26 @@
 {
-  "next_step": "Generate or prove StrengthenedGraph147RankedTransducerInvariantFamily from target-shadow cursor, schedule/square-gap/local-axis tail, pair-count/used-face facts, and graph147 Bellman state semantics. Do not use sampled ranks, selected prefixes, accepted trace ids, exact affine keys, or per-observed-path membership.",
+  "gauge_audit": {
+    "accepted_modes": [
+      "full"
+    ],
+    "decision": "full_graph_margin_candidate_only",
+    "file": "scripts/generated/graph147_gauge_corrected_potential_0_10M.json",
+    "full_graph_only": true,
+    "graph": {
+      "const_scaled": 176,
+      "edges": 1054,
+      "finals": 116,
+      "root_potential_bounds": [
+        {
+          "const_plus_potential": 0,
+          "potential": -176,
+          "root": 0
+        }
+      ],
+      "states": 970
+    }
+  },
+  "next_step": "Generate or prove StrengthenedGraph147RankedTransducerInvariantFamily from target-shadow cursor, schedule/square-gap/local-axis tail, pair-count/used-face facts, and deterministic full-graph147 Bellman state semantics.  Do not use sampled ranks, selected prefixes, accepted trace ids, exact affine keys, or per-observed-path membership.  If the proof needs those, stop and switch to a segment/cocycle quotient experiment.",
   "remaining_fields": [
     {
       "field": "start",

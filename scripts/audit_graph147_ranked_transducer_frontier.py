@@ -33,6 +33,7 @@ TARGET_CURSOR = ROOT / "Cuboctahedron/Search/TopPairingTargetCursor.lean"
 TRANSDUCER_TAIL = ROOT / "Cuboctahedron/Search/TopPairingTransducerTail.lean"
 TRANSDUCER_EVAL = ROOT / "Cuboctahedron/Search/TopPairingTransducerEvalBridge.lean"
 TRANSDUCER_GATE = ROOT / "Cuboctahedron/Search/TopPairingTransducerSemanticGate.lean"
+GAUGE_AUDIT = ROOT / "scripts/generated/graph147_gauge_corrected_potential_0_10M.json"
 
 SOCKET_SYMBOLS = [
     "StrengthenedGraph147RankedTransducerInvariantFamily",
@@ -97,6 +98,12 @@ def read(path: Path) -> str:
     return path.read_text() if path.exists() else ""
 
 
+def read_json(path: Path) -> dict:
+    if not path.exists():
+        return {}
+    return json.loads(path.read_text())
+
+
 def contains_all(text: str, symbols: list[str]) -> dict[str, bool]:
     return {symbol: symbol in text for symbol in symbols}
 
@@ -115,6 +122,14 @@ def main() -> None:
         for key, symbols in SEMANTIC_INPUT_SYMBOLS.items()
     }
     socket_symbols = contains_all(direct_text, SOCKET_SYMBOLS)
+    gauge_data = read_json(GAUGE_AUDIT)
+    gauge_decision = gauge_data.get("decision")
+    gauge_accepted_modes = gauge_data.get("accepted_modes", [])
+    graph = gauge_data.get("graph", {})
+    full_graph_only = (
+        gauge_decision == "full_graph_margin_candidate_only"
+        and gauge_accepted_modes == ["full"]
+    )
     forbidden_hits = [
         term for term in FORBIDDEN_TERMS if term in direct_text
     ]
@@ -125,7 +140,8 @@ def main() -> None:
     )
     status = (
         "ready_for_ranked_transducer_invariant_producer"
-        if all_socket and all_semantic and not forbidden_hits
+        if all_socket and all_semantic and full_graph_only
+        and not forbidden_hits
         else "ranked_transducer_frontier_incomplete"
     )
 
@@ -150,13 +166,28 @@ def main() -> None:
             }
             for key, symbols in semantic_symbols.items()
         },
+        "gauge_audit": {
+            "file": str(GAUGE_AUDIT.relative_to(ROOT)),
+            "decision": gauge_decision,
+            "accepted_modes": gauge_accepted_modes,
+            "full_graph_only": full_graph_only,
+            "graph": {
+                "states": graph.get("states"),
+                "edges": graph.get("edges"),
+                "finals": graph.get("finals"),
+                "const_scaled": graph.get("const_scaled"),
+                "root_potential_bounds": graph.get("root_potential_bounds"),
+            },
+        },
         "remaining_fields": REMAINING_FIELDS,
         "next_step": (
             "Generate or prove StrengthenedGraph147RankedTransducerInvariantFamily "
             "from target-shadow cursor, schedule/square-gap/local-axis tail, "
-            "pair-count/used-face facts, and graph147 Bellman state semantics. "
-            "Do not use sampled ranks, selected prefixes, accepted trace ids, "
-            "exact affine keys, or per-observed-path membership."
+            "pair-count/used-face facts, and deterministic full-graph147 "
+            "Bellman state semantics.  Do not use sampled ranks, selected "
+            "prefixes, accepted trace ids, exact affine keys, or "
+            "per-observed-path membership.  If the proof needs those, stop and "
+            "switch to a segment/cocycle quotient experiment."
         ),
     }
 
@@ -183,6 +214,21 @@ def main() -> None:
         for symbol, present in entry["symbols"].items():
             lines.append(f"- `{symbol}`: `{str(present).lower()}`")
         lines.append("")
+    lines.extend(
+        [
+            "## Gauge Audit",
+            "",
+            f"- file: `{data['gauge_audit']['file']}`",
+            f"- decision: `{data['gauge_audit']['decision']}`",
+            f"- accepted modes: `{data['gauge_audit']['accepted_modes']}`",
+            f"- full graph only: `{str(data['gauge_audit']['full_graph_only']).lower()}`",
+            f"- graph states: `{data['gauge_audit']['graph']['states']}`",
+            f"- graph edges: `{data['gauge_audit']['graph']['edges']}`",
+            f"- graph finals: `{data['gauge_audit']['graph']['finals']}`",
+            f"- const scaled: `{data['gauge_audit']['graph']['const_scaled']}`",
+            "",
+        ]
+    )
     lines.extend(["## Remaining Producer Fields", ""])
     for field in REMAINING_FIELDS:
         lines.append(f"- `{field['field']}`: {field['meaning']}")

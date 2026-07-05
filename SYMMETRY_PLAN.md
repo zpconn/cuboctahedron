@@ -107533,6 +107533,32 @@ Immediate next slice:
    and switch to the segment/cocycle quotient experiment before emitting more
    Lean.
 
+Audit hardening after this pivot:
+
+```bash
+python3 -m py_compile scripts/audit_graph147_ranked_transducer_frontier.py
+python3 scripts/audit_graph147_ranked_transducer_frontier.py
+```
+
+Result:
+
+```text
+status = ready_for_ranked_transducer_invariant_producer
+gauge_audit.decision = full_graph_margin_candidate_only
+gauge_audit.accepted_modes = [full]
+gauge_audit.full_graph_only = true
+gauge_audit.graph.states = 970
+gauge_audit.graph.edges = 1054
+gauge_audit.graph.finals = 116
+```
+
+The ranked-transducer frontier audit now refuses to report readiness unless the
+graph147 gauge audit says the full graph is the only currently accepted margin
+candidate.  This keeps the next producer aimed at deterministic full-graph147
+semantics, with the segment/cocycle quotient route reserved for a genuine
+semantic-state strengthening rather than an accidental fallback to sampled
+membership.
+
 ### 2026-07-05 current strategy after the graph147 quotient pivot
 
 The latest GPT5.5 Pro guidance has been adopted as the active rule for the
