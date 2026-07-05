@@ -41,23 +41,41 @@
     "zm_tmpp": {
       "file": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedBellmanStrengthenedNextFrontierSmoke.lean",
       "forbidden_hits": [],
-      "fourth": "Face.tmpp",
-      "post_tppp_symbols": {
+      "forced_chain_symbols": {
         "Graph159TargetCompletionTail": true,
+        "Graph171TargetCompletionTail": true,
+        "Graph186TargetCompletionTail": true,
+        "Graph202TargetCompletionTail": true,
         "graph159TargetCompletionState": true,
         "graph159_head_of_targetCompletionTail": true,
+        "graph171TargetCompletionState": true,
+        "graph171_head_of_targetCompletionTail": true,
+        "graph186TargetCompletionState": true,
+        "graph186_head_of_targetCompletionTail": true,
+        "graph202TargetCompletionState": true,
+        "graph202_head_of_targetCompletionTail": true,
         "strengthenedClosedPrefix5ZmTmppTpppEvalState": true,
+        "strengthenedClosedPrefix6ZmTmppTpppTpmpEvalState": true,
+        "strengthenedClosedPrefix7ZmTmppTpppTpmpTppmEvalState": true,
+        "strengthenedClosedPrefix8ZmTmppTpppTpmpTppmTmmpEvalState": true,
         "strengthenedClosed_prefix5_zm_tmpp_tppp_next_from_prefix4ZmTmpp": true,
-        "strengthenedPrefix5Graph159TargetCompletionLocalBranchTable": true
+        "strengthenedClosed_prefix6_zm_tmpp_tppp_tpmp_next_from_prefix5": true,
+        "strengthenedClosed_prefix7_zm_tmpp_tppp_tpmp_tppm_next_from_prefix6": true,
+        "strengthenedClosed_prefix8_zm_tmpp_tppp_tpmp_tppm_tmmp_next_from_prefix7": true,
+        "strengthenedPrefix5Graph159TargetCompletionLocalBranchTable": true,
+        "strengthenedPrefix6Graph171TargetCompletionLocalBranchTable": true,
+        "strengthenedPrefix7Graph186TargetCompletionLocalBranchTable": true,
+        "strengthenedPrefix8Graph202TargetCompletionLocalBranchTable": true
       },
-      "remaining_gap": "graph151 now advances semantically through tppp to graph159 and graph159 forces tpmp, but no graph171 post-tpmp suffix/terminal continuation table analogous to graph183 is present",
+      "fourth": "Face.tmpp",
+      "remaining_gap": "graph151 now advances semantically through tppp to graph159, graph171, graph186, and graph202, reaching the graph221 branching frontier; no graph221 filtered suffix/terminal continuation table analogous to graph183 is present",
       "required_symbols": {
         "Graph151TargetCompletionTail": true,
         "graph151TargetCompletionState": true,
         "graph151_head_of_targetCompletionTail": true,
         "strengthenedPrefix4Graph151TargetCompletionLocalBranchTable": true
       },
-      "status": "partial_two_local_steps_missing_post_tpmp_suffix_table",
+      "status": "partial_forced_chain_reaches_graph221_branch",
       "third": "Face.zm"
     },
     "zm_yp": {
@@ -86,7 +104,7 @@
     "zm_yp",
     "zm_zp"
   ],
-  "next_recommended_slice": "continue the zm_tmpp semantic continuation after graph159/tpmp by generating or proving the graph171 target-completion suffix/terminal continuation, then lift the lane through the same four-piece terminal-machine pattern validated by graph183",
+  "next_recommended_slice": "continue the zm_tmpp semantic continuation at the graph221 branching frontier by generating or proving a filtered target-completion suffix/terminal continuation, then lift the lane through the same four-piece terminal-machine pattern validated by graph183",
   "partial_lane_count": 1,
   "partial_lanes": [
     "zm_tmpp"

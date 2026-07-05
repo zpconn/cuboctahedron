@@ -104423,3 +104423,99 @@ BellmanTopPairingGraph183TerminalTailPrefixSmoke.lean
   solved start-point data, or one branch per observed path, stop and run the
   cocycle/cancellation-summary quotient experiment before generating more
   Lean.
+
+### 2026-07-05 `zm,tmpp` forced chain reaches graph221
+
+- Extended the same deterministic semantic frontier farther along the
+  `zm,tmpp` lane in:
+
+  ```text
+  Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedBellmanStrengthenedNextFrontierSmoke.lean
+  ```
+
+- Additional semantic frontier names:
+
+  ```lean
+  strengthenedClosedPrefix6ZmTmppTpppTpmpTransducerState
+  strengthenedClosedPrefix6ZmTmppTpppTpmpEvalState
+  strengthenedClosed_prefix6_zm_tmpp_tppp_tpmp_next_from_prefix5
+  graph171TargetCompletionState
+  Graph171TargetCompletionTail
+  graph171_head_of_targetCompletionTail
+  StrengthenedPrefix6Graph171Branch
+  strengthenedPrefix6Graph171TargetCompletionLocalBranchTable
+
+  strengthenedClosedPrefix7ZmTmppTpppTpmpTppmTransducerState
+  strengthenedClosedPrefix7ZmTmppTpppTpmpTppmEvalState
+  strengthenedClosed_prefix7_zm_tmpp_tppp_tpmp_tppm_next_from_prefix6
+  graph186TargetCompletionState
+  Graph186TargetCompletionTail
+  graph186_head_of_targetCompletionTail
+  StrengthenedPrefix7Graph186Branch
+  strengthenedPrefix7Graph186TargetCompletionLocalBranchTable
+
+  strengthenedClosedPrefix8ZmTmppTpppTpmpTppmTmmpTransducerState
+  strengthenedClosedPrefix8ZmTmppTpppTpmpTppmTmmpEvalState
+  strengthenedClosed_prefix8_zm_tmpp_tppp_tpmp_tppm_tmmp_next_from_prefix7
+  graph202TargetCompletionState
+  Graph202TargetCompletionTail
+  graph202_head_of_targetCompletionTail
+  StrengthenedPrefix8Graph202Branch
+  strengthenedPrefix8Graph202TargetCompletionLocalBranchTable
+  ```
+
+- The forced semantic chain now proves these local target-completion steps:
+
+  ```lean
+  ClosedBellmanStep 171 Face.tppm 186 (-144 : Int)
+  ClosedBellmanStep 186 Face.tmmp 202 (-144 : Int)
+  ClosedBellmanStep 202 Face.tpmm 221 (-36 : Int)
+  ```
+
+- The updated readiness audit now reports:
+
+  ```text
+  zm_tmpp status = partial_forced_chain_reaches_graph221_branch
+  remaining_gap =
+    graph151 now advances semantically through tppp to graph159, graph171,
+    graph186, and graph202, reaching the graph221 branching frontier; no
+    graph221 filtered suffix/terminal continuation table analogous to
+    graph183 is present
+  ```
+
+- Commands:
+
+  ```bash
+  python3 scripts/run_memory_guarded.py \
+    --max-tree-rss-mib 10000 \
+    --min-available-mib 30000 -- \
+    env LEAN_NUM_THREADS=1 LAKE_JOBS=1 \
+      lake build \
+        Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingClosedBellmanStrengthenedNextFrontierSmoke
+
+  python3 -m py_compile scripts/audit_layer4_terminal_lane_readiness.py
+  python3 scripts/audit_layer4_terminal_lane_readiness.py
+
+  rg -n \
+    "SampledRankIndex|sampledContainsRank|sampledRankOf|SelectedPrefix|acceptedTraceOfId" \
+    Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedBellmanStrengthenedNextFrontierSmoke.lean \
+    scripts/generated/layer4_terminal_lane_readiness.json
+  ```
+
+- Results:
+
+  | Check | Result | Elapsed | Peak Tree RSS | Min Available |
+  | --- | --- | ---: | ---: | ---: |
+  | focused forced-chain frontier build | pass | `29.05s` | `5649 MiB` | `44422 MiB` |
+  | layer-4 readiness audit | pass | n/a | n/a | n/a |
+  | forbidden-token scan on touched proof surfaces | pass | n/a | n/a | n/a |
+
+- Next acceptance gate:
+  graph221 is the first real branching frontier on this lane.  The next slice
+  should not blindly continue a selected trace.  It should generate or prove a
+  filtered target-completion suffix/prefix continuation from graph221, using
+  semantic closed-language fields to choose the valid branch and then feeding
+  the existing terminal-machine suffix socket.  If choosing the graph221
+  branch requires exact affine RHS, solved start-point data, or one branch per
+  observed path, stop and run the cocycle/cancellation-summary quotient
+  experiment before emitting more Lean.

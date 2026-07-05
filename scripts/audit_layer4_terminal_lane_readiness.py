@@ -60,13 +60,31 @@ GRAPH151_PARTIAL_REQUIRED = [
     "strengthenedPrefix4Graph151TargetCompletionLocalBranchTable",
 ]
 
-GRAPH159_PARTIAL_REQUIRED = [
+ZMTMPP_CHAIN_REQUIRED = [
     "strengthenedClosedPrefix5ZmTmppTpppEvalState",
     "strengthenedClosed_prefix5_zm_tmpp_tppp_next_from_prefix4ZmTmpp",
     "graph159TargetCompletionState",
     "Graph159TargetCompletionTail",
     "graph159_head_of_targetCompletionTail",
     "strengthenedPrefix5Graph159TargetCompletionLocalBranchTable",
+    "strengthenedClosedPrefix6ZmTmppTpppTpmpEvalState",
+    "strengthenedClosed_prefix6_zm_tmpp_tppp_tpmp_next_from_prefix5",
+    "graph171TargetCompletionState",
+    "Graph171TargetCompletionTail",
+    "graph171_head_of_targetCompletionTail",
+    "strengthenedPrefix6Graph171TargetCompletionLocalBranchTable",
+    "strengthenedClosedPrefix7ZmTmppTpppTpmpTppmEvalState",
+    "strengthenedClosed_prefix7_zm_tmpp_tppp_tpmp_tppm_next_from_prefix6",
+    "graph186TargetCompletionState",
+    "Graph186TargetCompletionTail",
+    "graph186_head_of_targetCompletionTail",
+    "strengthenedPrefix7Graph186TargetCompletionLocalBranchTable",
+    "strengthenedClosedPrefix8ZmTmppTpppTpmpTppmTmmpEvalState",
+    "strengthenedClosed_prefix8_zm_tmpp_tppp_tpmp_tppm_tmmp_next_from_prefix7",
+    "graph202TargetCompletionState",
+    "Graph202TargetCompletionTail",
+    "graph202_head_of_targetCompletionTail",
+    "strengthenedPrefix8Graph202TargetCompletionLocalBranchTable",
 ]
 
 FORBIDDEN = [
@@ -90,8 +108,8 @@ def main() -> int:
     graph151_partial_ok, graph151_partial_missing = contains_all(
         next_frontier_text, GRAPH151_PARTIAL_REQUIRED
     )
-    graph159_partial_ok, graph159_partial_missing = contains_all(
-        next_frontier_text, GRAPH159_PARTIAL_REQUIRED
+    zm_tmpp_chain_ok, zm_tmpp_chain_missing = contains_all(
+        next_frontier_text, ZMTMPP_CHAIN_REQUIRED
     )
     forbidden_hits = [
         token for token in FORBIDDEN if token in graph183_text
@@ -117,8 +135,8 @@ def main() -> int:
             }
         elif lane == "zm_tmpp":
             partial_status = (
-                "partial_two_local_steps_missing_post_tpmp_suffix_table"
-                if graph151_partial_ok and graph159_partial_ok
+                "partial_forced_chain_reaches_graph221_branch"
+                if graph151_partial_ok and zm_tmpp_chain_ok
                 else (
                     "partial_local_step_only_missing_post_tppp_suffix_table"
                     if graph151_partial_ok
@@ -134,19 +152,20 @@ def main() -> int:
                     symbol: symbol not in graph151_partial_missing
                     for symbol in GRAPH151_PARTIAL_REQUIRED
                 },
-                "post_tppp_symbols": {
-                    symbol: symbol not in graph159_partial_missing
-                    for symbol in GRAPH159_PARTIAL_REQUIRED
+                "forced_chain_symbols": {
+                    symbol: symbol not in zm_tmpp_chain_missing
+                    for symbol in ZMTMPP_CHAIN_REQUIRED
                 },
                 "forbidden_hits": [
                     token for token in FORBIDDEN if token in next_frontier_text
                 ],
                 "remaining_gap": (
                     "graph151 now advances semantically through tppp to "
-                    "graph159 and graph159 forces tpmp, but no graph171 "
-                    "post-tpmp suffix/terminal continuation table analogous "
+                    "graph159, graph171, graph186, and graph202, reaching "
+                    "the graph221 branching frontier; no graph221 "
+                    "filtered suffix/terminal continuation table analogous "
                     "to graph183 is present"
-                    if graph159_partial_ok
+                    if zm_tmpp_chain_ok
                     else (
                         "graph151 target-completion semantics forces the next "
                         "face tppp, but no graph151 post-tppp suffix/terminal "
@@ -194,11 +213,12 @@ def main() -> int:
         "missing_lanes": missing,
         "lanes": lane_report,
         "next_recommended_slice": (
-            "continue the zm_tmpp semantic continuation after graph159/tpmp "
-            "by generating or proving the graph171 target-completion "
-            "suffix/terminal continuation, then lift the lane through the "
-            "same four-piece terminal-machine pattern validated by graph183"
-            if graph159_partial_ok
+            "continue the zm_tmpp semantic continuation at the graph221 "
+            "branching frontier by generating or proving a filtered "
+            "target-completion suffix/terminal continuation, then lift the "
+            "lane through the same four-piece terminal-machine pattern "
+            "validated by graph183"
+            if zm_tmpp_chain_ok
             else (
                 "generate or prove the graph151 post-tppp suffix/terminal "
                 "continuation for the partial zm_tmpp lane, then lift it "
