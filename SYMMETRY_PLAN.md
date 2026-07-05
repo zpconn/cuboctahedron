@@ -110142,3 +110142,130 @@ Lake module build = pass; elapsed=5.00s; peak_tree_rss=3254 MiB;
   min_available=46289 MiB
 frontier audit status = ready_for_ranked_eval_margin_bundle_producer
 ```
+
+### 2026-07-05 graph147 semantic margin-invariant pivot
+
+GPT5.5's latest recommendation was correct: keep Bellman, but do not scale any
+selected-prefix cover.  The production proof must be a deterministic semantic
+state-machine theorem from the closed top-pairing language into the ranked
+suffix evaluator, with the margin accumulated locally along that evaluator.
+
+The target-shadow/cursor part of that advice is already Lean-checked:
+
+```lean
+theorem topPairingTargetShadow_of_summary
+theorem topPairingTriShadow_eq_target_of_closed
+theorem topPairingTriCursor_of_closed
+abbrev TopPairingTargetCursorAtRank
+```
+
+in `Cuboctahedron/Search/TopPairingTargetCursor.lean`.
+
+The graph147 ranked socket now has a sharper producer surface:
+
+```lean
+theorem graph147RankedEval_margin_of_suffixInvariant
+
+structure StrengthenedGraph147RankedEvalMarginInvariantFamily
+
+def rankedEvalMarginBundle_of_rankedEvalMarginInvariantFamily
+
+def rootMarginBundle_of_rankedEvalMarginInvariantFamily_via_rankedEvalMarginBundle
+```
+
+Accepted production route:
+
+```text
+StrengthenedGraph147RankedEvalMarginInvariantFamily
+  -> StrengthenedGraph147RankedEvalMarginBundle
+  -> rootMarginBundle_of_rankedEvalMarginBundle
+```
+
+This is now the preferred graph147 producer target.  The older compatibility
+route remains available:
+
+```text
+StrengthenedGraph147RankedTransducerInvariantFamily
+  -> rankedEvalMarginBundle_of_rankedTransducerInvariantFamily
+  -> rootMarginBundle_of_rankedTransducerInvariantFamily_via_rankedEvalMarginBundle
+```
+
+but it is not the main frontier because its final field still packages the
+full-root margin at the completed eval.  The new invariant surface separates
+the actual missing proof into:
+
+```lean
+Inv rank state suffix acc
+localStep :
+  Inv rank state (face :: rest) acc ->
+  graph147RankedEvalNext state face = some (nextState, stepGain) ->
+  Inv rank nextState rest (acc + stepGain)
+finish :
+  Inv rank finish [] acc ->
+  scaledMargin rank <= (176 : Int) + acc
+```
+
+Then `graph147RankedEval_margin_of_suffixInvariant` performs the deterministic
+gain induction and proves the exact ranked-eval margin theorem:
+
+```lean
+∀ finish gain,
+  evalLabelStepFn graph147RankedEvalNext graph147RankedPrefix4EvalState rest =
+    some (finish, gain) ->
+  scaledMargin rank <= (176 : Int) + ((-53 : Int) + gain)
+```
+
+This matches the accepted semantic-transducer strategy: the future generated
+producer should instantiate `Inv` from the closed target-shadow cursor,
+schedule/square-gap/local-axis tail, pair-count/used-face facts, and full
+graph147 Bellman-state semantics.  It must not use sampled ranks,
+selected-prefix ids, accepted trace ids, exact affine RHS keys, solved
+start-point keys, one branch per observed path, or a giant Boolean checker.
+
+Validation:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 240 \
+  --max-tree-rss-mib 8000 \
+  --min-available-mib 30000 \
+  --hard-address-space-mib 8192 \
+  --json scripts/generated/graph147_ranked_eval_margin_invariant_guard.json \
+  --verbose -- lake env lean -M 6500 -j1 -s 2048 \
+    Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingDepth11Layer4Graph147RankedEvalSocket.lean
+
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 240 \
+  --max-tree-rss-mib 8000 \
+  --min-available-mib 30000 \
+  --json scripts/generated/graph147_ranked_eval_margin_invariant_lake_guard.json \
+  --verbose -- env LEAN_NUM_THREADS=1 LAKE_JOBS=1 \
+    lake build \
+      Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingDepth11Layer4Graph147RankedEvalSocket
+
+python3 -m py_compile scripts/audit_graph147_ranked_transducer_frontier.py
+python3 scripts/audit_graph147_ranked_transducer_frontier.py
+```
+
+Results:
+
+```text
+direct Lean = pass; elapsed=2.01s; peak_tree_rss=3603 MiB;
+  hard_as=8192 MiB; min_available=46363 MiB
+Lake module build = pass; elapsed=4.00s; peak_tree_rss=4080 MiB;
+  min_available=46126 MiB
+frontier audit before this plan update =
+  ranked_transducer_frontier_incomplete only because the plan tail had not yet
+  named the new invariant producer symbols
+```
+
+Next exact step:
+
+```text
+instantiate StrengthenedGraph147RankedEvalMarginInvariantFamily for the current
+graph147 suffix language, or prove a small representative generated leaf that
+uses only accepted semantic coordinates.  If the attempted `Inv` needs exact
+affine RHS, solved start-point keys, sampled rank membership, selected-prefix
+membership, or one branch per observed path, reject the graph147 direct route
+and switch to the certified segment/cocycle quotient experiment.
+```

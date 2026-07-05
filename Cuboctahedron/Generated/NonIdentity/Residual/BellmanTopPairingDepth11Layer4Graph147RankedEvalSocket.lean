@@ -447,6 +447,207 @@ structure StrengthenedGraph147RankedEvalMarginBundle
     StrengthenedGraph147ZmYpRankedEvalMarginFamily
       scaledMargin sequenceBadFace
 
+/--
+Deterministic suffix-margin induction for the graph-147 ranked evaluator.
+
+This is the next production-facing margin surface after the semantic
+membership pivot.  A generated producer may give a semantic invariant over the
+ranked suffix evaluator and a local preservation theorem; this adapter then
+turns that invariant into the exact ranked-eval margin theorem consumed by the
+root-margin socket.  The statement is intentionally over the suffix evaluator,
+not sampled ranks, accepted trace ids, selected-prefix disjunctions, or affine
+RHS keys.
+-/
+theorem graph147RankedEval_margin_of_suffixInvariant
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords} {labels : List Face}
+    (Inv :
+      TopPairingTransducerEvalState StrengthenedClosedEvalState ->
+        List Face -> Int -> Prop)
+    (hstart :
+      Inv graph147RankedPrefix4EvalState labels (-53 : Int))
+    (hlocal :
+      ∀ {state :
+            TopPairingTransducerEvalState StrengthenedClosedEvalState}
+        {face : Face} {rest : List Face} {acc : Int}
+        {nextState :
+            TopPairingTransducerEvalState StrengthenedClosedEvalState}
+        {stepGain : Int},
+        Inv state (face :: rest) acc ->
+        graph147RankedEvalNext state face =
+            some (nextState, stepGain) ->
+          Inv nextState rest (acc + stepGain))
+    (hfinish :
+      ∀ {finish :
+            TopPairingTransducerEvalState StrengthenedClosedEvalState}
+        {acc : Int},
+        Inv finish [] acc ->
+          scaledMargin rank <= (176 : Int) + acc) :
+    ∀ finish gain,
+      evalLabelStepFn graph147RankedEvalNext
+          graph147RankedPrefix4EvalState labels = some (finish, gain) ->
+        scaledMargin rank <= (176 : Int) + ((-53 : Int) + gain) := by
+  have hgeneral :
+      ∀ {state :
+            TopPairingTransducerEvalState StrengthenedClosedEvalState}
+        {suffix : List Face} {acc : Int},
+        Inv state suffix acc ->
+          ∀ finish gain,
+            evalLabelStepFn graph147RankedEvalNext state suffix =
+                some (finish, gain) ->
+              scaledMargin rank <= (176 : Int) + (acc + gain) := by
+    intro state suffix
+    induction suffix generalizing state with
+    | nil =>
+        intro acc hinv finish gain heval
+        simp [evalLabelStepFn] at heval
+        rcases heval with ⟨rfl, rfl⟩
+        simpa using hfinish hinv
+    | cons face rest ih =>
+        intro acc hinv finish gain heval
+        simp [evalLabelStepFn] at heval
+        cases hnext : graph147RankedEvalNext state face with
+        | none =>
+            simp [hnext] at heval
+        | some step =>
+            rcases step with ⟨nextState, stepGain⟩
+            simp [hnext] at heval
+            cases htail :
+                evalLabelStepFn graph147RankedEvalNext nextState rest with
+            | none =>
+                simp [htail] at heval
+            | some tail =>
+                rcases tail with ⟨finish', tailGain⟩
+                simp [htail] at heval
+                rcases heval with ⟨rfl, rfl⟩
+                have hinvNext := hlocal hinv hnext
+                have hbound :=
+                  ih hinvNext finish' tailGain htail
+                simpa [Int.add_assoc] using hbound
+  intro finish gain heval
+  exact hgeneral hstart finish gain heval
+
+/--
+Rank-indexed semantic suffix-margin invariant surface for graph-147.
+
+This record is sharper than a full graph-eval gate: it asks the producer to
+prove only that a semantic margin invariant starts on each of the two prefix-4
+branches, is preserved by the deterministic ranked suffix evaluator, and yields
+the final margin at empty suffix.  It is designed for the next generator slice:
+closed-language cursor/schedule/local-axis facts should establish `Inv`, while
+the generic theorem above performs the gain accumulation.
+-/
+structure StrengthenedGraph147RankedEvalMarginInvariantFamily
+    (Inv :
+      Fin numPairWords ->
+        TopPairingTransducerEvalState StrengthenedClosedEvalState ->
+          List Face -> Int -> Prop)
+    (scaledMargin : Fin numPairWords -> Int)
+    (sequenceBadFace : Fin numPairWords -> Face -> Prop) : Prop where
+  yp_zm_start :
+    ∀ rank,
+      TopPairingStrengthenedClosedLanguageAtRank
+        sequenceBadFace rank Face.ym ->
+        ∀ rest,
+          Depth11Layer4PrefixAtRank rank Face.yp Face.zm rest ->
+            Inv rank graph147RankedPrefix4EvalState rest (-53 : Int)
+  zm_yp_start :
+    ∀ rank,
+      TopPairingStrengthenedClosedLanguageAtRank
+        sequenceBadFace rank Face.ym ->
+        ∀ rest,
+          Depth11Layer4PrefixAtRank rank Face.zm Face.yp rest ->
+            Inv rank graph147RankedPrefix4EvalState rest (-53 : Int)
+  localStep :
+    ∀ {rank : Fin numPairWords}
+      {state :
+        TopPairingTransducerEvalState StrengthenedClosedEvalState}
+      {face : Face} {rest : List Face} {acc : Int}
+      {nextState :
+        TopPairingTransducerEvalState StrengthenedClosedEvalState}
+      {stepGain : Int},
+      Inv rank state (face :: rest) acc ->
+      graph147RankedEvalNext state face = some (nextState, stepGain) ->
+        Inv rank nextState rest (acc + stepGain)
+  finish :
+    ∀ {rank : Fin numPairWords}
+      {finish :
+        TopPairingTransducerEvalState StrengthenedClosedEvalState}
+      {acc : Int},
+      Inv rank finish [] acc ->
+        scaledMargin rank <= (176 : Int) + acc
+
+def yp_zm_rankedEvalMarginFamily_of_rankedEvalMarginInvariantFamily
+    {Inv :
+      Fin numPairWords ->
+        TopPairingTransducerEvalState StrengthenedClosedEvalState ->
+          List Face -> Int -> Prop}
+    {scaledMargin : Fin numPairWords -> Int}
+    {sequenceBadFace : Fin numPairWords -> Face -> Prop}
+    (hfamily :
+      StrengthenedGraph147RankedEvalMarginInvariantFamily
+        Inv scaledMargin sequenceBadFace) :
+    StrengthenedGraph147YpZmRankedEvalMarginFamily
+      scaledMargin sequenceBadFace where
+  margin := by
+    intro rank hstrengthened rest hprefix finish gain heval
+    exact graph147RankedEval_margin_of_suffixInvariant
+      (scaledMargin := scaledMargin) (rank := rank)
+      (labels := rest)
+      (Inv := fun state suffix acc => Inv rank state suffix acc)
+      (hstart := hfamily.yp_zm_start rank hstrengthened rest hprefix)
+      (hlocal := by
+        intro state face rest acc nextState stepGain hinv hnext
+        exact hfamily.localStep hinv hnext)
+      (hfinish := by
+        intro finish acc hinv
+        exact hfamily.finish hinv)
+      finish gain heval
+
+def zm_yp_rankedEvalMarginFamily_of_rankedEvalMarginInvariantFamily
+    {Inv :
+      Fin numPairWords ->
+        TopPairingTransducerEvalState StrengthenedClosedEvalState ->
+          List Face -> Int -> Prop}
+    {scaledMargin : Fin numPairWords -> Int}
+    {sequenceBadFace : Fin numPairWords -> Face -> Prop}
+    (hfamily :
+      StrengthenedGraph147RankedEvalMarginInvariantFamily
+        Inv scaledMargin sequenceBadFace) :
+    StrengthenedGraph147ZmYpRankedEvalMarginFamily
+      scaledMargin sequenceBadFace where
+  margin := by
+    intro rank hstrengthened rest hprefix finish gain heval
+    exact graph147RankedEval_margin_of_suffixInvariant
+      (scaledMargin := scaledMargin) (rank := rank)
+      (labels := rest)
+      (Inv := fun state suffix acc => Inv rank state suffix acc)
+      (hstart := hfamily.zm_yp_start rank hstrengthened rest hprefix)
+      (hlocal := by
+        intro state face rest acc nextState stepGain hinv hnext
+        exact hfamily.localStep hinv hnext)
+      (hfinish := by
+        intro finish acc hinv
+        exact hfamily.finish hinv)
+      finish gain heval
+
+def rankedEvalMarginBundle_of_rankedEvalMarginInvariantFamily
+    {Inv :
+      Fin numPairWords ->
+        TopPairingTransducerEvalState StrengthenedClosedEvalState ->
+          List Face -> Int -> Prop}
+    {scaledMargin : Fin numPairWords -> Int}
+    {sequenceBadFace : Fin numPairWords -> Face -> Prop}
+    (hfamily :
+      StrengthenedGraph147RankedEvalMarginInvariantFamily
+        Inv scaledMargin sequenceBadFace) :
+    StrengthenedGraph147RankedEvalMarginBundle
+      scaledMargin sequenceBadFace where
+  yp_zm := yp_zm_rankedEvalMarginFamily_of_rankedEvalMarginInvariantFamily
+    hfamily
+  zm_yp := zm_yp_rankedEvalMarginFamily_of_rankedEvalMarginInvariantFamily
+    hfamily
+
 def rootMarginFamily_of_yp_zm_rankedEvalMargin
     {scaledMargin : Fin numPairWords -> Int}
     {sequenceBadFace : Fin numPairWords -> Face -> Prop}
@@ -489,6 +690,21 @@ def rootMarginBundle_of_rankedEvalMarginBundle
       scaledMargin sequenceBadFace where
   yp_zm := rootMarginFamily_of_yp_zm_rankedEvalMargin hbundle.yp_zm
   zm_yp := rootMarginFamily_of_zm_yp_rankedEvalMargin hbundle.zm_yp
+
+def rootMarginBundle_of_rankedEvalMarginInvariantFamily_via_rankedEvalMarginBundle
+    {Inv :
+      Fin numPairWords ->
+        TopPairingTransducerEvalState StrengthenedClosedEvalState ->
+          List Face -> Int -> Prop}
+    {scaledMargin : Fin numPairWords -> Int}
+    {sequenceBadFace : Fin numPairWords -> Face -> Prop}
+    (hfamily :
+      StrengthenedGraph147RankedEvalMarginInvariantFamily
+        Inv scaledMargin sequenceBadFace) :
+    StrengthenedGraph147RootMarginBundle
+      scaledMargin sequenceBadFace :=
+  rootMarginBundle_of_rankedEvalMarginBundle
+    (rankedEvalMarginBundle_of_rankedEvalMarginInvariantFamily hfamily)
 
 def rankedEvalMarginFamily_of_yp_zm_graphExactEvalGate
     {scaledMargin : Fin numPairWords -> Int}

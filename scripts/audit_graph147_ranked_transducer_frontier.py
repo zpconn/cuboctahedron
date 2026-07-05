@@ -71,6 +71,10 @@ RANKED_EVAL_SYMBOLS = [
     "graph147YpZmRootMarginBound_of_ranked_eval_margin",
     "graph147ZmYpRootMarginBound_of_ranked_eval_margin",
     "StrengthenedGraph147RankedEvalMarginBundle",
+    "graph147RankedEval_margin_of_suffixInvariant",
+    "StrengthenedGraph147RankedEvalMarginInvariantFamily",
+    "rankedEvalMarginBundle_of_rankedEvalMarginInvariantFamily",
+    "rootMarginBundle_of_rankedEvalMarginInvariantFamily_via_rankedEvalMarginBundle",
     "rootMarginBundle_of_rankedEvalMarginBundle",
     "rankedEvalMarginBundle_of_graphExactEvalGate",
     "rootMarginBundle_of_graphExactEvalGate_via_rankedEvalMarginBundle",
@@ -128,9 +132,11 @@ REMAINING_FIELDS = [
         "field": "finish",
         "meaning": (
             "every accepted final state has nonnegative potential and proves "
-            "the full-root margin bound; the potential/eval adapter is now "
-            "proved, so the remaining hard part is the semantic margin theorem "
-            "over the deterministic ranked evaluator result"
+            "the full-root margin bound.  The sharper ranked-eval invariant "
+            "surface now separates this into a suffix margin invariant with "
+            "local preservation plus a final empty-suffix margin theorem; the "
+            "remaining hard part is to instantiate that invariant from closed "
+            "target cursor, schedule, local-axis, and full graph147 state facts"
         ),
     },
 ]
@@ -145,7 +151,8 @@ PRODUCTION_ROUTE = {
         "one generated branch per observed path",
     ],
     "target": (
-        "StrengthenedGraph147RankedEvalMarginBundle, then "
+        "StrengthenedGraph147RankedEvalMarginInvariantFamily -> "
+        "StrengthenedGraph147RankedEvalMarginBundle -> "
         "rootMarginBundle_of_rankedEvalMarginBundle"
     ),
     "fallback": (
@@ -216,7 +223,9 @@ def main() -> None:
         plan_tail,
         [
             "ready_for_ranked_eval_margin_bundle_producer",
+            "StrengthenedGraph147RankedEvalMarginInvariantFamily",
             "StrengthenedGraph147RankedEvalMarginBundle",
+            "rankedEvalMarginBundle_of_rankedEvalMarginInvariantFamily",
             "rootMarginBundle_of_rankedEvalMarginBundle",
         ],
     )
