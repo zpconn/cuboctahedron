@@ -105374,6 +105374,105 @@ TopPairingTransducerSemanticGate build: pass
 elapsed=20.01s; peak_tree_rss=4074 MiB; min_available=46100 MiB
 ```
 
+### 2026-07-05 certified segment core accepted
+
+The cancellation/segment fallback named by the revised Bellman strategy now has
+a small generic Lean theorem surface in `Cuboctahedron/Search/
+BellmanPotential.lean`:
+
+```lean
+structure CertifiedBellmanSegment
+theorem CertifiedBellmanSegment.ofRun
+theorem CertifiedBellmanSegment.nil
+theorem CertifiedBellmanSegment.append
+theorem CertifiedBellmanSegment.const_add_gain_nonpos
+```
+
+This does not prove graph147 coverage.  It is the checked core needed if the
+closed-language evaluator proof needs to decompose the graph147 tail into
+semantic target-shadow gaps, triangular slots, or cancellation-pair summaries.
+The important point is that composition is now theorem-valued:
+
+```lean
+CertifiedBellmanSegment V Step s t labels₁ gain₁ ->
+CertifiedBellmanSegment V Step t u labels₂ gain₂ ->
+CertifiedBellmanSegment V Step s u (labels₁ ++ labels₂) (gain₁ + gain₂)
+```
+
+so future generated evidence can reuse segments without exposing a sampled
+path, selected-prefix id, rank table, or exact affine key.
+
+Focused guarded checks:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 10000 \
+  --min-available-mib 30000 \
+  --json scripts/generated/bellman_potential_certified_segment_guard.json -- \
+  env LEAN_NUM_THREADS=1 LAKE_JOBS=1 \
+    lake build Cuboctahedron.Search.BellmanPotential
+
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 10000 \
+  --min-available-mib 30000 \
+  --json scripts/generated/top_pairing_transducer_semantic_gate_after_segment_guard.json -- \
+  env LEAN_NUM_THREADS=1 LAKE_JOBS=1 \
+    lake build Cuboctahedron.Search.TopPairingTransducerSemanticGate
+
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 10000 \
+  --min-available-mib 30000 \
+  --json scripts/generated/graph147_target_completion_shard_after_segment_guard.json -- \
+  env LEAN_NUM_THREADS=1 LAKE_JOBS=1 \
+    lake build \
+      Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingClosedBellmanStrengthenedTargetCompletionLocalBranchTableShard000
+```
+
+Results:
+
+```text
+BellmanPotential: pass; elapsed=7.00s; peak_tree_rss=3622 MiB;
+min_available=46264 MiB
+
+TopPairingTransducerSemanticGate: pass; elapsed=10.01s;
+peak_tree_rss=4060 MiB; min_available=46125 MiB
+
+Graph147 target-completion shard000: pass; elapsed=86.06s;
+peak_tree_rss=6055 MiB; min_available=44018 MiB
+```
+
+Narrow forbidden-token scan:
+
+```bash
+rg -n "sorry|admit|axiom|native_decide|unsafe" \
+  Cuboctahedron/Search/BellmanPotential.lean \
+  Cuboctahedron/Search/TopPairingTransducerSemanticGate.lean \
+  Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedBellmanStrengthenedTargetCompletionLocalBranchTableShard000.lean
+```
+
+Result:
+
+```text
+pass; no matches
+```
+
+Interpretation:
+
+- The graph147 deterministic evaluator surface is still healthy after adding
+  the segment core.
+- The segment core is accepted only as a proof principle, not as coverage.
+- The next real graph147 proof step remains the margin producer:
+
+```lean
+StrengthenedGraph147RootMarginBundle
+```
+
+or a replacement theorem that proves the same root-margin bound from semantic
+closed-language state.  If that proof cannot be made from target cursor,
+target-completion, tri-source/cancellation progress, square-gap, local-axis,
+and segment/cocycle state, the graph147 Bellman route remains diagnostic and
+must not be promoted to generated coverage.
+
 ### 2026-07-05 generic quotient-run Bellman bound accepted
 
 The graph147 cocycle quotient route now has a reusable Lean-checked core

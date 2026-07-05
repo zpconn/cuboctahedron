@@ -470,6 +470,75 @@ theorem const_add_labelStepRunGain_nonpos
     (V := V) hrun hvalid hfinish
   linarith
 
+/--
+A certified Bellman segment packages a label-step run together with its
+potential-drop bound.
+
+This is the generic semantic object needed by cancellation/segment producers:
+generated code can certify reusable target-shadow gaps or cancellation pieces,
+then compose them without replaying a rank- or prefix-indexed path table.
+-/
+structure CertifiedBellmanSegment
+    {State Label : Type}
+    (V : State -> Int)
+    (Step : State -> Label -> State -> Int -> Prop)
+    (start finish : State) (labels : List Label) (gain : Int) : Prop where
+  run :
+    BellmanLabelStepRun Step start finish labels gain
+  potential_bound :
+    gain + V finish <= V start
+
+namespace CertifiedBellmanSegment
+
+theorem ofRun
+    {State Label : Type} {V : State -> Int}
+    {Step : State -> Label -> State -> Int -> Prop}
+    {start finish : State} {labels : List Label} {gain : Int}
+    (hrun : BellmanLabelStepRun Step start finish labels gain)
+    (hvalid :
+      forall s label t gain, Step s label t gain -> gain + V t <= V s) :
+    CertifiedBellmanSegment V Step start finish labels gain where
+  run := hrun
+  potential_bound :=
+    labelStepRunGain_add_finalPotential_le_startPotential
+      (V := V) hrun hvalid
+
+theorem nil
+    {State Label : Type} {V : State -> Int}
+    {Step : State -> Label -> State -> Int -> Prop}
+    (s : State) :
+    CertifiedBellmanSegment V Step s s [] 0 where
+  run := BellmanLabelStepRun.nil s
+  potential_bound := by simp
+
+theorem append
+    {State Label : Type} {V : State -> Int}
+    {Step : State -> Label -> State -> Int -> Prop}
+    {s t u : State}
+    {labels₁ labels₂ : List Label} {gain₁ gain₂ : Int}
+    (a : CertifiedBellmanSegment V Step s t labels₁ gain₁)
+    (b : CertifiedBellmanSegment V Step t u labels₂ gain₂) :
+    CertifiedBellmanSegment V Step s u
+      (labels₁ ++ labels₂) (gain₁ + gain₂) where
+  run := BellmanLabelStepRun.append a.run b.run
+  potential_bound := by
+    have ha := a.potential_bound
+    have hb := b.potential_bound
+    linarith
+
+theorem const_add_gain_nonpos
+    {State Label : Type} {V : State -> Int}
+    {Step : State -> Label -> State -> Int -> Prop}
+    {start finish : State} {labels : List Label} {gain const : Int}
+    (seg : CertifiedBellmanSegment V Step start finish labels gain)
+    (hfinish : 0 <= V finish)
+    (hroot : const + V start <= 0) :
+    const + gain <= 0 := by
+  have hbound := seg.potential_bound
+  linarith
+
+end CertifiedBellmanSegment
+
 theorem rawGain_le_of_quotient_labelStepRun
     {FullState SmallState Label : Type}
     {FullStep : FullState -> Label -> FullState -> Int -> Prop}
