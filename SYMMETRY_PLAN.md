@@ -110097,3 +110097,48 @@ production_route.target =
   then rootMarginBundle_of_rankedEvalMarginBundle
 ranked_eval_socket.forbidden_hits = []
 ```
+
+Follow-up compatibility accepted:
+
+```text
+rankedEvalMarginBundle_of_rankedTransducerInvariantFamily
+rootMarginBundle_of_rankedTransducerInvariantFamily_via_rankedEvalMarginBundle
+```
+
+These adapters explicitly route any existing
+`StrengthenedGraph147RankedTransducerInvariantFamily` through the newer
+ranked-eval margin bundle target.  This preserves compatibility with the older
+semantic invariant surface while keeping the active producer target sharper:
+`StrengthenedGraph147RankedEvalMarginBundle`.
+
+Validation:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 240 \
+  --max-tree-rss-mib 8000 \
+  --min-available-mib 30000 \
+  --hard-address-space-mib 8192 \
+  --json scripts/generated/graph147_ranked_eval_invariant_adapter_guard.json \
+  --verbose -- lake env lean -M 6500 -j1 -s 2048 \
+    Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingDepth11Layer4Graph147RankedEvalSocket.lean
+
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 240 \
+  --max-tree-rss-mib 8000 \
+  --min-available-mib 30000 \
+  --json scripts/generated/graph147_ranked_eval_invariant_adapter_lake_guard.json \
+  --verbose -- env LEAN_NUM_THREADS=1 LAKE_JOBS=1 \
+    lake build \
+      Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingDepth11Layer4Graph147RankedEvalSocket
+```
+
+Results:
+
+```text
+direct Lean = pass; elapsed=8.01s; peak_tree_rss=3978 MiB;
+  hard_as=8192 MiB; min_available=46207 MiB
+Lake module build = pass; elapsed=5.00s; peak_tree_rss=3254 MiB;
+  min_available=46289 MiB
+frontier audit status = ready_for_ranked_eval_margin_bundle_producer
+```

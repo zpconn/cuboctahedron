@@ -632,6 +632,40 @@ def rootMarginBundle_of_graphExactEvalGate_via_rankedEvalMarginBundle
   rootMarginBundle_of_rankedEvalMarginBundle
     (rankedEvalMarginBundle_of_graphExactEvalGate hgate)
 
+def rankedEvalMarginBundle_of_rankedTransducerInvariantFamily
+    {Inv :
+      TopPairingTransducerEvalState StrengthenedClosedEvalState -> Prop}
+    {SuffixOk :
+      Fin numPairWords ->
+        TopPairingTransducerEvalState StrengthenedClosedEvalState ->
+          List Face -> Prop}
+    {scaledMargin : Fin numPairWords -> Int}
+    {sequenceBadFace : Fin numPairWords -> Face -> Prop}
+    (hfamily :
+      StrengthenedGraph147RankedTransducerInvariantFamily
+        Inv SuffixOk scaledMargin sequenceBadFace) :
+    StrengthenedGraph147RankedEvalMarginBundle
+      scaledMargin sequenceBadFace :=
+  rankedEvalMarginBundle_of_graphExactEvalGate
+    (graphExactEvalGate_of_rankedTransducerInvariantFamily hfamily)
+
+def rootMarginBundle_of_rankedTransducerInvariantFamily_via_rankedEvalMarginBundle
+    {Inv :
+      TopPairingTransducerEvalState StrengthenedClosedEvalState -> Prop}
+    {SuffixOk :
+      Fin numPairWords ->
+        TopPairingTransducerEvalState StrengthenedClosedEvalState ->
+          List Face -> Prop}
+    {scaledMargin : Fin numPairWords -> Int}
+    {sequenceBadFace : Fin numPairWords -> Face -> Prop}
+    (hfamily :
+      StrengthenedGraph147RankedTransducerInvariantFamily
+        Inv SuffixOk scaledMargin sequenceBadFace) :
+    StrengthenedGraph147RootMarginBundle
+      scaledMargin sequenceBadFace :=
+  rootMarginBundle_of_rankedEvalMarginBundle
+    (rankedEvalMarginBundle_of_rankedTransducerInvariantFamily hfamily)
+
 theorem graph147RankedEvalSocket_builds : True := by
   exact True.intro
 

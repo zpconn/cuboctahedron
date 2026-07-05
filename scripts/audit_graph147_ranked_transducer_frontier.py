@@ -74,6 +74,8 @@ RANKED_EVAL_SYMBOLS = [
     "rootMarginBundle_of_rankedEvalMarginBundle",
     "rankedEvalMarginBundle_of_graphExactEvalGate",
     "rootMarginBundle_of_graphExactEvalGate_via_rankedEvalMarginBundle",
+    "rankedEvalMarginBundle_of_rankedTransducerInvariantFamily",
+    "rootMarginBundle_of_rankedTransducerInvariantFamily_via_rankedEvalMarginBundle",
 ]
 
 SEMANTIC_INPUT_SYMBOLS = {

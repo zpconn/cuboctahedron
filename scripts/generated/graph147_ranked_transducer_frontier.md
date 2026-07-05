@@ -37,6 +37,8 @@
 - `rootMarginBundle_of_rankedEvalMarginBundle`: `true`
 - `rankedEvalMarginBundle_of_graphExactEvalGate`: `true`
 - `rootMarginBundle_of_graphExactEvalGate_via_rankedEvalMarginBundle`: `true`
+- `rankedEvalMarginBundle_of_rankedTransducerInvariantFamily`: `true`
+- `rootMarginBundle_of_rankedTransducerInvariantFamily_via_rankedEvalMarginBundle`: `true`
 
 ## Plan Tail Symbols
 
