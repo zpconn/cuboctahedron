@@ -293,12 +293,12 @@
       "passed": true
     },
     {
-      "detail": 3809.80859375,
+      "detail": 3614.2421875,
       "name": "socket_guard:rss_under_6500_mib",
       "passed": true
     },
     {
-      "detail": 46322.79296875,
+      "detail": 46321.0703125,
       "name": "socket_guard:available_above_30000_mib",
       "passed": true
     },
@@ -308,12 +308,12 @@
       "passed": true
     },
     {
-      "detail": 3867.47265625,
+      "detail": 3410.734375,
       "name": "accepted_branch_guard:rss_under_6500_mib",
       "passed": true
     },
     {
-      "detail": 46252.8984375,
+      "detail": 46363.515625,
       "name": "accepted_branch_guard:available_above_30000_mib",
       "passed": true
     }
@@ -321,12 +321,12 @@
   "decision": "graph183_carrier_sockets_ready_but_producer_missing",
   "failed_checks": [],
   "metrics": {
-    "accepted_branch_guard_elapsed_seconds": 8.005478353006765,
-    "accepted_branch_guard_min_available_mib": 46252.8984375,
-    "accepted_branch_guard_peak_rss_mib": 3867.47265625,
-    "guard_elapsed_seconds": 8.005272245005472,
-    "guard_min_available_mib": 46322.79296875,
-    "guard_peak_rss_mib": 3809.80859375,
+    "accepted_branch_guard_elapsed_seconds": 5.0034252110053785,
+    "accepted_branch_guard_min_available_mib": 46363.515625,
+    "accepted_branch_guard_peak_rss_mib": 3410.734375,
+    "guard_elapsed_seconds": 2.00238187899231,
+    "guard_min_available_mib": 46321.0703125,
+    "guard_peak_rss_mib": 3614.2421875,
     "profile_edges": 229,
     "profile_margin_families": 1,
     "profile_matched": 37,

@@ -7,14 +7,14 @@
     "build",
     "Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraph183AcceptedBranchQuotient"
   ],
-  "elapsed_seconds": 6.006847553013358,
+  "elapsed_seconds": 5.004357182013337,
   "exit_code": 0,
   "hard_address_space_mib": null,
   "killed_reason": null,
-  "max_tree_rss_kib": 4040396,
-  "max_tree_rss_mib": 3945.69921875,
-  "min_available_seen_kib": 47260812,
-  "min_available_seen_mib": 46153.13671875,
+  "max_tree_rss_kib": 3666212,
+  "max_tree_rss_mib": 3580.28515625,
+  "min_available_seen_kib": 47377456,
+  "min_available_seen_mib": 46267.046875,
   "rss_cap_mib": 6500.0,
   "timeout_seconds": 180.0
 }

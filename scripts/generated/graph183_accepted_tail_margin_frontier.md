@@ -77,17 +77,17 @@ cocycle/coboundary quotient.
 
 | metric | value |
 | --- | ---: |
-| `elapsed_seconds` | `8.005272245005472` |
-| `peak_rss_mib` | `3809.80859375` |
-| `min_available_mib` | `46322.79296875` |
+| `elapsed_seconds` | `2.00238187899231` |
+| `peak_rss_mib` | `3614.2421875` |
+| `min_available_mib` | `46321.0703125` |
 
 ### graph183_accepted_branch_quotient_guard
 
 | metric | value |
 | --- | ---: |
-| `elapsed_seconds` | `8.005478353006765` |
-| `peak_rss_mib` | `3867.47265625` |
-| `min_available_mib` | `46252.8984375` |
+| `elapsed_seconds` | `5.0034252110053785` |
+| `peak_rss_mib` | `3410.734375` |
+| `min_available_mib` | `46363.515625` |
 
 ### graph183_scaling_contract
 
@@ -278,11 +278,11 @@ must still be Lean-checked through the graph183 family theorem.
 | `cocycle_quotient_1m:solution_bit_length_under_16` | `True` | `9` |
 | `cocycle_quotient_1m:solution_small_gains_match_edges` | `True` | `{'small_gain_count': 93, 'quotient_edges': 93}` |
 | `graph183_quotient_margin_socket:guard_exit_zero` | `True` | `0` |
-| `graph183_quotient_margin_socket:rss_under_6000_mib` | `True` | `3809.80859375` |
-| `graph183_quotient_margin_socket:available_above_30000_mib` | `True` | `46322.79296875` |
+| `graph183_quotient_margin_socket:rss_under_6000_mib` | `True` | `3614.2421875` |
+| `graph183_quotient_margin_socket:available_above_30000_mib` | `True` | `46321.0703125` |
 | `graph183_accepted_branch_quotient:guard_exit_zero` | `True` | `0` |
-| `graph183_accepted_branch_quotient:rss_under_6000_mib` | `True` | `3867.47265625` |
-| `graph183_accepted_branch_quotient:available_above_30000_mib` | `True` | `46252.8984375` |
+| `graph183_accepted_branch_quotient:rss_under_6000_mib` | `True` | `3410.734375` |
+| `graph183_accepted_branch_quotient:available_above_30000_mib` | `True` | `46363.515625` |
 
 ## Next Lean Target
 

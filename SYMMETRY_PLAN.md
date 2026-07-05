@@ -111880,6 +111880,129 @@ Graph183TailQuotientMarginSequenceBadFace scaledMargin
 must still be proved by an upstream semantic closed-language/evaluator or
 cocycle-gauge margin producer.
 
+### 2026-07-05 bounded emitter for graph183 accepted-branch quotient
+
+Made the tiny accepted-branch quotient module reproducible from exact profile
+artifacts instead of leaving it hand-written.
+
+New script:
+
+```text
+scripts/emit_graph183_accepted_branch_quotient.py
+```
+
+The emitter reads:
+
+```text
+scripts/generated/nonid_margin_bellman_graph183_frontier_0_1M.json
+scripts/generated/graph183_cocycle_quotients_0_1M.json
+```
+
+and writes:
+
+```text
+Cuboctahedron/Generated/NonIdentity/Residual/
+  BellmanTopPairingGraph183AcceptedBranchQuotient.lean
+```
+
+Validation performed by the emitter:
+
+```text
+accepted branch edge count = 14
+accepted branch raw-gain sum = -348
+each accepted-branch small gain = 0
+each accepted branch raw gain = gauge(dst) - gauge(src)
+```
+
+This preserves the memory rule: production imports only the 14-edge branch
+quotient module.  The 229-edge quotient smoke remains diagnostic and is not on
+the socket import path.
+
+Commands:
+
+```bash
+python3 -m py_compile scripts/emit_graph183_accepted_branch_quotient.py
+python3 scripts/emit_graph183_accepted_branch_quotient.py
+
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 6500 --min-available-mib 30000 \
+  --timeout-seconds 180 --hard-address-space-mib 6500 \
+  --json scripts/generated/graph183_accepted_branch_quotient_latest_guard.json \
+  -- lake env lean -M 6500 -j1 -s 2048 \
+    Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingGraph183AcceptedBranchQuotient.lean
+
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 6500 --min-available-mib 30000 \
+  --timeout-seconds 180 \
+  --json scripts/generated/graph183_accepted_branch_quotient_lake_latest_guard.json \
+  -- env LEAN_NUM_THREADS=1 lake build \
+    Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingGraph183AcceptedBranchQuotient
+
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 6500 --min-available-mib 30000 \
+  --timeout-seconds 180 --hard-address-space-mib 6500 \
+  --json scripts/generated/graph183_quotient_margin_socket_latest_guard.json \
+  -- lake env lean -M 6500 -j1 -s 2048 \
+    Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingGraph183QuotientMarginSocket.lean
+```
+
+Results:
+
+```text
+emitter:
+  accepted_edges = 14
+  raw_gain = -348
+
+accepted branch direct Lean:
+  exit = 0
+  elapsed = 5.00s
+  peak RSS = 3410 MiB
+  min available = 46363 MiB
+
+accepted branch focused Lake build:
+  exit = 0
+  elapsed = 5.00s
+  peak RSS = 3580 MiB
+  min available = 46267 MiB
+
+quotient-margin socket direct Lean:
+  exit = 0
+  elapsed = 2.00s
+  peak RSS = 3614 MiB
+  min available = 46321 MiB
+```
+
+Updated audits:
+
+```bash
+python3 scripts/audit_top_pairing_semantic_evaluator_pivot.py
+python3 scripts/audit_graph183_accepted_tail_margin_frontier.py
+python3 scripts/audit_latest_bellman_semantic_pivot.py
+python3 scripts/audit_graph183_carrier_producer_readiness.py
+```
+
+Results:
+
+```text
+semantic evaluator decision =
+  semantic_evaluator_pivot_ready_for_graph183_sequencebadface_carrier
+graph183 frontier decision =
+  diagnostic_supports_graph183_accepted_tail_margin_bellman_route
+latest Bellman status =
+  latest-bellman-semantic-pivot-has-graph183-sequencebadface-carrier
+carrier readiness decision =
+  graph183_carrier_sockets_ready_but_producer_missing
+```
+
+Next implementation should finally target the missing producer for:
+
+```lean
+Graph183TailQuotientMarginSequenceBadFace scaledMargin
+```
+
 ### 2026-07-05 deterministic transducer pivot sharpened
 
 GPT5.5 Pro's latest recommendation is now the active graph183 strategy:

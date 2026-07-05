@@ -830,12 +830,12 @@
       "passed": true
     },
     {
-      "detail": 3809.80859375,
+      "detail": 3614.2421875,
       "name": "graph183_quotient_margin_socket:rss_under_6000_mib",
       "passed": true
     },
     {
-      "detail": 46322.79296875,
+      "detail": 46321.0703125,
       "name": "graph183_quotient_margin_socket:available_above_30000_mib",
       "passed": true
     },
@@ -845,12 +845,12 @@
       "passed": true
     },
     {
-      "detail": 3867.47265625,
+      "detail": 3410.734375,
       "name": "graph183_accepted_branch_quotient:rss_under_6000_mib",
       "passed": true
     },
     {
-      "detail": 46252.8984375,
+      "detail": 46363.515625,
       "name": "graph183_accepted_branch_quotient:available_above_30000_mib",
       "passed": true
     }
@@ -871,14 +871,14 @@
       "solution_small_gain_count": 93
     },
     "graph183_accepted_branch_quotient_guard": {
-      "elapsed_seconds": 8.005478353006765,
-      "min_available_mib": 46252.8984375,
-      "peak_rss_mib": 3867.47265625
+      "elapsed_seconds": 5.0034252110053785,
+      "min_available_mib": 46363.515625,
+      "peak_rss_mib": 3410.734375
     },
     "graph183_quotient_margin_socket_guard": {
-      "elapsed_seconds": 8.005272245005472,
-      "min_available_mib": 46322.79296875,
-      "peak_rss_mib": 3809.80859375
+      "elapsed_seconds": 2.00238187899231,
+      "min_available_mib": 46321.0703125,
+      "peak_rss_mib": 3614.2421875
     },
     "graph183_scaling_contract": {
       "graph183_accepted_bound_scaled": -172,

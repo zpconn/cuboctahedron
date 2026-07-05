@@ -3,9 +3,10 @@ import Cuboctahedron.Search.BellmanPotential
 /-!
 Tiny graph183 accepted-branch quotient facts.
 
-This module replaces the quotient-margin socket's dependency on the diagnostic
-229-edge quotient smoke.  It checks only the 14 accepted-branch edge gains used
-by the graph183 margin carrier.  It is not coverage evidence by itself.
+This generated module replaces the quotient-margin socket's dependency
+on the diagnostic 229-edge quotient smoke.  It checks only the 14
+accepted-branch edge gains used by the graph183 margin carrier.  It is
+not coverage evidence by itself.
 -/
 
 namespace Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraph183AcceptedBranchQuotient

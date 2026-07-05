@@ -36,12 +36,12 @@ observed path remains a no-go.
 | `quotient_states` | `43` |
 | `quotient_edges` | `93` |
 | `quotient_max_bit_length` | `9` |
-| `guard_elapsed_seconds` | `8.005272245005472` |
-| `guard_peak_rss_mib` | `3809.80859375` |
-| `guard_min_available_mib` | `46322.79296875` |
-| `accepted_branch_guard_elapsed_seconds` | `8.005478353006765` |
-| `accepted_branch_guard_peak_rss_mib` | `3867.47265625` |
-| `accepted_branch_guard_min_available_mib` | `46252.8984375` |
+| `guard_elapsed_seconds` | `2.00238187899231` |
+| `guard_peak_rss_mib` | `3614.2421875` |
+| `guard_min_available_mib` | `46321.0703125` |
+| `accepted_branch_guard_elapsed_seconds` | `5.0034252110053785` |
+| `accepted_branch_guard_peak_rss_mib` | `3410.734375` |
+| `accepted_branch_guard_min_available_mib` | `46363.515625` |
 
 ## Checks
 
@@ -104,8 +104,8 @@ observed path remains a no-go.
 | `quotient_1m:solution_exists` | `True` | `['gauge', 'gauge_count', 'max_bit_length', 'nonzero_values', 'small_gain_count', 'small_gains']` |
 | `quotient_1m:bit_length_under_16` | `True` | `9` |
 | `socket_guard:guard_exit_zero` | `True` | `0` |
-| `socket_guard:rss_under_6500_mib` | `True` | `3809.80859375` |
-| `socket_guard:available_above_30000_mib` | `True` | `46322.79296875` |
+| `socket_guard:rss_under_6500_mib` | `True` | `3614.2421875` |
+| `socket_guard:available_above_30000_mib` | `True` | `46321.0703125` |
 | `accepted_branch_guard:guard_exit_zero` | `True` | `0` |
-| `accepted_branch_guard:rss_under_6500_mib` | `True` | `3867.47265625` |
-| `accepted_branch_guard:available_above_30000_mib` | `True` | `46252.8984375` |
+| `accepted_branch_guard:rss_under_6500_mib` | `True` | `3410.734375` |
+| `accepted_branch_guard:available_above_30000_mib` | `True` | `46363.515625` |
