@@ -1,591 +1,375 @@
-# Cuboctahedron Omnihedral Billiards
+<div align="center">
 
-This is a Lean 4/mathlib project about one question:
+# Omnihedral Billiards in the Cuboctahedron
 
-```text
-Can a nonsingular billiard path inside a cuboctahedron bounce once off every
-face, return periodically, and then repeat forever?
-```
+**Can a billiard ball inside a cuboctahedron follow a periodic path that bounces off<br>
+each of the fourteen faces exactly once per period?**
 
-The intended theorem says **no**.
+A Lean 4 / mathlib formalization built on exact rational arithmetic and machine-checked certificates.
 
-The proof splits into two cases based on the structure of an affine map associated to each candidate billiard path. In one case, a holonomy normal form structural theorem forces a sequence of cascading consequences that together rule out all possible paths. In the other case, all possible paths are ruled out by studying a Bellman potential flow on a specially constructed finite graph that captures certain aspects of the behavior of orbits as they unfold over time. Together, these two arguments, each fully formalized in Lean 4, rule out all possible omnihedral paths in the cuboctahedron. As far as the author knows, this is a novel result in pure mathematics as of July 2026.
+[![Lean](https://img.shields.io/badge/Lean-v4.31.0--rc2-0B3D91)](lean-toolchain)
+[![mathlib](https://img.shields.io/badge/mathlib4-pinned-0B3D91)](lake-manifest.json)
+[![Main theorem](https://img.shields.io/badge/main%20theorem-conditional-C77C02)](#status)
 
-## Current Status
+</div>
 
-The public Lean theorem is currently conditional on complete generated
-coverage:
+<p align="center">
+  <img width="900" alt="A billiard path inside the cuboctahedron (left) and the same path unfolded into a straight line through reflected copies of the solid (right)" src="https://github.com/user-attachments/assets/65584316-fbbc-4fb5-94c3-c5c4436a7a6c" />
+  <br>
+  <sub><i>Unfolding: instead of reflecting the trajectory at each face, reflect the solid. The billiard path becomes a straight line.</i></sub>
+</p>
+
+---
+
+## Overview
+
+A billiard trajectory in a convex polyhedron moves in straight lines and reflects
+specularly off the faces. Call a periodic trajectory **omnihedral** if, during one
+period, it reflects exactly once off every face. Call it **nonsingular** if every
+reflection occurs in the relative interior of a face, never on an edge or at a
+vertex.
+
+This repository is building a machine-checked proof of the following statement.
+
+> **Theorem (target).** The cuboctahedron has no nonsingular omnihedral periodic
+> billiard trajectory.
+
+The statement was first suggested by an exhaustive floating-point computer search,
+which is kept, untrusted, in [`scripts/old_float_verifiers/`](scripts/old_float_verifiers).
+This project replaces that search with a proof that the Lean kernel checks, using exact
+rational and integer arithmetic only. It uses no floating point, no numerical
+tolerances, no `native_decide`, and no custom axioms. External programs may propose
+certificates, but Lean must check every one. As far as the author knows, the question
+has not been settled before, so a complete formalization would be a new result.
+
+## Status
+
+> [!IMPORTANT]
+> The main theorem is currently proved **conditionally**. Everything from the
+> billiard model down to an explicit finite coverage obligation is machine-checked.
+> Discharging that obligation for all 97,297,200 cases is the remaining work.
+
+| Component | Lean status |
+| --- | --- |
+| Exact cuboctahedron, face reflections, and billiard orbits | Checked |
+| Rotation to a canonical first face; billiard orbit ⇒ unfolded straight-line witness | Checked |
+| Enumeration: exactly 97,297,200 started pair words, with a verified rank/unrank bijection | Checked |
+| Holonomy classifier: the return map is linear-identity ⇔ the reduced triangular shadow is empty | Checked |
+| Obstruction soundness: forced-axis certificates, `GoodDirection`, strict 2-D Farkas, Bellman potentials | Checked |
+| Main theorem, assuming complete coverage | Checked |
+| Complete coverage of every case | **Open**: checked end to end only on a pilot window (ranks 0–7) |
+
+The theorems in the table depend only on Lean's standard axioms
+(`propext`, `Classical.choice`, `Quot.sound`).
+
+**What remains.** Lean already reduces each branch of the case split to a single
+residual hypothesis:
+
+1. **Nonidentity branch.** Early obstructions (a forced crossing direction with the
+   wrong sign, or a forced face sequence that is not omnihedral) are disposed of by
+   checked family theorems. The residual words,
+   2,038,656 of them by an exact external count, need Lean-checked obstruction
+   certificates. The active route uses finite-state *Bellman potential*
+   certificates that cover whole semantic families of words at once instead of
+   issuing one certificate per word.
+2. **Translation branch.** Each identity-linear signed case that passes the
+   `GoodDirection` test needs a strict two-variable Farkas infeasibility
+   certificate. The inequality rows are rebuilt in Lean from the geometry. Only the
+   multipliers come from outside, and Lean checks them.
+
+Producing one certificate per case does not scale in Lean, so the current work
+compresses coverage by mathematical structure (holonomy normal form, cancellation
+skeletons, finite-state potentials) instead.
+
+## The formal statement
+
+The billiard model is deliberately elementary and lives in about 460 lines of
+definitions:
 
 ```lean
+-- Cuboctahedron/Geometry/BilliardOrbit.lean (abridged; index casts omitted)
+structure BilliardOrbit14 where
+  p    : Fin 15 → Vec3 ℝ     -- impact points p₀ … p₁₄
+  v    : Fin 15 → Vec3 ℝ     -- velocity leaving each impact
+  face : Fin 14 → Face       -- face struck at each impact
+  time : Fin 14 → ℝ          -- flight times
+  time_pos         : ∀ i, 0 < time i
+  impact_interior  : ∀ i, InFaceInterior (face i) (p i)
+  next_point       : ∀ i, p (i+1) = p i + time i • v i
+  segment_valid    : ∀ i, SegmentTravelValid (p i) (p (i+1))   -- stays inside the solid
+  reflection_law   : ∀ i, v (i+1) = reflectVec (v i) (normalR (face (i+1)))
+  p_periodic       : p 14 = p 0
+  v_periodic       : v 14 = v 0
+  ...
+
+def BilliardOrbit14.TouchesEachFaceExactlyOnce (o : BilliardOrbit14) : Prop :=
+  Function.Bijective o.face
+```
+
+The target theorem is
+
+```lean
+theorem cuboctahedron_no_omnihedral :
+    ¬ ∃ o : BilliardOrbit14,
+        o.Nonsingular ∧ o.Periodic ∧ o.TouchesEachFaceExactlyOnce
+```
+
+and the theorem currently proved is
+
+```lean
+-- Cuboctahedron/ConditionalTheorem.lean
 theorem Cuboctahedron.conditional_cuboctahedron_no_omnihedral
     (coverage : ExhaustiveGeneratedCoverage) :
-    Not (exists o : BilliardOrbit14,
-      o.Nonsingular /\ o.Periodic /\ o.TouchesEachFaceExactlyOnce)
+    ¬ ∃ o : BilliardOrbit14,
+        o.Nonsingular ∧ o.Periodic ∧ o.TouchesEachFaceExactlyOnce
 ```
 
-In plain language: if Lean is given complete generated coverage, the existing
-hand-written bridge already proves the real billiard theorem.
+`ExhaustiveGeneratedCoverage` states that every case of the finite case split
+(defined below) has a certificate accepted by a Lean-verified checker. The
+generated-evidence pipeline targets a semantic variant,
+`Generated.SemanticExhaustiveGeneratedCoverage`, which yields the same conclusion
+through `Generated.no_unfolded_omni_starting_xp_of_semantic_coverage`.
 
-The latest proof-engineering pivot is now checked in Lean: a holonomy normal
-form classifies the linear return map of every valid started pair word.
+**Auditing the statement.** To confirm that the theorem says what it claims, you
+only need to read the definitions it mentions:
+[`Basic/Vec3.lean`](Cuboctahedron/Basic/Vec3.lean),
+[`Geometry/Faces.lean`](Cuboctahedron/Geometry/Faces.lean),
+[`Geometry/Polyhedron.lean`](Cuboctahedron/Geometry/Polyhedron.lean),
+[`Geometry/Reflection.lean`](Cuboctahedron/Geometry/Reflection.lean), and
+[`Geometry/BilliardOrbit.lean`](Cuboctahedron/Geometry/BilliardOrbit.lean).
+The kernel checks everything else.
 
-```lean
-theorem totalLinearOfPairWord_eq_identity_iff_reducedShadow_empty_of_valid
-    {w : PairWord} (hvalid : ValidPairWord w) :
-    totalLinearOfPairWord w = (matId : Mat3 Rat) <->
-      reducedShadowOfPairWord w = []
+## How the proof works
+
+### 1. An exact model
+
+The cuboctahedron is the rational polytope
+
+```math
+P = \left\{ (x,y,z) \in \mathbb{R}^3 \;:\; |x|,|y|,|z| \le 1,\quad \pm x \pm y \pm z \le 2 \right\},
 ```
 
-So the identity/nonidentity split is no longer trusted as an external search
-result. Lean proves it from exact square parity, a projective triangular
-shadow, adjacent cancellation, and a mod-3 triangular product argument.
+with six square faces $\pm x = 1$, $\pm y = 1$, $\pm z = 1$ and eight triangular faces
+$`\epsilon_1 x + \epsilon_2 y + \epsilon_3 z = 2`$. Each face is a rational normal $n$
+and offset $c$, and reflection in its plane is the affine map
 
-What remains is to emit and check complete semantic generated coverage over
-the two normal-form branches.
-
-The active nonidentity completion route is the **Bellman strategy**. Lean now
-has a generic Bellman/potential theorem for integer transition gains, plus a
-lightweight top-pairing language surface for the dominant residual family. The
-intended generated proof is not a giant list of killed ranks. It is:
-
-```text
-semantic family language
-  -> exact label-step run through a finite transition system
-  -> integer potential bound
-  -> nonpositive geometric obstruction margin
-  -> no forced-axis witness
+```math
+r_F(p) = p - 2\,\frac{n \cdot p - c}{n \cdot n}\, n ,
 ```
 
-External scripts may discover the automaton, gains, and potential. Lean must
-still check every transition inequality, the semantic language membership, and
-the bridge from nonpositive margin to the billiard obstruction.
+whose coefficients are all rational. Every finite computation in the proof is exact.
 
-## Exact Model
+### 2. Unfolding
 
-The cuboctahedron is represented by rational inequalities:
+Reflecting the solid instead of the trajectory turns a billiard path into a straight
+line through a chain of reflected copies of $P$. Composing the fourteen face
+reflections of one period gives an affine return map $A(p) = Mp + b$. Periodicity
+forces $A$ to carry the unfolded line to itself, so its direction $v$ satisfies
+$Mv = v$. Because an omnihedral orbit meets every face once, it can be rotated so
+that it starts on the face $x = 1$ (`can_start_at_xp`). Lean then proves the half of
+the unfolding correspondence that nonexistence requires: every omnihedral orbit
+that starts on $x = 1$ yields an unfolded witness (`billiard_implies_unfolded`).
 
-```text
-P = { (x, y, z) :
-      |x| <= 1, |y| <= 1, |z| <= 1,
-      and +/-x +/-y +/-z <= 2 for all sign choices }.
+### 3. A finite search space
+
+Opposite faces are parallel, so they induce the same linear reflection. Forgetting
+which face of each opposite pair is hit turns a started itinerary into a **pair word**
+of length 13 over seven letters, three square pairs $x, y, z$ and four triangular
+pairs, with multiplicities $x{:}1$ and $2$ for each of the other six letters. Lean
+proves that there are exactly
+
+```math
+\frac{13!}{2^6} = 97{,}297{,}200
 ```
 
-The square faces are:
+such words (`validPairWord_card_literal`) and gives a verified rank/unrank bijection.
+Six sign bits, a *sign mask*, recover the original faces when they are needed.
 
-```text
-x = 1, x = -1, y = 1, y = -1, z = 1, z = -1.
+### 4. The holonomy normal form
+
+The linear part $M$ depends only on the pair word, and a normal form decides exactly
+when $M = I$. Square-pair reflections are diagonal sign changes, tracked by a parity
+vector in $(\mathbb{Z}/2)^3$. Triangular reflections are recorded, after conjugation
+by the current parity, on a stack of four projective letters on which adjacent equal
+letters cancel. The result is the *reduced triangular shadow*.
+
+> **Theorem** (`totalLinearOfPairWord_eq_identity_iff_reducedShadow_empty_of_valid`).
+> For every valid pair word $w$, the linear part $M(w)$ equals $I$ if and only if the
+> reduced shadow $\mathrm{red}(w)$ is empty.
+
+The proof has four parts. Valid letter counts force the final square parity to be
+trivial. A scan invariant factors the product into a triangular part times a parity
+part. Cancellation preserves the triangular product. Finally, a nonempty reduced
+word cannot multiply to $I$: for a triangular normal $`n \in \{\pm 1\}^3`$, the scaled
+reflection $`3H_n = 3I - 2nn^\top`$ is congruent to the rank-one matrix $nn^\top$ modulo 3.
+Distinct adjacent letters have nonzero dot products in $`\mathbb{F}_3`$, so the reduced
+product is nonzero mod 3, whereas $3^m I$ vanishes mod 3.
+
+This theorem replaces what was once an untrusted external search result with about
+1,250 lines of checked algebra, and it splits the problem into two branches.
+
+### 5. The nonidentity branch ($M \ne I$)
+
+If $A$ preserves the line $`p_0 + \mathbb{R}v`$ with $M \ne I$, then
+
+```math
+Mv = v, \qquad (I - M)\,p_0 = b - \lambda v \quad \text{for some } \lambda .
 ```
 
-The triangular faces are the eight planes:
+This *forced-axis* condition pins the trajectory down to an essentially unique
+candidate, and most words fail at once. There may be no compatible fixed direction,
+the crossing direction may have the wrong sign, the forced face sequence may not be
+omnihedral, or the axis may miss the interior of the start face or of a later face.
+Each failure mode has a Lean-checked certificate format (`checkNonIdCert_sound`).
 
-```text
-+/-x +/-y +/-z = 2.
-```
+For the hard residual families, the project uses **Bellman potential certificates**.
+These are finite graphs with integer edge gains and an integer potential $V$
+satisfying $g + V(t) \le V(s)$ on every edge. The inequalities telescope along any
+accepted path (`const_add_bellmanGainSum_nonpos_of_path`), which bounds an exact
+geometric margin by $0$ for an entire language of words at once and contradicts
+feasibility.
 
-Each face is stored by an exact normal vector `n` and offset `c`, so the face
-plane is `n dot p = c`. Reflection in that plane is:
+### 6. The translation branch ($M = I$)
 
-```text
-r_F(p) = p - 2 * ((n dot p - c) / (n dot n)) * n.
-```
+Now $A(p) = p + b$ is a translation. Writing the start point as $(1, y, z)$, all
+crossing-order and face-interior conditions become strict rational linear
+inequalities in $y$ and $z$. Two checked tools dispose of these cases:
 
-All reflection data are rational. The proof code uses exact rational and
-integer arithmetic, not floating-point approximations or epsilon thresholds.
+- **`GoodDirection`.** Every unfolded face must be crossed forwards. Lean proves this
+  is necessary (`goodDirection_of_translation_feasible_at_rank`), so sign masks that
+  fail it need no certificate.
+- **Strict Farkas certificates.** Nonnegative rational multipliers that cancel the
+  $y$ and $z$ coefficients and leave a nonpositive constant refute the system
+  (`FarkasCert.Valid.sound`). Each row is rebuilt in Lean from its geometric source,
+  such as a start-face, ordering, or impact-interior condition.
 
-## Unfolding
-
-A billiard path bends at each reflection. The standard trick is to unfold the
-room instead of the path.
-
-<img width="6000" height="3390" alt="proof strategy overview" src="https://github.com/user-attachments/assets/65584316-fbbc-4fb5-94c3-c5c4436a7a6c" />
-
-For a proposed face order
-
-```text
-F0, F1, ..., F13
-```
-
-Lean composes the corresponding affine reflections into:
-
-```text
-A(p) = M p + b.
-```
-
-An unfolded billiard witness is a straight line through reflected copies of
-the cuboctahedron. Periodicity forces the affine return map to carry that line
-to itself, and the direction `v` must satisfy `M v = v`.
-
-```mermaid
-flowchart LR
-    A["billiard path"]
-    B["reflect copies of the cuboctahedron"]
-    C["straight unfolded line"]
-    D["exact affine return map A(p) = M p + b"]
-    A --> B --> C --> D
-```
-
-Since an omnihedral period hits every face once, the period can be cyclically
-reindexed so that the first face is `Face.xp`, the square face `x = 1`.
-
-## Finite Enumeration
-
-After fixing the first face, the proof first forgets signs inside opposite
-face pairs. There are seven opposite-face pairs:
-
-```text
-x, y, z, d111, d11m, d1m1, dm11
-```
-
-A valid started pair word has length 13 and multiplicities:
-
-```text
-x once,
-y twice,
-z twice,
-and each of the four triangular opposite-pairs twice.
-```
-
-Lean proves the rank/unrank enumeration:
-
-```text
-13! / 2^6 = 97,297,200 valid started pair words.
-```
-
-A rank is only an address for one pair word. It is not the main compression
-coordinate for the current proof.
-
-In the identity-linear branch, the proof must also choose signs inside the
-opposite pairs. There are six independent sign bits, hence 64 sign masks.
+### 7. Assembly
 
 ```mermaid
 flowchart TD
-    A["started omnihedral itinerary"]
-    B["valid pair word"]
-    C["rank in 0..97,297,199"]
-    D["if identity-linear: six-bit sign mask"]
-    A --> B --> C --> D
+    A["nonsingular omnihedral billiard orbit"] --> B["rotate to start on face x = 1"]
+    B --> C["unfolded straight-line witness"]
+    C --> D["valid pair word (one of 97,297,200)"]
+    D --> E{"reduced triangular shadow empty?"}
+    E -- "no: M ≠ I" --> F["forced-axis obstructions<br/>+ Bellman potential certificates"]
+    E -- "yes: M = I" --> G["GoodDirection<br/>+ strict Farkas certificates"]
+    F --> H["no unfolded witness exists"]
+    G --> H
+    H --> I["no such billiard orbit"]
 ```
 
-## Holonomy Normal Form
+### The scale of the case split
 
-The active strategy is the holonomy-normal-form split.
+| Quantity | Count | Source |
+| --- | ---: | --- |
+| Started valid pair words | 97,297,200 | Lean theorem |
+| … with $M \ne I$ (nonempty reduced shadow) | 94,829,112 | exact external scan |
+| … with $M = I$ (empty reduced shadow) | 2,468,088 | exact external scan |
+| Signed translation cases (2,468,088 × 64 masks) | 157,957,632 | arithmetic |
+| Nonidentity residual after early obstructions | 2,038,656 | exact external classifier |
+| Translation cases passing direction tests | 6,003,984 | original floating-point search |
+| Feasible orbits found | 0 | original floating-point search |
 
-Square-pair reflections `x`, `y`, and `z` are diagonal sign changes. The
-normal form tracks their accumulated parity:
+These counts guide the engineering, and none of them is an input to the proof. In
+particular, the identity/nonidentity split is decided inside Lean by the holonomy
+classifier, not by the scan.
+
+## Repository layout
 
 ```text
-(px, py, pz) in (Z/2Z)^3.
+Cuboctahedron/
+├── Basic/          exact Vec3 / Mat3 / Aff3 arithmetic
+├── Geometry/       faces, reflections, billiard orbits, unfolding (the statement lives here)
+├── Search/         enumeration, holonomy normal form, certificate and obstruction theory
+├── Generated/      machine-generated certificate modules and coverage assembly
+└── ConditionalTheorem.lean
+paper/              expository write-up (LaTeX)
+docs/               technical reports and development history
+scripts/            untrusted generators and profilers, plus the archived float search
+evidence/           proof-carrying shards checked outside the default build
 ```
 
-Triangular pair reflections are represented projectively by four triangular
-letters:
-
-```text
-111, 11m, 1m1, m11
-```
-
-When a triangular reflection is scanned after square parity `p`, Lean appends
-the parity-conjugated triangular letter to a shadow. Adjacent equal triangular
-letters cancel. The final stack is `reducedShadowOfPairWord w`.
-
-The exact product-order convention is:
-
-```text
-R(w[0]) * R(w[1]) * ... * R(w[12]) * R(x)
-```
-
-where the final `R(x)` is the started `Face.xp` pair reflection.
-
-Lean proves:
-
-```text
-totalLinearOfPairWord w = I  iff  reducedShadowOfPairWord w = []
-```
-
-for every `ValidPairWord w`.
-
-The proof has four pieces:
-
-1. Valid pair-word counts force final square parity to be identity.
-2. The scanner has a product invariant:
-   `square-parity * triangular-reflection = acted-triangle * square-parity`.
-3. Adjacent triangular cancellations preserve the triangular product.
-4. A nonempty reduced triangular word cannot have identity product. The proof
-   scales triangular reflection matrices by 3, reduces them modulo 3, and uses
-   rank-one products over `ZMod 3`.
-
-The external full scan that motivated this theorem found:
-
-```text
-empty reduced shadow:     2,468,088
-nonempty reduced shadow: 94,829,112
-```
-
-Those counts were diagnostics only. The Lean classifier theorem is the trusted
-split.
-
-```mermaid
-flowchart TD
-    A["valid pair word"]
-    B["square parity + triangular shadow scan"]
-    C{"reduced shadow empty?"}
-    D["identity-linear translation branch"]
-    E["nonidentity holonomy branch"]
-    A --> B --> C
-    C -- "yes" --> D
-    C -- "no" --> E
-```
-
-## Nonempty Shadow Branch
-
-If the reduced shadow is nonempty, then the linear part `M` is not identity.
-Any unfolded periodic line must have direction fixed by `M`, and the affine
-return map must carry the whole line to itself. This forces an affine-axis
-condition.
-
-Typical exact obstructions are:
-
-- no compatible nonzero fixed direction;
-- forced crossing direction has the wrong sign;
-- forced signed face sequence is not omnihedral;
-- forced axis misses the interior of `Face.xp`;
-- the candidate hits the wrong face first;
-- a required impact lies outside the intended face interior.
-
-The old backend described this primarily as coverage over nonidentity ranks.
-The active route uses nonempty reduced shadows, primitive-axis signatures, and
-forced-axis failure signatures as semantic family coordinates.
-
-The public generated predicate remains small:
-
-```lean
-NonIdentityRankKilled r
-```
-
-It means: if rank `r` is nonidentity-linear, then no unfolded feasible witness
-exists for that rank.
-
-### Bellman residual strategy
-
-The hard nonidentity residuals are no longer being treated primarily as
-rank-interval certificate packing. The current route packages a residual
-family as a closed semantic language and proves a margin bound for the whole
-language.
-
-For a residual family, geometry supplies an exact rational margin:
-
-```text
-feasible forced-axis witness -> margin > 0
-```
-
-A Bellman certificate proves the opposite:
-
-```text
-all accepted words in this semantic family -> scaled_margin <= 0
-```
-
-The generic Lean theorem is the usual potential argument. A transition has an
-integer gain `g`, source state `s`, destination state `t`, and potential `V`.
-If every transition satisfies
-
-```text
-g + V(t) <= V(s)
-```
-
-then gains telescope along a path. With a root bound and nonnegative final
-potential, Lean proves the accumulated gain, and therefore the scaled margin,
-is nonpositive.
-
-The production-facing shape uses labels rather than raw edge lists:
-
-```lean
-BellmanLabelStepRun
-BellmanLabelStepRunLanguageBound
-scaledMargin_nonpos_of_bellmanLabelStepRunLanguageBound
-```
-
-In plain language: a generated family theorem should show that each accepted
-signed face word steps through a small automaton with exact integer gains. The
-potential proof kills every accepted word at once.
-
-Current Bellman language work is centered on top-pairing residuals. The
-checked language components include:
-
-- cancellation-pairing membership;
-- per-step signed-face schedule constraints;
-- square-gap constraints;
-- exact local-axis sign checks from prefix reflection matrices;
-- canonical bad-face compatibility;
-- signed sequence transport through `PairSignLanguageAtRank`.
-
-The important boundary is that ranks are still addresses for final
-exhaustiveness, but Bellman certificates should be organized by semantic
-language families, not by lexicographic rank adjacency.
-
-## Empty Shadow Branch
-
-If the reduced shadow is empty, the linear part is identity and the affine
-return map is a translation:
-
-```text
-A(p) = p + b.
-```
-
-For a fixed sign mask, the starting point on `Face.xp` has the form:
-
-```text
-(1, y, z).
-```
-
-The remaining crossing and face-interior conditions become strict rational
-linear inequalities in `y` and `z`.
-
-### GoodDirection
-
-For an internal unfolded face plane
-
-```text
-u_i dot p = d_i
-```
-
-the crossing time along the translation direction is:
-
-```text
-t_i = (d_i - u_i dot p0) / (u_i dot b).
-```
-
-A feasible translation witness must cross every internal face in the correct
-forward direction. Lean packages this necessary condition as:
-
-```lean
-GoodDirectionAtRank r mask
-```
-
-and proves:
-
-```lean
-goodDirection_of_translation_feasible_at_rank
-```
-
-In plain language:
-
-```text
-translation feasible -> GoodDirection.
-```
-
-So generated evidence should not enumerate masks that fail GoodDirection.
-Those masks are impossible by a general theorem.
-
-### Farkas and source-indexed rows
-
-For GoodDirection survivors, the remaining constraints are strict rational
-linear inequalities:
-
-```text
-a_j * y + c_j * z + e_j > 0.
-```
-
-Lean has a strict two-variable Farkas theorem. If nonnegative rational
-multipliers cancel the `y` and `z` coefficients and leave a nonpositive
-constant, the system is infeasible:
-
-```text
-sum q_j a_j = 0
-sum q_j c_j = 0
-sum q_j e_j <= 0
-```
-
-The current translation backend favors source-indexed rows. A row is described
-by where it comes from geometrically, such as a start-face condition, an
-ordering condition, or an impact-face interior condition. Many survivors are
-killed by two-source Farkas contradictions.
-
-### Walsh and integer-normalized evidence
-
-The six sign bits can be viewed as variables in `{1, -1}`. For a fixed pair
-word, internal denominators are degree-at-most-two Walsh polynomials in those
-signs because both the unfolded normal and the translation vector are affine
-sign expressions.
-
-Walsh subcube bounds remain useful local evidence and diagnostics. The current
-completion route, however, does not try to finish by raw sign-mask tiling.
-Bounded exact audits showed that bad-direction masks are too irregular in
-rank-mask coordinates. The preferred backend uses source-index/state
-classifiers, row-producer families, and integer or homogeneous data where
-possible, with small rational interpretation bridges checked once in Lean.
-
-## Semantic Generated Coverage
-
-The final generated layer should expose theorem-valued semantic statements,
-not giant public arrays of certificate data.
-
-The two public predicates are:
-
-```lean
-NonIdentityRankKilled r
-TranslationCaseKilled r mask
-```
-
-`SemanticExhaustiveGeneratedCoverage` packages the final finite theorem:
-
-1. every pair rank is covered by the enumeration address space;
-2. every sign mask is covered by the finite mask address space;
-3. every nonidentity rank is killed;
-4. every translation rank and mask is killed.
-
-For translation, the cleanest current route is all-Good coverage:
-
-```lean
-PublicAllGoodSemanticCoverageIntervals
-semanticGeneratedCoverageOfAllGoodIntervals
-```
-
-Generated files prove that every identity-linear GoodDirection survivor is
-killed. The GoodDirection theorem then turns that into ordinary translation
-coverage.
-
-Intervals `[lo, hi)` still appear in the public assembly API, but only as an
-exhaustive assembly device. The proof-search compression coordinate is now
-holonomy state and semantic family data, not lexicographic rank adjacency.
-
-## Proof Flow
-
-```mermaid
-flowchart TD
-    A["real billiard orbit"]
-    B["cyclically start at Face.xp"]
-    C["unfold to a straight-line witness"]
-    D["convert itinerary to valid pair word"]
-    E["rank/unrank enumeration"]
-    F["holonomy normal form"]
-    G{"reduced shadow empty?"}
-    H["forced-axis geometry"]
-    HB["Bellman semantic family margin <= 0"]
-    I["translation GoodDirection theorem"]
-    J["all-Good translation semantic coverage"]
-    K["no unfolded started omnihedral witness"]
-    L["no nonsingular omnihedral orbit"]
-
-    A --> B --> C --> D --> E --> F --> G
-    G -- "no" --> H --> HB --> K
-    G -- "yes" --> I --> J --> K
-    K --> L
-```
-
-## Trusted and Untrusted Boundaries
-
-Trusted by the final proof:
-
-- Lean definitions of the cuboctahedron, faces, reflections, and unfolding;
-- rank/unrank enumeration theorems;
-- holonomy normal-form classifier;
-- GoodDirection theorem;
-- Farkas and certificate soundness theorems;
-- generated semantic coverage theorems checked by Lean.
-
-Not trusted as proof:
-
-- Python profilers and generators;
-- old C++ searches;
-- JSON and markdown diagnostics;
-- claims about coverage unless reified as Lean theorems.
-
-## Important Files
-
-- `Cuboctahedron/Geometry/*`: exact faces, reflections, billiard orbits, and
-  unfolding.
-- `Cuboctahedron/Search/Enumeration.lean`: pair-word ranking, unranking, and
-  exact enumeration.
-- `Cuboctahedron/Search/Itineraries.lean`: reduction from started omnihedral
-  face sequences to pair words.
-- `Cuboctahedron/Search/ShadowNormalForm.lean`: square parity, triangular
-  letters, shadow scan, and reduced stack definitions.
-- `Cuboctahedron/Search/ShadowNormalFormCounts.lean`: valid pair-word counts
-  imply trivial final square parity.
-- `Cuboctahedron/Search/ShadowNormalFormLinear.lean`: product-order bridge to
-  `totalLinearOfPairWord`.
-- `Cuboctahedron/Search/ShadowNormalFormMod3.lean`: finite-field triangular
-  product core and no-adjacent reduced-stack invariant.
-- `Cuboctahedron/Search/ShadowNormalFormScaled.lean`: integer-scaled
-  triangular products and rational nonidentity bridge.
-- `Cuboctahedron/Search/ShadowNormalFormProduct.lean`: square/triangular
-  product decomposition.
-- `Cuboctahedron/Search/ShadowNormalFormClassifier.lean`: identity iff empty
-  reduced shadow.
-- `Cuboctahedron/Search/BellmanPotential.lean`: generic integer
-  Bellman/potential path and label-step theorems.
-- `Cuboctahedron/Search/BellmanTopPairingLanguage.lean`: lightweight semantic
-  language surface for the current top-pairing Bellman residual family.
-- `Cuboctahedron/Search/NonIdentityCase.lean`: forced-axis nonidentity
-  geometry and certificate soundness.
-- `Cuboctahedron/Search/TranslationGoodDirection.lean`: proof that feasible
-  translation witnesses satisfy `GoodDirection`.
-- `Cuboctahedron/Search/Farkas2D.lean`: strict two-variable rational Farkas
-  obstruction.
-- `Cuboctahedron/Search/TwoSourceFarkas.lean`: source-indexed two-row Farkas
-  support checker.
-- `Cuboctahedron/Generated/Coverage/Predicates.lean`: semantic killed
-  predicates.
-- `Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedLanguageGeneratedTraceSmoke.lean`:
-  generated-style smoke for the closed Bellman language trace surface.
-- `Cuboctahedron/Generated/Coverage/TranslationSurvivors.lean`: adapter from
-  GoodDirection-only translation evidence to ordinary translation coverage.
-- `Cuboctahedron/Generated/ExhaustiveCoverage.lean`: semantic exhaustive
-  coverage packages and public interval adapters.
-- `Cuboctahedron/ConditionalTheorem.lean`: conditional bridge from complete
-  coverage to the billiard theorem.
-- `docs/holonomy_pivot_repo_notes.md`: repository names and conventions for
-  the holonomy pivot.
-- `docs/shadow_normal_form_report.md`: exact external scan results and Lean
-  checkpoint history.
-- `docs/nonidentity_residual_axis_profile_report.md`: Bellman pivot history,
-  diagnostic state choices, and accepted/rejected proof surfaces.
-- `scripts/emit_bellman_closed_language_trace_smoke.py`: emits the current
-  closed-language Bellman trace smoke shard.
-- `scripts/run_bellman_safe_smoke.py`: strict allowlisted runner for small
-  Bellman generated smokes; this is operational safety tooling, not proof.
-- `SYMMETRY_PLAN.md`: long-running strategy log and gated proof-engineering
-  plan.
-- `paper/cuboctahedron_no_omnihedral.tex`: paper-style overview of the current
-  strategy, including the Bellman certificate route.
-
-## Validation
-
-For the current conditional proof surface:
+| Module | Contents |
+| --- | --- |
+| [`Geometry/UnfoldingFeasible.lean`](Cuboctahedron/Geometry/UnfoldingFeasible.lean) | billiard orbit ⇒ unfolded witness |
+| [`Search/Enumeration.lean`](Cuboctahedron/Search/Enumeration.lean) | pair-word count and rank/unrank |
+| [`Search/Itineraries.lean`](Cuboctahedron/Search/Itineraries.lean) | started itineraries ⇒ pair words |
+| [`Search/ShadowNormalForm*.lean`](Cuboctahedron/Search/ShadowNormalFormClassifier.lean) | holonomy normal form and identity classifier |
+| [`Search/NonIdentityCase.lean`](Cuboctahedron/Search/NonIdentityCase.lean), [`Search/Certificates.lean`](Cuboctahedron/Search/Certificates.lean) | forced-axis geometry and certificate soundness |
+| [`Search/BellmanPotential.lean`](Cuboctahedron/Search/BellmanPotential.lean) | generic potential/telescoping theorems |
+| [`Search/TranslationGoodDirection.lean`](Cuboctahedron/Search/TranslationGoodDirection.lean) | `GoodDirection` necessity |
+| [`Search/Farkas2D.lean`](Cuboctahedron/Search/Farkas2D.lean), [`Search/TwoSourceFarkas.lean`](Cuboctahedron/Search/TwoSourceFarkas.lean) | strict Farkas soundness and source-indexed rows |
+| [`Generated/ExhaustiveCoverage.lean`](Cuboctahedron/Generated/ExhaustiveCoverage.lean) | coverage interfaces and the final assembly theorem |
+| [`ConditionalTheorem.lean`](Cuboctahedron/ConditionalTheorem.lean) | the main theorem, conditional on coverage |
+
+Most of the roughly 6,500 Lean files are generated pilot and smoke modules under
+`Generated/`. The main theorem itself depends on only 19 project modules, about
+12,000 lines.
+
+## Building and checking
+
+Install [elan](https://github.com/leanprover/elan). The toolchain version is pinned in
+[`lean-toolchain`](lean-toolchain).
 
 ```bash
-lake build
-grep -R "sorry\|admit\|axiom\|native_decide\|unsafe" Cuboctahedron || true
+git clone https://github.com/zpconn/cuboctahedron.git
+cd cuboctahedron
+lake exe cache get                              # download prebuilt mathlib
+lake build Cuboctahedron.ConditionalTheorem     # build the main theorem
 lake env lean Cuboctahedron/PrintConditionalAxioms.lean
 ```
 
-When the unconditional final theorem is installed, the final axiom check should
-be:
-
-```bash
-lean Cuboctahedron/PrintAxioms.lean
-```
-
-For current small Bellman generated smokes, use the guard wrapper rather than
-an unguarded broad build:
-
-```bash
-python3 scripts/run_bellman_safe_smoke.py --json /tmp/bellman_safe_smoke.json
-```
-
-The wrapper intentionally allows only known small Bellman targets and enforces
-strict memory and timeout caps.
-
-## Development Rule of Thumb
-
-Ranks are for exhaustiveness. They should not be treated as the main
-compression coordinate for new generated evidence.
-
-The current direction is:
+The axiom check should print:
 
 ```text
-holonomy state -> semantic family language -> Bellman/Farkas theorem -> Lean-checked coverage
+'Cuboctahedron.conditional_no_unfolded_omni_starting_xp' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Cuboctahedron.conditional_cuboctahedron_no_omnihedral' depends on axioms: [propext, Classical.choice, Quot.sound]
 ```
 
-Every generated datum may be wrong until Lean checks the theorem that consumes
-it.
+The forbidden-feature audit is
+
+```bash
+grep -R "sorry\|admit\|axiom\|native_decide\|unsafe" Cuboctahedron
+```
+
+It should match only the `#print axioms` commands and an ordinary English use of
+"admit" in a comment.
+
+> [!NOTE]
+> The default `lake build` target builds the certificate infrastructure and the
+> bounded evidence root, but it does not import the conditional theorem, so build
+> that target explicitly as shown above. The repository is large (about 0.7 GB of
+> Git history), mostly because of generated modules.
+
+## Trust model
+
+**Trusted:** the Lean 4 kernel, mathlib, and the short list of definitions the
+statement depends on. Every other step is a theorem the kernel checks, including
+the unfolding, the enumeration, the holonomy classifier, the soundness of every
+certificate format, and the generated modules that apply them.
+
+**Not trusted:** Python profilers and generators, the archived C++ search, JSON
+manifests, Markdown reports, and every count quoted in this README. These tools can
+find certificates and measure the search space. A certificate becomes part of the
+proof only when a Lean theorem consumes it.
+
+The project rules in [`AGENTS.md`](AGENTS.md) enforce this boundary. They forbid
+floating point and tolerances in proof code, `sorry`, `admit`, custom axioms,
+`unsafe`, and `native_decide`. They also require that any generated data be
+covered by a Lean proof that it matches a complete finite enumeration.
+
+## Further reading
+
+- [`paper/cuboctahedron_no_omnihedral.tex`](paper/cuboctahedron_no_omnihedral.tex):
+  a self-contained expository account of the reduction and proof architecture.
+- [`docs/`](docs/README.md): technical reports on the normal form, the nonidentity
+  residuals, and the Bellman certificate route.
+- [`docs/history/`](docs/history/README.md): the project's planning documents and
+  development logs, kept for the record.
+
+## Acknowledgements
+
+This project was developed with extensive help from AI coding assistants, notably
+OpenAI Codex, for Lean proof engineering, search scripts, and exposition. That is
+one reason for the strict trust model: no claim in the repository counts unless the
+Lean kernel checks it.

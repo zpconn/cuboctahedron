@@ -1,6 +1,23 @@
 # Scripts
 
-External helper scripts live here. They are not trusted proof.
+External helper scripts live here. **None of them is trusted proof.** They search
+for certificates, emit Lean modules, and profile the finite search space using
+exact `fractions.Fraction` and integer arithmetic. Their output counts toward the
+theorem only when Lean checks a theorem that consumes it. See the
+[trust model](#trust-model) below and in the [top-level README](../README.md#trust-model).
+
+| Path | Role |
+| --- | --- |
+| `*.py` | Generators (`generate_*`, `emit_*`), profilers (`profile_*`, `*_profile.py`), audits (`audit_*`), and guarded runners (`run_*`). |
+| `generated/` | Machine-written JSON manifests and diagnostic outputs. These are untrusted telemetry. |
+| `old_float_verifiers/` | The original floating-point C++ search that motivated the project. Reference only, never proof data. |
+
+Heavy Lean checks should run through the memory-guarded wrappers
+(`run_memory_guarded.py`, `run_memory_guarded_parallel.py`, and
+`run_bellman_safe_smoke.py`) instead of an unguarded broad build.
+
+The remainder of this file is a chronological log of pipeline stages, each
+recorded with the commands that produced its artifacts.
 
 ## Step 12 exact sample
 

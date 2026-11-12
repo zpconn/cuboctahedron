@@ -25,7 +25,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 OUT_JSON = ROOT / "scripts/generated/graph147_ranked_transducer_frontier.json"
 OUT_MD = ROOT / "scripts/generated/graph147_ranked_transducer_frontier.md"
-PLAN = ROOT / "SYMMETRY_PLAN.md"
+PLAN = ROOT / "docs/history/SYMMETRY_PLAN.md"
 
 DIRECT_SOCKET = (
     ROOT

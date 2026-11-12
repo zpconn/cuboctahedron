@@ -17,3 +17,8 @@ Create a Lean 4/mathlib proof that the cuboctahedron has no nonsingular omnihedr
 - Any generated data file must be covered by a Lean checker proving it corresponds to a complete finite enumeration.
 - Prefer small, auditable definitions over clever metaprogramming.
 - Do not weaken the theorem statement to an unfolded-only or computational-only claim unless that is explicitly marked as an intermediate theorem.
+
+## Repository conventions
+- Keep the repository root limited to build files, `README.md`, and `AGENTS.md`.
+- Technical reports go in `docs/`; planning documents and long-running working logs (including `SYMMETRY_PLAN.md`) live in `docs/history/`.
+- Keep `README.md` accurate about what is proved unconditionally and what is still conditional.
