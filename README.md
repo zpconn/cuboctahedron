@@ -10,6 +10,7 @@ A Lean 4 / mathlib formalization built on exact rational arithmetic and machine-
 [![Lean](https://img.shields.io/badge/Lean-v4.31.0--rc2-0B3D91)](lean-toolchain)
 [![mathlib](https://img.shields.io/badge/mathlib4-pinned-0B3D91)](lake-manifest.json)
 [![Main theorem](https://img.shields.io/badge/main%20theorem-conditional-C77C02)](#status)
+[![License](https://img.shields.io/badge/license-Apache%202.0-4C566A)](LICENSE)
 
 </div>
 
@@ -373,3 +374,7 @@ This project was developed with extensive help from AI coding assistants, notabl
 OpenAI Codex, for Lean proof engineering, search scripts, and exposition. That is
 one reason for the strict trust model: no claim in the repository counts unless the
 Lean kernel checks it.
+
+## License
+
+Released under the [Apache License 2.0](LICENSE), the same license as mathlib.
